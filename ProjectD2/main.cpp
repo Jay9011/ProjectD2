@@ -1,4 +1,5 @@
-#include "Engine/EngineFramework.h"
+#include "Framework.h"
+#include "Engine/Core/Core.h"
 
 #if _DEBUG
 #define new new (_NORMAL_BLOCK, __FILE__, __LINE__)
@@ -12,7 +13,7 @@ int APIENTRY wWinMain(_In_     HINSTANCE hInstance,
 {
     // 메모리 릭(누수) 체크
     _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-    //_CrtSetBreakAlloc(205);
+    //_CrtSetBreakAlloc(229);
 	
     if (!Core::Get()->Init(hInstance))
     {
@@ -21,7 +22,6 @@ int APIENTRY wWinMain(_In_     HINSTANCE hInstance,
     }
 
     int result = Core::Get()->Run();
-
     Core::Delete();
 
     return result;
