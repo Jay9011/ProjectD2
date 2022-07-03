@@ -4,5 +4,15 @@ enum class GROUP_TYPE
 {
 	DEFAULT,
 	
-	END = 32
+	FIN = 32
+};
+
+enum class COMMAND_TYPE
+{
+	UP,
+	DOWN,
+	LEFT,
+	RIGHT,
+	
+	FIN
 };

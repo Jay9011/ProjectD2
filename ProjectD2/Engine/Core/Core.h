@@ -1,9 +1,10 @@
 #pragma once
 #define DEVICE	Core::Get()->GetDevice()->Get()
 #define TIMER	Core::Get()->GetTimer()
-class MainGame;
 class Device;
 class Timer;
+class Input;
+class MainGame;
 class Core
 {
 /*

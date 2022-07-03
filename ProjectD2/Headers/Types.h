@@ -1,6 +1,6 @@
 #pragma once
 
-using RESOLUTION = struct _tResolution
+using RESOLUTION = struct
 {
 	unsigned int WIN_WIDTH;
 	unsigned int WIN_HEIGHT;
