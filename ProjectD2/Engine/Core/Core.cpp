@@ -2,117 +2,164 @@
 #include "Core.h"
 
 #include "Engine/Manager/Device.h"
+#include "Engine/Manager/Timer.h"
+#include "Engine/Manager/Input.h"
 #include "Game/MainGame.h"
 
-/*
-* static 초기화
-*/
-Core* Core::instance = nullptr;
+/* === === === === ===
+*    static 초기화
+* === === === === === */
+Core* Core::m_inst = nullptr;
 
-HINSTANCE   Core::hInstance = nullptr;
-bool        Core::isRunning = true;
-D3DXVECTOR2 Core::mousePos  = { 0, 0 };
+HINSTANCE   Core::m_hInstance = nullptr;
+HWND        Core::m_hMonitorWnd = nullptr;
+bool        Core::m_isRunning = true;
+D3DXVECTOR2 Core::m_mousePos  = { 0, 0 };
 
 Core::Core() :
-    hWnd(nullptr), hMenu(nullptr), msg({})
-    , resolution({ 1280, 720 })
-    , bDocking(true)
-    , bMenu(true)
+    m_hWnd(nullptr), m_hMenu(nullptr), m_msg({})
+    , m_resolution({ 1280, 720 })
+    , m_bDocking(true)
+    , m_bMenu(true)
 {
-    device = nullptr;
-    mainGame = nullptr;
+    m_device = nullptr;
+    m_timer = nullptr;
+	m_input = nullptr;
+    m_mainGame = nullptr;
 }
 
 Core::~Core()
 {
-    SAFE_DELETE(mainGame);
-    SAFE_DELETE(device);
-    DestroyMenu(hMenu);
-	DestroyWindow(hWnd);
+    SAFE_DELETE(m_mainGame);
+	SAFE_DELETE(m_input);
+	SAFE_DELETE(m_timer);
+    SAFE_DELETE(m_device);
+    DestroyMenu(m_hMenu);
+	DestroyWindow(m_hWnd);
 }
 
 
 bool Core::Init(HINSTANCE _hInstance)
 {
-	hInstance = _hInstance;
+	m_hInstance = _hInstance;
 
-	// 기본 해상도 설정
-    if(resolution.WIN_WIDTH == 0 || resolution.WIN_HEIGHT == 0)
+	/*
+    * 기본 해상도 설정
+    */
+    if(m_resolution.WIN_WIDTH == 0 || m_resolution.WIN_HEIGHT == 0)
 	{
-		resolution.WIN_WIDTH = 1280;
-		resolution.WIN_HEIGHT = 720;
+		m_resolution.WIN_WIDTH = 1280;
+		m_resolution.WIN_HEIGHT = 720;
 	}
 
+	/*
+    * 윈도우 생성
+    */
     MyRegisterClass();
     if (!Create())
     {
         return false;
     }
 
-	/*
-    *  메뉴 생성
-    */
-	hMenu = LoadMenu(nullptr, MAKEINTRESOURCE(IDR_MENU1));
+	m_hMenu = LoadMenu(nullptr, MAKEINTRESOURCE(IDR_MENU1));  // 메뉴 생성
+    DockingMenu(m_bDocking);  // 메뉴 장착 및 해상도에 맞게 윈도우 크기 조정
 
-	/*
-    *  해상도에 맞게 윈도우 크기 조정
-    */
-    DockingMenu(true);
-
-	/*==========================
-    *  Manager 초기화
-    * ========================== */
-    device = new Device;
+	/* === === === === ===
+    *   Manager 초기화
+    * === === === === === */
+    m_device = new Device;
+    m_timer  = new Timer;
+	m_input  = new Input;
 
 
-    /*==========================
-    *  Game Setting
-    * ========================== */
-    mainGame = new MainGame;
+    /* === === === === ===
+    *    Game Setting
+    * === === === === === */
+    m_mainGame = new MainGame;
 	
 	return true;
 }
 
 int Core::Run()
 {
-    while (isRunning || msg.message != WM_QUIT)
+    while (m_isRunning || m_msg.message != WM_QUIT)
     {
-        if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
+        if (PeekMessage(&m_msg, nullptr, 0, 0, PM_REMOVE))
         {
-			TranslateMessage(&msg);
-			DispatchMessage(&msg);
+			TranslateMessage(&m_msg);
+			DispatchMessage(&m_msg);
 		}
         else
         {
-            
-            mainGame->Run();
-            
+            /* === === === === ===
+            *    Manager Update
+            * === === === === === */
+            m_timer->Update();
+
+            /* === === === === ===
+            *     Game 진행
+            * === === === === === */
+            m_mainGame->Run();
+			
+
+            /* === === === === ===
+            *    Manager Render
+            * === === === === === */
+			// FPS 표시
+			SetDlgItemText(m_hMonitorWnd, IDC_FPSTEXT, std::to_wstring(m_timer->FPS()).c_str());
+            // 시간 표시
+#pragma region 시간 표시
+            double runTime = m_timer->RunningTime();
+			int hour   = (int)runTime / 3600;
+			int min    = (int)(runTime - hour * 3600) / 60;
+			double sec = runTime - hour * 3600 - min * 60;
+			wstring hourStr = std::to_wstring(hour);
+			wstring minStr  = std::to_wstring(min);
+			wstring secStr  = std::to_wstring(sec);
+			if (hourStr.size() == 1)
+			{
+				hourStr = L"0" + hourStr;
+			}
+			if (minStr.size() == 1)
+			{
+				minStr = L"0" + minStr;
+			}
+			if (sec < 10)
+			{
+				secStr = L"0" + secStr;
+			}
+			wstring timeStr = hourStr + L":" + minStr + L":" + secStr;
+			SetDlgItemText(m_hMonitorWnd, IDC_RUNTIME, timeStr.c_str());
+#pragma endregion
         }
     }
 	
-	return (int)msg.wParam;
+	return (int)m_msg.wParam;
 }
 
 void Core::DockingMenu(bool _bDocking)
 {
     if (_bDocking)
 	{
-		SetMenu(hWnd, hMenu);
+		SetMenu(m_hWnd, m_hMenu);
 	}
 	else
 	{
-		SetMenu(hWnd, nullptr);
+		SetMenu(m_hWnd, nullptr);
 	}
-	ChangeWindowSize(resolution, _bDocking);
+	ChangeWindowSize(m_resolution, _bDocking);
 }
 
-bool Core::ChangeWindowSize(UINT _width, UINT _height)
+bool Core::ChangeWindowSize(RESOLUTION _resolution, bool _bMenu, HWND _hWnd)
 {
-    return ChangeWindowSize({ _width, _height }, bMenu);
-}
+	HWND hWnd = _hWnd;
 
-bool Core::ChangeWindowSize(RESOLUTION _resolution, bool _bMenu)
-{
+    if(hWnd == nullptr && m_hWnd == nullptr)
+		return FALSE;
+
+	if(hWnd == nullptr)
+		hWnd = m_hWnd;
+	
 	RECT rect = { 0, 0, _resolution.WIN_WIDTH, _resolution.WIN_HEIGHT };
     if (!AdjustWindowRect(&rect, WS_DEFAULT, _bMenu))
     	    return FALSE;
@@ -126,23 +173,23 @@ bool Core::ChangeWindowSize(RESOLUTION _resolution, bool _bMenu)
         ))
         return FALSE;
 	
-    resolution = _resolution;
+    m_resolution = _resolution;
     return TRUE;
 }
 
 bool Core::Create()
 {
-    hWnd = CreateWindowW(L"ProjectD2", L"ProjectD2", WS_DEFAULT,
-        CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr);
+    m_hWnd = CreateWindowW(L"ProjectD2", L"ProjectD2", WS_DEFAULT,
+        CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, m_hInstance, nullptr);
 
-    if (!hWnd)
+    if (!m_hWnd)
     {
         return FALSE;
     }
 
-    ChangeWindowSize(resolution, bMenu);
-    ShowWindow(hWnd, SW_SHOW);
-    UpdateWindow(hWnd);
+    ChangeWindowSize(m_resolution, m_bMenu);
+    ShowWindow(m_hWnd, SW_SHOW);
+    UpdateWindow(m_hWnd);
 
     return TRUE;
 }
@@ -157,8 +204,8 @@ ATOM Core::MyRegisterClass()
     wcex.lpfnWndProc   = Core::WndProc;
     wcex.cbClsExtra    = 0;
     wcex.cbWndExtra    = 0;
-    wcex.hInstance     = hInstance;
-    wcex.hIcon         = LoadIcon(hInstance, MAKEINTRESOURCE(CLIENT_ICO));
+    wcex.hInstance     = m_hInstance;
+    wcex.hIcon         = LoadIcon(m_hInstance, MAKEINTRESOURCE(CLIENT_ICO));
     wcex.hCursor       = LoadCursor(nullptr, IDC_ARROW);
     wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
     wcex.lpszMenuName  = nullptr;
@@ -173,30 +220,63 @@ ATOM Core::MyRegisterClass()
 */
 INT_PTR CALLBACK ResolutionDlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	UNREFERENCED_PARAMETER(lParam);
-	switch (message)
-	{
-	case WM_INITDIALOG:
-		return (INT_PTR)TRUE;
+    UNREFERENCED_PARAMETER(lParam);
+    switch (message)
+    {
+    case WM_INITDIALOG:
+        return (INT_PTR)TRUE;
 
-	case WM_COMMAND:
-		if (LOWORD(wParam) == IDOK)
-		{
-			Core* core = Core::Get();
-			core->Resolution().WIN_WIDTH  = GetDlgItemInt(hDlg, IDC_WIDTH , nullptr, FALSE);
-			core->Resolution().WIN_HEIGHT = GetDlgItemInt(hDlg, IDC_HEIGHT, nullptr, FALSE);
-			core->ChangeWindowSize(core->WIN_WIDTH(), core->WIN_HEIGHT());
-			EndDialog(hDlg, LOWORD(wParam));
-			return (INT_PTR)TRUE;
-		}
-		else if (LOWORD(wParam) == IDCANCEL)
-		{
-			EndDialog(hDlg, LOWORD(wParam));
-			return (INT_PTR)TRUE;
-		}
-		break;
-	}
-	return (INT_PTR)FALSE;
+    case WM_COMMAND:
+        if (LOWORD(wParam) == IDOK)
+        {
+            Core* core = Core::Get();
+            core->Resolution().WIN_WIDTH = GetDlgItemInt(hDlg, IDC_WIDTH, nullptr, FALSE);
+            core->Resolution().WIN_HEIGHT = GetDlgItemInt(hDlg, IDC_HEIGHT, nullptr, FALSE);
+            core->ChangeWindowSize(core->WIN_WIDTH(), core->WIN_HEIGHT());
+            EndDialog(hDlg, LOWORD(wParam));
+            return (INT_PTR)TRUE;
+        }
+        else if (LOWORD(wParam) == IDCANCEL)
+        {
+            EndDialog(hDlg, LOWORD(wParam));
+            return (INT_PTR)TRUE;
+        }
+        break;
+    }
+    return (INT_PTR)FALSE;
+}
+
+/*
+* 모니터링 이벤트 처리
+*/
+INT_PTR CALLBACK MonitoringDlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
+{
+    UNREFERENCED_PARAMETER(lParam);
+    switch (message)
+    {
+    case WM_INITDIALOG:
+    {
+        SetDlgItemText(hDlg, IDC_MAXFPS, std::to_wstring(TIMER->GetMaxFPS()).c_str());
+    }
+        return (INT_PTR)TRUE;
+
+    case WM_COMMAND:
+        if (LOWORD(wParam) == IDOK)
+        {
+            // MaxFPS 변경
+            auto timer = TIMER;
+            timer->SetMaxFPS(GetDlgItemInt(hDlg, IDC_MAXFPS, nullptr, FALSE));
+            SetDlgItemText(hDlg, IDC_MAXFPS, std::to_wstring(timer->GetMaxFPS()).c_str());
+            return (INT_PTR)TRUE;
+        }
+        else if (LOWORD(wParam) == IDCANCEL)
+        {
+            EndDialog(hDlg, LOWORD(wParam));
+            return (INT_PTR)TRUE;
+        }
+        break;
+    }
+    return (INT_PTR)FALSE;
 }
 
 /*
@@ -214,9 +294,22 @@ LRESULT Core::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         {
         case IDM_SetResolution:
         {
-            DialogBox(hInstance, MAKEINTRESOURCE(IDD_DIALOG1), hWnd, (DLGPROC)ResolutionDlgProc);
+            DialogBox(m_hInstance, MAKEINTRESOURCE(IDD_DIALOG1), hWnd, (DLGPROC)ResolutionDlgProc);
         }
-        break;
+            break;
+        case IDM_MONITORING:
+        {
+            if (!IsWindow(m_hMonitorWnd))
+            {
+                m_hMonitorWnd = CreateDialog(m_hInstance, MAKEINTRESOURCE(IDD_MONITOR), hWnd, (DLGPROC)MonitoringDlgProc);
+				ShowWindow(m_hMonitorWnd, SW_SHOW);
+			}
+			else
+			{
+                SetFocus(m_hMonitorWnd);
+			}
+        }
+            break;
         default:
             return DefWindowProc(hWnd, message, wParam, lParam);
         }
@@ -230,11 +323,11 @@ LRESULT Core::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     }
     break;
     case WM_MOUSEMOVE:
-        Core::mousePos.x = LOWORD(lParam);
-        Core::mousePos.y = HIWORD(lParam);
+        Core::m_mousePos.x = LOWORD(lParam);
+        Core::m_mousePos.y = HIWORD(lParam);
         break;
     case WM_DESTROY:
-        isRunning = false;
+        m_isRunning = false;
         PostQuitMessage(0);
         break;
     default:

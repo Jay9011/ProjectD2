@@ -74,6 +74,21 @@ BEGIN
     CTEXT           "X",IDC_STATIC,108,46,8,8
 END
 
+IDD_MONITOR DIALOGEX 0, 0, 271, 434
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Dialog"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "적용",IDOK,154,413,50,14
+    PUSHBUTTON      "취소",IDCANCEL,214,413,50,14
+    LTEXT           "FPS",IDC_STATIC,7,7,13,8
+    LTEXT           "Static",IDC_FPSTEXT,53,7,211,8
+    LTEXT           "MaxFPS",IDC_STATIC,7,22,38,8
+    EDITTEXT        IDC_MAXFPS,51,19,213,14,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "RunningTime",IDC_STATIC,7,41,44,8
+    LTEXT           "Static",IDC_RUNTIME,53,41,211,8
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -83,6 +98,7 @@ END
 IDR_MENU1 MENU
 BEGIN
     MENUITEM "해상도 변경",                      IDM_SetResolution
+    MENUITEM "모니터링 시스템",                    IDM_MONITORING
 END
 
 
@@ -101,6 +117,14 @@ BEGIN
         TOPMARGIN, 7
         BOTTOMMARGIN, 92
     END
+
+    IDD_MONITOR, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 264
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 427
+    END
 END
 #endif    // APSTUDIO_INVOKED
 
@@ -111,6 +135,11 @@ END
 //
 
 IDD_DIALOG1 AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_MONITOR AFX_DIALOG_LAYOUT
 BEGIN
     0
 END

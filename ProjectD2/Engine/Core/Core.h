@@ -1,17 +1,24 @@
 #pragma once
-class Device;
+#define DEVICE	Core::Get()->GetDevice()->Get()
+#define TIMER	Core::Get()->GetTimer()
 class MainGame;
+class Device;
+class Timer;
 class Core
 {
 /*
-*	Members
+*	Managers
 */
 public:
-	Device* GetDevice() { return device; }
+	Device* GetDevice() const { return m_device; }
+	Timer*  GetTimer()  const { return m_timer; }
+	Input*  GetInput()  const { return m_input; }
 
 private:
-	MainGame* mainGame;
-	Device*   device;
+	Device*   m_device;
+	Timer*    m_timer;
+	Input*    m_input;
+	MainGame* m_mainGame;
 
 /*
 *	Basic functions
@@ -20,31 +27,35 @@ public:
 	bool Init(HINSTANCE _hInstance);
 	int  Run();
 	
-	RESOLUTION& Resolution()   { return resolution; }
-	UINT&       WIN_WIDTH()    { return resolution.WIN_WIDTH; }
-	UINT&       WIN_HEIGHT()   { return resolution.WIN_HEIGHT; }
-	float       WIN_CENTER_X() { return resolution.WIN_WIDTH * .5f; }
-	float       WIN_CENTER_Y() { return resolution.WIN_HEIGHT * .5f; }
+	RESOLUTION& Resolution()   { return m_resolution; }
+	UINT&       WIN_WIDTH()    { return m_resolution.WIN_WIDTH; }
+	UINT&       WIN_HEIGHT()   { return m_resolution.WIN_HEIGHT; }
+	float       WIN_CENTER_X() { return m_resolution.WIN_WIDTH * .5f; }
+	float       WIN_CENTER_Y() { return m_resolution.WIN_HEIGHT * .5f; }
 
 	void DockingMenu(bool _bDocking);
-	bool ChangeWindowSize(UINT _width, UINT _height);
-	bool ChangeWindowSize(RESOLUTION _resolution, bool _bMenu);
+	bool ChangeWindowSize(RESOLUTION _resolution, bool _bMenu, HWND _hWnd = nullptr);
+#pragma region ChangeWindowSizeOverloading
+	bool ChangeWindowSize(UINT _width, UINT _height, bool _bMenu, HWND _hWnd = nullptr) { return ChangeWindowSize({ _width, _height }, _bMenu, _hWnd); }
+	bool ChangeWindowSize(UINT _width, UINT _height) { return ChangeWindowSize({ _width, _height }, m_bMenu); }
+#pragma endregion
 
-	HWND GetHWND() { return hWnd; }
+	HWND GetHWND() { return m_hWnd; }
 	
 #pragma region private Member
 private:
-	static HINSTANCE hInstance;
-	HWND      hWnd;
-	HMENU     hMenu;
-	MSG 	  msg;
+	static HINSTANCE m_hInstance;
+	HWND  m_hWnd;
+	static HWND m_hMonitorWnd;
+	HMENU m_hMenu;
+	MSG   m_msg;
 	
-	RESOLUTION resolution;
-	bool       bDocking;
-	bool       bMenu;
+	RESOLUTION m_resolution;
+	bool       m_bDocking;
+	bool       m_bMenu;
 
-	static bool isRunning;
-	static D3DXVECTOR2 mousePos;
+	static bool m_isRunning;
+	static D3DXVECTOR2 m_mousePos;
 #pragma endregion
 #pragma region private Member Function
 private:
@@ -61,17 +72,17 @@ private:
 	Core();
 	virtual ~Core();
 	
-	static Core* instance;
+	static Core* m_inst;
 
 public:
 	static Core* Get()
 	{
-		if (instance == nullptr)
-			instance = new Core;
+		if (m_inst == nullptr)
+			m_inst = new Core;
 
-		return instance;
+		return m_inst;
 	}
-	static void  Delete() { SAFE_DELETE(instance); }
+	static void  Delete() { SAFE_DELETE(m_inst); }
 #pragma endregion
 };
 

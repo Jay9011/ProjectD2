@@ -170,6 +170,8 @@
   <ItemGroup>
     <ClCompile Include="Engine\Core\Core.cpp" />
     <ClCompile Include="Engine\Manager\Device.cpp" />
+    <ClCompile Include="Engine\Manager\Input.cpp" />
+    <ClCompile Include="Engine\Manager\Timer.cpp" />
     <ClCompile Include="Framework.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -183,10 +185,12 @@
   <ItemGroup>
     <ClInclude Include="Engine\Core\Core.h" />
     <ClInclude Include="Engine\Manager\Device.h" />
+    <ClInclude Include="Engine\Manager\Input.h" />
+    <ClInclude Include="Engine\Manager\Timer.h" />
     <ClInclude Include="Game\MainGame.h" />
     <ClInclude Include="Headers\Enums.h" />
     <ClInclude Include="Headers\functions.h" />
-    <ClInclude Include="Headers\Macro.h" />
+    <ClInclude Include="Headers\ConstNMacro.h" />
     <ClInclude Include="Headers\Types.h" />
     <ClInclude Include="Framework.h" />
     <ClInclude Include="resource.h" />

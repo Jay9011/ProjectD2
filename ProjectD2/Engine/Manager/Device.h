@@ -1,5 +1,4 @@
 #pragma once
-#define DEVICE Core::Get()->GetDevice()->Get()
 class Device
 {
 public:
