@@ -87,6 +87,10 @@ BEGIN
     EDITTEXT        IDC_MAXFPS,51,19,213,14,ES_AUTOHSCROLL | ES_NUMBER
     LTEXT           "RunningTime",IDC_STATIC,7,41,44,8
     LTEXT           "Static",IDC_RUNTIME,53,41,211,8
+    LTEXT           "MousePos",IDC_STATIC,7,70,44,8
+    LTEXT           "Static",IDC_MOUSEPOSTXT,53,71,211,8
+    LTEXT           "DebugMessage",IDC_STATIC,7,359,51,8
+    LTEXT           "Static",IDC_DEBUGMSG,27,370,237,39
 END
 
 

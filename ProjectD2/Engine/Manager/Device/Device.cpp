@@ -1,8 +1,11 @@
 #include "Framework.h"
 #include "Device.h"
 
-Device::Device(HWND _hWnd, RESOLUTION _resolution)
+Device::Device(HWND* _hWnd, PRESOLUTION _resolution)
 {
+	m_phWnd = _hWnd;
+	m_pResolution = _resolution;
+	
 	d3d = Direct3DCreate9(D3D_SDK_VERSION);
 	
 	D3DPRESENT_PARAMETERS param{};
@@ -17,7 +20,7 @@ Device::Device(HWND _hWnd, RESOLUTION _resolution)
 	(
 		D3DADAPTER_DEFAULT,
 		D3DDEVTYPE_HAL,
-		_hWnd,
+		*m_phWnd,
 		D3DCREATE_HARDWARE_VERTEXPROCESSING,
 		&param,
 		&device
@@ -31,13 +34,13 @@ Device::~Device()
 	d3d->Release();
 }
 
-void Device::SetProjection(RESOLUTION _resolution)
+void Device::SetProjection(const PRESOLUTION& _resolution)
 {
 	D3DXMatrixOrthoOffCenterLH
 	(
 		&projection,
-		0.f, (float)_resolution.WIN_WIDTH,
-		(float)_resolution.WIN_HEIGHT, 0.f,
+		0.f, (float)_resolution->WIN_WIDTH,
+		(float)_resolution->WIN_HEIGHT, 0.f,
 		-1.f, 1.f
 	);
 

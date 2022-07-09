@@ -2,10 +2,10 @@
 class Device
 {
 public:
-	Device(HWND _hWnd, RESOLUTION _resolution);
+	Device(HWND* _hWnd, PRESOLUTION _resolution);
 	~Device();
 
-	void SetProjection(RESOLUTION _resolution);
+	void SetProjection(const PRESOLUTION& _resolution);
 	
 	LPDIRECT3DDEVICE9 Get() const { return device; }
 	
@@ -14,4 +14,10 @@ private:
 	LPDIRECT3DDEVICE9 device;
 	
 	D3DXMATRIX projection;
+
+	/* === === === === ===
+	* 주입 받은 포인터 저장용
+	* === === === === === */
+	HWND* m_phWnd;
+	PRESOLUTION m_pResolution;
 };

@@ -67,9 +67,9 @@ bool Core::Init(HINSTANCE _hInstance)
 	/* === === === === ===
     *   Manager 초기화
     * === === === === === */
-    m_device = new Device(m_hWnd, m_resolution);
+    m_device = new Device(&m_hWnd, &m_resolution);
     m_timer  = new Timer;
-	m_input  = new Input;
+	m_input  = new Input(&m_hWnd);
 
 
     /* === === === === ===
@@ -95,6 +95,7 @@ int Core::Run()
             *    Manager Update
             * === === === === === */
             m_timer->Update();
+            m_input->Update();
 
             /* === === === === ===
             *     Game 진행
@@ -107,6 +108,10 @@ int Core::Run()
             * === === === === === */
 			// FPS 표시
 			SetDlgItemText(m_hMonitorWnd, IDC_FPSTEXT, std::to_wstring(m_timer->FPS()).c_str());
+			// 마우스 위치 표시
+			D3DXVECTOR2 mousePos = m_input->GetMousePos();
+			wstring mousePosStr = L"X : " + std::to_wstring(mousePos.x) + L" Y : " + std::to_wstring(mousePos.y);
+            SetDlgItemText(m_hMonitorWnd, IDC_MOUSEPOSTXT, mousePosStr.c_str());
             // 시간 표시
 #pragma region 시간 표시
             double runTime = m_timer->RunningTime();
