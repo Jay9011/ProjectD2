@@ -2,7 +2,7 @@
 #include "MainGame.h"
 
 #include "Engine/Core/Core.h"
-#include "Engine/Manager/Device.h"
+#include "Engine/Manager/Device/Device.h"
 
 MainGame::MainGame()
 {

@@ -1,9 +1,7 @@
 #include "Framework.h"
 #include "Device.h"
 
-#include "Engine/Core/Core.h"
-
-Device::Device()
+Device::Device(HWND _hWnd, RESOLUTION _resolution)
 {
 	d3d = Direct3DCreate9(D3D_SDK_VERSION);
 	
@@ -13,18 +11,19 @@ Device::Device()
 	param.SwapEffect = D3DSWAPEFFECT_DISCARD;
 	param.EnableAutoDepthStencil = true;
 	param.AutoDepthStencilFormat = D3DFMT_D16;
+	param.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
 
 	d3d->CreateDevice
 	(
 		D3DADAPTER_DEFAULT,
 		D3DDEVTYPE_HAL,
-		Core::Get()->GetHWND(),
+		_hWnd,
 		D3DCREATE_HARDWARE_VERTEXPROCESSING,
 		&param,
 		&device
 	);
 
-	SetProjection();
+	SetProjection(_resolution);
 }
 
 Device::~Device()
@@ -32,13 +31,13 @@ Device::~Device()
 	d3d->Release();
 }
 
-void Device::SetProjection()
+void Device::SetProjection(RESOLUTION _resolution)
 {
 	D3DXMatrixOrthoOffCenterLH
 	(
 		&projection,
-		0.f, (float)Core::Get()->WIN_WIDTH(),
-		(float)Core::Get()->WIN_HEIGHT(), 0.f,
+		0.f, (float)_resolution.WIN_WIDTH,
+		(float)_resolution.WIN_HEIGHT, 0.f,
 		-1.f, 1.f
 	);
 

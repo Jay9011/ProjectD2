@@ -2,10 +2,10 @@
 class Device
 {
 public:
-	Device();
+	Device(HWND _hWnd, RESOLUTION _resolution);
 	~Device();
 
-	void SetProjection();
+	void SetProjection(RESOLUTION _resolution);
 	
 	LPDIRECT3DDEVICE9 Get() const { return device; }
 	

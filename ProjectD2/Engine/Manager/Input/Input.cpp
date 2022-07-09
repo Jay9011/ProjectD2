@@ -20,9 +20,11 @@ void Input::Update()
 		// 윈도우 포커싱 중일때
 		for (size_t i = 0; i < MAX_KEY_INPUT; i++)
 		{
+			// 키가 눌렸다면
 			if (GetAsyncKeyState(i) & 0x8000)
 			{
-
+				// 키가 이전에도 눌려 있었다면
+				if(m_prevKeyState[i])
 			}
 		}
 	}

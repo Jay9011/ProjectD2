@@ -1,9 +1,9 @@
 #include "Framework.h"
 #include "Core.h"
 
-#include "Engine/Manager/Device.h"
-#include "Engine/Manager/Timer.h"
-#include "Engine/Manager/Input.h"
+#include "Engine/Manager/Device/Device.h"
+#include "Engine/Manager/Timer/Timer.h"
+#include "Engine/Manager/Input/Input.h"
 #include "Game/MainGame.h"
 
 /* === === === === ===
@@ -67,7 +67,7 @@ bool Core::Init(HINSTANCE _hInstance)
 	/* === === === === ===
     *   Manager √ ±‚»≠
     * === === === === === */
-    m_device = new Device;
+    m_device = new Device(m_hWnd, m_resolution);
     m_timer  = new Timer;
 	m_input  = new Input;
 

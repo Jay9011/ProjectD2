@@ -1,5 +1,6 @@
 #pragma once
 
+// 모니터 해상도
 using RESOLUTION = struct
 {
 	unsigned int WIN_WIDTH;

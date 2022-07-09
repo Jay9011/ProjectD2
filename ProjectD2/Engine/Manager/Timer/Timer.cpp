@@ -8,6 +8,7 @@ Timer::Timer() :
 	frameCount(0)
 	, fps(0)
 	, maxFPS(0)
+	, limitFPS(200)
 	, oneSecCount(0)
 	, runningTime(0)
 {

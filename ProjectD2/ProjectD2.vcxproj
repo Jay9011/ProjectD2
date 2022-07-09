@@ -169,9 +169,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Core\Core.cpp" />
-    <ClCompile Include="Engine\Manager\Device.cpp" />
-    <ClCompile Include="Engine\Manager\Input.cpp" />
-    <ClCompile Include="Engine\Manager\Timer.cpp" />
+    <ClCompile Include="Engine\Manager\Device\Device.cpp" />
+    <ClCompile Include="Engine\Manager\Input\Input.cpp" />
+    <ClCompile Include="Engine\Manager\Timer\Timer.cpp" />
     <ClCompile Include="Framework.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -184,9 +184,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Core\Core.h" />
-    <ClInclude Include="Engine\Manager\Device.h" />
-    <ClInclude Include="Engine\Manager\Input.h" />
-    <ClInclude Include="Engine\Manager\Timer.h" />
+    <ClInclude Include="Engine\Manager\Device\Device.h" />
+    <ClInclude Include="Engine\Manager\Input\Input.h" />
+    <ClInclude Include="Engine\Manager\Timer\Timer.h" />
     <ClInclude Include="Game\MainGame.h" />
     <ClInclude Include="Headers\Enums.h" />
     <ClInclude Include="Headers\functions.h" />

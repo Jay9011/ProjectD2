@@ -17,6 +17,7 @@ private:
 	float frameCount;
 	float fps;
 	float maxFPS;
+	float limitFPS;
 
 	double oneSecCount;
 	double runningTime;
@@ -31,7 +32,7 @@ public:
 	double Delta()           const { return timeElapsed; }
 	float  FPS()             const { return fps; }
 	double RunningTime()     const { return runningTime; }
-	double GetMinFrameTime() const { if (maxFPS !=0) return 1.0 / maxFPS; else return 0.0; }
+	double GetMinFrameTime() const { if (maxFPS != 0) return (maxFPS > limitFPS) ? (1.0 / limitFPS) : (1.0 / maxFPS); else return (1.0 / limitFPS); }
 	double GetMaxFrameTime() const { return 1.0 / 30.0; }	// 디버깅용 최소 30fps는 나와야 한다.
 	float  GetMaxFPS()       const { return maxFPS; }
 	void   SetMaxFPS(float _fps)   { maxFPS = _fps; }
