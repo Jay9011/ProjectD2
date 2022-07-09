@@ -4,6 +4,7 @@
 class Device;
 class Timer;
 class Input;
+class PathMgr;
 class MainGame;
 class Core
 {
@@ -11,14 +12,16 @@ class Core
 *	Managers
 */
 public:
-	Device* GetDevice() const { return m_device; }
-	Timer*  GetTimer()  const { return m_timer; }
-	Input*  GetInput()  const { return m_input; }
+	Device*  GetDevice()  const { return m_device; }
+	Timer*   GetTimer()   const { return m_timer; }
+	Input*   GetInput()   const { return m_input; }
+	PathMgr* GetPathMgr() const { return m_pathMgr; }
 
 private:
 	Device*   m_device;
 	Timer*    m_timer;
 	Input*    m_input;
+	PathMgr*  m_pathMgr;
 	MainGame* m_mainGame;
 
 /*
@@ -31,8 +34,8 @@ public:
 	RESOLUTION& Resolution()   { return m_resolution; }
 	UINT&       WIN_WIDTH()    { return m_resolution.WIN_WIDTH; }
 	UINT&       WIN_HEIGHT()   { return m_resolution.WIN_HEIGHT; }
-	float       WIN_CENTER_X() { return m_resolution.WIN_WIDTH * .5f; }
-	float       WIN_CENTER_Y() { return m_resolution.WIN_HEIGHT * .5f; }
+	float       WIN_CENTER_X() { return (float)m_resolution.WIN_WIDTH * .5f; }
+	float       WIN_CENTER_Y() { return (float)m_resolution.WIN_HEIGHT * .5f; }
 
 	void DockingMenu(bool _bDocking);
 	bool ChangeWindowSize(RESOLUTION _resolution, bool _bMenu, HWND _hWnd = nullptr);

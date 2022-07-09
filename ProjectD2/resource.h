@@ -15,8 +15,9 @@
 #define IDC_FPSTEXT                     1003
 #define IDC_RUNTIME                     1004
 #define IDC_MOUSEPOSTXT                 1005
-#define IDC_MOUSEPOSTXT2                1006
 #define IDC_DEBUGMSG                    1006
+#define IDC_MOUSEPOSTXT2                1007
+#define IDC_RESOURCEPATH                1007
 #define IDM_SetResolution               40002
 #define ID_40003                        40003
 #define IDM_MONITORING                  40004

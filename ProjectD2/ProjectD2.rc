@@ -90,7 +90,9 @@ BEGIN
     LTEXT           "MousePos",IDC_STATIC,7,70,44,8
     LTEXT           "Static",IDC_MOUSEPOSTXT,53,71,211,8
     LTEXT           "DebugMessage",IDC_STATIC,7,359,51,8
-    LTEXT           "Static",IDC_DEBUGMSG,27,370,237,39
+    LTEXT           "Static",IDC_DEBUGMSG,19,370,245,39
+    LTEXT           "ResourcePath",IDC_STATIC,7,338,44,8
+    LTEXT           "Static",IDC_RESOURCEPATH,18,348,246,8
 END
 
 

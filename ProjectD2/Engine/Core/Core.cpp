@@ -4,6 +4,7 @@
 #include "Engine/Manager/Device/Device.h"
 #include "Engine/Manager/Timer/Timer.h"
 #include "Engine/Manager/Input/Input.h"
+#include "Engine/Manager/Path/PathMgr.h"
 #include "Game/MainGame.h"
 
 /* === === === === ===
@@ -25,12 +26,14 @@ Core::Core() :
     m_device = nullptr;
     m_timer = nullptr;
 	m_input = nullptr;
+    m_pathMgr = nullptr;
     m_mainGame = nullptr;
 }
 
 Core::~Core()
 {
     SAFE_DELETE(m_mainGame);
+	SAFE_DELETE(m_pathMgr);
 	SAFE_DELETE(m_input);
 	SAFE_DELETE(m_timer);
     SAFE_DELETE(m_device);
@@ -67,9 +70,10 @@ bool Core::Init(HINSTANCE _hInstance)
 	/* === === === === ===
     *   Manager 초기화
     * === === === === === */
-    m_device = new Device(&m_hWnd, &m_resolution);
-    m_timer  = new Timer;
-	m_input  = new Input(&m_hWnd);
+    m_device  = new Device(&m_hWnd, &m_resolution);
+    m_timer   = new Timer;
+	m_input   = new Input(&m_hWnd);
+    m_pathMgr = new PathMgr(L"\\Bin\\Content\\");
 
 
     /* === === === === ===
@@ -112,6 +116,8 @@ int Core::Run()
 			D3DXVECTOR2 mousePos = m_input->GetMousePos();
 			wstring mousePosStr = L"X : " + std::to_wstring(mousePos.x) + L" Y : " + std::to_wstring(mousePos.y);
             SetDlgItemText(m_hMonitorWnd, IDC_MOUSEPOSTXT, mousePosStr.c_str());
+			// 리소스 위치 표시
+			SetDlgItemText(m_hMonitorWnd, IDC_RESOURCEPATH, m_pathMgr->GetContentPath());
             // 시간 표시
 #pragma region 시간 표시
             double runTime = m_timer->RunningTime();
@@ -165,7 +171,7 @@ bool Core::ChangeWindowSize(RESOLUTION _resolution, bool _bMenu, HWND _hWnd)
 	if(hWnd == nullptr)
 		hWnd = m_hWnd;
 	
-	RECT rect = { 0, 0, _resolution.WIN_WIDTH, _resolution.WIN_HEIGHT };
+	RECT rect = { 0, 0, _resolution.WIN_WIDTH, _resolution.WIN_HEIGHT};
     if (!AdjustWindowRect(&rect, WS_DEFAULT, _bMenu))
     	    return FALSE;
 	
@@ -247,6 +253,8 @@ INT_PTR CALLBACK ResolutionDlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARA
             return (INT_PTR)TRUE;
         }
         break;
+    default:
+        break;
     }
     return (INT_PTR)FALSE;
 }
@@ -270,7 +278,7 @@ INT_PTR CALLBACK MonitoringDlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARA
         {
             // MaxFPS 변경
             auto timer = TIMER;
-            timer->SetMaxFPS(GetDlgItemInt(hDlg, IDC_MAXFPS, nullptr, FALSE));
+            timer->SetMaxFPS((float)GetDlgItemInt(hDlg, IDC_MAXFPS, nullptr, FALSE));
             SetDlgItemText(hDlg, IDC_MAXFPS, std::to_wstring(timer->GetMaxFPS()).c_str());
             return (INT_PTR)TRUE;
         }
@@ -279,6 +287,8 @@ INT_PTR CALLBACK MonitoringDlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARA
             EndDialog(hDlg, LOWORD(wParam));
             return (INT_PTR)TRUE;
         }
+        break;
+    default:
         break;
     }
     return (INT_PTR)FALSE;
@@ -323,7 +333,7 @@ LRESULT Core::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     case WM_PAINT:
     {
         PAINTSTRUCT ps;
-        HDC hdc = BeginPaint(hWnd, &ps);
+        BeginPaint(hWnd, &ps);
         EndPaint(hWnd, &ps);
     }
     break;
