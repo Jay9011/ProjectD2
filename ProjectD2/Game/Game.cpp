@@ -1,18 +1,19 @@
 #include "Framework.h"
-#include "MainGame.h"
+#include "Game.h"
 
 #include "Engine/Core/Core.h"
 #include "Engine/Manager/Device/Device.h"
+#include "Engine/Manager/Scene/Scene.h"
 
-MainGame::MainGame()
+Game::Game()
 {
 }
 
-MainGame::~MainGame()
+Game::~Game()
 {
 }
 
-void MainGame::Run()
+void Game::Run()
 {
 	Update();
 		
@@ -47,10 +48,10 @@ void MainGame::Run()
 	DEVICE->Present(nullptr, nullptr, nullptr, nullptr);
 }
 
-void MainGame::Update()
+void Game::Update()
 {
 }
 
-void MainGame::Render()
+void Game::Render()
 {
 }

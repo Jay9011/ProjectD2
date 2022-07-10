@@ -37,23 +37,4 @@ private:
 	
 	KEY_STATE m_prevKeyState[MAX_KEY_INPUT];
 	KEY_STATE m_keyState[MAX_KEY_INPUT];
-
-#pragma region Debug Render
-#if _DEBUG
-public:
-	HWND* m_pDebugWnd;
-	int m_nDebugIDDlgItem;
-	void DebugSetting(HWND* _hWnd, int _nIDDlgItem)
-	{
-		m_pDebugWnd = _hWnd;
-		m_nDebugIDDlgItem = _nIDDlgItem;
-	}
-	void DebugRender(const wstring& _str)
-	{
-		SetDlgItemText(*m_pDebugWnd, m_nDebugIDDlgItem, _str.c_str());
-	}
-#endif // _DEBUG
-#pragma endregion
-
-
 };

@@ -27,3 +27,12 @@ void Safe_Delete_Map(std::map<T1, T2>& _map)
 	}
 	_map.clear();
 }
+template<typename T1, typename T2>
+void Safe_Delete_Map(std::unordered_map<T1, T2>& _map)
+{
+	for (auto& i : _map)
+	{
+		SAFE_DELETE(i.second);
+	}
+	_map.clear();
+}

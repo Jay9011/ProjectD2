@@ -1,11 +1,12 @@
 #pragma once
 #define DEVICE	Core::Get()->GetDevice()->Get()
 #define TIMER	Core::Get()->GetTimer()
+
 class Device;
 class Timer;
 class Input;
 class PathMgr;
-class MainGame;
+class Game;
 class Core
 {
 /*
@@ -18,11 +19,11 @@ public:
 	PathMgr* GetPathMgr() const { return m_pathMgr; }
 
 private:
-	Device*   m_device;
-	Timer*    m_timer;
-	Input*    m_input;
-	PathMgr*  m_pathMgr;
-	MainGame* m_mainGame;
+	Device*  m_device;
+	Timer*   m_timer;
+	Input*   m_input;
+	PathMgr* m_pathMgr;
+	Game*    m_Game;
 
 /*
 *	Basic functions

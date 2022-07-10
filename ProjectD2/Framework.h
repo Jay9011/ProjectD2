@@ -17,6 +17,7 @@
 #include <algorithm>
 #include <list>
 #include <map>
+#include <unordered_map>
 #include <vector>
 // Direct 3D
 #include <d3d9.h>
@@ -35,6 +36,7 @@
 using std::vector;
 using std::list;
 using std::map;
+using std::unordered_map;
 using std::make_pair;
 using std::for_each;
 using std::string;

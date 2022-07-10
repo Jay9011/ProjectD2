@@ -1,4 +1,5 @@
 #pragma once
+#define DT		Core::Get()->GetTimer()->Delta()
 class Timer
 {
 #pragma region 持失切 社瑚切

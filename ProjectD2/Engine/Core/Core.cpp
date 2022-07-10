@@ -5,7 +5,7 @@
 #include "Engine/Manager/Timer/Timer.h"
 #include "Engine/Manager/Input/Input.h"
 #include "Engine/Manager/Path/PathMgr.h"
-#include "Game/MainGame.h"
+#include "Game/Game.h"
 
 /* === === === === ===
 *    static 초기화
@@ -27,12 +27,12 @@ Core::Core() :
     m_timer = nullptr;
 	m_input = nullptr;
     m_pathMgr = nullptr;
-    m_mainGame = nullptr;
+    m_Game = nullptr;
 }
 
 Core::~Core()
 {
-    SAFE_DELETE(m_mainGame);
+    SAFE_DELETE(m_Game);
 	SAFE_DELETE(m_pathMgr);
 	SAFE_DELETE(m_input);
 	SAFE_DELETE(m_timer);
@@ -79,7 +79,7 @@ bool Core::Init(HINSTANCE _hInstance)
     /* === === === === ===
     *    Game Setting
     * === === === === === */
-    m_mainGame = new MainGame;
+    m_Game = new Game;
 	
 	return true;
 }
@@ -104,7 +104,7 @@ int Core::Run()
             /* === === === === ===
             *     Game 진행
             * === === === === === */
-            m_mainGame->Run();
+            m_Game->Run();
 			
 
             /* === === === === ===

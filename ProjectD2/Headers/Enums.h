@@ -1,10 +1,39 @@
 #pragma once
 
-enum class GROUP_TYPE
+enum class GAME_STATE
+{
+	PLAY,
+	PAUSE,
+	EXIT
+};
+
+enum class OBJECT_TYPE
 {
 	DEFAULT,
 	
 	FIN = 32
+};
+
+enum class OBJECT_STATE
+{
+	DEAD,
+	ACTIVE
+};
+/*
+enum class SCENE_TYPE
+{
+	START,
+	STAGE,
+	END
+};
+
+enum class EVENT_TYPE
+{
+	CREATE_OBJECT,
+	DELETE_OBJECT,
+	SCENE_CHANGE,
+	CHANGE_AI_STATE,
+	END
 };
 
 enum class COMMAND_TYPE
@@ -16,3 +45,4 @@ enum class COMMAND_TYPE
 	
 	FIN
 };
+*/

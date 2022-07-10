@@ -1,15 +1,15 @@
 #pragma once
-class MainGame
+class Game
 {
 public:
-	MainGame();
-	~MainGame();
+	Game();
+	~Game();
 
 	void Run();
 	
 	void Update();
 	void Render();
-	
+
 	
 private:
 
