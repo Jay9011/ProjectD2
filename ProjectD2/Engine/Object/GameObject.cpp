@@ -6,6 +6,7 @@
 
 GameObject::GameObject(Game* _game) :
 	m_game(_game)
+	, m_type(OBJECT_TYPE::DEFAULT)
 	, m_state(OBJECT_STATE::ACTIVE)
 	, m_parent(nullptr)
 	, m_pos(0, 0, 0)

@@ -1,5 +1,6 @@
 #pragma once
 class Game;
+class Component;
 class GameObject
 {
 public:
@@ -11,7 +12,6 @@ public:
 	void UpdateComponent();			// Component Update 용
 	virtual void UpdateObject() = 0;// 상속받은 GameObject의 Update 용
 	virtual void Render();
-	
 
 	void AddComponent(Component* _component);
 	void RemoveComponent(Component* _component);
@@ -19,6 +19,7 @@ public:
 private:
 	Game* m_game;
 	GameObject* m_parent;
+	OBJECT_TYPE  m_type;
 	OBJECT_STATE m_state;
 	
 /* === === === === ===
@@ -55,8 +56,12 @@ public:
 	const GameObject* GetParent() const              { return m_parent; }
 	void              SetParent(GameObject* _parent) { m_parent = _parent; }
 
+	OBJECT_TYPE GetType() const            { return m_type; }
+	void        SetType(OBJECT_TYPE _type) { m_type = _type; }
+
 	OBJECT_STATE GetState() const              { return m_state; }
 	void         SetState(OBJECT_STATE _state) { m_state = _state; }
+	bool         IsDead() const                { return m_state == OBJECT_STATE::DEAD; }
 
 	const D3DXVECTOR3& GetPos() const                        { return m_pos; }
 	void               SetPos(const D3DXVECTOR3& position)   { m_pos = position; m_recomputeWorld = true; }

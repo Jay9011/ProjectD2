@@ -25,13 +25,6 @@
 // etc...
 #include <functional>
 #include <math.h>
-#include "Headers/ConstNMacro.h"
-#include "Headers/Types.h"
-#include "Headers/Enums.h"
-#include "Headers/functions.h"
-
-#pragma comment(lib, "d3d9.lib")
-#pragma comment(lib, "d3dx9.lib")
 
 using std::vector;
 using std::list;
@@ -41,3 +34,13 @@ using std::make_pair;
 using std::for_each;
 using std::string;
 using std::wstring;
+
+#include "Headers/ConstNMacro.h"
+#include "Headers/Types.h"
+#include "Headers/Enums.h"
+#include "Headers/functions.h"
+
+#include "Game.h"
+
+#pragma comment(lib, "d3d9.lib")
+#pragma comment(lib, "d3dx9.lib")
