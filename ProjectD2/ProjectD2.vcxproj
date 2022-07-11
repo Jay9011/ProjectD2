@@ -168,6 +168,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\Component\Component.cpp" />
     <ClCompile Include="Engine\Core\Core.cpp" />
     <ClCompile Include="Engine\Manager\Device\Device.cpp" />
     <ClCompile Include="Engine\Manager\Input\Input.cpp" />
@@ -181,12 +182,13 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Game\Game.cpp" />
-    <ClCompile Include="Game\Objects\GameObject.cpp" />
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Engine\Object\GameObject.cpp" />
     <ClCompile Include="Headers\functions.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Engine\Component\Component.h" />
     <ClInclude Include="Engine\Core\Core.h" />
     <ClInclude Include="Engine\Manager\Device\Device.h" />
     <ClInclude Include="Engine\Manager\Input\Input.h" />
@@ -194,8 +196,8 @@
     <ClInclude Include="Engine\Manager\Scene\Scene.h" />
     <ClInclude Include="Engine\Manager\Scene\SceneMgr.h" />
     <ClInclude Include="Engine\Manager\Timer\Timer.h" />
-    <ClInclude Include="Game\Game.h" />
-    <ClInclude Include="Game\Objects\GameObject.h" />
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="Engine\Object\GameObject.h" />
     <ClInclude Include="Headers\Enums.h" />
     <ClInclude Include="Headers\functions.h" />
     <ClInclude Include="Headers\ConstNMacro.h" />

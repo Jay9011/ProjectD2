@@ -36,3 +36,8 @@ void Safe_Delete_Map(std::unordered_map<T1, T2>& _map)
 	}
 	_map.clear();
 }
+
+namespace math
+{
+	
+}

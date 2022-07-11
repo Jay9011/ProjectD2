@@ -24,7 +24,7 @@
     <ClCompile Include="Headers\functions.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Game.cpp">
+    <ClCompile Include="Game.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Manager\Device\Device.cpp">
@@ -48,7 +48,10 @@
     <ClCompile Include="Engine\Manager\Scene\SceneMgr.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\GameObject.cpp">
+    <ClCompile Include="Engine\Object\GameObject.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Component\Component.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -71,7 +74,7 @@
     <ClInclude Include="Headers\functions.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Game.h">
+    <ClInclude Include="Game.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Manager\Device\Device.h">
@@ -95,7 +98,10 @@
     <ClInclude Include="Engine\Manager\Scene\SceneMgr.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\GameObject.h">
+    <ClInclude Include="Engine\Object\GameObject.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Component\Component.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

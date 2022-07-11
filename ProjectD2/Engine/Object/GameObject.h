@@ -1,19 +1,20 @@
 #pragma once
+class Game;
 class GameObject
 {
 public:
-	GameObject(Game* game);
+	GameObject(Game* _game);
 	virtual ~GameObject();
 
-	virtual void Update();
-	virtual void UpdateWorld();
+	void Update();
+	void UpdateWorld();
+	void UpdateComponent();			// Component Update 용
+	virtual void UpdateObject() = 0;// 상속받은 GameObject의 Update 용
 	virtual void Render();
 	
-	void UpdateObject();	// GameObject Update 용
-	void UpdateComponent();	// Component Update 용
 
-	void AddComponent(Component* component);
-	void RemoveComponent(Component* component);
+	void AddComponent(Component* _component);
+	void RemoveComponent(Component* _component);
 	
 private:
 	Game* m_game;
@@ -29,12 +30,13 @@ protected:
 	D3DXMATRIX  m_R;
 	D3DXMATRIX  m_T;
 	
-	D3DXVECTOR3 m_pivot;
 	
 private:
 	D3DXVECTOR3 m_pos;
 	D3DXVECTOR3 m_scale;
 	float       m_angle;
+	
+	D3DXVECTOR3 m_pivot;
 
 	bool m_recomputeWorld;
 
@@ -66,6 +68,9 @@ public:
 	
 	float GetAngle() const      { return m_angle; }
 	void  SetAngle(float angle) { m_angle = angle; m_recomputeWorld = true; }
+
+	const D3DXVECTOR3& GetPivot() const                   { return m_pivot; }
+	void               SetPivot(const D3DXVECTOR3& pivot) { m_pivot = pivot; m_recomputeWorld = true; }
 	
 	const D3DXMATRIX& GetWorld() const { return m_world; }
 	const D3DXMATRIX& GetS() const     { return m_S; }

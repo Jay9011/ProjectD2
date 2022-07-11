@@ -5,7 +5,7 @@
 #include "Engine/Manager/Timer/Timer.h"
 #include "Engine/Manager/Input/Input.h"
 #include "Engine/Manager/Path/PathMgr.h"
-#include "Game/Game.h"
+#include "Game.h"
 
 /* === === === === ===
 *    static √ ±‚»≠
