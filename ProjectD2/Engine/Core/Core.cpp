@@ -1,10 +1,6 @@
 #include "Framework.h"
 #include "Core.h"
 
-#include "Engine/Manager/Device/Device.h"
-#include "Engine/Manager/Timer/Timer.h"
-#include "Engine/Manager/Input/Input.h"
-#include "Engine/Manager/Path/PathMgr.h"
 #include "Game.h"
 
 /* === === === === ===

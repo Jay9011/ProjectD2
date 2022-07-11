@@ -1,6 +1,5 @@
 #include "Framework.h"
 #include "SceneMgr.h"
-#include "Scene.h"
 
 SceneMgr::SceneMgr()
 {

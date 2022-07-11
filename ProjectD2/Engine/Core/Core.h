@@ -2,11 +2,10 @@
 #define DEVICE	Core::Get()->GetDevice()->Get()
 #define TIMER	Core::Get()->GetTimer()
 
-class Device;
-class Timer;
-class Input;
-class PathMgr;
-class Game;
+#include "Engine/Manager/Device/Device.h"
+#include "Engine/Manager/Timer/Timer.h"
+#include "Engine/Manager/Input/Input.h"
+#include "Engine/Manager/Path/PathMgr.h"
 class Core
 {
 /*

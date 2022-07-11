@@ -3,7 +3,6 @@
 
 #include "Engine/Core/Core.h"
 #include "Engine/Manager/Device/Device.h"
-#include "Engine/Manager/Scene/Scene.h"
 
 Game::Game()
 {

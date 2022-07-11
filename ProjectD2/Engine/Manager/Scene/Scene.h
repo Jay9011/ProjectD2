@@ -1,4 +1,5 @@
 #pragma once
+class Game;
 class GameObject;
 class Scene
 {
@@ -12,6 +13,12 @@ public:
 	virtual void Update();
 	virtual void Render();
 
+	void AddObject(GameObject* _object, OBJECT_TYPE _type);
+	void DeleteObject(GameObject* _object);
+
+	void DeleteGroup(OBJECT_TYPE _type);
+	void DeleteAll();
+
 private:
 	Game* m_game;
 	string m_SceneName;
@@ -20,12 +27,6 @@ private:
 	vector<GameObject*> m_pendingObjects[(UINT)OBJECT_TYPE::FIN];	// 대기중인 오브젝트들
 
 	bool m_updatingObjects;
-
-	void AddObject(GameObject* _object, OBJECT_TYPE _type);
-	void DeleteObject(GameObject* _object);
-
-	void DeleteGroup(OBJECT_TYPE _type);
-	void DeleteAll();
 	
 public:
 	const string& GetName() const              { return m_SceneName; }
