@@ -104,7 +104,7 @@ int Core::Run()
 			
 
             /* === === === === ===
-            *    Manager Render
+            *    Manager Render (최상단 렌더)
             * === === === === === */
 			// FPS 표시
 			SetDlgItemText(m_hMonitorWnd, IDC_FPSTEXT, std::to_wstring(m_timer->FPS()).c_str());

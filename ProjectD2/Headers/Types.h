@@ -14,6 +14,7 @@ using VERTEXCOLOR = struct VertexColor
 	D3DXVECTOR3 position;
 	D3DCOLOR    color;
 	
+	VertexColor() : position(0.0f, 0.0f, 0.0f), color(D3DCOLOR_XRGB(255, 255, 255)) {}
 	VertexColor(float _x, float _y, D3DCOLOR _color, float _z = 0.f)
 	{
 		position = D3DXVECTOR3(_x, _y, _z);
@@ -30,6 +31,7 @@ using VERTEXTEXTURE = struct VertexTexture
 	D3DXVECTOR3 position;
 	D3DXVECTOR2 uv;
 	
+	VertexTexture() : position(0.0f, 0.0f, 0.0f), uv(0.0f, 0.0f) {}
 	VertexTexture(float _x, float _y, float _u, float _v, float _z = 0.f)
 	{
 		position = D3DXVECTOR3(_x, _y, _z);

@@ -40,6 +40,7 @@ using std::wstring;
 #include "Headers/Enums.h"
 #include "Headers/functions.h"
 
+#include "Engine/Core/Core.h"
 #include "Game.h"
 
 #pragma comment(lib, "d3d9.lib")
