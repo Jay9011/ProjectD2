@@ -69,16 +69,24 @@ public:
 	const D3DXVECTOR3& GetPos() const                        { return m_pos; }
 	void               SetPos(const D3DXVECTOR3& position)   { m_pos = position; m_recomputeWorld = true; }
 	void               SetPos(float x, float y, float z = 0) { SetPos({ x, y, z }); }
+	void               AddPos(const D3DXVECTOR3& position)   { m_pos += position; m_recomputeWorld = true; }
+	void               AddPos(float x, float y, float z = 0) { AddPos({ x, y, z }); }
 	
 	const D3DXVECTOR3& GetScale() const                        { return m_scale; }
 	void               SetScale(const D3DXVECTOR3& scale)      { m_scale = scale; m_recomputeWorld = true; }
 	void               SetScale(float x, float y, float z = 0) { SetScale({ x, y, z }); }
+	void               AddScale(const D3DXVECTOR3& scale)      { m_scale += scale; m_recomputeWorld = true; }
+	void               AddScale(float x, float y, float z = 0) { AddScale({ x, y, z }); }
 	
 	float GetAngle() const      { return m_angle; }
 	void  SetAngle(float angle) { m_angle = angle; m_recomputeWorld = true; }
+	void  AddAngle(float angle) { m_angle += angle; m_recomputeWorld = true; }
 
-	const D3DXVECTOR3& GetPivot() const                   { return m_pivot; }
-	void               SetPivot(const D3DXVECTOR3& pivot) { m_pivot = pivot; m_recomputeWorld = true; }
+	const D3DXVECTOR3& GetPivot() const                        { return m_pivot; }
+	void               SetPivot(const D3DXVECTOR3& pivot)      { m_pivot = pivot; m_recomputeWorld = true; }
+	void               SetPivot(float x, float y, float z = 0) { SetPivot({ x, y, z }); }
+	void               AddPivot(const D3DXVECTOR3& pivot)      { m_pivot += pivot; m_recomputeWorld = true; }
+	void               AddPivot(float x, float y, float z = 0) { AddPivot({ x, y, z }); }
 	
 	const D3DXMATRIX& GetWorld() const { return m_world; }
 	const D3DXMATRIX& GetS() const     { return m_S; }

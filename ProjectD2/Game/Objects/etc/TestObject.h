@@ -11,7 +11,7 @@ public:
 	virtual void UpdateObject() override;
 
 private:
-
+	float m_speed;
 
 
 };

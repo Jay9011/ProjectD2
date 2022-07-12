@@ -16,13 +16,6 @@ void Input::Update()
 	
 	HWND hWnd = GetFocus();
 
-#if _DEBUG
-	if (GetAsyncKeyState(VK_F9))
-	{
-		int a = 0;
-	}
-#endif // _DEBUG
-
 	if (hWnd != nullptr)
 	{
 		// 윈도우 포커싱 중일때

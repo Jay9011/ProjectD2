@@ -3,6 +3,9 @@
 
 #define MAX_KEY_INPUT 256
 #define ISPUSHED(state) ((int)state & 0x000E)
+#define KEYPRESS(key)	Core::Get()->GetInput()->Press(key)
+#define KEYDOWN(key)	Core::Get()->GetInput()->Down(key)
+#define KEYUP(key)		Core::Get()->GetInput()->Up(key)
 
 /*
 * Note...
