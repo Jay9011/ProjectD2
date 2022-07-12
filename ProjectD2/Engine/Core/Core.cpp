@@ -239,7 +239,7 @@ INT_PTR CALLBACK ResolutionDlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARA
             Core* core = Core::Get();
             core->Resolution().WIN_WIDTH = GetDlgItemInt(hDlg, IDC_WIDTH, nullptr, FALSE);
             core->Resolution().WIN_HEIGHT = GetDlgItemInt(hDlg, IDC_HEIGHT, nullptr, FALSE);
-            core->ChangeWindowSize(core->WIN_WIDTH(), core->WIN_HEIGHT());
+            core->ChangeWindowSize(core->WinWidth(), core->WinHeight());
             EndDialog(hDlg, LOWORD(wParam));
             return (INT_PTR)TRUE;
         }

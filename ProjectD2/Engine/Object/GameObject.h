@@ -4,7 +4,8 @@ class Component;
 class GameObject
 {
 public:
-	GameObject(Game* _game);
+	GameObject(Game* _game, Scene* _scene, GameObject* _parent = nullptr);
+	GameObject(Game* _game, Scene* _scene, OBJECT_TYPE _type, GameObject* _parent = nullptr);
 	virtual ~GameObject();
 
 	void Update();
@@ -19,6 +20,7 @@ public:
 	
 private:
 	Game* m_game;
+	Scene* m_scene;
 	GameObject* m_parent;
 	OBJECT_TYPE  m_type;
 	OBJECT_STATE m_state;
@@ -83,4 +85,12 @@ public:
 	const D3DXMATRIX& GetR() const     { return m_R; }
 	const D3DXMATRIX& GetT() const     { return m_T; }
 	
+
+/* === === === === ===
+*  테스트용 VertexBuffer, IndexBuffer
+* === === === === === */
+#if _DEBUG
+	vector<VERTEXCOLOR> m_vertexList = { VERTEXCOLOR(-10, -10, 0xFF10CCE3), VERTEXCOLOR(10, -10, 0xFF10CCE3), VERTEXCOLOR(-10, 10, 0xFF10CCE3), VERTEXCOLOR(10, 10, 0xFF10CCE3) };
+	vector<WORD> m_indexList = { 0, 1, 3, 2, 0, 3 };
+#endif // GameObject 위치 탐색용 Vertices
 };

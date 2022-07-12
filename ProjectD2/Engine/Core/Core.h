@@ -1,6 +1,9 @@
 #pragma once
 #define DEVICE	Core::Get()->GetDevice()->Get()
 #define TIMER	Core::Get()->GetTimer()
+#define RESOLUTION_	Core::Get()->Resolution()
+#define WIN_CENTER_X	Core::Get()->WinCenterX()
+#define WIN_CENTER_Y	Core::Get()->WinCenterY()
 
 #include "Engine/Manager/Device/Device.h"
 #include "Engine/Manager/Timer/Timer.h"
@@ -32,11 +35,11 @@ public:
 	bool Init(HINSTANCE _hInstance);
 	int  Run();
 	
-	RESOLUTION& Resolution()   { return m_resolution; }
-	UINT&       WIN_WIDTH()    { return m_resolution.WIN_WIDTH; }
-	UINT&       WIN_HEIGHT()   { return m_resolution.WIN_HEIGHT; }
-	float       WIN_CENTER_X() { return (float)m_resolution.WIN_WIDTH * .5f; }
-	float       WIN_CENTER_Y() { return (float)m_resolution.WIN_HEIGHT * .5f; }
+	RESOLUTION& Resolution() { return m_resolution; }
+	UINT&       WinWidth()   { return m_resolution.WIN_WIDTH; }
+	UINT&       WinHeight()  { return m_resolution.WIN_HEIGHT; }
+	float       WinCenterX() { return (float)m_resolution.WIN_WIDTH * .5f; }
+	float       WinCenterY() { return (float)m_resolution.WIN_HEIGHT * .5f; }
 
 	void DockingMenu(bool _bDocking);
 	bool ChangeWindowSize(RESOLUTION _resolution, bool _bMenu, HWND _hWnd = nullptr);

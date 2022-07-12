@@ -4,11 +4,16 @@
 #include "Engine/Core/Core.h"
 #include "Engine/Component/Component.h"
 
-GameObject::GameObject(Game* _game) :
+GameObject::GameObject(Game* _game, Scene* _scene, GameObject* _parent) :
+	GameObject(_game, _scene, OBJECT_TYPE::DEFAULT, _parent)
+{}
+
+GameObject::GameObject(Game* _game, Scene* _scene, OBJECT_TYPE _type, GameObject* _parent) :
 	m_game(_game)
-	, m_type(OBJECT_TYPE::DEFAULT)
+	, m_scene(_scene)
+	, m_parent(_parent)
+	, m_type(_type)
 	, m_state(OBJECT_STATE::ACTIVE)
-	, m_parent(nullptr)
 	, m_pos(0, 0, 0)
 	, m_scale(1, 1, 1)
 	, m_angle(0)
@@ -20,11 +25,12 @@ GameObject::GameObject(Game* _game) :
 	D3DXMatrixIdentity(&m_T);
 	D3DXMatrixIdentity(&m_world);
 
+	m_scene->AddObject(this, _type);
 }
 
 GameObject::~GameObject()
 {
-	m_game->CurScene()->DeleteObject(this);
+	m_scene->DeleteObject(this);
 
 	SAFE_DELETE_VEC(m_componentList);
 }
@@ -39,6 +45,8 @@ void GameObject::Update()
 		UpdateObject();
 		
 		UpdateWorld();
+
+		SetWorld();
 	}
 }
 
@@ -80,6 +88,14 @@ void GameObject::UpdateComponent()
 
 void GameObject::Render()
 {
+
+	
+#if _DEBUG
+	DEVICE->SetFVF(VERTEXCOLOR::FVF);
+	DEVICE->DrawIndexedPrimitiveUP(D3DPT_LINESTRIP, 0, 4, 5, m_indexList.data(), D3DFMT_INDEX16, m_vertexList.data(), sizeof(VERTEXCOLOR));
+#endif // 테스트 렌더링 (Object 위치 표시)
+	
+	
 }
 
 void GameObject::AddComponent(Component* _component)

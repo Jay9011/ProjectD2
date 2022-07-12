@@ -184,6 +184,7 @@
     </ClCompile>
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Engine\Object\GameObject.cpp" />
+    <ClCompile Include="Game\Objects\etc\TestObject.cpp" />
     <ClCompile Include="Game\Scenes\TestScene.cpp" />
     <ClCompile Include="Headers\functions.cpp" />
     <ClCompile Include="main.cpp" />
@@ -199,6 +200,7 @@
     <ClInclude Include="Engine\Manager\Timer\Timer.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Engine\Object\GameObject.h" />
+    <ClInclude Include="Game\Objects\etc\TestObject.h" />
     <ClInclude Include="Game\Scenes\TestScene.h" />
     <ClInclude Include="Headers\Enums.h" />
     <ClInclude Include="Headers\functions.h" />

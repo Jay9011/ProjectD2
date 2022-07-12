@@ -9,9 +9,11 @@ public:
 
 	virtual void Init()    = 0;
 	virtual void Release() = 0;
+	virtual void UpdateScene() = 0;
+	virtual void RenderScene() = 0;
 	
-	virtual void Update();
-	virtual void Render();
+	void Update();
+	void Render();
 
 	void AddObject(GameObject* _object, OBJECT_TYPE _type);
 	void DeleteObject(GameObject* _object);

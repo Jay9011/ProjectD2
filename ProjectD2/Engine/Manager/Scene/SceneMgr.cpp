@@ -33,6 +33,7 @@ Scene* SceneMgr::Add(const string& _name, Scene* _scene)
 	if (m_scenes.find(_name) != m_scenes.end())
 		return m_scenes[_name];
 
+	_scene->SetName(_name);
 	m_scenes.emplace(_name, _scene);
 	
 	return _scene;

@@ -3,7 +3,9 @@
 
 #include "Engine/Object/GameObject.h"
 
-Scene::Scene(Game* _game)
+Scene::Scene(Game* _game) :
+	m_game(_game)
+	, m_updatingObjects(false)
 {
 }
 
@@ -50,6 +52,8 @@ void Scene::Update()
 
 		SAFE_DELETE_VEC(deadObjects);
 	}
+
+	UpdateScene();
 }
 
 void Scene::Render()
@@ -61,6 +65,8 @@ void Scene::Render()
 			object->Render();
 		}
 	}
+
+	RenderScene();
 }
 
 void Scene::AddObject(GameObject* _object, OBJECT_TYPE _type)
