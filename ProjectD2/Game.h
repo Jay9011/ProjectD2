@@ -6,11 +6,8 @@ public:
 	Game();
 	~Game();
 
-	void Run();
-	
 	void Update();
 	void Render();
-
 	
 private:
 	GAME_STATE m_GameState;

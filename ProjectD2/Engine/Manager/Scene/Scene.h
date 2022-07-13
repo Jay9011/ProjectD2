@@ -34,4 +34,9 @@ public:
 	const string& GetName() const              { return m_SceneName; }
 	void          SetName(const string& _name) { m_SceneName = _name; }
 
+
+#if _DEBUG
+public:
+	TwBar* twbar = nullptr;
+#endif // _DEBUG
 };

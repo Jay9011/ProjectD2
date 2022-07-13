@@ -98,7 +98,9 @@ public:
 *  테스트용 VertexBuffer, IndexBuffer
 * === === === === === */
 #if _DEBUG
-	vector<VERTEXCOLOR> m_vertexList = { VERTEXCOLOR(-10, -10, 0xFF10CCE3), VERTEXCOLOR(10, -10, 0xFF10CCE3), VERTEXCOLOR(-10, 10, 0xFF10CCE3), VERTEXCOLOR(10, 10, 0xFF10CCE3) };
-	vector<WORD> m_indexList = { 0, 1, 3, 2, 0, 3 };
+private:
+	vector<VERTEXCOLOR> m_vertexList;
+	vector<WORD>        m_indexList;
+	void SetVertexData();
 #endif // GameObject 위치 탐색용 Vertices
 };

@@ -60,6 +60,9 @@
     <ClCompile Include="Game\Objects\etc\TestObject.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Lib\TweakBar\TweakBar.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Framework.h">
@@ -116,6 +119,15 @@
     <ClInclude Include="Game\Objects\etc\TestObject.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Lib\TweakBar\TweakBar.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\include\AntTweakBar.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\AntTweakBar.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ProjectD2.rc">
@@ -126,5 +138,9 @@
     <Image Include="Resource\icon1.ico">
       <Filter>리소스 파일</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="Lib\lib\AntTweakBar.lib" />
+    <Library Include="Lib\lib\AntTweakBar64.lib" />
   </ItemGroup>
 </Project>

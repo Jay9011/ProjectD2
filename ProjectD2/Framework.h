@@ -25,6 +25,7 @@
 // etc...
 #include <functional>
 #include <math.h>
+#include <AntTweakBar.h>
 
 using std::vector;
 using std::list;
@@ -39,6 +40,8 @@ using std::wstring;
 #include "Headers/Types.h"
 #include "Headers/Enums.h"
 #include "Headers/functions.h"
+
+#include "TweakBar/TweakBar.h"
 
 #include "Engine/Core/Core.h"
 #include "Game.h"

@@ -28,6 +28,9 @@ Core::Core() :
 
 Core::~Core()
 {
+#if _DEBUG
+    TweakBar::Delete(); // Init에서 Device 다음에 생성됨
+#endif // _DEBUG
     SAFE_DELETE(m_Game);
 	SAFE_DELETE(m_pathMgr);
 	SAFE_DELETE(m_input);
@@ -71,6 +74,9 @@ bool Core::Init(HINSTANCE _hInstance)
 	m_input   = new Input(&m_hWnd);
     m_pathMgr = new PathMgr(L"\\Bin\\Content\\");
 
+#if _DEBUG
+    TweakBar::Create();
+#endif // _DEBUG
 
     /* === === === === ===
     *    Game Setting
@@ -98,13 +104,44 @@ int Core::Run()
             m_input->Update();
 
             /* === === === === ===
-            *     Game 진행
+            *     Game Update
             * === === === === === */
-            m_Game->Run();
+            m_Game->Update();
 			
+            /* === === === === ===
+            *	     Render
+            * === === === === === */
+            // Device Clear
+#if _DEBUG
+            DEVICE->Clear
+            (
+                0,
+                nullptr,
+                D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER,
+                0xFF787878,
+                1.f,
+                0
+            );
+#else
+            DEVICE->Clear
+            (
+                0,
+                nullptr,
+                D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER,
+                0xFFFFFF,
+                1.f,
+                0
+            );
+#endif // _DEBUG
+            DEVICE->BeginScene();
 
             /* === === === === ===
-            *    Manager Render (최상단 렌더)
+            *     Game Render
+            * === === === === === */
+            m_Game->Render();
+
+            /* === === === === ===
+            *    Manager Render
             * === === === === === */
 			// FPS 표시
 			SetDlgItemText(m_hMonitorWnd, IDC_FPSTEXT, std::to_wstring(m_timer->FPS()).c_str());
@@ -138,6 +175,13 @@ int Core::Run()
 			wstring timeStr = hourStr + L":" + minStr + L":" + secStr;
 			SetDlgItemText(m_hMonitorWnd, IDC_RUNTIME, timeStr.c_str());
 #pragma endregion
+
+#if _DEBUG
+            TweakBar::Get()->Render();
+#endif // _DEBUG
+
+            DEVICE->EndScene();
+            DEVICE->Present(nullptr, nullptr, nullptr, nullptr);
         }
     }
 	
@@ -295,6 +339,10 @@ INT_PTR CALLBACK MonitoringDlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARA
 */
 LRESULT Core::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
+#if _DEBUG
+    TweakBar::Get()->InputProc(hWnd, message, wParam, lParam);
+#endif // _DEBUG
+
     switch (message)
     {
     case WM_COMMAND:

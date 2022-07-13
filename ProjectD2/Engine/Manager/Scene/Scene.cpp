@@ -7,6 +7,10 @@ Scene::Scene(Game* _game) :
 	m_game(_game)
 	, m_updatingObjects(false)
 {
+#if _DEBUG
+	twbar = TweakBar::Get()->GetBar();
+#endif // _DEBUG
+
 }
 
 Scene::~Scene()

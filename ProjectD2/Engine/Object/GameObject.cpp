@@ -26,6 +26,11 @@ GameObject::GameObject(Game* _game, Scene* _scene, OBJECT_TYPE _type, GameObject
 	D3DXMatrixIdentity(&m_world);
 
 	m_scene->AddObject(this, _type);
+
+#if _DEBUG
+	SetVertexData();
+#endif // _DEBUG
+
 }
 
 GameObject::~GameObject()
@@ -92,10 +97,8 @@ void GameObject::Render()
 	
 #if _DEBUG
 	DEVICE->SetFVF(VERTEXCOLOR::FVF);
-	DEVICE->DrawIndexedPrimitiveUP(D3DPT_LINESTRIP, 0, 4, 5, m_indexList.data(), D3DFMT_INDEX16, m_vertexList.data(), sizeof(VERTEXCOLOR));
+	DEVICE->DrawIndexedPrimitiveUP(D3DPT_LINELIST, 0, m_vertexList.size(), m_indexList.size() / 2, m_indexList.data(), D3DFMT_INDEX16, m_vertexList.data(), sizeof(VERTEXCOLOR));
 #endif // 테스트 렌더링 (Object 위치 표시)
-	
-	
 }
 
 void GameObject::AddComponent(Component* _component)
@@ -120,4 +123,34 @@ void GameObject::RemoveComponent(Component* _component)
 	{
 		m_componentList.erase(iter);
 	}
+}
+
+void GameObject::SetVertexData()
+{
+	float angle = PI * 2.f * 0.083f;
+
+	D3DCOLOR color = 0xFF3AB0FF;
+	
+	for (int i = 0; i < 13; i++)
+	{
+		D3DXVECTOR3 pos;
+		pos.x =  cos(angle * (float)i) * 8.f;
+		pos.y = -sin(angle * (float)i) * 8.f;
+		
+		m_vertexList.push_back(VERTEXCOLOR(pos.x, pos.y, color));
+		m_indexList.push_back((WORD)i);
+		m_indexList.push_back((WORD)i + 1);
+	}
+	m_indexList.pop_back();
+	m_indexList.push_back(0);
+	
+	m_indexList.push_back((WORD)m_vertexList.size());
+	m_indexList.push_back((WORD)m_vertexList.size() + 1);
+	m_vertexList.push_back(VERTEXCOLOR(0, -12, color));
+	m_vertexList.push_back(VERTEXCOLOR(0, +12, color));
+	
+	m_indexList.push_back((WORD)m_vertexList.size());
+	m_indexList.push_back((WORD)m_vertexList.size() + 1);
+	m_vertexList.push_back(VERTEXCOLOR(-12, 0, color));
+	m_vertexList.push_back(VERTEXCOLOR(+12, 0, color));
 }
