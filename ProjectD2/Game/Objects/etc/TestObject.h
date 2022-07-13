@@ -9,9 +9,19 @@ public:
 
 	// GameObject을(를) 통해 상속됨
 	virtual void UpdateObject() override;
+	virtual void Render() override;
+
 
 private:
+	bool m_isRight;
 	float m_speed;
+	Texture* m_texture;
 
-
+public:
+	void ScaleXInverse()
+	{
+		D3DXVECTOR3 scale = GetScale();
+		scale.x *= -1;
+		SetScale(scale);
+	};
 };

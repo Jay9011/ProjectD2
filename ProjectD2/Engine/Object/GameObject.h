@@ -12,6 +12,7 @@ public:
 	void UpdateWorld();
 	void SetWorld();
 	void UpdateComponent();			// Component Update 용
+	void RenderComponent();			// Component Render 용
 	virtual void UpdateObject() = 0;// 상속받은 GameObject의 Update 용
 	virtual void Render();
 

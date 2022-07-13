@@ -1,6 +1,7 @@
 #pragma once
 #define DEVICE	Core::Get()->GetDevice()->Get()
 #define TIMER	Core::Get()->GetTimer()
+#define PATH	Core::Get()->GetPathMgr()
 #define RESOLUTION_	Core::Get()->Resolution()
 #define WIN_CENTER_X	Core::Get()->WinCenterX()
 #define WIN_CENTER_Y	Core::Get()->WinCenterY()

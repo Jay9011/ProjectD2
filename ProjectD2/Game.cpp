@@ -9,8 +9,15 @@
 Game::Game() :
 	m_GameState(GAME_STATE::PLAY)
 {
+	/* === === === === ===
+	*       기본 설정
+	* === === === === === */
+	DEVICE->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);	// Backface culling 사용 안함
 	m_SceneMgr = new SceneMgr;
 	
+	/* === === === === ===
+	*       Scene 추가
+	* === === === === === */
 	m_SceneMgr->Add("Test", new TestScene(this));
 	
 	m_SceneMgr->ChangeScene("Test");

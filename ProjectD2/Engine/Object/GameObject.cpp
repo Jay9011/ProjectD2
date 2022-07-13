@@ -93,8 +93,10 @@ void GameObject::UpdateComponent()
 
 void GameObject::Render()
 {
-
-	
+	for (auto& component : m_componentList)
+	{
+		component->Render();
+	}
 #if _DEBUG
 	DEVICE->SetFVF(VERTEXCOLOR::FVF);
 	DEVICE->DrawIndexedPrimitiveUP(D3DPT_LINELIST, 0, m_vertexList.size(), m_indexList.size() / 2, m_indexList.data(), D3DFMT_INDEX16, m_vertexList.data(), sizeof(VERTEXCOLOR));
