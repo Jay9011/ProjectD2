@@ -11,14 +11,20 @@ public:
 	
 private:
 	GAME_STATE m_GameState;
-	SceneMgr*  m_SceneMgr;
 
 public:
 	GAME_STATE GetGameState() const { return m_GameState; }
 	void       SetGameState(GAME_STATE _state) { m_GameState = _state; }
 	
-	SceneMgr*  GetSceneMgr() const { return m_SceneMgr; }
-	Scene*     CurScene() const    { return m_SceneMgr->GetCurrentScene(); }
-	Scene*     GetCurrrentScene() const { return m_SceneMgr->GetCurrentScene(); }
+	Scene*     CurScene() const    { return SCENE->GetCurrentScene(); }
+	Scene*     GetCurrrentScene() const { return SCENE->GetCurrentScene(); }
 	
+/* === === === === ===
+*    TWBar ฐüทร
+* === === === === ===*/
+#if _DEBUG
+private:
+	string m_CurSceneName;
+
+#endif // _DEBUG
 };

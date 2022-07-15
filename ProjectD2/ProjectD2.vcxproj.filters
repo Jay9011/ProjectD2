@@ -54,7 +54,7 @@
     <ClCompile Include="Engine\Component\Component.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Scenes\TestScene.cpp">
+    <ClCompile Include="Game\Scenes\Test\TestScene.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Game\Objects\etc\TestObject.cpp">
@@ -64,6 +64,9 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Resource\Texture\Texture.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Scenes\Tool\ToolScene.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -116,7 +119,7 @@
     <ClInclude Include="Engine\Component\Component.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Scenes\TestScene.h">
+    <ClInclude Include="Game\Scenes\Test\TestScene.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Game\Objects\etc\TestObject.h">
@@ -134,6 +137,12 @@
     <ClInclude Include="Engine\Resource\Texture\Texture.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Game\Scenes\Tool\ToolScene.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Scenes\Scenes.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ProjectD2.rc">
@@ -148,5 +157,9 @@
   <ItemGroup>
     <Library Include="Lib\lib\AntTweakBar.lib" />
     <Library Include="Lib\lib\AntTweakBar64.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="AntTweakBar.dll" />
+    <None Include="AntTweakBar64.dll" />
   </ItemGroup>
 </Project>

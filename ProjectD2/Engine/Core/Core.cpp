@@ -23,6 +23,7 @@ Core::Core() :
     m_timer = nullptr;
 	m_input = nullptr;
     m_pathMgr = nullptr;
+	m_sceneMgr = nullptr;
     m_Game = nullptr;
 }
 
@@ -36,6 +37,7 @@ Core::~Core()
 	SAFE_DELETE(m_input);
 	SAFE_DELETE(m_timer);
     SAFE_DELETE(m_device);
+	SAFE_DELETE(m_sceneMgr);
     DestroyMenu(m_hMenu);
 	DestroyWindow(m_hWnd);
 }
@@ -69,10 +71,11 @@ bool Core::Init(HINSTANCE _hInstance)
 	/* === === === === ===
     *   Manager √ ±‚»≠
     * === === === === === */
-    m_device  = new Device(&m_hWnd, &m_resolution);
-    m_timer   = new Timer;
-	m_input   = new Input(&m_hWnd);
-    m_pathMgr = new PathMgr(L"\\Bin\\Content\\");
+    m_device   = new Device(&m_hWnd, &m_resolution);
+    m_timer    = new Timer;
+	m_input    = new Input(&m_hWnd);
+    m_pathMgr  = new PathMgr(L"\\Bin\\Content\\");
+	m_sceneMgr = new SceneMgr;
 
 #if _DEBUG
     TweakBar::Create();

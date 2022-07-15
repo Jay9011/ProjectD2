@@ -1,4 +1,5 @@
 #pragma once
+#include "Engine/Resource/Texture/Texture.h"
 class Game;
 class Component;
 class GameObject

@@ -33,7 +33,7 @@ private:
 public:
 	const string& GetName() const              { return m_SceneName; }
 	void          SetName(const string& _name) { m_SceneName = _name; }
-
+	Game*         GetGame() const              { return m_game; }
 
 #if _DEBUG
 public:

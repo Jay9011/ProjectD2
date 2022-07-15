@@ -21,6 +21,7 @@ private:
 	LPDIRECT3DINDEXBUFFER9  m_indexBuffer;
 
 	LPDIRECT3DTEXTURE9 m_texture;
+	D3DXVECTOR2 m_srcSize;
 	D3DXVECTOR2 m_size;
 	D3DXVECTOR2 m_halfSize;
 	D3DXVECTOR2 m_uvStart;

@@ -2,6 +2,7 @@
 #define DEVICE	Core::Get()->GetDevice()->Get()
 #define TIMER	Core::Get()->GetTimer()
 #define PATH	Core::Get()->GetPathMgr()
+#define SCENE	Core::Get()->GetSceneMgr()
 #define RESOLUTION_	Core::Get()->Resolution()
 #define WIN_CENTER_X	Core::Get()->WinCenterX()
 #define WIN_CENTER_Y	Core::Get()->WinCenterY()
@@ -10,6 +11,7 @@
 #include "Engine/Manager/Timer/Timer.h"
 #include "Engine/Manager/Input/Input.h"
 #include "Engine/Manager/Path/PathMgr.h"
+#include "Engine/Manager/Scene/SceneMgr.h"
 class Game;
 class Core
 {
@@ -17,17 +19,19 @@ class Core
 *	Managers
 */
 public:
-	Device*  GetDevice()  const { return m_device; }
-	Timer*   GetTimer()   const { return m_timer; }
-	Input*   GetInput()   const { return m_input; }
-	PathMgr* GetPathMgr() const { return m_pathMgr; }
+	Device*   GetDevice() const   { return m_device; }
+	Timer*    GetTimer() const    { return m_timer; }
+	Input*    GetInput() const    { return m_input; }
+	PathMgr*  GetPathMgr() const  { return m_pathMgr; }
+	SceneMgr* GetSceneMgr() const { return m_sceneMgr; }
 
 private:
-	Device*  m_device;
-	Timer*   m_timer;
-	Input*   m_input;
-	PathMgr* m_pathMgr;
-	Game*    m_Game;
+	Device*   m_device;
+	Timer*    m_timer;
+	Input*    m_input;
+	PathMgr*  m_pathMgr;
+	SceneMgr* m_sceneMgr;
+	Game*     m_Game;
 
 /*
 *	Basic functions

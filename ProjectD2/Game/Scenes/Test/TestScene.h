@@ -14,8 +14,6 @@ public:
 	virtual void RenderScene() override;
 
 private:
-	VERTEXCOLOR vertices[6];
-	
 	TestObject* m_gameObj;
 
 };

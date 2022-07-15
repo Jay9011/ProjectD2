@@ -5,23 +5,20 @@
 
 TestScene::TestScene(Game* _game) :
 	Scene(_game)
-{
-
-	m_gameObj = new TestObject(_game, this);
-	m_gameObj->SetPos({ WIN_CENTER_X, WIN_CENTER_Y, 0 });
-}
+{}
 
 TestScene::~TestScene()
-{
-	SAFE_DELETE(m_gameObj);
-}
+{}
 
 void TestScene::Init()
 {
+	m_gameObj = new TestObject(GetGame(), this);
+	m_gameObj->SetPos({ WIN_CENTER_X, WIN_CENTER_Y, 0 });
 }
 
 void TestScene::Release()
 {
+	SAFE_DELETE(m_gameObj);
 }
 
 void TestScene::UpdateScene()

@@ -4,7 +4,7 @@
 #include "Engine/Core/Core.h"
 #include "Engine/Manager/Device/Device.h"
 
-#include "Game/Scenes/TestScene.h"
+#include "Game/Scenes/Scenes.h"
 
 Game::Game() :
 	m_GameState(GAME_STATE::PLAY)
@@ -13,27 +13,26 @@ Game::Game() :
 	*       기본 설정
 	* === === === === === */
 	DEVICE->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);	// Backface culling 사용 안함
-	m_SceneMgr = new SceneMgr;
 	
 	/* === === === === ===
 	*       Scene 추가
 	* === === === === === */
-	m_SceneMgr->Add("Test", new TestScene(this));
+	SCENE->Add("Test", new TestScene(this));
+	SCENE->Add("Tool", new ToolScene(this));
 	
-	m_SceneMgr->ChangeScene("Test");
+	SCENE->ChangeScene("Tool");
 }
 
 Game::~Game()
 {
-	SAFE_DELETE(m_SceneMgr);
 }
 
 void Game::Update()
 {
-	m_SceneMgr->Update();
+	SCENE->Update();
 }
 
 void Game::Render()
 {
-	m_SceneMgr->Render();
+	SCENE->Render();
 }

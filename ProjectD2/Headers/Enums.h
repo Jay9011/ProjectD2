@@ -22,8 +22,8 @@ enum class OBJECT_STATE
 /*
 enum class SCENE_TYPE
 {
-	START,
-	STAGE,
+	TEST,
+	TOOL,
 	END
 };
 

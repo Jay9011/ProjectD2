@@ -1,8 +1,6 @@
 #include "Framework.h"
 #include "TestObject.h"
 
-#include "Engine/Resource/Texture/Texture.h"
-
 TestObject::TestObject(Game* _game, Scene* _scene, GameObject* _parent) :
 	TestObject(_game, _scene, OBJECT_TYPE::DEFAULT, _parent)
 {}
