@@ -61,10 +61,10 @@ Texture::~Texture()
 
 void Texture::Render()
 {
+	DEVICE->SetFVF(VERTEXTEXTURE::FVF);
 	DEVICE->SetTexture(0, m_texture);	// 텍스처 설정 (매핑을 위한 텍스처)
 	
 	DEVICE->SetStreamSource(0, m_vertexBuffer, 0, sizeof(VERTEXTEXTURE));	// 출력할 버텍스 버퍼
-	DEVICE->SetFVF(VERTEXTEXTURE::FVF);
 	DEVICE->SetIndices(m_indexBuffer);
 	DEVICE->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, m_vertexCount, 0, m_indexCount / 3);
 	

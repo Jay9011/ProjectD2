@@ -18,7 +18,7 @@ GameObject::GameObject(Game* _game, Scene* _scene, OBJECT_TYPE _type, GameObject
 	, m_scale(1, 1, 1)
 	, m_angle(0)
 	, m_pivot(0, 0, 0)
-	, m_recomputeWorld(false)
+	, m_recomputeWorld(true)
 {
 	D3DXMatrixIdentity(&m_S);
 	D3DXMatrixIdentity(&m_R);
@@ -35,9 +35,8 @@ GameObject::GameObject(Game* _game, Scene* _scene, OBJECT_TYPE _type, GameObject
 
 GameObject::~GameObject()
 {
-	m_scene->DeleteObject(this);
-
 	SAFE_DELETE_VEC(m_componentList);
+	m_scene->DeleteObject(this);
 }
 
 void GameObject::Update()
@@ -50,8 +49,6 @@ void GameObject::Update()
 		UpdateObject();
 		
 		UpdateWorld();
-
-		SetWorld();
 	}
 }
 
@@ -93,13 +90,16 @@ void GameObject::UpdateComponent()
 
 void GameObject::Render()
 {
+	SetWorld();
 	for (auto& component : m_componentList)
 	{
 		component->Render();
 	}
 #if _DEBUG
 	DEVICE->SetFVF(VERTEXCOLOR::FVF);
-	DEVICE->DrawIndexedPrimitiveUP(D3DPT_LINELIST, 0, m_vertexList.size(), m_indexList.size() / 2, m_indexList.data(), D3DFMT_INDEX16, m_vertexList.data(), sizeof(VERTEXCOLOR));
+	DEVICE->SetStreamSource(0, m_vertexBuffer, 0, sizeof(VERTEXCOLOR));
+	DEVICE->SetIndices(m_indexBuffer);
+	DEVICE->DrawIndexedPrimitive(D3DPT_LINELIST, 0, 0, m_vertexCount, 0, m_indexCount / 2);
 #endif // 테스트 렌더링 (Object 위치 표시)
 }
 
@@ -129,6 +129,9 @@ void GameObject::RemoveComponent(Component* _component)
 
 void GameObject::SetVertexData()
 {
+	vector<VERTEXCOLOR> vertexList;
+	vector<WORD>        indexList;
+	
 	float angle = PI * 2.f * 0.083f;
 
 	D3DCOLOR color = 0xFF3AB0FF;
@@ -139,20 +142,38 @@ void GameObject::SetVertexData()
 		pos.x =  cos(angle * (float)i) * 8.f;
 		pos.y = -sin(angle * (float)i) * 8.f;
 		
-		m_vertexList.push_back(VERTEXCOLOR(pos.x, pos.y, color));
-		m_indexList.push_back((WORD)i);
-		m_indexList.push_back((WORD)i + 1);
+		vertexList.push_back(VERTEXCOLOR(pos.x, pos.y, color, -1.f));
+		indexList.push_back((WORD)i);
+		indexList.push_back((WORD)i + 1);
 	}
-	m_indexList.pop_back();
-	m_indexList.push_back(0);
+	indexList.pop_back();
+	indexList.push_back(0);
 	
-	m_indexList.push_back((WORD)m_vertexList.size());
-	m_indexList.push_back((WORD)m_vertexList.size() + 1);
-	m_vertexList.push_back(VERTEXCOLOR(0, -12, color));
-	m_vertexList.push_back(VERTEXCOLOR(0, +12, color));
+	indexList.push_back((WORD)vertexList.size());
+	indexList.push_back((WORD)vertexList.size() + 1);
+	vertexList.push_back(VERTEXCOLOR(0, -12, color, -1.f));
+	vertexList.push_back(VERTEXCOLOR(0, +12, color, -1.f));
 	
-	m_indexList.push_back((WORD)m_vertexList.size());
-	m_indexList.push_back((WORD)m_vertexList.size() + 1);
-	m_vertexList.push_back(VERTEXCOLOR(-12, 0, color));
-	m_vertexList.push_back(VERTEXCOLOR(+12, 0, color));
+	indexList.push_back((WORD)vertexList.size());
+	indexList.push_back((WORD)vertexList.size() + 1);
+	vertexList.push_back(VERTEXCOLOR(-12, 0, color, -1.f));
+	vertexList.push_back(VERTEXCOLOR(+12, 0, color, -1.f));
+
+	m_vertexCount = vertexList.size();
+	m_indexCount = indexList.size();
+	UINT vertexSize = m_vertexCount * sizeof(VERTEXCOLOR);
+	UINT indexSize = m_indexCount * sizeof(WORD);
+	
+	DEVICE->CreateVertexBuffer(vertexSize, 0, VERTEXCOLOR::FVF, D3DPOOL_DEFAULT, &m_vertexBuffer, nullptr);
+
+	VOID* pVoid;
+	m_vertexBuffer->Lock(0, vertexSize, &pVoid, 0);
+	memcpy(pVoid, vertexList.data(), vertexSize);
+	m_vertexBuffer->Unlock();
+	
+	DEVICE->CreateIndexBuffer(indexSize, 0, D3DFMT_INDEX16, D3DPOOL_DEFAULT, &m_indexBuffer, nullptr);
+	
+	m_indexBuffer->Lock(0, indexSize, &pVoid, 0);
+	memcpy(pVoid, indexList.data(), indexSize);
+	m_indexBuffer->Unlock();
 }

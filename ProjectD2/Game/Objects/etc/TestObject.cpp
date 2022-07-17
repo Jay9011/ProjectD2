@@ -42,7 +42,7 @@ TestObject::TestObject(Game* _game, Scene* _scene, OBJECT_TYPE _type, GameObject
 
 TestObject::~TestObject()
 {
-	delete m_texture;
+	SAFE_DELETE(m_texture);
 }
 
 void TestObject::UpdateObject()

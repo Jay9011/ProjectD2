@@ -110,15 +110,15 @@ void Scene::DeleteObject(GameObject* _object)
 
 void Scene::DeleteGroup(OBJECT_TYPE _type)
 {
-	for (auto& object : m_objects[(UINT)_type])
+	while (!m_objects[(UINT)_type].empty())
 	{
-		SAFE_DELETE(object);
+		delete m_objects[(UINT)_type].back();
 	}
 	m_objects[(UINT)_type].clear();
-	
-	for (auto& object : m_pendingObjects[(UINT)_type])
+
+	while (!m_pendingObjects[(UINT)_type].empty())
 	{
-		SAFE_DELETE(object);
+		delete m_pendingObjects[(UINT)_type].back();
 	}
 	m_pendingObjects[(UINT)_type].clear();
 }

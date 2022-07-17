@@ -101,8 +101,10 @@ public:
 * === === === === === */
 #if _DEBUG
 private:
-	vector<VERTEXCOLOR> m_vertexList;
-	vector<WORD>        m_indexList;
+	UINT m_vertexCount;
+	UINT m_indexCount;
+	LPDIRECT3DVERTEXBUFFER9 m_vertexBuffer;
+	LPDIRECT3DINDEXBUFFER9  m_indexBuffer;
 	void SetVertexData();
 #endif // GameObject À§Ä¡ Å½»ö¿ë Vertices
 };
