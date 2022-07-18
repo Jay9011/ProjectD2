@@ -1,12 +1,12 @@
 #include "Framework.h"
 #include "TestObject.h"
 
-TestObject::TestObject(Game* _game, Scene* _scene, GameObject* _parent) :
-	TestObject(_game, _scene, OBJECT_TYPE::DEFAULT, _parent)
+TestObject::TestObject(Scene* _scene, GameObject* _parent) :
+	TestObject(_scene, OBJECT_TYPE::DEFAULT, _parent)
 {}
 
-TestObject::TestObject(Game* _game, Scene* _scene, OBJECT_TYPE _type, GameObject* _parent) :
-	GameObject(_game, _scene, _type, _parent)
+TestObject::TestObject(Scene* _scene, OBJECT_TYPE _type, GameObject* _parent) :
+	GameObject(_scene, _type, _parent)
 	, m_isRight(true)
 	, m_speed(100.f)
 {

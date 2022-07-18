@@ -12,7 +12,7 @@ TestScene::~TestScene()
 
 void TestScene::Init()
 {
-	m_gameObj = new TestObject(GetGame(), this);
+	m_gameObj = new TestObject(this);
 	m_gameObj->SetPos({ WIN_CENTER_X, WIN_CENTER_Y, 0 });
 }
 

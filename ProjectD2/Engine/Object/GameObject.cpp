@@ -4,13 +4,12 @@
 #include "Engine/Core/Core.h"
 #include "Engine/Component/Component.h"
 
-GameObject::GameObject(Game* _game, Scene* _scene, GameObject* _parent) :
-	GameObject(_game, _scene, OBJECT_TYPE::DEFAULT, _parent)
+GameObject::GameObject(Scene* _scene, GameObject* _parent) :
+	GameObject(_scene, OBJECT_TYPE::DEFAULT, _parent)
 {}
 
-GameObject::GameObject(Game* _game, Scene* _scene, OBJECT_TYPE _type, GameObject* _parent) :
-	m_game(_game)
-	, m_scene(_scene)
+GameObject::GameObject(Scene* _scene, OBJECT_TYPE _type, GameObject* _parent) :
+	m_scene(_scene)
 	, m_parent(_parent)
 	, m_type(_type)
 	, m_state(OBJECT_STATE::ACTIVE)

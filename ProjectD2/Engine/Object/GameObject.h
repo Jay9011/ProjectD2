@@ -1,12 +1,11 @@
 #pragma once
 #include "Engine/Resource/Texture/Texture.h"
-class Game;
 class Component;
 class GameObject
 {
 public:
-	GameObject(Game* _game, Scene* _scene, GameObject* _parent = nullptr);
-	GameObject(Game* _game, Scene* _scene, OBJECT_TYPE _type, GameObject* _parent = nullptr);
+	GameObject(Scene* _scene, GameObject* _parent = nullptr);
+	GameObject(Scene* _scene, OBJECT_TYPE _type, GameObject* _parent = nullptr);
 	virtual ~GameObject();
 
 	void Update();
@@ -21,7 +20,6 @@ public:
 	void RemoveComponent(Component* _component);
 	
 private:
-	Game* m_game;
 	Scene* m_scene;
 	GameObject* m_parent;
 	OBJECT_TYPE  m_type;
@@ -56,8 +54,6 @@ private:
 *  Getter / Setter
 * === === === === === */
 public:
-	const Game* GetGame() const { return m_game; }
-	
 	const GameObject* GetParent() const              { return m_parent; }
 	void              SetParent(GameObject* _parent) { m_parent = _parent; }
 
