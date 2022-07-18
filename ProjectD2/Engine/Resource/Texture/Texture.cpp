@@ -1,13 +1,13 @@
 #include "Framework.h"
 #include "Texture.h"
 
-Texture::Texture(LPDIRECT3DTEXTURE9 _texture, D3DXVECTOR2 _start, D3DXVECTOR2 _end, D3DXVECTOR2 _pivot) :
-	Texture(_texture, _start, _end, 0, 0, _pivot)
+Texture::Texture(const LPDIRECT3DTEXTURE9& _texture, const D3DXVECTOR2& _start, const D3DXVECTOR2& _end, const D3DXVECTOR2& _pivot) :
+	Texture(_texture, 0, 0, _start, _end, _pivot)
 {
 
 }
 
-Texture::Texture(LPDIRECT3DTEXTURE9 _texture, D3DXVECTOR2 _start, D3DXVECTOR2 _end, UINT _w, UINT _h, D3DXVECTOR2 _pivot) :
+Texture::Texture(const LPDIRECT3DTEXTURE9& _texture, const UINT& _w, const UINT& _h, const D3DXVECTOR2& _start, const D3DXVECTOR2& _end, const D3DXVECTOR2& _pivot) :
 	m_texture(_texture)
 	, m_pivot(_pivot)
 {
@@ -32,7 +32,7 @@ Texture::Texture(LPDIRECT3DTEXTURE9 _texture, D3DXVECTOR2 _start, D3DXVECTOR2 _e
 	SetData();
 }
 
-Texture::Texture(LPDIRECT3DTEXTURE9 _texture, int _maxFrameX, int _maxFrameY, int _frameX, int _frameY, D3DXVECTOR2 _pivot) :
+Texture::Texture(const LPDIRECT3DTEXTURE9& _texture, const int& _maxFrameX, const int& _maxFrameY, const int& _frameX, const int& _frameY, const D3DXVECTOR2& _pivot) :
 	m_texture(_texture)
 	, m_pivot(_pivot)
 {

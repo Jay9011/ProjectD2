@@ -8,8 +8,8 @@ public:
 	virtual ~TestObject2();
 
 	// GameObject을(를) 통해 상속됨
-	virtual void UpdateObject() override;
-	virtual void Render() override;
+	virtual void FinalUpdate() override;
+	virtual void FinalRender() override;
 
 
 private:

@@ -1,19 +1,19 @@
 #pragma once
 #include "Engine/Object/Transform.h"
-#include "Engine/Resource/Texture/Texture.h"
 class Component;
 class GameObject : public Transform
 {
 public:
 	GameObject(Scene* _scene, GameObject* _parent = nullptr);
 	GameObject(Scene* _scene, OBJECT_TYPE _type, GameObject* _parent = nullptr);
-	virtual ~GameObject();
+	virtual ~GameObject() override;
 
 	void Update();
 	void UpdateComponent();			// Component Update 용
+	void Render();
 	void RenderComponent();			// Component Render 용
-	virtual void UpdateObject() = 0;// 상속받은 GameObject의 Update 용
-	virtual void Render();
+	virtual void FinalUpdate() = 0;// 상속받은 GameObject의 Update 용
+	virtual void FinalRender();
 
 	void AddComponent(Component* _component);
 	void RemoveComponent(Component* _component);
@@ -22,6 +22,8 @@ private:
 	Scene* m_scene;
 	OBJECT_TYPE  m_type;
 	OBJECT_STATE m_state;
+	bool m_isUpdating;
+	bool m_isRendering;
 	
 /* === === === === ===
 *     Component

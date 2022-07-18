@@ -13,6 +13,8 @@ GameObject::GameObject(Scene* _scene, OBJECT_TYPE _type, GameObject* _parent) :
 	, m_scene(_scene)
 	, m_type(_type)
 	, m_state(OBJECT_STATE::ACTIVE)
+	, m_isUpdating(false)
+	, m_isRendering(false)
 {
 	D3DXMatrixIdentity(&m_S);
 	D3DXMatrixIdentity(&m_R);
@@ -35,18 +37,25 @@ GameObject::~GameObject()
 
 void GameObject::Update()
 {
+	if (m_isUpdating)
+		return;
+	
+	m_isUpdating = true;
+	
 	if (m_state == OBJECT_STATE::ACTIVE)
 	{
 		UpdateWorld();
 
 		UpdateComponent();
-		UpdateObject();
+		FinalUpdate();
 		
 		UpdateWorld();
 	}
+	
+	m_isUpdating = false;
 }
 
-void GameObject::UpdateObject()
+void GameObject::FinalUpdate()
 {
 }
 
@@ -60,11 +69,28 @@ void GameObject::UpdateComponent()
 
 void GameObject::Render()
 {
+	if (m_isRendering)
+		return;
+
+	m_isRendering = true;
+
+	RenderComponent();
+	FinalRender();
+
+	m_isRendering = false;
+}
+
+void GameObject::RenderComponent()
+{
 	SetWorld();
 	for (auto& component : m_componentList)
 	{
 		component->Render();
 	}
+}
+
+void GameObject::FinalRender()
+{
 #if _DEBUG
 	DEVICE->SetFVF(VERTEXCOLOR::FVF);
 	DEVICE->SetStreamSource(0, m_vertexBuffer, 0, sizeof(VERTEXCOLOR));

@@ -17,11 +17,11 @@ TestObject2::~TestObject2()
 {
 }
 
-void TestObject2::UpdateObject()
+void TestObject2::FinalUpdate()
 {
 }
 
-void TestObject2::Render()
+void TestObject2::FinalRender()
 {
-	GameObject::Render();
+	GameObject::FinalRender();
 }
