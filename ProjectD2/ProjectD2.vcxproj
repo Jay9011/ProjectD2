@@ -114,6 +114,9 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(ProjectDir)Lib\;$(ProjectDir)Lib\lib\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
+    <FxCompile>
+      <ShaderModel>2.0</ShaderModel>
+    </FxCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -134,6 +137,9 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(ProjectDir)Lib\;$(ProjectDir)Lib\lib\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
+    <FxCompile>
+      <ShaderModel>2.0</ShaderModel>
+    </FxCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -150,6 +156,9 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(ProjectDir)Lib\;$(ProjectDir)Lib\lib\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
+    <FxCompile>
+      <ShaderModel>2.0</ShaderModel>
+    </FxCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -170,6 +179,9 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(ProjectDir)Lib\;$(ProjectDir)Lib\lib\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
+    <FxCompile>
+      <ShaderModel>2.0</ShaderModel>
+    </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Component\Component.cpp" />
@@ -179,6 +191,7 @@
     <ClCompile Include="Engine\Manager\Path\PathMgr.cpp" />
     <ClCompile Include="Engine\Manager\Scene\Scene.cpp" />
     <ClCompile Include="Engine\Manager\Scene\SceneMgr.cpp" />
+    <ClCompile Include="Engine\Singleton\Shader\Shader.cpp" />
     <ClCompile Include="Engine\Manager\Timer\Timer.cpp" />
     <ClCompile Include="Engine\Object\Transform.cpp" />
     <ClCompile Include="Engine\Manager\Texture\Texture.cpp" />
@@ -207,6 +220,7 @@
     <ClInclude Include="Engine\Manager\Path\PathMgr.h" />
     <ClInclude Include="Engine\Manager\Scene\Scene.h" />
     <ClInclude Include="Engine\Manager\Scene\SceneMgr.h" />
+    <ClInclude Include="Engine\Singleton\Shader\Shader.h" />
     <ClInclude Include="Engine\Manager\Timer\Timer.h" />
     <ClInclude Include="Engine\Object\Transform.h" />
     <ClInclude Include="Engine\Manager\Texture\Texture.h" />
@@ -241,6 +255,14 @@
   <ItemGroup>
     <None Include="AntTweakBar.dll" />
     <None Include="AntTweakBar64.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Engine\Resource\Shader\AlphaShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

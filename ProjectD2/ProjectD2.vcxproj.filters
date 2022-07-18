@@ -78,6 +78,9 @@
     <ClCompile Include="Engine\Manager\Texture\TextureMgr.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Singleton\Shader\Shader.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Framework.h">
@@ -161,6 +164,9 @@
     <ClInclude Include="Engine\Manager\Texture\TextureMgr.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Singleton\Shader\Shader.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ProjectD2.rc">
@@ -179,5 +185,8 @@
   <ItemGroup>
     <None Include="AntTweakBar.dll" />
     <None Include="AntTweakBar64.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Engine\Resource\Shader\AlphaShader.hlsl" />
   </ItemGroup>
 </Project>

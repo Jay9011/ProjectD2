@@ -75,6 +75,7 @@ void GameObject::Render()
 	m_isRendering = true;
 
 	RenderComponent();
+	SetWorld();
 	FinalRender();
 
 	m_isRendering = false;
@@ -82,7 +83,6 @@ void GameObject::Render()
 
 void GameObject::RenderComponent()
 {
-	SetWorld();
 	for (auto& component : m_componentList)
 	{
 		component->Render();

@@ -48,7 +48,7 @@ LPDIRECT3DTEXTURE9 TextureMgr::LoadTexture(const wstring& _path)
 	
 	LPDIRECT3DTEXTURE9 texture = nullptr;
 	wstring path = PATH->GetContentPath();
-	path += L"Textures/" + _path;
+	path += L"Textures\\" + _path;
 	
 	D3DXCreateTextureFromFileEx
 	(

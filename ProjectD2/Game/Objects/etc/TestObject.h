@@ -15,7 +15,8 @@ public:
 private:
 	bool m_isRight;
 	float m_speed;
-	Texture* m_texture;
+	class Texture* m_texture;
+	class Shader*  m_shader;
 
 public:
 	void ScaleXInverse()

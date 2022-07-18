@@ -14,7 +14,7 @@ public:
 	LPDIRECT3DTEXTURE9 LoadTexture(const wstring& _path);
 
 private:
-	map<wstring, LPDIRECT3DTEXTURE9> m_textureMap;
+	unordered_map<wstring, LPDIRECT3DTEXTURE9> m_textureMap;
 	vector<Texture*> m_textures;
 
 };
