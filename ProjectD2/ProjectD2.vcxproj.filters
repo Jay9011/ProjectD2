@@ -63,7 +63,7 @@
     <ClCompile Include="Lib\TweakBar\TweakBar.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Resource\Texture\Texture.cpp">
+    <ClCompile Include="Engine\Manager\Texture\Texture.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Game\Scenes\Tool\ToolScene.cpp">
@@ -143,7 +143,7 @@
     <ClInclude Include="Lib\AntTweakBar.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Resource\Texture\Texture.h">
+    <ClInclude Include="Engine\Manager\Texture\Texture.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Game\Scenes\Tool\ToolScene.h">

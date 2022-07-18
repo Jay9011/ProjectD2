@@ -1,5 +1,5 @@
 #pragma once
-#include "Engine/Resource/Texture/Texture.h"
+#include "Engine/Manager/Texture/Texture.h"
 class TextureMgr
 {
 public:

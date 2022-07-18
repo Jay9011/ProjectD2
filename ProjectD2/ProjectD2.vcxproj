@@ -181,7 +181,7 @@
     <ClCompile Include="Engine\Manager\Scene\SceneMgr.cpp" />
     <ClCompile Include="Engine\Manager\Timer\Timer.cpp" />
     <ClCompile Include="Engine\Object\Transform.cpp" />
-    <ClCompile Include="Engine\Resource\Texture\Texture.cpp" />
+    <ClCompile Include="Engine\Manager\Texture\Texture.cpp" />
     <ClCompile Include="Engine\Manager\Texture\TextureMgr.cpp" />
     <ClCompile Include="Framework.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -209,7 +209,7 @@
     <ClInclude Include="Engine\Manager\Scene\SceneMgr.h" />
     <ClInclude Include="Engine\Manager\Timer\Timer.h" />
     <ClInclude Include="Engine\Object\Transform.h" />
-    <ClInclude Include="Engine\Resource\Texture\Texture.h" />
+    <ClInclude Include="Engine\Manager\Texture\Texture.h" />
     <ClInclude Include="Engine\Manager\Texture\TextureMgr.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Engine\Object\GameObject.h" />
