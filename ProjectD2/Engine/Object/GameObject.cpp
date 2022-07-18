@@ -9,15 +9,10 @@ GameObject::GameObject(Scene* _scene, GameObject* _parent) :
 {}
 
 GameObject::GameObject(Scene* _scene, OBJECT_TYPE _type, GameObject* _parent) :
-	m_scene(_scene)
-	, m_parent(_parent)
+	Transform(_parent)
+	, m_scene(_scene)
 	, m_type(_type)
 	, m_state(OBJECT_STATE::ACTIVE)
-	, m_pos(0, 0, 0)
-	, m_scale(1, 1, 1)
-	, m_angle(0)
-	, m_pivot(0, 0, 0)
-	, m_recomputeWorld(true)
 {
 	D3DXMatrixIdentity(&m_S);
 	D3DXMatrixIdentity(&m_R);
@@ -49,30 +44,6 @@ void GameObject::Update()
 		
 		UpdateWorld();
 	}
-}
-
-void GameObject::UpdateWorld()
-{
-	if (m_recomputeWorld)
-	{
-		D3DXMatrixScaling(&m_S, m_scale.x, m_scale.y, m_scale.z);
-		D3DXMatrixRotationZ(&m_R, m_angle);
-		D3DXMatrixTranslation(&m_T, m_pos.x, m_pos.y, m_pos.z);
-
-		D3DXMATRIX P;
-		D3DXMATRIX IP;
-		D3DXMatrixTranslation(&P, m_pivot.x, m_pivot.y, m_pivot.z);
-		D3DXMatrixInverse(&IP, nullptr, &P);
-
-		m_world = IP * m_R * m_S * m_T * P;
-		
-		m_recomputeWorld = false;
-	}
-}
-
-void GameObject::SetWorld()
-{
-	DEVICE->SetTransform(D3DTS_WORLD, &m_world);
 }
 
 void GameObject::UpdateObject()
