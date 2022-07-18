@@ -27,5 +27,17 @@ private:
 	D3DXVECTOR2 m_uvStart;
 	D3DXVECTOR2 m_uvEnd;
 	D3DXVECTOR2 m_pivot;
+
+/* === === === === ===
+*   Getter / Setter
+* === === === === === */
+public:
+	void        SetSize(D3DXVECTOR2 _size) { m_size = _size; m_halfSize = _size * 0.5f; }
+	D3DXVECTOR2 GetSize() const            { return m_size; }
+
+	LPDIRECT3DTEXTURE9 GetTexture() const { return m_texture; }
+	
+	D3DXVECTOR2 GetUVStart() const { return m_uvStart; }
+	D3DXVECTOR2 GetUVEnd() const   { return m_uvEnd; }
 };
 

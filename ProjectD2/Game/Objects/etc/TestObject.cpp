@@ -17,7 +17,8 @@ TestObject::TestObject(Scene* _scene, OBJECT_TYPE _type, GameObject* _parent) :
 #endif // _DEBUG
 
 	m_texture = TEXTURE->Add(L"Character\\Player\\Idle.png", 75, 75, { 1, 1 }, { 36,47 }, { 0.5, 0.477273 });
-	m_shader = SHADER(L"AlphaShader");
+	//m_shader = SHADER(L"AlphaShader");
+	m_shader = SHADER(L"OutlineShader");
 }
 
 TestObject::~TestObject()
@@ -56,6 +57,8 @@ void TestObject::FinalUpdate()
 
 void TestObject::FinalRender()
 {
+	D3DXVECTOR2 imageSize = m_texture->GetSize();
+	m_shader->Set("ImageSize", &imageSize, 2);
 	m_shader->Begin();
 	m_texture->Render();
 	m_shader->End();

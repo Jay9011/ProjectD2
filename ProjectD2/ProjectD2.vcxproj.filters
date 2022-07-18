@@ -188,5 +188,6 @@
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Engine\Resource\Shader\AlphaShader.hlsl" />
+    <FxCompile Include="Engine\Resource\Shader\OutlineShader.hlsl" />
   </ItemGroup>
 </Project>
