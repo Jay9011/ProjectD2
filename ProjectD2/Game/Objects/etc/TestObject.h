@@ -9,9 +9,10 @@ public:
 	virtual ~TestObject();
 
 	// GameObject을(를) 통해 상속됨
-	virtual void FinalUpdate() override;
-	virtual void FinalRender() override;
+	virtual void UpdateObject() override;
+	virtual void RenderObject() override;
 
+	void SetAction(PLAYER_STATE _state);
 
 private:
 	bool m_isRight;

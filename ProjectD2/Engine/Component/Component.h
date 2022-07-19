@@ -7,6 +7,7 @@ public:
 	virtual ~Component();
 
 	virtual void Update() = 0;
+	virtual void FinalUpdate() {}
 	virtual void Render() {}
 	virtual void OnUpdateWorldTransform() {}
 

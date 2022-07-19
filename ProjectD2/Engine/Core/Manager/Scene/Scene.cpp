@@ -60,6 +60,24 @@ void Scene::Update()
 	UpdateScene();
 }
 
+void Scene::FinalUpdate()
+{
+	if (m_game->GetGameState() == GAME_STATE::PLAY)
+	{
+		m_updatingObjects = true;
+		
+		for (auto& objectTypeVec : m_objects)
+		{
+			for (auto& object : objectTypeVec)
+			{
+				object->FinalUpdate();
+			}
+		}
+
+		m_updatingObjects = false;
+	}
+}
+
 void Scene::Render()
 {
 	for (auto& objectTypeVector : m_objects)

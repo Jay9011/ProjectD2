@@ -34,3 +34,8 @@ void Game::Render()
 {
 	SCENE->Render();
 }
+
+void Game::FinalUpdate()
+{
+	SCENE->FinalUpdate();
+}

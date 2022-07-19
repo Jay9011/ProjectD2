@@ -10,6 +10,7 @@ Animation::Animation(Animator* _owner, const vector<Texture*>& _frames, ANIM_PLA
 	, m_isReverse(false)
 	, m_isFinish(false)
 	, m_time(0.0f)
+	, m_prevFrame(0)
 	, m_currentFrame(0)
 {
 	Frame frame = {};
@@ -37,6 +38,7 @@ void Animation::Update()
 	if (m_time >= m_frames[m_currentFrame].duration)
 	{
 		m_time -= m_frames[m_currentFrame].duration;
+		m_prevFrame = m_currentFrame;
 		
 		if (!m_isReverse)
 		{
@@ -53,7 +55,14 @@ void Animation::Update()
 				m_isFinish = true;
 			}
 		}
+
 	}
+}
+
+void Animation::FinalUpdate()
+{
+	if (m_frames[m_prevFrame].callbackEvent != nullptr)
+		m_frames[m_prevFrame].callbackEvent();
 }
 
 void Animation::Render()
@@ -80,12 +89,12 @@ void Animation::Play(Animation* _nextAnimation)
 	m_isFinish = false;
 }
 
-void Animation::Play(const size_t& _index)
+void Animation::Play(const size_t& _nextAnimIdx)
 {
 	m_owner->SetCurrentAnimation(this);
 	
-	if(_index < m_owner->GetAnimationsSize())
-		m_owner->SetNextAnimation(_index);
+	if(_nextAnimIdx < m_owner->GetAnimationsSize())
+		m_owner->SetNextAnimation(_nextAnimIdx);
 	
 	m_isPlay = true;
 	m_currentFrame = 0;

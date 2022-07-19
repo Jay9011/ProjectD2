@@ -8,6 +8,7 @@ public:
 
 	void Update();
 	void Render();
+	void FinalUpdate();
 	
 	Scene* Add(const string& _name, Scene* _scene);
 	void   ChangeScene(const string& _name);

@@ -7,6 +7,7 @@ public:
 
 	void Update();
 	void Render();
+	void FinalUpdate();
 	
 private:
 	GAME_STATE m_GameState;

@@ -11,25 +11,25 @@ TestObject::TestObject(Scene* _scene, GameObject* _parent) :
 TestObject::TestObject(Scene* _scene, OBJECT_TYPE _type, GameObject* _parent) :
 	GameObject(_scene, _type, _parent)
 	, m_isRight(true)
-	, m_speed(100.f)
-	, m_state(PLAYER_STATE::IDLE)
+	, m_speed(200.f)
+	, m_state(PLAYER_STATE::APPEAR)
 {
 #if _DEBUG
 	TwAddVarRW(_scene->twbar, "Speed", TW_TYPE_FLOAT, &m_speed, "min=0.0 max=1000.0 step=1.0");
 #endif // _DEBUG
 
+	SetScale(1.5f, 1.5f);
+	
 	m_shader = SHADER(L"AlphaShader");
 	m_animator = new Animator(this);
 
 	SetAnimation();
-	m_animator->Find((int)PLAYER_STATE::APPEAR)->Play((int)PLAYER_STATE::IDLE);
+	m_animator->Find((int)PLAYER_STATE::APPEAR);
 }
 
-TestObject::~TestObject()
-{
-}
+TestObject::~TestObject() = default;
 
-void TestObject::FinalUpdate()
+void TestObject::UpdateObject()
 {
 	if(KEYPRESS(VK_LEFT))
 	{
@@ -39,6 +39,8 @@ void TestObject::FinalUpdate()
 			m_isRight = !m_isRight;
 			ScaleXInverse();
 		}
+
+		SetAction(PLAYER_STATE::RUN);
 	}
 	if (KEYPRESS(VK_RIGHT))
 	{
@@ -48,23 +50,29 @@ void TestObject::FinalUpdate()
 			m_isRight = !m_isRight;
 			ScaleXInverse();
 		}
+		
+		SetAction(PLAYER_STATE::RUN);
 	}
-	if (KEYPRESS(VK_UP))
-	{
-		AddPos(V_UP * m_speed * fDT);
-	}
-	if (KEYPRESS(VK_DOWN))
-	{
-		AddPos(V_DOWN * m_speed * fDT);
-	}
+
+	if (KEYUP(VK_LEFT) || KEYUP(VK_RIGHT))
+		SetAction(PLAYER_STATE::IDLE);
 }
 
-void TestObject::FinalRender()
+void TestObject::RenderObject()
 {
 	m_animator->m_shader = SHADER(L"AlphaShader");
 	m_animator->Render();
 	
-	GameObject::FinalRender();
+	GameObject::RenderObject();
+}
+
+void TestObject::SetAction(PLAYER_STATE _state)
+{
+	if (this->m_state == _state)
+		return;
+	
+	this->m_state = _state;
+	m_animator->Find((int)m_state)->Play();
 }
 
 void TestObject::SetAnimation()
@@ -72,13 +80,17 @@ void TestObject::SetAnimation()
 	vector<Texture*> frames;
 	
 	// APPEAR
-	m_animator->LoadXML("Character\\Player\\", "APPEAR", ANIM_PLAY_TYPE::Once, 0.1f);
-	m_animator->Find((int)PLAYER_STATE::APPEAR)->SetFrameDuration(16, 0.5f);
+	m_animator->LoadXML("Character\\Player\\", "Appear", ANIM_PLAY_TYPE::Once, 0.1f);
+	m_animator->Find((int)PLAYER_STATE::APPEAR)->SetFrameDuration(16, 3.0f);
+	m_animator->SetEndEvent((int)PLAYER_STATE::APPEAR, [this]() {
+		SetAction(PLAYER_STATE::IDLE);
+	});
 
 	// IDLE
-	m_animator->LoadXML("Character\\Player\\", "IDLE", ANIM_PLAY_TYPE::PingPong, 0.2f);
+	m_animator->LoadXML("Character\\Player\\", "Idle", ANIM_PLAY_TYPE::PingPong, 0.2f);
 
 	// RUN
+	m_animator->LoadXML("Character\\Player\\", "Run", ANIM_PLAY_TYPE::Loop, 0.05f);
 	
 	// JUMP
 	

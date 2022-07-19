@@ -188,6 +188,12 @@ int Core::Run()
 
             DEVICE->EndScene();
             DEVICE->Present(nullptr, nullptr, nullptr, nullptr);
+
+			
+            /* === === === === ===
+            *     Final Update
+            * === === === === === */
+            m_Game->FinalUpdate();
         }
     }
 	

@@ -10,10 +10,13 @@ public:
 
 	void Update();
 	void UpdateComponent();			// Component Update 용
+	void FinalUpdate();
+	void FinalUpdateComponent();	// Component FinalUpdate 용
 	void Render();
 	void RenderComponent();			// Component Render 용
-	virtual void FinalUpdate() = 0;// 상속받은 GameObject의 Update 용
-	virtual void FinalRender();
+	virtual void UpdateObject() = 0;// 상속받은 GameObject의 Update 용
+	virtual void FinalUpdateObject();
+	virtual void RenderObject();
 
 	void AddComponent(Component* _component);
 	void RemoveComponent(Component* _component);

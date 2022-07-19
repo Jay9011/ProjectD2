@@ -28,6 +28,14 @@ void SceneMgr::Render()
 	m_curScene->Render();
 }
 
+void SceneMgr::FinalUpdate()
+{
+	if (m_curScene == nullptr)
+		return;
+
+	m_curScene->FinalUpdate();
+}
+
 Scene* SceneMgr::Add(const string& _name, Scene* _scene)
 {
 	if (m_scenes.find(_name) != m_scenes.end())

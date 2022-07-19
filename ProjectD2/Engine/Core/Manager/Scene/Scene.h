@@ -13,6 +13,7 @@ public:
 	virtual void RenderScene() = 0;
 	
 	void Update();
+	void FinalUpdate();
 	void Render();
 
 	void AddObject(GameObject* _object, OBJECT_TYPE _type);

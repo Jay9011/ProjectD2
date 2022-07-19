@@ -47,7 +47,7 @@ void GameObject::Update()
 		UpdateWorld();
 
 		UpdateComponent();
-		FinalUpdate();
+		UpdateObject();
 		
 		UpdateWorld();
 	}
@@ -55,15 +55,35 @@ void GameObject::Update()
 	m_isUpdating = false;
 }
 
-void GameObject::FinalUpdate()
-{
-}
-
 void GameObject::UpdateComponent()
 {
 	for (auto& component : m_componentList)
 	{
 		component->Update();
+	}
+}
+
+void GameObject::FinalUpdate()
+{
+	if (m_isUpdating)
+		return;
+
+	m_isUpdating = true;
+
+	if (m_state == OBJECT_STATE::ACTIVE)
+	{
+		FinalUpdateComponent();
+		FinalUpdateObject();
+	}
+
+	m_isUpdating = false;
+}
+
+void GameObject::FinalUpdateComponent()
+{
+	for (auto& component : m_componentList)
+	{
+		component->FinalUpdate();
 	}
 }
 
@@ -76,7 +96,7 @@ void GameObject::Render()
 
 	RenderComponent();
 	SetWorld();
-	FinalRender();
+	RenderObject();
 
 	m_isRendering = false;
 }
@@ -89,7 +109,15 @@ void GameObject::RenderComponent()
 	}
 }
 
-void GameObject::FinalRender()
+void GameObject::UpdateObject()
+{
+}
+
+void GameObject::FinalUpdateObject()
+{
+}
+
+void GameObject::RenderObject()
 {
 #if _DEBUG
 	DEVICE->SetFVF(VERTEXCOLOR::FVF);

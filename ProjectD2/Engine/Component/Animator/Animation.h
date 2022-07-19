@@ -14,11 +14,12 @@ public:
 	~Animation();
 
 	void Update();
+	void FinalUpdate();
 	void Render();
 	
 	void Play();
 	void Play(Animation* _nextAnimation);
-	void Play(const size_t& _index);
+	void Play(const size_t& _nextAnimIdx);
 	void Pause();
 	void Stop();
 	void Reset();
@@ -35,6 +36,7 @@ private:
 	
 	float m_time;
 	
+	UINT m_prevFrame;
 	UINT m_currentFrame;
 
 /* === === === === ===
@@ -42,8 +44,7 @@ private:
 * === === === === === */
 public:
 	Texture* GetCurrentTexture() const  { return m_frames[m_currentFrame].texture; }
-	Texture* GetPreviousTexture() const { return m_frames[m_currentFrame - 1].texture; }
-	Texture* GetNextTexture() const     { return m_frames[m_currentFrame + 1].texture; }
+	Texture* GetPreviousTexture() const { return m_frames[m_prevFrame].texture; }
 	
 	ANIM_PLAY_TYPE GetPlayType() const                         { return m_playType; }
 	void           SetPlayType(const ANIM_PLAY_TYPE& playType) { m_playType = playType; }

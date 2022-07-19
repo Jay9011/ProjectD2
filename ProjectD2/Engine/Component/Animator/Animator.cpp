@@ -66,6 +66,11 @@ void Animator::Render()
 	}
 }
 
+void Animator::FinalUpdate()
+{
+	m_currentAnimation->FinalUpdate();
+}
+
 void Animator::LoadXML(const string& _path, const string& _name, const ANIM_PLAY_TYPE& _type, const float& _speed)
 {
 	vector<Texture*> clips;
