@@ -1,5 +1,6 @@
 #pragma once
 #include "Engine/Object/GameObject.h"
+
 class TestObject : public GameObject
 {
 public:
@@ -15,8 +16,10 @@ public:
 private:
 	bool m_isRight;
 	float m_speed;
+	PLAYER_STATE m_state;
 	class Texture* m_texture;
 	class Shader*  m_shader;
+	class Animator* m_animator;
 
 public:
 	void ScaleXInverse()
@@ -25,4 +28,7 @@ public:
 		scale.x *= -1;
 		SetScale(scale);
 	};
+
+private:
+	void SetAnimation();
 };

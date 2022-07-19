@@ -81,6 +81,15 @@
     <ClCompile Include="Engine\Singleton\Shader\Shader.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Component\Animator\Animator.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Component\Animator\Animation.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Lib\XML.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Framework.h">
@@ -165,6 +174,15 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Singleton\Shader\Shader.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Component\Animator\Animator.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Component\Animator\Animation.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\XML.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

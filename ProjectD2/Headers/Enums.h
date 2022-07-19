@@ -19,6 +19,21 @@ enum class OBJECT_STATE
 	DEAD,
 	ACTIVE
 };
+
+enum class ANIM_PLAY_TYPE
+{
+	Once,
+	Loop,
+	PingPong
+};
+
+enum class PLAYER_STATE
+{
+	IDLE,
+	RUN,
+	JUMP
+};
+
 /*
 enum class SCENE_TYPE
 {

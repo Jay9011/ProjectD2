@@ -191,6 +191,8 @@
     <ClCompile Include="Engine\Core\Manager\Path\PathMgr.cpp" />
     <ClCompile Include="Engine\Core\Manager\Scene\Scene.cpp" />
     <ClCompile Include="Engine\Core\Manager\Scene\SceneMgr.cpp" />
+    <ClCompile Include="Engine\Component\Animator\Animation.cpp" />
+    <ClCompile Include="Engine\Component\Animator\Animator.cpp" />
     <ClCompile Include="Engine\Singleton\Shader\Shader.cpp" />
     <ClCompile Include="Engine\Core\Manager\Timer\Timer.cpp" />
     <ClCompile Include="Engine\Object\Transform.cpp" />
@@ -210,6 +212,7 @@
     <ClCompile Include="Game\Scenes\Tool\ToolScene.cpp" />
     <ClCompile Include="Headers\functions.cpp" />
     <ClCompile Include="Lib\TweakBar\TweakBar.cpp" />
+    <ClCompile Include="Lib\XML.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -220,6 +223,8 @@
     <ClInclude Include="Engine\Core\Manager\Path\PathMgr.h" />
     <ClInclude Include="Engine\Core\Manager\Scene\Scene.h" />
     <ClInclude Include="Engine\Core\Manager\Scene\SceneMgr.h" />
+    <ClInclude Include="Engine\Component\Animator\Animation.h" />
+    <ClInclude Include="Engine\Component\Animator\Animator.h" />
     <ClInclude Include="Engine\Singleton\Shader\Shader.h" />
     <ClInclude Include="Engine\Core\Manager\Timer\Timer.h" />
     <ClInclude Include="Engine\Object\Transform.h" />
@@ -240,6 +245,7 @@
     <ClInclude Include="Lib\AntTweakBar.h" />
     <ClInclude Include="Lib\include\AntTweakBar.h" />
     <ClInclude Include="Lib\TweakBar\TweakBar.h" />
+    <ClInclude Include="Lib\XML.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
