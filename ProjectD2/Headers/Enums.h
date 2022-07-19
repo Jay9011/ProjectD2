@@ -29,6 +29,7 @@ enum class ANIM_PLAY_TYPE
 
 enum class PLAYER_STATE
 {
+	APPEAR,
 	IDLE,
 	RUN,
 	JUMP

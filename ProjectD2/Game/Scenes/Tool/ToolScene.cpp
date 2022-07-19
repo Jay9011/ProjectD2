@@ -14,14 +14,10 @@ ToolScene::~ToolScene()
 void ToolScene::Init()
 {
 	testObject = new TestObject(this);
-	testObjectPos = { 100, 100, 0.5f };
-	testObjectSize = { 1, 1, 1 };
-	TwAddVarRW(twbar, "Pos", TW_TYPE_DIR3F, &testObjectPos, "group=TestObject");
+	testObject->SetPos({ WIN_CENTER_X, WIN_CENTER_Y, 0.5f });
+	testObjectSize = { 2, 2, 1 };
 	TwAddVarRW(twbar, "Size", TW_TYPE_DIR3F, &testObjectSize, "group=TestObject");
 	TwAddVarRW(twbar, "Angle", TW_TYPE_FLOAT, &testObjectAngle, "group=TestObject");
-	
-	testObject2 = new TestObject(this);
-	testObject2->SetPos(512, 430, 0.f);
 }
 
 void ToolScene::Release()
@@ -30,7 +26,6 @@ void ToolScene::Release()
 
 void ToolScene::UpdateScene()
 {
-	testObject->SetPos(testObjectPos);
 	testObject->SetScale(testObjectSize);
 	testObject->SetAngle(testObjectAngle);
 }

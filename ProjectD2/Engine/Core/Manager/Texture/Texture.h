@@ -2,6 +2,7 @@
 class Texture
 {
 public:
+	Texture(const LPDIRECT3DTEXTURE9& _texture, const D3DXVECTOR2& _start, const ISIZE& _size, const D3DXVECTOR2& _pivot = { 0.5f, 0.5f });
 	Texture(const LPDIRECT3DTEXTURE9& _texture, const D3DXVECTOR2& _start, const D3DXVECTOR2& _end, const D3DXVECTOR2& _pivot = { 0.5f, 0.5f });
 	Texture(const LPDIRECT3DTEXTURE9& _texture, const UINT& _w, const UINT& _h, const D3DXVECTOR2& _start, const D3DXVECTOR2& _end, const D3DXVECTOR2& _pivot = { 0.5f, 0.5f });
 	Texture(const LPDIRECT3DTEXTURE9& _texture, const int& _maxFrameX, const int& _maxFrameY, const int& _frameX, const int& _frameY, const D3DXVECTOR2& _pivot = { 0.5f, 0.5f });
@@ -11,7 +12,7 @@ public:
 	void SetData();
 
 private:
-	VertexTexture* m_vertices;
+	VERTEXTEXTURE* m_vertices;
 	WORD*          m_indices;
 
 	UINT m_vertexCount;

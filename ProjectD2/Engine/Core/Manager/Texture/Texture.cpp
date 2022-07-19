@@ -1,11 +1,13 @@
 #include "Framework.h"
 #include "Texture.h"
 
+Texture::Texture(const LPDIRECT3DTEXTURE9& _texture, const D3DXVECTOR2& _start, const ISIZE& _size, const D3DXVECTOR2& _pivot) :
+	Texture(_texture, _size.x, _size.y, _start, { _start.x + (float)_size.x, _start.y + (float)_size.y}, _pivot)
+{}
+
 Texture::Texture(const LPDIRECT3DTEXTURE9& _texture, const D3DXVECTOR2& _start, const D3DXVECTOR2& _end, const D3DXVECTOR2& _pivot) :
 	Texture(_texture, 0, 0, _start, _end, _pivot)
-{
-
-}
+{}
 
 Texture::Texture(const LPDIRECT3DTEXTURE9& _texture, const UINT& _w, const UINT& _h, const D3DXVECTOR2& _start, const D3DXVECTOR2& _end, const D3DXVECTOR2& _pivot) :
 	m_texture(_texture)
@@ -74,7 +76,7 @@ void Texture::Render()
 void Texture::SetData()
 {
 	m_vertexCount = 4;
-	VertexTexture vertices[4];
+	VERTEXTEXTURE vertices[4];
 
 	vertices[0] = VERTEXTEXTURE(-m_size.x * m_pivot.x      , -m_size.y * m_pivot.y      , m_uvStart.x, m_uvStart.y);
 	vertices[1] = VERTEXTEXTURE(+m_size.x * (1 - m_pivot.x), -m_size.y * m_pivot.y      , m_uvEnd.x  , m_uvStart.y);

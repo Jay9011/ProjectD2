@@ -35,23 +35,19 @@ private:
 *  Getter / Setter
 * === === === === === */
 public:
+	size_t GetAnimationsSize() const { return m_animations.size(); }
+	
 	Texture* GetCurrentTexture() const  { return m_currentAnimation->GetCurrentTexture(); }
 	Texture* GetPreviousTexture() const { return m_currentAnimation->GetPreviousTexture(); }
 	Texture* GetNextTexture() const     { return m_currentAnimation->GetNextTexture(); }
 
 	void SetNextAnimation(Animation* _nextAnim)       { m_nextAnimation = _nextAnim; }
+	void SetNextAnimation(const size_t& _index)       { m_nextAnimation = m_animations[_index]; }
 	void SetCurrentAnimation(Animation* _currentAnim) { m_previousAnimation = m_currentAnimation; m_currentAnimation = _currentAnim; }
 	
 	void SetEvent(const UINT& _index, const std::function<void()>& _callback) { m_currentAnimation->SetFrameEvent(_index, _callback); }
 	void SetEndEvent(const std::function<void()>& _callback)                  { m_currentAnimation->SetFinishFrameEvent(_callback); }
-
-/* === === === === ===
-*  Operator Overloads
-* === === === === === */
-public:
-	Animation* operator[] (UINT index)
-	{
-		return m_animations[index];
-	}
+	
+	Animation* Find(const UINT& _index) const { return m_animations[_index]; }
 };
 

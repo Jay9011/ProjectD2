@@ -4,12 +4,13 @@
 #include "Animator.h"
 
 Animation::Animation(Animator* _owner, const vector<Texture*>& _frames, ANIM_PLAY_TYPE _playType, float _speed) :
-	m_owner(_owner),
-	m_playType(_playType),
-	m_isPlay(false),
-	m_isReverse(false),
-	m_time(0.0f),
-	m_currentFrame(0)
+	m_owner(_owner)
+	, m_playType(_playType)
+	, m_isPlay(false)
+	, m_isReverse(false)
+	, m_isFinish(false)
+	, m_time(0.0f)
+	, m_currentFrame(0)
 {
 	Frame frame = {};
 	
@@ -39,13 +40,18 @@ void Animation::Update()
 		
 		if (!m_isReverse)
 		{
-			++m_currentFrame;
+			if (++m_currentFrame >= m_frames.size())
+			{
+				m_isFinish = true;
+				--m_currentFrame;
+			}
 		}
 		else
 		{
-			--m_currentFrame;
-			if (m_currentFrame <= 0)
-				ReverseChange();
+			if (--m_currentFrame <= 0)
+			{
+				m_isFinish = true;
+			}
 		}
 	}
 }
@@ -71,6 +77,21 @@ void Animation::Play(Animation* _nextAnimation)
 	m_currentFrame = 0;
 	m_time = 0.0f;
 	m_isReverse = false;
+	m_isFinish = false;
+}
+
+void Animation::Play(const size_t& _index)
+{
+	m_owner->SetCurrentAnimation(this);
+	
+	if(_index < m_owner->GetAnimationsSize())
+		m_owner->SetNextAnimation(_index);
+	
+	m_isPlay = true;
+	m_currentFrame = 0;
+	m_time = 0.0f;
+	m_isReverse = false;
+	m_isFinish = false;
 }
 
 void Animation::Pause()
@@ -81,8 +102,6 @@ void Animation::Pause()
 void Animation::Stop()
 {
 	m_isPlay = false;
-	m_currentFrame = 0;
-	m_time = 0.0f;
 	m_isReverse = false;
 }
 
@@ -92,4 +111,5 @@ void Animation::Reset()
 	m_currentFrame = 0;
 	m_time = 0.0f;
 	m_isReverse = false;
+	m_isFinish = false;
 }

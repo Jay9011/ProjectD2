@@ -22,6 +22,7 @@ TestObject::TestObject(Scene* _scene, OBJECT_TYPE _type, GameObject* _parent) :
 	m_animator = new Animator(this);
 
 	SetAnimation();
+	m_animator->Find((int)PLAYER_STATE::APPEAR)->Play((int)PLAYER_STATE::IDLE);
 }
 
 TestObject::~TestObject()
@@ -69,15 +70,13 @@ void TestObject::FinalRender()
 void TestObject::SetAnimation()
 {
 	vector<Texture*> frames;
-	// IDLE
-	//frames.push_back(TEXTURE->Add(L"Character\\Player\\Idle.png", 75, 75, {   4,  4 }, {  39,  50 }, { 0.5f, 0.5f } ));
-	//frames.push_back(TEXTURE->Add(L"Character\\Player\\Idle.png", 75, 75, {  47,  4 }, {  82,  48 }, { 0.5f, 0.5f } ));
-	//frames.push_back(TEXTURE->Add(L"Character\\Player\\Idle.png", 75, 75, {  90,  4 }, { 125,  49 }, { 0.5f, 0.5f } ));
-	//frames.push_back(TEXTURE->Add(L"Character\\Player\\Idle.png", 75, 75, { 133,  4 }, { 168,  48 }, { 0.5f, 0.5f } ));
-	//frames.push_back(TEXTURE->Add(L"Character\\Player\\Idle.png", 75, 75, { 176,  4 }, { 211,  48 }, { 0.5f, 0.5f } ));
-	//m_animator->PushBack(frames, ANIM_PLAY_TYPE::Loop, 0.5f);
+	
+	// APPEAR
+	m_animator->LoadXML("Character\\Player\\", "APPEAR", ANIM_PLAY_TYPE::Once, 0.1f);
+	m_animator->Find((int)PLAYER_STATE::APPEAR)->SetFrameDuration(16, 0.5f);
 
-	m_animator->LoadXML("Character\\Player\\", "Appear", ANIM_PLAY_TYPE::Loop, 0.5f);
+	// IDLE
+	m_animator->LoadXML("Character\\Player\\", "IDLE", ANIM_PLAY_TYPE::PingPong, 0.2f);
 
 	// RUN
 	

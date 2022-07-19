@@ -14,6 +14,15 @@ TextureMgr::~TextureMgr()
 	SAFE_DELETE_VEC(m_textures);
 }
 
+Texture* TextureMgr::Add(const wstring& _path, const D3DXVECTOR2& _start, const ISIZE& _size, const D3DXVECTOR2& _pivot)
+{
+	Texture* texture = new Texture(LoadTexture(_path), _start, _size, _pivot);
+
+	m_textures.push_back(texture);
+
+	return texture;
+}
+
 Texture* TextureMgr::Add(const wstring& _path, const D3DXVECTOR2& _start, const D3DXVECTOR2& _end, const D3DXVECTOR2& _pivot)
 {
 	Texture* texture = new Texture(LoadTexture(_path), _start, _end, _pivot);

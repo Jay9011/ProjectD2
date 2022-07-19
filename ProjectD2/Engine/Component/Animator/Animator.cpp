@@ -97,12 +97,10 @@ void Animator::LoadXML(const string& _path, const string& _name, const ANIM_PLAY
 	while (sprite != nullptr)
 	{
 		D3DXVECTOR2 start = D3DXVECTOR2(sprite->FloatAttribute("x"), sprite->FloatAttribute("y"));
-		D3DXVECTOR2 end   = D3DXVECTOR2(sprite->FloatAttribute("w"), sprite->FloatAttribute("h"));
-		//D3DXVECTOR2 pivot = D3DXVECTOR2(sprite->FloatAttribute("pX"), sprite->FloatAttribute("pY"));
+		ISIZE       size  = ISIZE(sprite->FloatAttribute("w"), sprite->FloatAttribute("h"));
+		D3DXVECTOR2 pivot = D3DXVECTOR2(sprite->FloatAttribute("pX"), sprite->FloatAttribute("pY"));
 
-		end += start;
-
-		clips.push_back(TEXTURE->Add(imagePath, start, end, { 0.5, 0.5 }));
+		clips.push_back(TEXTURE->Add(imagePath, start, size, pivot));
 		
 		sprite = sprite->NextSiblingElement();
 	}
@@ -118,6 +116,7 @@ void Animator::ChangeAnimation()
 	{
 		m_currentAnimation = m_nextAnimation;
 		m_nextAnimation = nullptr;
+		m_currentAnimation->Play();
 		return;
 	}
 	else // 다음 Animation이 없는 경우
@@ -135,6 +134,7 @@ void Animator::ChangeAnimation()
 		else if (m_currentAnimation->GetPlayType() == ANIM_PLAY_TYPE::PingPong)
 		{
 			m_currentAnimation->ReverseChange();
+			m_currentAnimation->Finish(false);
 			return;
 		}
 	}
