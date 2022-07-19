@@ -186,16 +186,16 @@
   <ItemGroup>
     <ClCompile Include="Engine\Component\Component.cpp" />
     <ClCompile Include="Engine\Core\Core.cpp" />
-    <ClCompile Include="Engine\Manager\Device\Device.cpp" />
-    <ClCompile Include="Engine\Manager\Input\Input.cpp" />
-    <ClCompile Include="Engine\Manager\Path\PathMgr.cpp" />
-    <ClCompile Include="Engine\Manager\Scene\Scene.cpp" />
-    <ClCompile Include="Engine\Manager\Scene\SceneMgr.cpp" />
+    <ClCompile Include="Engine\Core\Manager\Device\Device.cpp" />
+    <ClCompile Include="Engine\Core\Manager\Input\Input.cpp" />
+    <ClCompile Include="Engine\Core\Manager\Path\PathMgr.cpp" />
+    <ClCompile Include="Engine\Core\Manager\Scene\Scene.cpp" />
+    <ClCompile Include="Engine\Core\Manager\Scene\SceneMgr.cpp" />
     <ClCompile Include="Engine\Singleton\Shader\Shader.cpp" />
-    <ClCompile Include="Engine\Manager\Timer\Timer.cpp" />
+    <ClCompile Include="Engine\Core\Manager\Timer\Timer.cpp" />
     <ClCompile Include="Engine\Object\Transform.cpp" />
-    <ClCompile Include="Engine\Manager\Texture\Texture.cpp" />
-    <ClCompile Include="Engine\Manager\Texture\TextureMgr.cpp" />
+    <ClCompile Include="Engine\Core\Manager\Texture\Texture.cpp" />
+    <ClCompile Include="Engine\Core\Manager\Texture\TextureMgr.cpp" />
     <ClCompile Include="Framework.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -215,16 +215,16 @@
   <ItemGroup>
     <ClInclude Include="Engine\Component\Component.h" />
     <ClInclude Include="Engine\Core\Core.h" />
-    <ClInclude Include="Engine\Manager\Device\Device.h" />
-    <ClInclude Include="Engine\Manager\Input\Input.h" />
-    <ClInclude Include="Engine\Manager\Path\PathMgr.h" />
-    <ClInclude Include="Engine\Manager\Scene\Scene.h" />
-    <ClInclude Include="Engine\Manager\Scene\SceneMgr.h" />
+    <ClInclude Include="Engine\Core\Manager\Device\Device.h" />
+    <ClInclude Include="Engine\Core\Manager\Input\Input.h" />
+    <ClInclude Include="Engine\Core\Manager\Path\PathMgr.h" />
+    <ClInclude Include="Engine\Core\Manager\Scene\Scene.h" />
+    <ClInclude Include="Engine\Core\Manager\Scene\SceneMgr.h" />
     <ClInclude Include="Engine\Singleton\Shader\Shader.h" />
-    <ClInclude Include="Engine\Manager\Timer\Timer.h" />
+    <ClInclude Include="Engine\Core\Manager\Timer\Timer.h" />
     <ClInclude Include="Engine\Object\Transform.h" />
-    <ClInclude Include="Engine\Manager\Texture\Texture.h" />
-    <ClInclude Include="Engine\Manager\Texture\TextureMgr.h" />
+    <ClInclude Include="Engine\Core\Manager\Texture\Texture.h" />
+    <ClInclude Include="Engine\Core\Manager\Texture\TextureMgr.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Engine\Object\GameObject.h" />
     <ClInclude Include="Game\Objects\etc\TestObject.h" />

@@ -2,8 +2,6 @@
 #include "Game.h"
 
 #include "Engine/Core/Core.h"
-#include "Engine/Manager/Device/Device.h"
-
 #include "Game/Scenes/Scenes.h"
 
 Game::Game() :

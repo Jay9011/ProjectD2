@@ -27,25 +27,25 @@
     <ClCompile Include="Game.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Manager\Device\Device.cpp">
+    <ClCompile Include="Engine\Core\Manager\Device\Device.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Framework.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Manager\Timer\Timer.cpp">
+    <ClCompile Include="Engine\Core\Manager\Timer\Timer.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Manager\Input\Input.cpp">
+    <ClCompile Include="Engine\Core\Manager\Input\Input.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Manager\Path\PathMgr.cpp">
+    <ClCompile Include="Engine\Core\Manager\Path\PathMgr.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Manager\Scene\Scene.cpp">
+    <ClCompile Include="Engine\Core\Manager\Scene\Scene.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Manager\Scene\SceneMgr.cpp">
+    <ClCompile Include="Engine\Core\Manager\Scene\SceneMgr.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Object\GameObject.cpp">
@@ -63,7 +63,7 @@
     <ClCompile Include="Lib\TweakBar\TweakBar.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Manager\Texture\Texture.cpp">
+    <ClCompile Include="Engine\Core\Manager\Texture\Texture.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Game\Scenes\Tool\ToolScene.cpp">
@@ -75,7 +75,7 @@
     <ClCompile Include="Engine\Object\Transform.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Manager\Texture\TextureMgr.cpp">
+    <ClCompile Include="Engine\Core\Manager\Texture\TextureMgr.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Singleton\Shader\Shader.cpp">
@@ -104,25 +104,25 @@
     <ClInclude Include="Game.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Manager\Device\Device.h">
+    <ClInclude Include="Engine\Core\Manager\Device\Device.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Manager\Timer\Timer.h">
+    <ClInclude Include="Engine\Core\Manager\Timer\Timer.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Manager\Input\Input.h">
+    <ClInclude Include="Engine\Core\Manager\Input\Input.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Manager\Path\PathMgr.h">
+    <ClInclude Include="Engine\Core\Manager\Path\PathMgr.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Manager\Scene\Scene.h">
+    <ClInclude Include="Engine\Core\Manager\Scene\Scene.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Manager\Scene\SceneMgr.h">
+    <ClInclude Include="Engine\Core\Manager\Scene\SceneMgr.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Object\GameObject.h">
@@ -146,7 +146,7 @@
     <ClInclude Include="Lib\AntTweakBar.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Manager\Texture\Texture.h">
+    <ClInclude Include="Engine\Core\Manager\Texture\Texture.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Game\Scenes\Tool\ToolScene.h">
@@ -161,7 +161,7 @@
     <ClInclude Include="Engine\Object\Transform.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Manager\Texture\TextureMgr.h">
+    <ClInclude Include="Engine\Core\Manager\Texture\TextureMgr.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Singleton\Shader\Shader.h">

@@ -1,5 +1,4 @@
 #pragma once
-#include "Engine/Manager/Scene/SceneMgr.h"
 class Game
 {
 public:

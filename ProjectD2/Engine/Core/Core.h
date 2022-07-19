@@ -8,12 +8,12 @@
 #define WIN_CENTER_X	Core::Get()->WinCenterX()
 #define WIN_CENTER_Y	Core::Get()->WinCenterY()
 
-#include "Engine/Manager/Device/Device.h"
-#include "Engine/Manager/Timer/Timer.h"
-#include "Engine/Manager/Input/Input.h"
-#include "Engine/Manager/Path/PathMgr.h"
-#include "Engine/Manager/Scene/SceneMgr.h"
-#include "Engine/Manager/Texture/TextureMgr.h"
+#include "Manager/Device/Device.h"
+#include "Manager/Timer/Timer.h"
+#include "Manager/Input/Input.h"
+#include "Manager/Path/PathMgr.h"
+#include "Manager/Scene/SceneMgr.h"
+#include "Manager/Texture/TextureMgr.h"
 class Game;
 class Core
 {
