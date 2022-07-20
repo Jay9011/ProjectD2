@@ -4,6 +4,9 @@
 #include "Engine/Singleton/Shader/Shader.h"
 #include "Engine/Component/Animator/Animator.h"
 
+
+#include "Engine/Component/Collision/Collider/AABB.h"
+
 TestObject::TestObject(Scene* _scene, GameObject* _parent) :
 	TestObject(_scene, OBJECT_TYPE::DEFAULT, _parent)
 {}
@@ -20,11 +23,17 @@ TestObject::TestObject(Scene* _scene, OBJECT_TYPE _type, GameObject* _parent) :
 
 	SetScale(1.5f, 1.5f);
 	
-	m_shader = SHADER(L"AlphaShader");
+	/*
+	* Component Set
+	*/
 	m_animator = new Animator(this);
+	m_animator->m_shader = SHADER(L"AlphaShader");
+	new AABB({-10, -17, 0}, {10, 21, 0}, this);
 
+	
 	SetAnimation();
 	m_animator->Find((int)PLAYER_STATE::APPEAR);
+
 }
 
 TestObject::~TestObject() = default;
@@ -60,9 +69,6 @@ void TestObject::UpdateObject()
 
 void TestObject::RenderObject()
 {
-	m_animator->m_shader = SHADER(L"AlphaShader");
-	m_animator->Render();
-	
 	GameObject::RenderObject();
 }
 

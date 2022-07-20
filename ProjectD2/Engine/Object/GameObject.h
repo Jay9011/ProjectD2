@@ -9,12 +9,13 @@ public:
 	virtual ~GameObject() override;
 
 	void Update();
-	void UpdateComponent();			// Component Update 용
+	void UpdateComponent();					// Component Update 용
+	void UpdateComponentWorldTransform();	// Component World Transform Update 용
 	void FinalUpdate();
-	void FinalUpdateComponent();	// Component FinalUpdate 용
+	void FinalUpdateComponent();			// Component FinalUpdate 용
 	void Render();
-	void RenderComponent();			// Component Render 용
-	virtual void UpdateObject() = 0;// 상속받은 GameObject의 Update 용
+	void RenderComponent();					// Component Render 용
+	virtual void UpdateObject() = 0;		// 상속받은 GameObject의 Update 용
 	virtual void FinalUpdateObject();
 	virtual void RenderObject();
 

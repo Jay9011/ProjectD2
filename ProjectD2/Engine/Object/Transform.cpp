@@ -8,6 +8,10 @@ Transform::Transform(Transform* _parent) :
 	, m_pivot(0, 0, 0)
 	, m_recomputeWorld(true)
 {
+	D3DXMatrixIdentity(&m_S);
+	D3DXMatrixIdentity(&m_R);
+	D3DXMatrixIdentity(&m_T);
+	D3DXMatrixIdentity(&m_world);
 }
 
 Transform::~Transform()
@@ -27,7 +31,7 @@ void Transform::UpdateWorld()
 		D3DXMatrixTranslation(&P, m_pivot.x, m_pivot.y, m_pivot.z);
 		D3DXMatrixInverse(&IP, nullptr, &P);
 
-		m_world = IP * m_R * m_S * m_T * P;
+		m_world = IP * m_S * m_R * m_T * P;
 
 		m_recomputeWorld = false;
 	}

@@ -18,8 +18,6 @@ private:
 	bool m_isRight;
 	float m_speed;
 	PLAYER_STATE m_state;
-	class Texture* m_texture;
-	class Shader*  m_shader;
 	class Animator* m_animator;
 
 public:

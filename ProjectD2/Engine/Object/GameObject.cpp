@@ -16,17 +16,11 @@ GameObject::GameObject(Scene* _scene, OBJECT_TYPE _type, GameObject* _parent) :
 	, m_isUpdating(false)
 	, m_isRendering(false)
 {
-	D3DXMatrixIdentity(&m_S);
-	D3DXMatrixIdentity(&m_R);
-	D3DXMatrixIdentity(&m_T);
-	D3DXMatrixIdentity(&m_world);
-
 	m_scene->AddObject(this, _type);
 
 #if _DEBUG
 	SetVertexData();
 #endif // _DEBUG
-
 }
 
 GameObject::~GameObject()
@@ -48,6 +42,7 @@ void GameObject::Update()
 
 		UpdateComponent();
 		UpdateObject();
+		UpdateComponentWorldTransform();
 		
 		UpdateWorld();
 	}
@@ -60,6 +55,14 @@ void GameObject::UpdateComponent()
 	for (auto& component : m_componentList)
 	{
 		component->Update();
+	}
+}
+
+void GameObject::UpdateComponentWorldTransform()
+{
+	for (auto& component : m_componentList)
+	{
+		component->OnUpdateWorldTransform();
 	}
 }
 
@@ -85,6 +88,7 @@ void GameObject::FinalUpdateComponent()
 	{
 		component->FinalUpdate();
 	}
+
 }
 
 void GameObject::Render()
@@ -97,7 +101,7 @@ void GameObject::Render()
 	RenderComponent();
 	SetWorld();
 	RenderObject();
-
+	
 	m_isRendering = false;
 }
 

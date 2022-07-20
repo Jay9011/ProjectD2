@@ -113,7 +113,7 @@ int Core::Run()
             *     Game Update
             * === === === === === */
             m_Game->Update();
-			
+
             /* === === === === ===
             *	     Render
             * === === === === === */
@@ -140,7 +140,7 @@ int Core::Run()
             );
 #endif // _DEBUG
             DEVICE->BeginScene();
-
+			
             /* === === === === ===
             *     Game Render
             * === === === === === */
