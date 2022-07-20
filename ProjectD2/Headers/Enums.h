@@ -7,24 +7,32 @@ enum class GAME_STATE
 	EXIT
 };
 
-enum class OBJECT_TYPE
-{
-	DEFAULT,
-	
-	FIN = 32
-};
-
 enum class OBJECT_STATE
 {
 	DEAD,
-	ACTIVE
+	ACTIVE,
+	INACTIVE
 };
 
 enum class ANIM_PLAY_TYPE
 {
-	Once,
-	Loop,
-	PingPong
+	ONCE,
+	LOOP,
+	PINGPONG
+};
+
+enum class COLLIDER_TYPE
+{
+	LINE,
+	AARECT,
+	CIRCLE
+};
+
+enum class OBJECT_TYPE
+{
+	DEFAULT,
+
+	FIN = 32
 };
 
 enum class PLAYER_STATE
@@ -34,31 +42,3 @@ enum class PLAYER_STATE
 	RUN,
 	JUMP
 };
-
-/*
-enum class SCENE_TYPE
-{
-	TEST,
-	TOOL,
-	END
-};
-
-enum class EVENT_TYPE
-{
-	CREATE_OBJECT,
-	DELETE_OBJECT,
-	SCENE_CHANGE,
-	CHANGE_AI_STATE,
-	END
-};
-
-enum class COMMAND_TYPE
-{
-	UP,
-	DOWN,
-	LEFT,
-	RIGHT,
-	
-	FIN
-};
-*/

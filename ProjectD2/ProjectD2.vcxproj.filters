@@ -90,7 +90,10 @@
     <ClCompile Include="Lib\XML.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Component\Collision\Collider\AABB.cpp">
+    <ClCompile Include="Engine\Component\Collision\Colliders\AARect.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Component\Collision\Collider.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -188,7 +191,10 @@
     <ClInclude Include="Lib\XML.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Component\Collision\Collider\AABB.h">
+    <ClInclude Include="Engine\Component\Collision\Colliders\AARect.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Component\Collision\Collider.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

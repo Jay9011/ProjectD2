@@ -9,14 +9,15 @@ public:
 	virtual ~Animator();
 
 public:
-	void PushBack(const vector<Texture*>& _actions, const ANIM_PLAY_TYPE& _type = ANIM_PLAY_TYPE::Loop, const float& _speed = 0.1f);
+	void PushBack(const vector<Texture*>& _actions, const ANIM_PLAY_TYPE& _type = ANIM_PLAY_TYPE::LOOP, const float& _speed = 0.1f);
 
 	// Component을(를) 통해 상속됨
 	virtual void Update() override;
 	virtual void Render() override;
 	virtual void FinalUpdate() override;
+	virtual void OnUpdateWorldTransform() override;
 	
-	void LoadXML(const string& _path, const string& _name, const ANIM_PLAY_TYPE& _type = ANIM_PLAY_TYPE::Loop, const float& _speed = 0.1f);
+	void LoadXML(const string& _path, const string& _name, const ANIM_PLAY_TYPE& _type = ANIM_PLAY_TYPE::LOOP, const float& _speed = 0.1f);
 
 private:
 	void ChangeAnimation();

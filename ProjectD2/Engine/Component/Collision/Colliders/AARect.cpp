@@ -1,34 +1,66 @@
 #include "Framework.h"
-#include "AABB.h"
+#include "AARect.h"
 
 #include "Engine/Object/GameObject.h"
 
-AABB::AABB(const D3DXVECTOR3& _min, const D3DXVECTOR3& _max, GameObject* _owner) :
-	Component(_owner)
+AARect::AARect(const D3DXVECTOR2& _min, const D3DXVECTOR2& _max, class GameObject* _owner, int _updateOrder) :
+	Collider(_owner, _updateOrder)
 	, m_min(_min)
 	, m_max(_max)
 {
 }
 
-AABB::~AABB()
+AARect::~AARect()
 {
 }
 
-void AABB::Update()
+bool AARect::Contains(const D3DXVECTOR2& _point)
+{
+	if(!IsActive())
+		return false;
+
+	bool outside = 
+		_point.x < m_worldMin.x ||
+		_point.y < m_worldMin.y ||
+		_point.x > m_worldMax.x ||
+		_point.y > m_worldMax.y;
+	
+	return !outside;
+}
+
+bool AARect::Intersects(const D3DXVECTOR2& _point)
+{
+	if (Contains(_point))
+	{
+		isCollided = true;
+		return true;
+	}
+	
+	return false;
+}
+
+bool AARect::Intersects(AARect& _rect, OUT CollisionInfo& outColl)
+{
+	return false;
+}
+
+void AARect::Update()
 {
 
 }
 
-void AABB::FinalUpdate()
+void AARect::FinalUpdate()
 {
+	// Collided 초기화
+	isCollided = false;
 }
 
-void AABB::Render()
+void AARect::Render()
 {
 	RenderVertexWithoutTransform();
 }
 
-void AABB::OnUpdateWorldTransform()
+void AARect::OnUpdateWorldTransform()
 {
 	// min, max 초기화
 	m_worldMin = m_min;
@@ -38,27 +70,28 @@ void AABB::OnUpdateWorldTransform()
 	D3DXVECTOR3 scale = GetOwner()->GetScale();
 	m_worldMin.x *= scale.x;
 	m_worldMin.y *= scale.y;
-	m_worldMin.z *= scale.z;
 	m_worldMax.x *= scale.x;
 	m_worldMax.y *= scale.y;
-	m_worldMax.z *= scale.z;
 
 	// Translate
 	D3DXVECTOR3 pos = GetOwner()->GetPos();
 	m_worldMin.x += pos.x;
 	m_worldMin.y += pos.y;
-	m_worldMin.z += pos.z;
 	m_worldMax.x += pos.x;
 	m_worldMax.y += pos.y;
-	m_worldMax.z += pos.z;
 }
 
-void AABB::RenderVertexWithoutTransform()
+COLLIDER_TYPE AARect::GetColliderType()
+{
+	return COLLIDER_TYPE::AARECT;
+}
+
+void AARect::RenderVertexWithoutTransform()
 {
 	vector<VERTEXCOLOR> vertexList;
 	vector<WORD>        indexList;
 
-	D3DCOLOR color = 0xFF33FF33;
+	D3DCOLOR color = isCollided ? onColor : offColor;
 
 	vertexList.push_back(VERTEXCOLOR(m_worldMin.x, m_worldMin.y, color, -1.0f)); // LT
 	vertexList.push_back(VERTEXCOLOR(m_worldMax.x, m_worldMin.y, color, -1.0f)); // RT

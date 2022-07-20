@@ -2,6 +2,7 @@
 #include "Core.h"
 
 #include "Game.h"
+#include "Engine/Singleton/Shader/Shader.h"
 
 /* === === === === ===
 *    static 초기화
@@ -42,6 +43,11 @@ Core::~Core()
 	SAFE_DELETE(m_textureMgr);
     DestroyMenu(m_hMenu);
 	DestroyWindow(m_hWnd);
+
+    /*
+    * 유사 싱글톤 패턴에서 인스턴스를 제거하는 부분
+    */
+    Shader::Delete();
 }
 
 

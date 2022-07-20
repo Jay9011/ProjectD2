@@ -126,21 +126,25 @@ void Animator::ChangeAnimation()
 	}
 	else // 다음 Animation이 없는 경우
 	{
-		if (m_currentAnimation->GetPlayType() == ANIM_PLAY_TYPE::Loop)
+		if (m_currentAnimation->GetPlayType() == ANIM_PLAY_TYPE::LOOP)
 		{
 			m_currentAnimation->Reset();
 			return;
 		}
-		else if (m_currentAnimation->GetPlayType() == ANIM_PLAY_TYPE::Once)
+		else if (m_currentAnimation->GetPlayType() == ANIM_PLAY_TYPE::ONCE)
 		{
 			m_currentAnimation->Stop();
 			return;
 		}
-		else if (m_currentAnimation->GetPlayType() == ANIM_PLAY_TYPE::PingPong)
+		else if (m_currentAnimation->GetPlayType() == ANIM_PLAY_TYPE::PINGPONG)
 		{
 			m_currentAnimation->ReverseChange();
 			m_currentAnimation->Finish(false);
 			return;
 		}
 	}
+}
+
+void Animator::OnUpdateWorldTransform()
+{
 }

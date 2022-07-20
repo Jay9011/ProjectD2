@@ -19,6 +19,7 @@ private:
 	float m_speed;
 	PLAYER_STATE m_state;
 	class Animator* m_animator;
+	class Collider* m_bodyCollider;
 
 public:
 	void ScaleXInverse()

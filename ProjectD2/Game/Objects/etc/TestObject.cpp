@@ -3,9 +3,8 @@
 
 #include "Engine/Singleton/Shader/Shader.h"
 #include "Engine/Component/Animator/Animator.h"
-
-
-#include "Engine/Component/Collision/Collider/AABB.h"
+#include "Engine/Component/Collision/Collider.h"
+#include "Engine/Component/Collision/Colliders/AARect.h"
 
 TestObject::TestObject(Scene* _scene, GameObject* _parent) :
 	TestObject(_scene, OBJECT_TYPE::DEFAULT, _parent)
@@ -22,14 +21,20 @@ TestObject::TestObject(Scene* _scene, OBJECT_TYPE _type, GameObject* _parent) :
 #endif // _DEBUG
 
 	SetScale(1.5f, 1.5f);
-	
+
+	/* === === === === ===
+	*  Component Setting
+	* === === === === === */
 	/*
-	* Component Set
+	* Animator
 	*/
 	m_animator = new Animator(this);
 	m_animator->m_shader = SHADER(L"AlphaShader");
-	new AABB({-10, -17, 0}, {10, 21, 0}, this);
-
+	/*
+	* Collider
+	*/
+	m_bodyCollider = new AARect({-10, -17}, {10, 21}, this);
+	m_bodyCollider->IsActive(true);
 	
 	SetAnimation();
 	m_animator->Find((int)PLAYER_STATE::APPEAR);
@@ -40,6 +45,11 @@ TestObject::~TestObject() = default;
 
 void TestObject::UpdateObject()
 {
+	if (m_bodyCollider->Intersects(MOUSEPOS))
+	{
+		
+	}
+	
 	if(KEYPRESS(VK_LEFT))
 	{
 		AddPos(V_LEFT * m_speed * fDT);
@@ -86,17 +96,17 @@ void TestObject::SetAnimation()
 	vector<Texture*> frames;
 	
 	// APPEAR
-	m_animator->LoadXML("Character\\Player\\", "Appear", ANIM_PLAY_TYPE::Once, 0.1f);
+	m_animator->LoadXML("Character\\Player\\", "Appear", ANIM_PLAY_TYPE::ONCE, 0.1f);
 	m_animator->Find((int)PLAYER_STATE::APPEAR)->SetFrameDuration(16, 3.0f);
 	m_animator->SetEndEvent((int)PLAYER_STATE::APPEAR, [this]() {
 		SetAction(PLAYER_STATE::IDLE);
 	});
 
 	// IDLE
-	m_animator->LoadXML("Character\\Player\\", "Idle", ANIM_PLAY_TYPE::PingPong, 0.2f);
+	m_animator->LoadXML("Character\\Player\\", "Idle", ANIM_PLAY_TYPE::PINGPONG, 0.2f);
 
 	// RUN
-	m_animator->LoadXML("Character\\Player\\", "Run", ANIM_PLAY_TYPE::Loop, 0.05f);
+	m_animator->LoadXML("Character\\Player\\", "Run", ANIM_PLAY_TYPE::LOOP, 0.05f);
 	
 	// JUMP
 	
