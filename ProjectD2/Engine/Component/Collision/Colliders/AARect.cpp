@@ -10,9 +10,7 @@ AARect::AARect(const D3DXVECTOR2& _min, const D3DXVECTOR2& _max, class GameObjec
 {
 }
 
-AARect::~AARect()
-{
-}
+AARect::~AARect() = default;
 
 bool AARect::Contains(const D3DXVECTOR2& _point)
 {
@@ -79,6 +77,10 @@ void AARect::OnUpdateWorldTransform()
 	m_worldMin.y += pos.y;
 	m_worldMax.x += pos.x;
 	m_worldMax.y += pos.y;
+
+	// Scale 반전에 의한 변경점 적용
+	if (m_worldMin.x > m_worldMax.x) std::swap(m_worldMin.x, m_worldMax.x);
+	if (m_worldMin.y > m_worldMax.y) std::swap(m_worldMin.y, m_worldMax.y);
 }
 
 COLLIDER_TYPE AARect::GetColliderType()

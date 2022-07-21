@@ -16,7 +16,7 @@ Texture::Texture(const LPDIRECT3DTEXTURE9& _texture, const UINT& _w, const UINT&
 	D3DSURFACE_DESC surface;
 	m_texture->GetLevelDesc(0, &surface);
 
-	m_srcSize = D3DXVECTOR2(surface.Width, surface.Height);
+	m_srcSize = D3DXVECTOR2((float)surface.Width, (float)surface.Height);
 
 	m_uvStart.x = _start.x / m_srcSize.x;
 	m_uvStart.y = _start.y / m_srcSize.y;
@@ -41,8 +41,8 @@ Texture::Texture(const LPDIRECT3DTEXTURE9& _texture, const int& _maxFrameX, cons
 	D3DSURFACE_DESC surface;
 	m_texture->GetLevelDesc(0, &surface);
 
-	m_srcSize = D3DXVECTOR2(surface.Width, surface.Height);
-	m_size = D3DXVECTOR2(surface.Width / _maxFrameX, surface.Height / _maxFrameY);
+	m_srcSize = D3DXVECTOR2((float)surface.Width, (float)surface.Height);
+	m_size = D3DXVECTOR2((float)surface.Width / (float)_maxFrameX, (float)surface.Height / (float)_maxFrameY);
 	
 	m_uvStart.x = (float)_frameX / (float)_maxFrameX;
 	m_uvStart.y = (float)_frameY / (float)_maxFrameY;

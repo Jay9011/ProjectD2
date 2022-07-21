@@ -20,7 +20,7 @@ private:
 	D3DXVECTOR3 m_pos;
 	D3DXVECTOR3 m_scale;
 	float       m_angle;
-
+	
 	D3DXVECTOR3 m_pivot;
 
 	bool m_recomputeWorld;

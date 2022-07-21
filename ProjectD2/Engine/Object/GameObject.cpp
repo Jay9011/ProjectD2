@@ -25,7 +25,14 @@ GameObject::GameObject(Scene* _scene, OBJECT_TYPE _type, GameObject* _parent) :
 
 GameObject::~GameObject()
 {
+	/*     Buffer Release     */
+	m_vertexBuffer->Release();
+	 m_indexBuffer->Release();
+	
+	/*     Component Release       */
 	SAFE_DELETE_VEC(m_componentList);
+	
+	/*     GameObject Release        */
 	m_scene->DeleteObject(this);
 }
 
@@ -35,11 +42,11 @@ void GameObject::Update()
 		return;
 	
 	m_isUpdating = true;
-	
+
 	if (m_state == OBJECT_STATE::ACTIVE)
 	{
 		UpdateWorld();
-
+		
 		UpdateComponent();
 		UpdateObject();
 		UpdateComponentWorldTransform();
@@ -75,10 +82,14 @@ void GameObject::FinalUpdate()
 
 	if (m_state == OBJECT_STATE::ACTIVE)
 	{
+		m_direction = Math::NearZeroValue(GetPos() - m_beforePos);
+		
 		FinalUpdateComponent();
 		FinalUpdateObject();
+		
+		m_beforePos = GetPos();
 	}
-
+	
 	m_isUpdating = false;
 }
 
@@ -128,6 +139,8 @@ void GameObject::RenderObject()
 	DEVICE->SetStreamSource(0, m_vertexBuffer, 0, sizeof(VERTEXCOLOR));
 	DEVICE->SetIndices(m_indexBuffer);
 	DEVICE->DrawIndexedPrimitive(D3DPT_LINELIST, 0, 0, m_vertexCount, 0, m_indexCount / 2);
+	
+	DrawDirectionVertex();
 #endif // 테스트 렌더링 (Object 위치 표시)
 }
 
@@ -187,10 +200,10 @@ void GameObject::SetVertexData()
 	vertexList.push_back(VERTEXCOLOR(-12, 0, color, -1.f));
 	vertexList.push_back(VERTEXCOLOR(+12, 0, color, -1.f));
 
-	m_vertexCount = vertexList.size();
-	m_indexCount = indexList.size();
+	m_vertexCount = (UINT)vertexList.size();
+	m_indexCount  = (UINT)indexList.size();
 	UINT vertexSize = m_vertexCount * sizeof(VERTEXCOLOR);
-	UINT indexSize = m_indexCount * sizeof(WORD);
+	UINT indexSize  = m_indexCount * sizeof(WORD);
 	
 	DEVICE->CreateVertexBuffer(vertexSize, 0, VERTEXCOLOR::FVF, D3DPOOL_DEFAULT, &m_vertexBuffer, nullptr);
 
@@ -204,4 +217,39 @@ void GameObject::SetVertexData()
 	m_indexBuffer->Lock(0, indexSize, &pVoid, 0);
 	memcpy(pVoid, indexList.data(), indexSize);
 	m_indexBuffer->Unlock();
+}
+
+void GameObject::DrawDirectionVertex()
+{
+	vector<VERTEXCOLOR> vertexList;
+	vector<WORD>        indexList;
+
+	D3DCOLOR color = 0xFFFFB03A;
+
+	D3DXVECTOR3 scale = GetScale();
+	
+	// Direction Vertex
+	vertexList.push_back(VERTEXCOLOR(0, 0, color, -1.f)); // start
+	vertexList.push_back(VERTEXCOLOR(m_direction.x * abs(scale.x) * 30, m_direction.y * abs(scale.y) * 30, color, -1.f)); // end
+	
+	indexList.push_back(0);
+	indexList.push_back(1);
+
+	
+	D3DXMATRIX world;
+	D3DXMatrixIdentity(&world);
+
+	D3DXMATRIX P;
+	D3DXMATRIX IP;
+	D3DXVECTOR3 pivot = GetPivot();
+	D3DXMatrixTranslation(&P, pivot.x, pivot.y, pivot.z);
+	D3DXMatrixInverse(&IP, nullptr, &P);
+
+	world = IP * m_T * P;
+	
+	DEVICE->SetTransform(D3DTS_WORLD, &world);
+	DEVICE->SetFVF(VERTEXCOLOR::FVF);
+	DEVICE->DrawIndexedPrimitiveUP(D3DPT_LINELIST, 0, vertexList.size(), indexList.size() / 2, indexList.data(), D3DFMT_INDEX16, vertexList.data(), sizeof(VERTEXCOLOR));
+
+	SetWorld();
 }

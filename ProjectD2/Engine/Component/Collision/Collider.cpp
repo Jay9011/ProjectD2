@@ -5,12 +5,11 @@
 
 Collider::Collider(GameObject* _owner, int _updateOrder) :
 	Component(_owner, _updateOrder)
+	, isActive (false)
 {
 }
 
-Collider::~Collider()
-{
-}
+Collider::~Collider() = default;
 
 bool Collider::Intersects(Collider* _other)
 {

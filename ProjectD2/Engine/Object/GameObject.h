@@ -28,6 +28,9 @@ private:
 	OBJECT_STATE m_state;
 	bool m_isUpdating;
 	bool m_isRendering;
+
+	D3DXVECTOR3 m_beforePos;
+	D3DXVECTOR3 m_direction;
 	
 /* === === === === ===
 *     Component
@@ -59,5 +62,6 @@ private:
 	LPDIRECT3DVERTEXBUFFER9 m_vertexBuffer;
 	LPDIRECT3DINDEXBUFFER9  m_indexBuffer;
 	void SetVertexData();
+	void DrawDirectionVertex();
 #endif // GameObject À§Ä¡ Å½»ö¿ë Vertices
 };
