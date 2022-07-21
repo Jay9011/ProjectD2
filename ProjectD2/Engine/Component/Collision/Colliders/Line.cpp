@@ -112,7 +112,7 @@ D3DXVECTOR2 Line::PointOnLine(float _t)
 
 bool Line::Contains(const D3DXVECTOR2& _point)
 {
-	return Math::NearZero(MinDistSq(_point));
+	return Math::NearZero(MinDistSq(_point), 1.0);
 }
 
 void Line::Update()
