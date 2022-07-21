@@ -34,5 +34,9 @@ public:
 	
 	virtual D3DXVECTOR2 GetMin() override;
 	virtual D3DXVECTOR2 GetMax() override;
+
+	virtual D3DXVECTOR2 GetStart() { return m_worldStart; }
+	virtual D3DXVECTOR2 GetEnd()   { return m_worldEnd; }
+
 };
 

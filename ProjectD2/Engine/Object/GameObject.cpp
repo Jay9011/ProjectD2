@@ -30,7 +30,10 @@ GameObject::~GameObject()
 	 m_indexBuffer->Release();
 	
 	/*     Component Release       */
-	SAFE_DELETE_VEC(m_componentList);
+	while (!m_componentList.empty())
+	{
+		delete m_componentList.back();	// Component는 Release를 활용한다.
+	}
 	
 	/*     GameObject Release        */
 	m_scene->DeleteObject(this);

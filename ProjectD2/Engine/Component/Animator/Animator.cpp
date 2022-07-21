@@ -11,7 +11,11 @@ Animator::Animator(GameObject* _owner, int _updateOrder) :
 
 Animator::~Animator()
 {
-	SAFE_DELETE_VEC(m_animations);
+	while (!m_animations.empty())
+	{
+		delete m_animations.back();
+		m_animations.pop_back();
+	}
 }
 
 void Animator::PushBack(const vector<Texture*>& _actions, const ANIM_PLAY_TYPE& _type, const float& _speed)

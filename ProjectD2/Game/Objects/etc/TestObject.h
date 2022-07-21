@@ -19,6 +19,7 @@ public:
 	PLAYER_STATE m_state;
 	class Animator* m_animator;
 	class Collider* m_bodyCollider;
+	class Collider* m_sight_u;
 
 public:
 	void ScaleXInverse()

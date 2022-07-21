@@ -32,13 +32,9 @@ void ToolScene::Release()
 
 void ToolScene::UpdateScene()
 {
-	if (Collision(testObject->m_bodyCollider, testObject2->m_bodyCollider))
-	{
-	}
-	
-	if (Collision(testObject->m_bodyCollider, testObjectCircle->m_bodyCollider))
-	{
-	}
+	Collision(testObject->m_bodyCollider, testObject2->m_bodyCollider);
+	Collision(testObject->m_bodyCollider, testObjectCircle->m_bodyCollider);
+	Collision(testObject2->m_bodyCollider, testObject->m_sight_u);
 	
 	Collision(testObjectCircle->m_bodyCollider, MOUSEPOS);
 }

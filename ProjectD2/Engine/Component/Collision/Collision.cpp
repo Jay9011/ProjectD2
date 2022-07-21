@@ -1,6 +1,8 @@
 #include "Framework.h"
 #include "Collision.h"
 
+bool TestSide(float _start, float _end, float _negd, const D3DXVECTOR2& _norm, vector<std::pair<float, D3DXVECTOR2>>& _out);
+
 bool Collision(Collider* _a, Collider* _b)
 {
     if (!_a->IsActive() || !_b->IsActive())
@@ -11,6 +13,7 @@ bool Collision(Collider* _a, Collider* _b)
     switch (typeA)
     {
     case COLLIDER_TYPE::LINE:
+        Collision((Line*)_a, _b);
         break;
     case COLLIDER_TYPE::AARECT:
         Collision((AARect*)_a, _b);
@@ -35,6 +38,7 @@ bool Collision(const D3DXVECTOR2& _point, Collider* _other)
     switch (typeB)
     {
     case COLLIDER_TYPE::LINE:
+		Collision((Line*)_other, _point);
         break;
     case COLLIDER_TYPE::AARECT:
 		Collision((AARect*)_other, _point);
@@ -60,6 +64,7 @@ bool Collision(AARect* _rect, Collider* _other)
     switch (typeB)
     {
     case COLLIDER_TYPE::LINE:
+		Collision(_rect, (Line*)_other);
         break;
     case COLLIDER_TYPE::AARECT:
 		Collision(_rect, (AARect*)_other);
@@ -134,6 +139,48 @@ bool Collision(AARect* _rect, Circle* _circle)
     return false;
 }
 
+bool Collision(AARect* _rect, Line* _line)
+{
+	if (!_rect->IsActive() || !_line->IsActive())
+		return false;
+	
+    vector<std::pair<float, D3DXVECTOR2>> tValues;
+
+	D3DXVECTOR2 lineStart = _line->GetStart();
+	D3DXVECTOR2 lineEnd   = _line->GetEnd();
+	D3DXVECTOR2 rectMin   = _rect->GetMin();
+	D3DXVECTOR2 rectMax   = _rect->GetMax();
+	
+	
+	TestSide(lineStart.x, lineEnd.x, rectMin.x, {-1,  0}, tValues);
+	TestSide(lineStart.x, lineEnd.x, rectMax.x, { 1,  0}, tValues);
+	TestSide(lineStart.y, lineEnd.y, rectMin.y, { 0, -1}, tValues);
+	TestSide(lineStart.y, lineEnd.y, rectMax.y, { 0,  1}, tValues);
+	
+	std::sort(tValues.begin(), tValues.end(), 
+        [](const std::pair<float, D3DXVECTOR2>& a, const std::pair<float, D3DXVECTOR2>& b) 
+        { return a.first < b.first; }
+    );
+
+    D3DXVECTOR2 point;
+    for (auto& t : tValues)
+    {
+        point = _line->PointOnLine(t.first);
+        if (_rect->Contains(point))
+        {
+            // 충돌지점 t.first
+            // 노멀벡터 t.second
+
+            _line->IsCollided(true);
+            _rect->IsCollided(true);
+
+            return true;
+        }
+    }
+    
+    return false;
+}
+
 bool Collision(Circle* _circle, Collider* _other)
 {
 	if (!_circle->IsActive() || !_other->IsActive())
@@ -144,6 +191,7 @@ bool Collision(Circle* _circle, Collider* _other)
     switch (typeB)
     {
     case COLLIDER_TYPE::LINE:
+		Collision(_circle, (Line*)_other);
         break;
     case COLLIDER_TYPE::AARECT:
 		Collision(_circle, (AARect*)_other);
@@ -193,4 +241,63 @@ bool Collision(Circle* _circle, Circle* _other)
     }
 
     return false;
+}
+
+bool Collision(Circle* _circle, Line* _line)
+{
+    //TODO
+    return false;
+}
+
+bool Collision(Line* _line, Collider* _other)
+{
+    //TODO
+    return false;
+}
+
+bool Collision(Line* _line, const D3DXVECTOR2& _point)
+{
+    if(!_line->IsActive())
+		return false;
+
+    if (_line->Contains(_point))
+    {
+		_line->IsCollided(true);
+		
+		return true;
+    }
+	
+    return false;
+}
+
+bool Collision(Line* _line, Line* _other)
+{
+    //TODO
+    return false;
+}
+
+
+
+bool TestSide(float _start, float _end, float _negd, const D3DXVECTOR2& _norm, vector<std::pair<float, D3DXVECTOR2>>& _out)
+{
+    float denom = _end - _start;
+    if (Math::NearZero(denom))
+    {
+        return false;
+    }
+    else
+    {
+        float numer = -_start + _negd;
+        float t = numer / denom;
+		
+        if (t >= 0.0f && t <= 1.0f)
+        {
+            _out.emplace_back(t, _norm);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }
