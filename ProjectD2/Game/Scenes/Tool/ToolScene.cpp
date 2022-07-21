@@ -2,6 +2,7 @@
 #include "ToolScene.h"
 
 #include "Engine/Component/Collision/Collider.h"
+#include "Engine/Component/Collision/Colliders/Circle.h"
 #include "Game/Objects/etc/TestObject.h"
 #include "Game/Objects/etc/TestObject2.h"
 #include "Game/Objects/etc/TestObjectCircle.h"
@@ -35,6 +36,11 @@ void ToolScene::UpdateScene()
 	if (testObject->m_bodyCollider->Intersects(testObject2->m_bodyCollider, info))
 	{
 		info.other->IsCollided(true);
+	}
+	
+	if (testObjectCircle->m_bodyCollider->Intersects(MOUSEPOS, info))
+	{
+		
 	}
 }
 

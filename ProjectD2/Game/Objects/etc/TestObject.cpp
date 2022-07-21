@@ -73,6 +73,17 @@ void TestObject::UpdateObject()
 		
 		SetAction(PLAYER_STATE::RUN);
 	}
+	
+	if (KEYPRESS(VK_UP))
+	{
+		AddPos(V_UP * m_speed * fDT);
+		SetAction(PLAYER_STATE::RUN);
+	}
+	if (KEYPRESS(VK_DOWN))
+	{
+		AddPos(V_DOWN * m_speed * fDT);
+		SetAction(PLAYER_STATE::RUN);
+	}
 
 	if (KEYUP(VK_LEFT) || KEYUP(VK_RIGHT))
 		SetAction(PLAYER_STATE::IDLE);

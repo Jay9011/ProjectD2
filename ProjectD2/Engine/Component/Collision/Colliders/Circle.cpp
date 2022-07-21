@@ -15,11 +15,20 @@ Circle::~Circle() = default;
 
 bool Circle::Contains(const D3DXVECTOR2& _point)
 {
-	return false;
+	D3DXVECTOR2 diff = m_worldCenter - _point;
+	float distSq = D3DXVec2LengthSq(&diff);
+
+	return distSq <= GetRadiusSq();
 }
 
 bool Circle::Intersects(const D3DXVECTOR2& _point, OUT CollisionInfo& outColl)
 {
+	if(Contains(_point))
+	{
+		isCollided = true;
+		return true;
+	}
+	
 	return false;
 }
 
