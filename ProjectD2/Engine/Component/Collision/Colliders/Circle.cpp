@@ -94,8 +94,8 @@ void Circle::RenderVertexWithoutTransform()
 	for (int i = 0; i < sectorCount; i++)
 	{
 		float angle = (float)i * oneSector;
-		float x = m_radius *   cos(angle);
-		float y = m_radius * - sin(angle);
+		float x = m_worldRadius *   cos(angle);
+		float y = m_worldRadius * - sin(angle);
 
 		vertexList.push_back(VERTEXCOLOR(x + m_worldCenter.x, y + m_worldCenter.y, color, -1.0f));
 		 indexList.push_back((WORD)i);

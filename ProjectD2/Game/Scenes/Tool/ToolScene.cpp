@@ -24,6 +24,7 @@ void ToolScene::Init()
 
 	testObjectCircle = new TestObjectCircle(this);
 	testObjectCircle->SetPos({ WIN_CENTER_X - 300, WIN_CENTER_Y, 0.0f });
+	testObjectCircle->SetScale(5.0f, 5.0f);
 }
 
 void ToolScene::Release()
@@ -38,10 +39,12 @@ void ToolScene::UpdateScene()
 		info.other->IsCollided(true);
 	}
 	
-	if (testObjectCircle->m_bodyCollider->Intersects(MOUSEPOS, info))
+	if (testObject->m_bodyCollider->Intersects(testObjectCircle->m_bodyCollider, info))
 	{
-		
+		info.other->IsCollided(true);
 	}
+	
+	testObjectCircle->m_bodyCollider->Intersects(MOUSEPOS, info);
 }
 
 void ToolScene::RenderScene()

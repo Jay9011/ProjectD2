@@ -85,7 +85,7 @@ void TestObject::UpdateObject()
 		SetAction(PLAYER_STATE::RUN);
 	}
 
-	if (KEYUP(VK_LEFT) || KEYUP(VK_RIGHT))
+	if (KEYUP(VK_LEFT) || KEYUP(VK_RIGHT) || KEYUP(VK_UP) || KEYUP(VK_DOWN))
 		SetAction(PLAYER_STATE::IDLE);
 }
 
