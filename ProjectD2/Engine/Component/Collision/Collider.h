@@ -5,7 +5,7 @@ class AARect;
 struct CollisionInfo
 {
 	D3DXVECTOR2 point;
-	D3DXVECTOR2 normal;
+	D3DXVECTOR2 vector;
 	class Collider* other;
 };
 

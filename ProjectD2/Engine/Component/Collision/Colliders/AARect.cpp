@@ -39,6 +39,26 @@ bool AARect::Intersects(const D3DXVECTOR2& _point)
 
 bool AARect::Intersects(AARect& _rect, OUT CollisionInfo& outColl)
 {
+	if (!IsActive() || !_rect.IsActive())
+		return false;
+	
+	bool separatingAxis = 
+		m_max.x < _rect.m_min.x || 
+		m_min.x > _rect.m_max.x || 
+		m_max.y < _rect.m_min.y || 
+		m_min.y > _rect.m_max.y;
+
+	if (!separatingAxis)
+	{
+		D3DXVECTOR3 dir = _rect.GetOwner()->GetDirection();
+		outColl.vector = { dir.x, dir.y };
+		outColl.other = &_rect;
+		
+		isCollided = true;
+
+		return true;
+	}
+	
 	return false;
 }
 

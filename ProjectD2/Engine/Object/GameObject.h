@@ -51,6 +51,7 @@ public:
 	void         SetState(OBJECT_STATE _state) { m_state = _state; }
 	bool         IsDead() const                { return m_state == OBJECT_STATE::DEAD; }
 
+	const D3DXVECTOR3& GetDirection() const { return m_direction; }
 
 /* === === === === ===
 *  테스트용 VertexBuffer, IndexBuffer
