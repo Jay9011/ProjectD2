@@ -13,10 +13,6 @@ public:
 	// Collider을(를) 통해 상속됨
 	virtual bool Contains(const D3DXVECTOR2& _point) override;
 
-	virtual bool Intersects(const D3DXVECTOR2& _point, OUT CollisionInfo& outColl) override;
-	virtual bool Intersects(AARect* _rect            , OUT CollisionInfo& outColl) override;
-	virtual bool Intersects(Circle* _circle          , OUT CollisionInfo& outColl) override;
-	
 	virtual void Update() override;
 	virtual void FinalUpdate() override;
 	virtual void OnUpdateWorldTransform() override;

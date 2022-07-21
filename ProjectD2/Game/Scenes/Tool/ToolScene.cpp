@@ -1,8 +1,7 @@
 #include "Framework.h"
 #include "ToolScene.h"
 
-#include "Engine/Component/Collision/Collider.h"
-#include "Engine/Component/Collision/Colliders/Circle.h"
+#include "Engine/Component/Collision/Collision.h"
 #include "Game/Objects/etc/TestObject.h"
 #include "Game/Objects/etc/TestObject2.h"
 #include "Game/Objects/etc/TestObjectCircle.h"
@@ -33,18 +32,15 @@ void ToolScene::Release()
 
 void ToolScene::UpdateScene()
 {
-	CollisionInfo info = {};
-	if (testObject->m_bodyCollider->Intersects(testObject2->m_bodyCollider, info))
+	if (Collision(testObject->m_bodyCollider, testObject2->m_bodyCollider))
 	{
-		info.other->IsCollided(true);
 	}
 	
-	if (testObject->m_bodyCollider->Intersects(testObjectCircle->m_bodyCollider, info))
+	if (Collision(testObject->m_bodyCollider, testObjectCircle->m_bodyCollider))
 	{
-		info.other->IsCollided(true);
 	}
 	
-	testObjectCircle->m_bodyCollider->Intersects(MOUSEPOS, info);
+	Collision(testObjectCircle->m_bodyCollider, MOUSEPOS);
 }
 
 void ToolScene::RenderScene()

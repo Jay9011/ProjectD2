@@ -3,8 +3,7 @@
 
 #include "Engine/Singleton/Shader/Shader.h"
 #include "Engine/Component/Animator/Animator.h"
-#include "Engine/Component/Collision/Collider.h"
-#include "Engine/Component/Collision/Colliders/AARect.h"
+#include "Engine/Component/Collision/Collision.h"
 
 TestObject::TestObject(Scene* _scene, GameObject* _parent) :
 	TestObject(_scene, OBJECT_TYPE::DEFAULT, _parent)
@@ -45,11 +44,7 @@ TestObject::~TestObject() = default;
 
 void TestObject::UpdateObject()
 {
-	CollisionInfo info;
-	if (m_bodyCollider->Intersects(MOUSEPOS, info))
-	{
-		
-	}
+	Collision(m_bodyCollider, MOUSEPOS);
 
 	if(KEYPRESS(VK_LEFT))
 	{

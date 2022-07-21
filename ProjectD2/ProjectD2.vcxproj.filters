@@ -102,6 +102,9 @@
     <ClCompile Include="Game\Objects\etc\TestObjectCircle.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Component\Collision\Collision.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Framework.h">
@@ -207,6 +210,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Game\Objects\etc\TestObjectCircle.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Component\Collision\Collision.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

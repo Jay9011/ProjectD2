@@ -21,27 +21,6 @@ bool Circle::Contains(const D3DXVECTOR2& _point)
 	return distSq <= GetRadiusSq();
 }
 
-bool Circle::Intersects(const D3DXVECTOR2& _point, OUT CollisionInfo& outColl)
-{
-	if(Contains(_point))
-	{
-		isCollided = true;
-		return true;
-	}
-	
-	return false;
-}
-
-bool Circle::Intersects(AARect* _rect, OUT CollisionInfo& outColl)
-{
-	return false;
-}
-
-bool Circle::Intersects(Circle* _circle, OUT CollisionInfo& outColl)
-{
-	return false;
-}
-
 void Circle::Update()
 {
 }
