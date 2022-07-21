@@ -88,7 +88,7 @@ void Circle::RenderVertexWithoutTransform()
 		float x = m_radius *   cos(angle);
 		float y = m_radius * - sin(angle);
 
-		vertexList.push_back(VERTEXCOLOR(x, y, color, -1.0f));
+		vertexList.push_back(VERTEXCOLOR(x + m_worldCenter.x, y + m_worldCenter.y, color, -1.0f));
 		 indexList.push_back((WORD)i);
 	}
 	indexList.push_back(0);

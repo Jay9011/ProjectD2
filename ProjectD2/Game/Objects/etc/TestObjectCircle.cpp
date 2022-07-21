@@ -13,7 +13,7 @@ TestObjectCircle::TestObjectCircle(Scene* _scene, OBJECT_TYPE _type, GameObject*
 	, m_isRight(true)
 	, m_speed(100.f)
 {
-	m_bodyCollider = new Circle({ WIN_CENTER_X, WIN_CENTER_Y - 300}, 100.f, this);
+	m_bodyCollider = new Circle({ 0, 0 }, 100.f, this);
 	m_bodyCollider->IsActive(true);
 }
 

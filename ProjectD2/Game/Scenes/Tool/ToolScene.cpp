@@ -4,6 +4,7 @@
 #include "Engine/Component/Collision/Collider.h"
 #include "Game/Objects/etc/TestObject.h"
 #include "Game/Objects/etc/TestObject2.h"
+#include "Game/Objects/etc/TestObjectCircle.h"
 
 ToolScene::ToolScene(Game* _game) :
 	Scene(_game)
@@ -19,6 +20,9 @@ void ToolScene::Init()
 	
 	testObject2 = new TestObject2(this);
 	testObject2->SetPos({ WIN_CENTER_X + 300, WIN_CENTER_Y, 0.0f });
+
+	testObjectCircle = new TestObjectCircle(this);
+	testObjectCircle->SetPos({ WIN_CENTER_X - 300, WIN_CENTER_Y, 0.0f });
 }
 
 void ToolScene::Release()
