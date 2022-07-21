@@ -187,6 +187,7 @@
     <ClCompile Include="Engine\Component\Collision\Collider.cpp" />
     <ClCompile Include="Engine\Component\Collision\Colliders\AARect.cpp" />
     <ClCompile Include="Engine\Component\Collision\Colliders\Circle.cpp" />
+    <ClCompile Include="Engine\Component\Collision\Colliders\Line.cpp" />
     <ClCompile Include="Engine\Component\Collision\Collision.cpp" />
     <ClCompile Include="Engine\Component\Component.cpp" />
     <ClCompile Include="Engine\Core\Core.cpp" />
@@ -224,6 +225,7 @@
     <ClInclude Include="Engine\Component\Collision\Collider.h" />
     <ClInclude Include="Engine\Component\Collision\Colliders\AARect.h" />
     <ClInclude Include="Engine\Component\Collision\Colliders\Circle.h" />
+    <ClInclude Include="Engine\Component\Collision\Colliders\Line.h" />
     <ClInclude Include="Engine\Component\Collision\Collision.h" />
     <ClInclude Include="Engine\Component\Component.h" />
     <ClInclude Include="Engine\Core\Core.h" />

@@ -32,7 +32,8 @@ TestObject::TestObject(Scene* _scene, OBJECT_TYPE _type, GameObject* _parent) :
 	/*
 	* Collider
 	*/
-	m_bodyCollider = new AARect({-20, -17}, {0, 21}, this);
+	//m_bodyCollider = new AARect({-20, -17}, {0, 21}, this);
+	m_bodyCollider = new Circle({0, 0}, 20, this);
 	m_bodyCollider->IsActive(true);
 	
 	SetAnimation();

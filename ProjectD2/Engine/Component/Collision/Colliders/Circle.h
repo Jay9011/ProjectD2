@@ -16,8 +16,6 @@ public:
 	virtual void Render() override;
 	virtual void OnUpdateWorldTransform() override;
 	
-	virtual COLLIDER_TYPE GetColliderType() override;
-
 private:
 	void RenderVertexWithoutTransform();
 
@@ -31,6 +29,8 @@ private:
 *   Getter / Setter
 * === === === === === */
 public:
+	virtual COLLIDER_TYPE GetColliderType() override;
+
 	float GetRadius() const        { return m_worldRadius; }
 	float GetRadiusSq() const      { return m_worldRadius * m_worldRadius; }
 	void  SetRadius(float _radius) { m_radius = _radius; }

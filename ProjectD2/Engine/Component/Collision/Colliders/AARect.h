@@ -18,7 +18,6 @@ public:
 	virtual void OnUpdateWorldTransform() override;
 	virtual void Render() override;
 
-	virtual COLLIDER_TYPE GetColliderType() override;
 	
 private:
 	void RenderVertexWithoutTransform();
@@ -33,6 +32,8 @@ private:
 *   Getter / Setter
 * === === === === === */
 public:
+	virtual COLLIDER_TYPE GetColliderType() override;
+
 	void SetMin(const D3DXVECTOR2& _min) { m_min = _min; }
 	void SetMax(const D3DXVECTOR2& _max) { m_max = _max; }
 	
