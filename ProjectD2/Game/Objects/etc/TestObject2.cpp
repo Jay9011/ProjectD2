@@ -1,6 +1,8 @@
 #include "Framework.h"
 #include "TestObject2.h"
 
+#include "Engine/Component/Collision/Colliders/AARect.h"
+
 TestObject2::TestObject2(Scene* _scene, GameObject* _parent) :
 	TestObject2(_scene, OBJECT_TYPE::DEFAULT ,_parent)
 {
@@ -11,6 +13,8 @@ TestObject2::TestObject2(Scene* _scene, OBJECT_TYPE _type, GameObject* _parent) 
 	, m_isRight(true)
 	, m_speed(100.f)
 {
+	m_bodyCollider = new AARect({-100, -100}, {100, 100}, this);
+	m_bodyCollider->IsActive(true);
 }
 
 TestObject2::~TestObject2()

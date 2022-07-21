@@ -186,6 +186,7 @@
   <ItemGroup>
     <ClCompile Include="Engine\Component\Collision\Collider.cpp" />
     <ClCompile Include="Engine\Component\Collision\Colliders\AARect.cpp" />
+    <ClCompile Include="Engine\Component\Collision\Colliders\Circle.cpp" />
     <ClCompile Include="Engine\Component\Component.cpp" />
     <ClCompile Include="Engine\Core\Core.cpp" />
     <ClCompile Include="Engine\Core\Manager\Device\Device.cpp" />
@@ -210,6 +211,7 @@
     <ClCompile Include="Engine\Object\GameObject.cpp" />
     <ClCompile Include="Game\Objects\etc\TestObject.cpp" />
     <ClCompile Include="Game\Objects\etc\TestObject2.cpp" />
+    <ClCompile Include="Game\Objects\etc\TestObjectCircle.cpp" />
     <ClCompile Include="Game\Scenes\Test\TestScene.cpp" />
     <ClCompile Include="Game\Scenes\Tool\ToolScene.cpp" />
     <ClCompile Include="Headers\functions.cpp" />
@@ -220,6 +222,7 @@
   <ItemGroup>
     <ClInclude Include="Engine\Component\Collision\Collider.h" />
     <ClInclude Include="Engine\Component\Collision\Colliders\AARect.h" />
+    <ClInclude Include="Engine\Component\Collision\Colliders\Circle.h" />
     <ClInclude Include="Engine\Component\Component.h" />
     <ClInclude Include="Engine\Core\Core.h" />
     <ClInclude Include="Engine\Core\Manager\Device\Device.h" />
@@ -238,6 +241,7 @@
     <ClInclude Include="Engine\Object\GameObject.h" />
     <ClInclude Include="Game\Objects\etc\TestObject.h" />
     <ClInclude Include="Game\Objects\etc\TestObject2.h" />
+    <ClInclude Include="Game\Objects\etc\TestObjectCircle.h" />
     <ClInclude Include="Game\Scenes\Scenes.h" />
     <ClInclude Include="Game\Scenes\Test\TestScene.h" />
     <ClInclude Include="Game\Scenes\Tool\ToolScene.h" />

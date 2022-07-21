@@ -14,7 +14,6 @@ public:
 
 	void SetAction(PLAYER_STATE _state);
 
-private:
 	bool m_isRight;
 	float m_speed;
 	PLAYER_STATE m_state;

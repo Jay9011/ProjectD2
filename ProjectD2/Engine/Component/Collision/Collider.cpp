@@ -2,6 +2,7 @@
 #include "Collider.h"
 
 #include "Colliders/AARect.h"
+#include "Colliders/Circle.h"
 
 Collider::Collider(GameObject* _owner, int _updateOrder) :
 	Component(_owner, _updateOrder)
@@ -11,7 +12,7 @@ Collider::Collider(GameObject* _owner, int _updateOrder) :
 
 Collider::~Collider() = default;
 
-bool Collider::Intersects(Collider* _other)
+bool Collider::Intersects(Collider* _other, OUT CollisionInfo& outColl)
 {
 	COLLIDER_TYPE otherType = _other->GetColliderType();
 
@@ -20,9 +21,10 @@ bool Collider::Intersects(Collider* _other)
 	case COLLIDER_TYPE::LINE:
 		break;
 	case COLLIDER_TYPE::AARECT:
-		Intersects((AARect*)_other);
+		Intersects((AARect*)_other, outColl);
 		break;
 	case COLLIDER_TYPE::CIRCLE:
+		Intersects((Circle*)_other, outColl);
 		break;
 	default:
 		break;

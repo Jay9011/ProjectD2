@@ -109,9 +109,9 @@ void GameObject::Render()
 
 	m_isRendering = true;
 
+	RenderObject();
 	RenderComponent();
 	SetWorld();
-	RenderObject();
 	
 	m_isRendering = false;
 }

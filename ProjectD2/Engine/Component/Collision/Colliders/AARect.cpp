@@ -2,6 +2,7 @@
 #include "AARect.h"
 
 #include "Engine/Object/GameObject.h"
+#include "Circle.h"
 
 AARect::AARect(const D3DXVECTOR2& _min, const D3DXVECTOR2& _max, class GameObject* _owner, int _updateOrder) :
 	Collider(_owner, _updateOrder)
@@ -11,6 +12,16 @@ AARect::AARect(const D3DXVECTOR2& _min, const D3DXVECTOR2& _max, class GameObjec
 }
 
 AARect::~AARect() = default;
+
+float AARect::MinDistSq(const D3DXVECTOR2& _point)
+{
+	float dx = Math::Max(m_worldMin.x - _point.x, 0.0f);
+	dx = Math::Max(dx, _point.x - m_worldMax.x);
+	float dy = Math::Max(m_worldMin.y - _point.y, 0.0f);
+	dy = Math::Max(dy, _point.y - m_worldMax.y);
+
+	return dx * dx + dy * dy;
+}
 
 bool AARect::Contains(const D3DXVECTOR2& _point)
 {
@@ -26,7 +37,7 @@ bool AARect::Contains(const D3DXVECTOR2& _point)
 	return !outside;
 }
 
-bool AARect::Intersects(const D3DXVECTOR2& _point)
+bool AARect::Intersects(const D3DXVECTOR2& _point, OUT CollisionInfo& outColl)
 {
 	if (Contains(_point))
 	{
@@ -37,28 +48,46 @@ bool AARect::Intersects(const D3DXVECTOR2& _point)
 	return false;
 }
 
-bool AARect::Intersects(AARect& _rect, OUT CollisionInfo& outColl)
+bool AARect::Intersects(AARect* _rect, OUT CollisionInfo& outColl)
 {
-	if (!IsActive() || !_rect.IsActive())
+	if (!IsActive() || !_rect->IsActive())
 		return false;
 	
 	bool separatingAxis = 
-		m_max.x < _rect.m_min.x || 
-		m_min.x > _rect.m_max.x || 
-		m_max.y < _rect.m_min.y || 
-		m_min.y > _rect.m_max.y;
+		m_worldMax.x < _rect->m_worldMin.x || 
+		m_worldMin.x > _rect->m_worldMax.x || 
+		m_worldMax.y < _rect->m_worldMin.y || 
+		m_worldMin.y > _rect->m_worldMax.y;
 
 	if (!separatingAxis)
 	{
-		D3DXVECTOR3 dir = _rect.GetOwner()->GetDirection();
-		outColl.vector = { dir.x, dir.y };
-		outColl.other = &_rect;
+		D3DXVECTOR3 dir = _rect->GetOwner()->GetDirection();
+		outColl.vector  = { dir.x, dir.y };
+		outColl.other   = _rect;
 		
 		isCollided = true;
 
 		return true;
 	}
 	
+	return false;
+}
+
+bool AARect::Intersects(Circle* _circle, OUT CollisionInfo& outColl)
+{
+	float distSq = MinDistSq(_circle->GetCenter());
+
+	if (distSq < _circle->GetRadiusSq())
+	{
+		D3DXVECTOR3 dir = _circle->GetOwner()->GetDirection();
+		outColl.vector  = { dir.x, dir.y };
+		outColl.other   = _circle;
+
+		isCollided = true;
+		
+		return true;
+	}
+
 	return false;
 }
 
@@ -75,6 +104,9 @@ void AARect::FinalUpdate()
 
 void AARect::Render()
 {
+	if (!IsActive())
+		return;
+	
 	RenderVertexWithoutTransform();
 }
 
@@ -136,4 +168,6 @@ void AARect::RenderVertexWithoutTransform()
 	DEVICE->SetTransform(D3DTS_WORLD, &world);
 	DEVICE->SetFVF(VERTEXCOLOR::FVF);
 	DEVICE->DrawIndexedPrimitiveUP(D3DPT_LINESTRIP, 0, (UINT)vertexList.size(), (UINT)indexList.size() - 1, indexList.data(), D3DFMT_INDEX16, vertexList.data(), sizeof(VERTEXCOLOR));
+	
+	GetOwner()->SetWorld();
 }

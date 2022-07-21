@@ -45,11 +45,12 @@ TestObject::~TestObject() = default;
 
 void TestObject::UpdateObject()
 {
-	if (m_bodyCollider->Intersects(MOUSEPOS))
+	CollisionInfo info;
+	if (m_bodyCollider->Intersects(MOUSEPOS, info))
 	{
 		
 	}
-	
+
 	if(KEYPRESS(VK_LEFT))
 	{
 		AddPos(V_LEFT * m_speed * fDT);

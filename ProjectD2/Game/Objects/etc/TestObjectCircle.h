@@ -1,11 +1,11 @@
 #pragma once
 #include "Engine/Object/GameObject.h"
-class TestObject2 : public GameObject
+class TestObjectCircle : public GameObject
 {
 public:
-	TestObject2(Scene* _scene, GameObject* _parent = nullptr);
-	TestObject2(Scene* _scene, OBJECT_TYPE _type, GameObject* _parent = nullptr);
-	virtual ~TestObject2();
+	TestObjectCircle(Scene* _scene, GameObject* _parent = nullptr);
+	TestObjectCircle(Scene* _scene, OBJECT_TYPE _type, GameObject* _parent = nullptr);
+	virtual ~TestObjectCircle();
 
 	// GameObject을(를) 통해 상속됨
 	virtual void UpdateObject() override;
@@ -14,7 +14,7 @@ public:
 	bool m_isRight;
 	float m_speed;
 
-	class AARect* m_bodyCollider;
+	class Circle* m_bodyCollider;
 
 	void ScaleXInverse()
 	{
