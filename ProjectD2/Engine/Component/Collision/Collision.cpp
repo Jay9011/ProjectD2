@@ -194,7 +194,7 @@ bool Collision(Circle* _circle, Collider* _other)
 		Collision(_circle, (Line*)_other);
         break;
     case COLLIDER_TYPE::AARECT:
-		Collision(_circle, (AARect*)_other);
+		Collision((AARect*)_other, _circle);
         break;
     case COLLIDER_TYPE::CIRCLE:
 		Collision(_circle, (Circle*)_other);
@@ -251,7 +251,26 @@ bool Collision(Circle* _circle, Line* _line)
 
 bool Collision(Line* _line, Collider* _other)
 {
-    //TODO
+    if (!_line->IsActive() || !_other->IsActive())
+        return false;
+
+    COLLIDER_TYPE typeB = _other->GetColliderType();
+
+    switch (typeB)
+    {
+    case COLLIDER_TYPE::LINE:
+        Collision(_line, (Line*)_other);
+        break;
+    case COLLIDER_TYPE::AARECT:
+        Collision((AARect*)_other, _line);
+        break;
+    case COLLIDER_TYPE::CIRCLE:
+        Collision((Circle*)_other, _line);
+        break;
+    default:
+        break;
+    }
+    
     return false;
 }
 
