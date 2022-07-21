@@ -25,9 +25,6 @@ float AARect::MinDistSq(const D3DXVECTOR2& _point)
 
 bool AARect::Contains(const D3DXVECTOR2& _point)
 {
-	if(!IsActive())
-		return false;
-
 	bool outside = 
 		_point.x < m_worldMin.x ||
 		_point.y < m_worldMin.y ||
@@ -39,6 +36,9 @@ bool AARect::Contains(const D3DXVECTOR2& _point)
 
 bool AARect::Intersects(const D3DXVECTOR2& _point, OUT CollisionInfo& outColl)
 {
+	if (!IsActive())
+		return false;
+
 	if (Contains(_point))
 	{
 		isCollided = true;
@@ -75,6 +75,9 @@ bool AARect::Intersects(AARect* _rect, OUT CollisionInfo& outColl)
 
 bool AARect::Intersects(Circle* _circle, OUT CollisionInfo& outColl)
 {
+	if (!IsActive() || !_circle->IsActive())
+		return false;
+
 	float distSq = MinDistSq(_circle->GetCenter());
 
 	if (distSq < _circle->GetRadiusSq())
