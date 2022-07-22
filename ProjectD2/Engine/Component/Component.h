@@ -4,8 +4,6 @@ class Component
 {
 protected:
 	Component(class GameObject* _owner, int _updateOrder = 100);
-
-public:
 	virtual ~Component();
 	
 public:
@@ -13,6 +11,7 @@ public:
 	virtual void FinalUpdate() = 0;
 	virtual void OnUpdateWorldTransform() = 0;
 	virtual void Render() {}
+	void Delete() { delete this; }
 
 	/* === === === === ===
 	*       Factory

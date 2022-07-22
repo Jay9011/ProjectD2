@@ -48,8 +48,8 @@ TestObject::~TestObject() = default;
 
 void TestObject::UpdateObject()
 {
-	Collision(m_bodyCollider, MOUSEPOS);
-	Collision(m_sight_u, MOUSEPOS);
+	/*Collision(m_bodyCollider, MOUSEPOS);
+	Collision(m_sight_u, MOUSEPOS);*/
 
 	if(KEYPRESS(VK_LEFT))
 	{

@@ -2,6 +2,7 @@
 #include "Scene.h"
 
 #include "Engine/Object/GameObject.h"
+#include "Engine/Component/Collision/Collision.h"
 
 Scene::Scene(Game* _game) :
 	m_game(_game)
@@ -11,11 +12,14 @@ Scene::Scene(Game* _game) :
 	twbar = TweakBar::Get()->GetBar();
 #endif // _DEBUG
 
+	m_CollisionMgr = new CollisionMgr;
+
 }
 
 Scene::~Scene()
 {
 	DeleteAll();
+	delete m_CollisionMgr;
 }
 
 void Scene::Update()
@@ -76,6 +80,8 @@ void Scene::FinalUpdate()
 
 		m_updatingObjects = false;
 	}
+	
+	m_CollisionMgr->FinalUpdate();
 }
 
 void Scene::Render()

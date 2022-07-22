@@ -16,17 +16,17 @@ TestScene::~TestScene()
 
 void TestScene::Init()
 {
-	testObject = new TestObject(this);
+	testObject = new TestObject(this, OBJECT_TYPE::PLAYER);
 	testObject->SetPos({ WIN_CENTER_X, WIN_CENTER_Y, 0.5f });
 
-	testObject2 = new TestObject2(this);
+	testObject2 = new TestObject2(this, OBJECT_TYPE::PLATFORM);
 	testObject2->SetPos({ WIN_CENTER_X + 300, WIN_CENTER_Y, 0.0f });
 
-	testObjectCircle = new TestObjectCircle(this);
+	testObjectCircle = new TestObjectCircle(this, OBJECT_TYPE::PLATFORM);
 	testObjectCircle->SetPos({ WIN_CENTER_X - 300, WIN_CENTER_Y, 0.0f });
 	testObjectCircle->SetScale(5.0f, 5.0f);
 
-	testline = new TestObjectLine(this);
+	testline = new TestObjectLine(this, OBJECT_TYPE::PLATFORM);
 	testline->SetPos({ WIN_CENTER_X - 300, WIN_CENTER_Y, 0.0f });
 	testline->SetScale(-5, 5);
 }
@@ -37,12 +37,16 @@ void TestScene::Release()
 
 void TestScene::UpdateScene()
 {
-	Collision(testObject->m_bodyCollider, testObject2->m_bodyCollider);
-	Collision(testObject->m_bodyCollider, testObjectCircle->m_bodyCollider);
-	Collision(testObject2->m_bodyCollider, testObject->m_sight_u);
+	//Collision(testObject->m_bodyCollider, testObject2->m_bodyCollider);
+	//Collision(testObject->m_bodyCollider, testObjectCircle->m_bodyCollider);
+	//Collision(testObject2->m_bodyCollider, testObject->m_sight_u);
 
-	Collision(testObjectCircle->m_bodyCollider, MOUSEPOS);
-	Collision(testObject->m_sight_u, testline->m_line);
+	//Collision(testObjectCircle->m_bodyCollider, MOUSEPOS);
+	//Collision(testObject->m_sight_u, testline->m_line);
+	
+	vector<Collider*> collidedA;
+	vector<Collider*> collidedB;
+	GetCollisionMgr()->CheckCollision(OBJECT_TYPE::PLAYER, OBJECT_TYPE::PLATFORM, collidedA, collidedB);
 }
 
 void TestScene::RenderScene()

@@ -32,7 +32,8 @@ GameObject::~GameObject()
 	/*     Component Release       */
 	while (!m_componentList.empty())
 	{
-		delete m_componentList.back();	// Component는 Release를 활용한다.
+		m_componentList.back()->Delete();
+		//delete m_componentList.back();
 	}
 	
 	/*     GameObject Release        */

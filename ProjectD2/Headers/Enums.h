@@ -31,6 +31,8 @@ enum class COLLIDER_TYPE
 enum class OBJECT_TYPE
 {
 	DEFAULT,
+	PLAYER,
+	PLATFORM,
 
 	FIN = 32
 };

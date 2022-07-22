@@ -5,8 +5,28 @@
 #include "Colliders/Circle.h"
 #include "Colliders/Line.h"
 
-class Collision
+class CollisionMgr
 {
+public:
+	CollisionMgr();
+	~CollisionMgr();
+
+public:
+	bool CheckCollision(Collider* _chkCollider, OBJECT_TYPE _type, OUT vector<Collider*>& _vecCollList);
+	bool CheckCollision(OBJECT_TYPE _typeA, OBJECT_TYPE _typeB, OUT vector<Collider*>& _vecCollListA, OUT vector<Collider*>& _vecCollListB);
+
+	void Update();
+	void Render();
+	void FinalUpdate();
+
+	void AddCollider(OBJECT_TYPE _type, Collider* _collider);
+	void RemoveCollider(OBJECT_TYPE _type, Collider* _collider);
+	void RemoveColliderList(OBJECT_TYPE _type);
+	void RemoveAllColliders();
+
+private:
+	vector<Collider*> m_colliders[(UINT)OBJECT_TYPE::FIN];
+
 };
 
 /* === === === === ===

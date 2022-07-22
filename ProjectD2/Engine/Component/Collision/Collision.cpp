@@ -3,6 +3,131 @@
 
 bool TestSide(float _start, float _end, float _negd, const D3DXVECTOR2& _norm, vector<std::pair<float, D3DXVECTOR2>>& _out);
 
+CollisionMgr::CollisionMgr() = default;
+
+CollisionMgr::~CollisionMgr() = default;
+
+bool CollisionMgr::CheckCollision(Collider* _chkCollider, OBJECT_TYPE _type, OUT vector<Collider*>& _vecCollList)
+{
+    bool result = false;
+	
+	if (_chkCollider == nullptr || !_chkCollider->IsActive())
+		return result;
+	
+    _vecCollList.clear();
+	
+	D3DXVECTOR2 chkMin = _chkCollider->GetMin();
+    D3DXVECTOR2 chkMax = _chkCollider->GetMax();
+	
+    for (auto& collider : m_colliders[(UINT)_type])
+    {
+        if (_chkCollider == collider)
+            continue;
+		
+        if (chkMin.x > collider->GetMax().x)
+            continue;
+		
+        if (chkMax.x < collider->GetMin().x)
+            break;
+        
+        if (Collision(_chkCollider, collider))
+        {
+			_vecCollList.emplace_back(collider);
+            result = true;
+        }
+    }
+
+    return result;
+}
+
+bool CollisionMgr::CheckCollision(OBJECT_TYPE _typeA, OBJECT_TYPE _typeB, OUT vector<Collider*>& _vecCollListA, OUT vector<Collider*>& _vecCollListB)
+{
+	bool result = false;
+
+	_vecCollListA.clear();
+	_vecCollListB.clear();
+	
+    for (size_t i = 0; i < m_colliders[(UINT)_typeA].size(); i++)
+    {
+        Collider* colliderA = m_colliders[(UINT)_typeA][i];
+		D3DXVECTOR2 aMin = colliderA->GetMin();
+		D3DXVECTOR2 aMax = colliderA->GetMax();
+		
+        for (size_t j = 0; j < m_colliders[(UINT)_typeB].size(); j++)
+        {
+            Collider* colliderB = m_colliders[(UINT)_typeB][j];
+			
+			if (colliderA == colliderB)
+				continue;
+			
+			if (aMin.x > colliderB->GetMax().x)
+				continue;
+			
+            if (aMax.x < colliderB->GetMin().x)
+                break;
+			
+            if (Collision(colliderA, colliderB))
+            {
+				_vecCollListA.emplace_back(colliderA);
+				_vecCollListB.emplace_back(colliderB);
+				result = true;
+            }
+        }
+    }
+	
+    return result;
+}
+
+void CollisionMgr::Update()
+{
+}
+
+void CollisionMgr::Render()
+{
+}
+
+// 반드시! 마지막에 위치에 따라 정렬하게 해야 CheckCollision이 정상 동작함
+void CollisionMgr::FinalUpdate()
+{
+    for (auto& collisionType : m_colliders)
+    {
+        std::sort(collisionType.begin(), collisionType.end(),
+            [](Collider* a, Collider* b)
+            {
+                return a->GetMin().x < b->GetMin().x;
+            }
+        );
+    }
+}
+
+void CollisionMgr::AddCollider(OBJECT_TYPE _type, Collider* _collider)
+{
+	m_colliders[(UINT)_type].emplace_back(_collider);
+}
+
+void CollisionMgr::RemoveCollider(OBJECT_TYPE _type, Collider* _collider)
+{
+	auto iter = std::find(m_colliders[(UINT)_type].begin(), m_colliders[(UINT)_type].end(), _collider);
+    if (iter != m_colliders[(UINT)_type].end())
+    {
+        std::iter_swap(iter, m_colliders[(UINT)_type].end() - 1);
+		m_colliders[(UINT)_type].pop_back();
+    }
+}
+
+void CollisionMgr::RemoveColliderList(OBJECT_TYPE _type)
+{
+	m_colliders[(UINT)_type].clear();
+}
+
+void CollisionMgr::RemoveAllColliders()
+{
+    for (auto& type : m_colliders)
+    {
+		type.clear();
+    }
+}
+
 bool Collision(Collider* _a, Collider* _b)
 {
     if (!_a->IsActive() || !_b->IsActive())

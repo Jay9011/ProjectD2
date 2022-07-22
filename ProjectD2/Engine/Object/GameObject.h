@@ -43,6 +43,8 @@ private:
 * === === === === === */
 public:
 	const GameObject* GetParent() const override { return (GameObject*)m_parent; }
+	
+	Scene* GetScene() const { return m_scene; }
 
 	OBJECT_TYPE GetType() const            { return m_type; }
 	void        SetType(OBJECT_TYPE _type) { m_type = _type; }
