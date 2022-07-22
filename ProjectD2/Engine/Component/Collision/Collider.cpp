@@ -3,6 +3,7 @@
 
 #include "Colliders/AARect.h"
 #include "Colliders/Circle.h"
+#include "Colliders/Line.h"
 
 Collider::Collider(GameObject* _owner, int _updateOrder) :
 	Component(_owner, _updateOrder)

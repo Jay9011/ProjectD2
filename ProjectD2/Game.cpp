@@ -16,9 +16,8 @@ Game::Game() :
 	*       Scene Ãß°¡
 	* === === === === === */
 	SCENE->Add("Test", new TestScene(this));
-	SCENE->Add("Tool", new ToolScene(this));
 	
-	SCENE->ChangeScene("Tool");
+	SCENE->ChangeScene("Test");
 }
 
 Game::~Game()

@@ -3,7 +3,7 @@
 
 class Circle : public Collider
 {
-public:
+private:
 	Circle(const D3DXVECTOR2& center, const float& radius, class GameObject* _owner, int _updateOrder = 100);
 	virtual ~Circle() override;
 
@@ -40,5 +40,7 @@ public:
 
 	D3DXVECTOR2 GetMin() override { return m_worldCenter - D3DXVECTOR2(m_worldRadius, m_worldRadius); }
 	D3DXVECTOR2 GetMax() override { return m_worldCenter + D3DXVECTOR2(m_worldRadius, m_worldRadius); }
+
+	friend class Component;
 };
 

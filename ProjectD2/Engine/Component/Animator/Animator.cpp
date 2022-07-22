@@ -1,7 +1,7 @@
 #include "Framework.h"
 #include "Animator.h"
 
-#include "Engine/Singleton/Shader/Shader.h"
+#include "Engine/Resource/Shader.h"
 #include "Lib/XML.h"
 
 Animator::Animator(GameObject* _owner, int _updateOrder) :

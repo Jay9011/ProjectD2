@@ -2,7 +2,7 @@
 #include "Core.h"
 
 #include "Game.h"
-#include "Engine/Singleton/Shader/Shader.h"
+#include "Engine/Resource/Shader.h"
 
 /* === === === === ===
 *    static √ ±‚»≠

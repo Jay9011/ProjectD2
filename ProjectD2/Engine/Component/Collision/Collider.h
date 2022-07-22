@@ -1,8 +1,7 @@
 #pragma once
 #include "Engine/Component/Component.h"
 
-class AARect;
-class Circle;
+
 struct CollisionInfo
 {
 	D3DXVECTOR2 point;

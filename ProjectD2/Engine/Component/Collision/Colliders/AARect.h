@@ -3,7 +3,7 @@
 
 class AARect : public Collider
 {
-public:
+private:
 	AARect(const D3DXVECTOR2& _min, const D3DXVECTOR2& _max, class GameObject* _owner, int _updateOrder = 100);
 	virtual ~AARect() override;
 
@@ -40,5 +40,6 @@ public:
 	D3DXVECTOR2 GetMin() override { return m_worldMin; };
 	D3DXVECTOR2 GetMax() override { return m_worldMax; };
 
+	friend class Component;
 };
 

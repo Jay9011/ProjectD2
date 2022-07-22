@@ -1,7 +1,8 @@
 #include "Framework.h"
 #include "TestObjectCircle.h"
 
-#include "Engine/Component/Collision/Colliders/Circle.h"
+#include "Engine/Component/Component.h"
+#include "Engine/Component/Collision/Collision.h"
 
 TestObjectCircle::TestObjectCircle(Scene* _scene, GameObject* _parent) :
 	TestObjectCircle(_scene, OBJECT_TYPE::DEFAULT ,_parent)
@@ -13,7 +14,7 @@ TestObjectCircle::TestObjectCircle(Scene* _scene, OBJECT_TYPE _type, GameObject*
 	, m_isRight(true)
 	, m_speed(100.f)
 {
-	m_bodyCollider = new Circle({ 0, 0 }, 30.f, this);
+	m_bodyCollider = Component::ADD.NewCircle({ 0, 0 }, 30.f, this);
 	m_bodyCollider->IsActive(true);
 }
 

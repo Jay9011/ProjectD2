@@ -1,4 +1,5 @@
 #pragma once
+
 #include "Collider.h"
 #include "Colliders/AARect.h"
 #include "Colliders/Circle.h"
@@ -7,7 +8,6 @@
 class Collision
 {
 };
-
 
 /* === === === === ===
 *   전역 충돌 함수

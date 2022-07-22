@@ -198,7 +198,7 @@
     <ClCompile Include="Engine\Core\Manager\Scene\SceneMgr.cpp" />
     <ClCompile Include="Engine\Component\Animator\Animation.cpp" />
     <ClCompile Include="Engine\Component\Animator\Animator.cpp" />
-    <ClCompile Include="Engine\Singleton\Shader\Shader.cpp" />
+    <ClCompile Include="Engine\Resource\Shader.cpp" />
     <ClCompile Include="Engine\Core\Manager\Timer\Timer.cpp" />
     <ClCompile Include="Engine\Object\Transform.cpp" />
     <ClCompile Include="Engine\Core\Manager\Texture\Texture.cpp" />
@@ -236,7 +236,7 @@
     <ClInclude Include="Engine\Core\Manager\Scene\SceneMgr.h" />
     <ClInclude Include="Engine\Component\Animator\Animation.h" />
     <ClInclude Include="Engine\Component\Animator\Animator.h" />
-    <ClInclude Include="Engine\Singleton\Shader\Shader.h" />
+    <ClInclude Include="Engine\Resource\Shader.h" />
     <ClInclude Include="Engine\Core\Manager\Timer\Timer.h" />
     <ClInclude Include="Engine\Object\Transform.h" />
     <ClInclude Include="Engine\Core\Manager\Texture\Texture.h" />

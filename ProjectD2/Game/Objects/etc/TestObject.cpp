@@ -1,7 +1,8 @@
 #include "Framework.h"
 #include "TestObject.h"
 
-#include "Engine/Singleton/Shader/Shader.h"
+#include "Engine/Resource/Shader.h"
+#include "Engine/Component/Component.h"
 #include "Engine/Component/Animator/Animator.h"
 #include "Engine/Component/Collision/Collision.h"
 
@@ -28,15 +29,15 @@ TestObject::TestObject(Scene* _scene, OBJECT_TYPE _type, GameObject* _parent) :
 	/*
 	* Animator
 	*/
-	m_animator = new Animator(this);
+	m_animator = Component::ADD.NewAnimator(this);
 	m_animator->m_shader = SHADER(L"AlphaShader");
 	/*
 	* Collider
 	*/
 	//m_bodyCollider = new AARect({-20, -17}, {0, 21}, this);
-	m_bodyCollider = new Circle({0, 0}, 20, this);
+	m_bodyCollider = Component::ADD.NewCircle({ 0, 0 }, 20, this);
 	m_bodyCollider->IsActive(true);
-	m_sight_u = new Line({0, 0}, {150, -70}, this);
+	m_sight_u = Component::ADD.NewLine({ 0, 0 }, { 150, -70 }, this);
 	m_sight_u->IsActive(true);
 	
 	SetAnimation();
