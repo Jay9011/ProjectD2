@@ -5,6 +5,7 @@
 #include "Game/Objects/etc/TestObject.h"
 #include "Game/Objects/etc/TestObject2.h"
 #include "Game/Objects/etc/TestObjectCircle.h"
+#include "Game/Objects/etc/TestObjectLine.h"
 
 TestScene::TestScene(Game* _game) :
 	Scene(_game)
@@ -24,6 +25,10 @@ void TestScene::Init()
 	testObjectCircle = new TestObjectCircle(this);
 	testObjectCircle->SetPos({ WIN_CENTER_X - 300, WIN_CENTER_Y, 0.0f });
 	testObjectCircle->SetScale(5.0f, 5.0f);
+
+	testline = new TestObjectLine(this);
+	testline->SetPos({ WIN_CENTER_X - 300, WIN_CENTER_Y, 0.0f });
+	testline->SetScale(-5, 5);
 }
 
 void TestScene::Release()
@@ -37,6 +42,7 @@ void TestScene::UpdateScene()
 	Collision(testObject2->m_bodyCollider, testObject->m_sight_u);
 
 	Collision(testObjectCircle->m_bodyCollider, MOUSEPOS);
+	Collision(testObject->m_sight_u, testline->m_line);
 }
 
 void TestScene::RenderScene()

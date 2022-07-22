@@ -21,5 +21,6 @@ public:
 	class TestObject2* testObject2;
 
 	class TestObjectCircle* testObjectCircle;
+	class TestObjectLine* testline;
 };
 
