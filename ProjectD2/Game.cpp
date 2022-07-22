@@ -6,6 +6,7 @@
 
 Game::Game() :
 	m_GameState(GAME_STATE::PLAY)
+	, m_isDbgRendering(false)
 {
 	/* === === === === ===
 	*       기본 설정
@@ -26,6 +27,11 @@ Game::~Game()
 
 void Game::Update()
 {
+	if (KEYDOWN(VK_F9))
+	{
+		ChangeDbgRendering();
+	}
+	
 	SCENE->Update();
 }
 

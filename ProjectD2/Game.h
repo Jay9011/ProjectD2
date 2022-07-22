@@ -5,12 +5,14 @@ public:
 	Game();
 	~Game();
 
+public:
 	void Update();
 	void Render();
 	void FinalUpdate();
-	
+
 private:
 	GAME_STATE m_GameState;
+	bool m_isDbgRendering;
 
 public:
 	GAME_STATE GetGameState() const { return m_GameState; }
@@ -18,7 +20,12 @@ public:
 	
 	Scene*     CurScene() const    { return SCENE->GetCurrentScene(); }
 	Scene*     GetCurrrentScene() const { return SCENE->GetCurrentScene(); }
-	
+
+	bool	   IsDbgRendering() const { return m_isDbgRendering; }
+
+private:
+	bool& ChangeDbgRendering() { return m_isDbgRendering = !m_isDbgRendering; }
+
 /* === === === === ===
 *    TWBar ฐüทร
 * === === === === ===*/

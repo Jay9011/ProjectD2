@@ -31,7 +31,7 @@ void Circle::FinalUpdate()
 	isCollided = false;
 }
 
-void Circle::Render()
+void Circle::RenderDebug()
 {
 	if (!IsActive())
 		return;

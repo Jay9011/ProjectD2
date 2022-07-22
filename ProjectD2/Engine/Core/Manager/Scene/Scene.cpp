@@ -12,7 +12,7 @@ Scene::Scene(Game* _game) :
 	twbar = TweakBar::Get()->GetBar();
 #endif // _DEBUG
 
-	m_CollisionMgr = new CollisionMgr;
+	m_CollisionMgr = new CollisionMgr(_game);
 
 }
 
@@ -62,6 +62,8 @@ void Scene::Update()
 	}
 
 	UpdateScene();
+
+	m_CollisionMgr->Update();
 }
 
 void Scene::FinalUpdate()
@@ -95,6 +97,8 @@ void Scene::Render()
 	}
 
 	RenderScene();
+	
+	m_CollisionMgr->RenderDebug();
 }
 
 void Scene::AddObject(GameObject* _object, OBJECT_TYPE _type)

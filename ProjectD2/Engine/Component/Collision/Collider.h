@@ -20,6 +20,8 @@ public:
 
 	virtual bool Contains(const D3DXVECTOR2& _point) = 0;
 
+	virtual void RenderDebug() {};
+
 	// Component을(를) 통해 상속됨
 	virtual void Update() override = 0;
 	virtual void FinalUpdate() override = 0;

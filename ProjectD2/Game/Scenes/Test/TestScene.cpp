@@ -28,7 +28,7 @@ void TestScene::Init()
 
 	testline = new TestObjectLine(this, OBJECT_TYPE::PLATFORM);
 	testline->SetPos({ WIN_CENTER_X - 300, WIN_CENTER_Y, 0.0f });
-	testline->SetScale(-5, 5);
+	testline->SetScale(-2, 2);
 }
 
 void TestScene::Release()

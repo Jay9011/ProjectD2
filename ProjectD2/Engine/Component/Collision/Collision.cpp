@@ -3,7 +3,10 @@
 
 bool TestSide(float _start, float _end, float _negd, const D3DXVECTOR2& _norm, vector<std::pair<float, D3DXVECTOR2>>& _out);
 
-CollisionMgr::CollisionMgr() = default;
+CollisionMgr::CollisionMgr(Game* _game) :
+	m_game(_game)
+{
+}
 
 CollisionMgr::~CollisionMgr() = default;
 
@@ -78,10 +81,21 @@ bool CollisionMgr::CheckCollision(OBJECT_TYPE _typeA, OBJECT_TYPE _typeB, OUT ve
 
 void CollisionMgr::Update()
 {
+
 }
 
-void CollisionMgr::Render()
+void CollisionMgr::RenderDebug()
 {
+    if (m_game->IsDbgRendering())
+    {
+        for (auto& type : m_colliders)
+        {
+            for (auto& collider : type)
+            {
+                collider->RenderDebug();
+            }
+        }
+    }
 }
 
 // 반드시! 마지막에 위치에 따라 정렬하게 해야 CheckCollision이 정상 동작함

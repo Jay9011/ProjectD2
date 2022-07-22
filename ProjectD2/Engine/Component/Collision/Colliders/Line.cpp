@@ -125,7 +125,7 @@ void Line::FinalUpdate()
 	isCollided = false;
 }
 
-void Line::Render()
+void Line::RenderDebug()
 {
 	if (!IsActive())
 		return;

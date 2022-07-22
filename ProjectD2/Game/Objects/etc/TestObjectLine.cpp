@@ -27,4 +27,5 @@ void TestObjectLine::UpdateObject()
 
 void TestObjectLine::RenderObject()
 {
+	GameObject::RenderObject();
 }

@@ -113,9 +113,10 @@ void GameObject::Render()
 
 	m_isRendering = true;
 
-	RenderObject();
+	SetWorld();
 	RenderComponent();
 	SetWorld();
+	RenderObject();
 	
 	m_isRendering = false;
 }
@@ -138,14 +139,15 @@ void GameObject::FinalUpdateObject()
 
 void GameObject::RenderObject()
 {
-#if _DEBUG
-	DEVICE->SetFVF(VERTEXCOLOR::FVF);
-	DEVICE->SetStreamSource(0, m_vertexBuffer, 0, sizeof(VERTEXCOLOR));
-	DEVICE->SetIndices(m_indexBuffer);
-	DEVICE->DrawIndexedPrimitive(D3DPT_LINELIST, 0, 0, m_vertexCount, 0, m_indexCount / 2);
-	
-	DrawDirectionVertex();
-#endif // 테스트 렌더링 (Object 위치 표시)
+	if (m_scene->GetGame()->IsDbgRendering())
+	{
+		DEVICE->SetFVF(VERTEXCOLOR::FVF);
+		DEVICE->SetStreamSource(0, m_vertexBuffer, 0, sizeof(VERTEXCOLOR));
+		DEVICE->SetIndices(m_indexBuffer);
+		DEVICE->DrawIndexedPrimitive(D3DPT_LINELIST, 0, 0, m_vertexCount, 0, m_indexCount / 2);
+
+		DrawDirectionVertex();
+	}
 }
 
 void GameObject::AddComponent(Component* _component)

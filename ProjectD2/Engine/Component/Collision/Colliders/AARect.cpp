@@ -45,7 +45,7 @@ void AARect::FinalUpdate()
 	isCollided = false;
 }
 
-void AARect::Render()
+void AARect::RenderDebug()
 {
 	if (!IsActive())
 		return;

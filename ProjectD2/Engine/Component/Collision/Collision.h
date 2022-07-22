@@ -8,7 +8,7 @@
 class CollisionMgr
 {
 public:
-	CollisionMgr();
+	CollisionMgr(Game* _game);
 	~CollisionMgr();
 
 public:
@@ -16,7 +16,7 @@ public:
 	bool CheckCollision(OBJECT_TYPE _typeA    , OBJECT_TYPE _typeB, OUT vector<std::pair<Collider*, Collider*>>& _vecCollList);
 
 	void Update();
-	void Render();
+	void RenderDebug();
 	void FinalUpdate();
 
 	void AddCollider(OBJECT_TYPE _type, Collider* _collider);
@@ -25,8 +25,9 @@ public:
 	void RemoveAllColliders();
 
 private:
+	Game* m_game;
+	
 	vector<Collider*> m_colliders[(UINT)OBJECT_TYPE::FIN];
-
 };
 
 /* === === === === ===
