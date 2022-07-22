@@ -30,11 +30,11 @@ float Line::MinDistSq(const D3DXVECTOR2& _point)
 	return D3DXVec2LengthSq(&vecP);
 }
 
-float Line::MinDistSq(Line* _l1, Line* _l2)
+float Line::MinDistSq(Line* _other)
 {
-	D3DXVECTOR2 u = _l1->m_worldEnd   - _l1->m_worldStart;
-	D3DXVECTOR2 v = _l2->m_worldEnd   - _l2->m_worldStart;
-	D3DXVECTOR2 w = _l1->m_worldStart - _l2->m_worldStart;
+	D3DXVECTOR2 u =         m_worldEnd   -         m_worldStart;
+	D3DXVECTOR2 v = _other->m_worldEnd   - _other->m_worldStart;
+	D3DXVECTOR2 w =         m_worldStart - _other->m_worldStart;
 
 	float a = D3DXVec2Dot(&u, &u);
 	float b = D3DXVec2Dot(&u, &v);

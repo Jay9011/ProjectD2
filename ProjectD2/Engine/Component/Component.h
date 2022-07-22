@@ -35,9 +35,6 @@ public:
 /* === === === === ===
 *   Member Variables
 * === === === === === */
-public:
-	static Factory ADD;
-	
 private:
 	GameObject* m_owner;
 	int m_updateOrder;

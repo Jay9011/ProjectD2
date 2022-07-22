@@ -245,7 +245,47 @@ bool Collision(Circle* _circle, Circle* _other)
 
 bool Collision(Circle* _circle, Line* _line)
 {
-    //TODO
+    if(!_circle->IsActive() || !_line->IsActive())
+		return false;
+	
+	D3DXVECTOR2 x = _line->GetStart() - _circle->GetCenter();
+	D3DXVECTOR2 y = _line->GetEnd() - _line->GetStart();
+    float a = D3DXVec2Dot(&y, &y);
+	float b = 2.0f * D3DXVec2Dot(&x, &y);
+	float c = D3DXVec2Dot(&x, &x) - _circle->GetRadiusSq();
+	// 판별식
+	float discriminant = b * b - 4 * a * c;
+    if (discriminant < 0.0f)
+    {
+        return false;
+    }
+    else
+    {
+        discriminant = sqrt(discriminant);
+		
+		float t1 = (-b - discriminant) / (2.0f * a);
+		float t2 = (-b + discriminant) / (2.0f * a);
+		
+        if (t1 >= 0.0f && t1 <= 1.0f)
+        {
+			_circle->IsCollided(true);
+			_line->IsCollided(true);
+			// 충돌지점 t = t1
+            return true;
+        }
+        else if (t2 >= 0.0f && t2 <= 1.0f)
+        {
+			_circle->IsCollided(true);
+			_line->IsCollided(true);
+			// 충돌지점 t = t2
+			return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
     return false;
 }
 
@@ -291,7 +331,17 @@ bool Collision(Line* _line, const D3DXVECTOR2& _point)
 
 bool Collision(Line* _line, Line* _other)
 {
-    //TODO
+    if (!_line->IsActive() && !_other->IsActive())
+        return false;
+	
+    if (Math::NearZero(_line->MinDistSq(_other), 1.0))
+    {
+        _line->IsCollided(true);
+		_other->IsCollided(true);
+
+        return true;
+    }
+    
     return false;
 }
 

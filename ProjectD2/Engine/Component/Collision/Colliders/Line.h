@@ -9,7 +9,7 @@ private:
 	
 public:
 	float MinDistSq(const D3DXVECTOR2& _point);
-	float MinDistSq(Line* _l1, Line* _l2);
+	float MinDistSq(Line* _other);
 	D3DXVECTOR2 PointOnLine(float _t);
 
 	// Collider을(를) 통해 상속됨
