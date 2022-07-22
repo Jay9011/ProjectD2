@@ -29,15 +29,14 @@ TestObject::TestObject(Scene* _scene, OBJECT_TYPE _type, GameObject* _parent) :
 	/*
 	* Animator
 	*/
-	m_animator = Component::ADD.NewAnimator(this);
-	m_animator->m_shader = SHADER(L"AlphaShader");
+	m_animator = ADDCOMP::NewAnimator(this, SHADER(L"AlphaShader"));
 	/*
 	* Collider
 	*/
 	//m_bodyCollider = new AARect({-20, -17}, {0, 21}, this);
-	m_bodyCollider = Component::ADD.NewCircle({ 0, 0 }, 20, this);
+	m_bodyCollider = ADDCOMP::NewCircle({ 0, 0 }, 20, this);
 	m_bodyCollider->IsActive(true);
-	m_sight_u = Component::ADD.NewLine({ 0, 0 }, { 150, -70 }, this);
+	m_sight_u = ADDCOMP::NewLine({ 0, 0 }, { 150, -70 }, this);
 	m_sight_u->IsActive(true);
 	
 	SetAnimation();

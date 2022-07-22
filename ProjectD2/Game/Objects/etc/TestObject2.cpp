@@ -14,7 +14,7 @@ TestObject2::TestObject2(Scene* _scene, OBJECT_TYPE _type, GameObject* _parent) 
 	, m_isRight(true)
 	, m_speed(100.f)
 {
-	m_bodyCollider = Component::ADD.NewAARect({ -100, -100 }, { 100, 100 }, this);
+	m_bodyCollider = ADDCOMP::NewAARect({ -100, -100 }, { 100, 100 }, this);
 	m_bodyCollider->IsActive(true);
 }
 

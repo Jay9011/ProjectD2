@@ -14,7 +14,7 @@ TestObjectCircle::TestObjectCircle(Scene* _scene, OBJECT_TYPE _type, GameObject*
 	, m_isRight(true)
 	, m_speed(100.f)
 {
-	m_bodyCollider = Component::ADD.NewCircle({ 0, 0 }, 30.f, this);
+	m_bodyCollider = ADDCOMP::NewCircle({ 0, 0 }, 30.f, this);
 	m_bodyCollider->IsActive(true);
 }
 

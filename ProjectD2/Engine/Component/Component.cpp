@@ -3,6 +3,7 @@
 
 #include "Engine/Object/GameObject.h"
 #include "Animator/Animator.h"
+#include "Engine/Resource/Shader.h"
 #include "Collision/Collider.h"
 #include "Collision/Colliders/AARect.h"
 #include "Collision/Colliders/Circle.h"
@@ -23,6 +24,14 @@ Component::~Component()
 Animator* Component::Factory::NewAnimator(GameObject* _owner, int _updateOrder)
 {
 	return new Animator(_owner, _updateOrder);
+}
+
+Animator* Component::Factory::NewAnimator(GameObject* _owner, Shader* _shader, int _updateOrder)
+{
+	Animator* animator = new Animator(_owner, _updateOrder);
+	animator->m_shader = _shader;
+	
+	return animator;
 }
 
 AARect* Component::Factory::NewAARect(const D3DXVECTOR2& _min, const D3DXVECTOR2& _max, GameObject* _owner, int _updateOrder)

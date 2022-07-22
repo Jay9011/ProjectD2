@@ -1,10 +1,9 @@
 #pragma once
 
-class GameObject;
 class Component
 {
 protected:
-	Component(GameObject* _owner, int _updateOrder = 100);
+	Component(class GameObject* _owner, int _updateOrder = 100);
 
 public:
 	virtual ~Component();
@@ -25,7 +24,8 @@ public:
 		~Factory() = default;
 
 	public:
-		static class Animator* NewAnimator(GameObject* _owner, int _updateOrder = 100);
+		static class Animator* NewAnimator(class GameObject* _owner, int _updateOrder = 100);
+		static class Animator* NewAnimator(class GameObject* _owner, class Shader* _shader, int _updateOrder = 100);
 		static class AARect*   NewAARect(const D3DXVECTOR2& _min, const D3DXVECTOR2& _max, class GameObject* _owner, int _updateOrder = 100);
 		static class Circle*   NewCircle(const D3DXVECTOR2& _center, float _radius, class GameObject* _owner, int _updateOrder = 100);
 		static class Line*     NewLine(const D3DXVECTOR2& _start, const D3DXVECTOR2& _end, class GameObject* _owner, int _updateOrder = 100);
@@ -37,7 +37,7 @@ public:
 * === === === === === */
 public:
 	static Factory ADD;
-
+	
 private:
 	GameObject* m_owner;
 	int m_updateOrder;
@@ -50,3 +50,5 @@ public:
 	int GetUpdateOrder() const { return m_updateOrder; }
 
 };
+
+using ADDCOMP = Component::Factory;
