@@ -37,9 +37,8 @@ void TestScene::Release()
 
 void TestScene::UpdateScene()
 {
-	vector<Collider*> collidedA;
-	vector<Collider*> collidedB;
-	GetCollisionMgr()->CheckCollision(OBJECT_TYPE::PLAYER, OBJECT_TYPE::PLATFORM, collidedA, collidedB);
+	vector<std::pair<Collider*, Collider*>> collided;
+	GetCollisionMgr()->CheckCollision(OBJECT_TYPE::PLAYER, OBJECT_TYPE::PLATFORM, collided);
 }
 
 void TestScene::RenderScene()

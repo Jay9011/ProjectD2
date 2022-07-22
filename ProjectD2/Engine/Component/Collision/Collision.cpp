@@ -7,7 +7,7 @@ CollisionMgr::CollisionMgr() = default;
 
 CollisionMgr::~CollisionMgr() = default;
 
-bool CollisionMgr::CheckCollision(Collider* _chkCollider, OBJECT_TYPE _type, OUT vector<Collider*>& _vecCollList)
+bool CollisionMgr::CheckCollision(Collider* _chkCollider, OBJECT_TYPE _type, OUT vector<std::pair<Collider*, Collider*>>& _vecCollList)
 {
     bool result = false;
 	
@@ -32,7 +32,7 @@ bool CollisionMgr::CheckCollision(Collider* _chkCollider, OBJECT_TYPE _type, OUT
         
         if (Collision(_chkCollider, collider))
         {
-			_vecCollList.emplace_back(collider);
+			_vecCollList.push_back(std::make_pair(_chkCollider, collider));
             result = true;
         }
     }
@@ -40,12 +40,11 @@ bool CollisionMgr::CheckCollision(Collider* _chkCollider, OBJECT_TYPE _type, OUT
     return result;
 }
 
-bool CollisionMgr::CheckCollision(OBJECT_TYPE _typeA, OBJECT_TYPE _typeB, OUT vector<Collider*>& _vecCollListA, OUT vector<Collider*>& _vecCollListB)
+bool CollisionMgr::CheckCollision(OBJECT_TYPE _typeA, OBJECT_TYPE _typeB, OUT vector<std::pair<Collider*, Collider*>>& _vecCollList)
 {
 	bool result = false;
 
-	_vecCollListA.clear();
-	_vecCollListB.clear();
+	_vecCollList.clear();
 	
     for (size_t i = 0; i < m_colliders[(UINT)_typeA].size(); i++)
     {
@@ -68,8 +67,7 @@ bool CollisionMgr::CheckCollision(OBJECT_TYPE _typeA, OBJECT_TYPE _typeB, OUT ve
 			
             if (Collision(colliderA, colliderB))
             {
-				_vecCollListA.emplace_back(colliderA);
-				_vecCollListB.emplace_back(colliderB);
+				_vecCollList.push_back(std::make_pair(colliderA, colliderB));
 				result = true;
             }
         }
