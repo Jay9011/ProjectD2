@@ -135,22 +135,23 @@ bool Collision(Collider* _a, Collider* _b)
 
     COLLIDER_TYPE typeA = _a->GetColliderType();
 
+    bool result = false;
     switch (typeA)
     {
     case COLLIDER_TYPE::LINE:
-        Collision((Line*)_a, _b);
+        result = Collision((Line*)_a, _b);
         break;
     case COLLIDER_TYPE::AARECT:
-        Collision((AARect*)_a, _b);
+        result = Collision((AARect*)_a, _b);
         break;
     case COLLIDER_TYPE::CIRCLE:
-        Collision((Circle*)_a, _b);
+        result = Collision((Circle*)_a, _b);
         break;
     default:
         break;
     }
 
-    return false;
+    return result;
 }
 
 bool Collision(const D3DXVECTOR2& _point, Collider* _other)
@@ -160,23 +161,24 @@ bool Collision(const D3DXVECTOR2& _point, Collider* _other)
 	
 	COLLIDER_TYPE typeB = _other->GetColliderType();
 	
+    bool result = false;
     switch (typeB)
     {
     case COLLIDER_TYPE::LINE:
-		Collision((Line*)_other, _point);
+		result = Collision((Line*)_other, _point);
         break;
     case COLLIDER_TYPE::AARECT:
-		Collision((AARect*)_other, _point);
+		result = Collision((AARect*)_other, _point);
         break;
     case COLLIDER_TYPE::CIRCLE:
-		Collision((Circle*)_other, _point);
+		result = Collision((Circle*)_other, _point);
         break;
     default:
         break;
     }
 
 	
-    return false;
+    return result;
 }
 
 bool Collision(AARect* _rect, Collider* _other)
@@ -186,22 +188,23 @@ bool Collision(AARect* _rect, Collider* _other)
 	
 	COLLIDER_TYPE typeB = _other->GetColliderType();
 	
+    bool result = false;
     switch (typeB)
     {
     case COLLIDER_TYPE::LINE:
-		Collision(_rect, (Line*)_other);
+		result = Collision(_rect, (Line*)_other);
         break;
     case COLLIDER_TYPE::AARECT:
-		Collision(_rect, (AARect*)_other);
+		result = Collision(_rect, (AARect*)_other);
         break;
     case COLLIDER_TYPE::CIRCLE:
-		Collision(_rect, (Circle*)_other);
+		result = Collision(_rect, (Circle*)_other);
         break;
     default:
         break;
     }
 	
-    return false;
+    return result;
 }
 
 bool Collision(AARect* _rect, const D3DXVECTOR2& _point)
@@ -313,23 +316,24 @@ bool Collision(Circle* _circle, Collider* _other)
 
 	COLLIDER_TYPE typeB = _other->GetColliderType();
 	
+    bool result = false;
     switch (typeB)
     {
     case COLLIDER_TYPE::LINE:
-		Collision(_circle, (Line*)_other);
+		result = Collision(_circle, (Line*)_other);
         break;
     case COLLIDER_TYPE::AARECT:
-		Collision((AARect*)_other, _circle);
+		result = Collision((AARect*)_other, _circle);
         break;
     case COLLIDER_TYPE::CIRCLE:
-		Collision(_circle, (Circle*)_other);
+		result = Collision(_circle, (Circle*)_other);
         break;
     default:
         break;
     }
 	
 	
-    return false;
+    return result;
 }
 
 bool Collision(Circle* _circle, const D3DXVECTOR2& _point)
@@ -421,22 +425,23 @@ bool Collision(Line* _line, Collider* _other)
 
     COLLIDER_TYPE typeB = _other->GetColliderType();
 
+    bool result = false;
     switch (typeB)
     {
     case COLLIDER_TYPE::LINE:
-        Collision(_line, (Line*)_other);
+        result = Collision(_line, (Line*)_other);
         break;
     case COLLIDER_TYPE::AARECT:
-        Collision((AARect*)_other, _line);
+        result = Collision((AARect*)_other, _line);
         break;
     case COLLIDER_TYPE::CIRCLE:
-        Collision((Circle*)_other, _line);
+        result = Collision((Circle*)_other, _line);
         break;
     default:
         break;
     }
     
-    return false;
+    return result;
 }
 
 bool Collision(Line* _line, const D3DXVECTOR2& _point)

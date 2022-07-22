@@ -37,13 +37,6 @@ void TestScene::Release()
 
 void TestScene::UpdateScene()
 {
-	//Collision(testObject->m_bodyCollider, testObject2->m_bodyCollider);
-	//Collision(testObject->m_bodyCollider, testObjectCircle->m_bodyCollider);
-	//Collision(testObject2->m_bodyCollider, testObject->m_sight_u);
-
-	//Collision(testObjectCircle->m_bodyCollider, MOUSEPOS);
-	//Collision(testObject->m_sight_u, testline->m_line);
-	
 	vector<Collider*> collidedA;
 	vector<Collider*> collidedB;
 	GetCollisionMgr()->CheckCollision(OBJECT_TYPE::PLAYER, OBJECT_TYPE::PLATFORM, collidedA, collidedB);
