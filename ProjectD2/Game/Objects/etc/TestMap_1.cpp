@@ -12,6 +12,7 @@ TestMap_1::TestMap_1(Scene* _scene, int _updateOrder, GameObject* _parent) :
 	PlatformRect* platform = new PlatformRect({64, 64}, L"Tile\\Entry.png", 8, 1, true, _scene, OBJECT_TYPE::FOREBLOCK, _updateOrder, this);
 	platform->SetPos(100, 100);
 	m_platforms.push_back(platform);
+	m_Entry = platform;
 	
 	platform = new PlatformRect({640, 32}, L"Tile\\IndustrialTile_09.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, this);
 	platform->SetPos(100, 100);
@@ -24,7 +25,10 @@ TestMap_1::~TestMap_1()
 
 void TestMap_1::UpdateObject()
 {
-	
+	if (KEYDOWN(VK_F8))
+	{
+		m_Entry->AnimPauseOrPlay();
+	}
 }
 
 void TestMap_1::RenderObject()

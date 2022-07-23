@@ -4,9 +4,10 @@
 #include "Engine/Core/Core.h"
 #include "Game/Scenes/Scenes.h"
 
+bool Game::m_isDbgRendering = true;
+
 Game::Game() :
 	m_GameState(GAME_STATE::PLAY)
-	, m_isDbgRendering(true)
 {
 	/* === === === === ===
 	*       기본 설정

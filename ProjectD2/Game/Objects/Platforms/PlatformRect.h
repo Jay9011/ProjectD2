@@ -1,5 +1,8 @@
 #pragma once
 #include "Engine/Object/GameObject.h"
+class Animator;
+class Texture;
+class AARect;
 class PlatformRect : public GameObject
 {
 	enum class PlatformType
@@ -35,7 +38,40 @@ public:
 	Texture*  GetTexture()  { return m_texture; }
 	AARect*   GetCollider() { return m_collider; }
 	
-	bool AnimPlay() { if (m_type == PlatformType::Animation) m_animator->Find(0)->Play(); }
-	bool AnimStop() { if (m_type == PlatformType::Animation) m_animator->Find(0)->Stop(); }
+	bool AnimPlay() 
+	{ 
+		if (m_type == PlatformType::Animation) 
+		{ 
+			m_animator->Find(0)->Play();
+			return true;
+		} 
+		return false; 
+	}
+	bool AnimStop() 
+	{ 
+		if (m_type == PlatformType::Animation) 
+		{ 
+			m_animator->Find(0)->Stop();
+			return true;
+		} 
+		return false; 
+	}
+	bool AnimPauseOrPlay()
+	{
+		if (m_type == PlatformType::Animation)
+		{
+			if (m_animator->Find(0)->IsPlay())
+			{
+				m_animator->Find(0)->Pause();
+			}
+			else
+			{
+				m_animator->Find(0)->Play();
+			}
+			return true;
+		}
+		
+		return false;
+	}
 };
 

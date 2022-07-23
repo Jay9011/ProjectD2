@@ -16,10 +16,11 @@ public:
 	virtual void Update() override;
 	virtual void FinalUpdate() override;
 	virtual void OnUpdateWorldTransform() override;
-	virtual void RenderDebug() override;
+	virtual void Render() override;
 
 	
 private:
+	void RenderVertex();
 	void RenderVertexWithoutTransform();
 
 private:

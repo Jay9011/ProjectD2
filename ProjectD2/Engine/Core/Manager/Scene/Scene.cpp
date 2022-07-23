@@ -97,8 +97,6 @@ void Scene::Render()
 	}
 
 	RenderScene();
-	
-	m_CollisionMgr->RenderDebug();
 }
 
 void Scene::AddObject(GameObject* _object, OBJECT_TYPE _type)

@@ -7,6 +7,7 @@ Animation::Animation(Animator* _owner, const vector<Texture*>& _frames, ANIM_PLA
 	m_owner(_owner)
 	, m_playType(_playType)
 	, m_isPlay(false)
+	, m_isPause(false)
 	, m_isReverse(false)
 	, m_isFinish(false)
 	, m_time(0.0f)
@@ -82,11 +83,7 @@ void Animation::Play(Animation* _nextAnimation)
 	if(_nextAnimation != nullptr)
 		m_owner->SetNextAnimation(_nextAnimation);
 	
-	m_isPlay = true;
-	m_currentFrame = 0;
-	m_time = 0.0f;
-	m_isReverse = false;
-	m_isFinish = false;
+	PlayStateChange();
 }
 
 void Animation::Play(const size_t& _nextAnimIdx)
@@ -95,28 +92,45 @@ void Animation::Play(const size_t& _nextAnimIdx)
 	
 	if(_nextAnimIdx < m_owner->GetAnimationsSize())
 		m_owner->SetNextAnimation(_nextAnimIdx);
-	
+
+	PlayStateChange();
+}
+
+void Animation::PlayStateChange()
+{
+	if (m_isPause)
+	{
+		m_isPause = false;
+	}
+	else
+	{
+		m_isPause = true;
+		m_currentFrame = 0;
+		m_time = 0.0f;
+		m_isReverse = false;
+		m_isFinish = false;
+	}
+
 	m_isPlay = true;
-	m_currentFrame = 0;
-	m_time = 0.0f;
-	m_isReverse = false;
-	m_isFinish = false;
 }
 
 void Animation::Pause()
 {
 	m_isPlay = false;
+	m_isPause = true;
 }
 
 void Animation::Stop()
 {
 	m_isPlay = false;
+	m_isPause = false;
 	m_isReverse = false;
 }
 
 void Animation::Reset()
 {
 	m_isPlay = true;
+	m_isPause = false;
 	m_currentFrame = 0;
 	m_time = 0.0f;
 	m_isReverse = false;

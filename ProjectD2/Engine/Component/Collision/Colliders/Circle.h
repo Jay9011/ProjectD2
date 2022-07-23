@@ -13,7 +13,7 @@ public:
 	
 	virtual void Update() override;
 	virtual void FinalUpdate() override;
-	virtual void RenderDebug() override;
+	virtual void Render() override;
 	virtual void OnUpdateWorldTransform() override;
 	
 private:

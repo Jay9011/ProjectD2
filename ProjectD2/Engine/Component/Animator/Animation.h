@@ -31,6 +31,7 @@ private:
 	vector<Frame> m_frames;
 	
 	bool m_isPlay;
+	bool m_isPause;
 	bool m_isReverse;
 	bool m_isFinish;
 	
@@ -39,6 +40,9 @@ private:
 	UINT m_prevFrame;
 	UINT m_currentFrame;
 
+private:
+	void PlayStateChange();
+	
 /* === === === === ===
 *  Getter / Setter
 * === === === === === */
@@ -64,5 +68,6 @@ public:
 
 	void ReverseChange()         { m_isReverse = !m_isReverse; }
 	bool Finish(bool _finished)	 { m_isFinish = _finished; return m_isFinish; }
+
 };
 

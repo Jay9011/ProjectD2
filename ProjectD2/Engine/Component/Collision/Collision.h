@@ -16,7 +16,6 @@ public:
 	bool CheckCollision(OBJECT_TYPE _typeA    , OBJECT_TYPE _typeB, OUT vector<std::pair<Collider*, Collider*>>& _vecCollList);
 
 	void Update();
-	void RenderDebug();
 	void FinalUpdate();
 
 	void AddCollider(OBJECT_TYPE _type, Collider* _collider);

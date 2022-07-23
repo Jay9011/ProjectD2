@@ -34,8 +34,8 @@ TestObject::TestObject(Scene* _scene, OBJECT_TYPE _type, int _updateOrder, GameO
 	*/
 	m_bodyCollider = ADDCOMP::NewAARect({ -10, -17 }, { 10, 21 }, this);
 	m_bodyCollider->IsActive(true);
-	m_sight_u = ADDCOMP::NewLine({ 0, 0 }, { 150, -70 }, this);
-	m_sight_u->IsActive(true);
+	//m_sight_u = ADDCOMP::NewLine({ 0, 0 }, { 150, -70 }, this);
+	//m_sight_u->IsActive(true);
 	
 	SetAnimation();
 	m_animator->Find((int)PLAYER_STATE::APPEAR);

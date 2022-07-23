@@ -45,12 +45,15 @@ void AARect::FinalUpdate()
 	isCollided = false;
 }
 
-void AARect::RenderDebug()
+void AARect::Render()
 {
 	if (!IsActive())
 		return;
 	
-	RenderVertexWithoutTransform();
+	if (Game::IsDbgRendering())
+	{
+		RenderVertex();
+	}
 }
 
 void AARect::OnUpdateWorldTransform()
@@ -83,6 +86,28 @@ COLLIDER_TYPE AARect::GetColliderType()
 	return COLLIDER_TYPE::AARECT;
 }
 
+void AARect::RenderVertex()
+{
+	vector<VERTEXCOLOR> vertexList;
+	vector<WORD>        indexList;
+
+	D3DCOLOR color = isCollided ? onColor : offColor;
+
+	vertexList.push_back(VERTEXCOLOR(m_min.x, m_min.y, color, -1.0f)); // LT
+	vertexList.push_back(VERTEXCOLOR(m_max.x, m_min.y, color, -1.0f)); // RT
+	vertexList.push_back(VERTEXCOLOR(m_max.x, m_max.y, color, -1.0f)); // RB
+	vertexList.push_back(VERTEXCOLOR(m_min.x, m_max.y, color, -1.0f)); // LB
+
+	indexList.push_back(0);
+	indexList.push_back(1);
+	indexList.push_back(2);
+	indexList.push_back(3);
+	indexList.push_back(0);
+
+	DEVICE->SetFVF(VERTEXCOLOR::FVF);
+	DEVICE->DrawIndexedPrimitiveUP(D3DPT_LINESTRIP, 0, (UINT)vertexList.size(), (UINT)indexList.size() - 1, indexList.data(), D3DFMT_INDEX16, vertexList.data(), sizeof(VERTEXCOLOR));
+}
+
 void AARect::RenderVertexWithoutTransform()
 {
 	vector<VERTEXCOLOR> vertexList;
@@ -94,11 +119,6 @@ void AARect::RenderVertexWithoutTransform()
 	vertexList.push_back(VERTEXCOLOR(m_worldMax.x, m_worldMin.y, color, -1.0f)); // RT
 	vertexList.push_back(VERTEXCOLOR(m_worldMax.x, m_worldMax.y, color, -1.0f)); // RB
 	vertexList.push_back(VERTEXCOLOR(m_worldMin.x, m_worldMax.y, color, -1.0f)); // LB
-	
-	//vertexList.push_back(VERTEXCOLOR(m_min.x, m_min.y, color, -1.0f)); // LT
-	//vertexList.push_back(VERTEXCOLOR(m_max.x, m_min.y, color, -1.0f)); // RT
-	//vertexList.push_back(VERTEXCOLOR(m_max.x, m_max.y, color, -1.0f)); // RB
-	//vertexList.push_back(VERTEXCOLOR(m_min.x, m_max.y, color, -1.0f)); // LB
 
 	indexList.push_back(0);
 	indexList.push_back(1);

@@ -132,24 +132,16 @@ void GameObject::RenderComponent()
 	}
 }
 
-void GameObject::UpdateObject()
-{
-}
-
-void GameObject::FinalUpdateObject()
-{
-}
-
 void GameObject::RenderObject()
 {
-	if (m_scene->GetGame()->IsDbgRendering())
+	if (Game::IsDbgRendering())
 	{
 		DEVICE->SetFVF(VERTEXCOLOR::FVF);
 		DEVICE->SetStreamSource(0, m_vertexBuffer, 0, sizeof(VERTEXCOLOR));
 		DEVICE->SetIndices(m_indexBuffer);
 		DEVICE->DrawIndexedPrimitive(D3DPT_LINELIST, 0, 0, m_vertexCount, 0, m_indexCount / 2);
 
-		DrawDirectionVertex();
+		//DrawDirectionVertex();
 	}
 }
 

@@ -21,6 +21,9 @@ void TestScene::Init()
 {
 	testObject = new TestObject(this, OBJECT_TYPE::PLAYER, 110);
 	testObject->SetPos({ WIN_CENTER_X, WIN_CENTER_Y, 0.0f });
+	
+	testObject = new TestObject(this, OBJECT_TYPE::PLAYER, 110);
+	testObject->SetPos({ WIN_CENTER_X + 100, WIN_CENTER_Y + 100, 0.0f });
 
 	//testObject2 = new TestObject2(this, OBJECT_TYPE::FOREBLOCK);
 	//testObject2->SetPos({ WIN_CENTER_X + 300, WIN_CENTER_Y, 0.0f });

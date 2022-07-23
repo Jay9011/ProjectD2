@@ -1,6 +1,6 @@
 #pragma once
 #include "Engine/Object/GameObject.h"
-
+class PlatformRect;
 class TestMap_1 : public GameObject
 {
 public:
@@ -13,5 +13,6 @@ public:
 	virtual void RenderObject() override;
 
 	vector<GameObject*> m_platforms;
+	PlatformRect* m_Entry;
 };
 

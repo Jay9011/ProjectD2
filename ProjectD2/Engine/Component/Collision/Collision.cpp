@@ -84,20 +84,6 @@ void CollisionMgr::Update()
 
 }
 
-void CollisionMgr::RenderDebug()
-{
-    if (m_game->IsDbgRendering())
-    {
-        for (auto& type : m_colliders)
-        {
-            for (auto& collider : type)
-            {
-                collider->RenderDebug();
-            }
-        }
-    }
-}
-
 // 반드시! 마지막에 위치에 따라 정렬하게 해야 CheckCollision이 정상 동작함
 void CollisionMgr::FinalUpdate()
 {

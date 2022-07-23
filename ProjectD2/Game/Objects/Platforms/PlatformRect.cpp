@@ -58,4 +58,30 @@ void PlatformRect::RenderObject()
 	{
 		m_texture->Render();
 	}
+	else if (m_type == PlatformType::Animation)
+	{
+		D3DXVECTOR3 pos = GetPos();
+		D3DXVECTOR2 textureSize = m_animator->GetCurrentTexture()->GetSize();
+		D3DXVECTOR2 textureHalfSize = textureSize * 0.5f;
+		
+		int countX = (m_size.x / textureSize.x);
+		int countY = (m_size.y / textureSize.y);
+
+		D3DXVECTOR2 coord = { pos.x - m_halfSize.x + textureHalfSize.x, pos.y - m_halfSize.y + textureHalfSize.y };
+
+		for (size_t y = 0; y < countY; y++)
+		{
+			for (size_t x = 0; x < countX; x++)
+			{
+				SetPos(coord.x + textureSize.x * x, coord.y + textureSize.y * y);
+				UpdateWorld();
+				SetWorld();
+				m_animator->Render();
+			}
+		}
+
+		SetPos(pos);
+		UpdateWorld();
+		SetWorld();
+	}
 }
