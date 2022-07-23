@@ -2,7 +2,8 @@
 #include "Transform.h"
 
 Transform::Transform(Transform* _parent) :
-	m_pos(0, 0, 0)
+	m_parent(_parent)
+	, m_pos(0, 0, 0)
 	, m_scale(1, 1, 1)
 	, m_angle(0)
 	, m_pivot(0, 0, 0)
@@ -33,6 +34,11 @@ void Transform::UpdateWorld()
 
 		m_world = IP * m_S * m_R * m_T * P;
 
+		if (m_parent != nullptr)
+		{
+			m_world *= GetParent()->GetWorld();
+		}
+		
 		m_recomputeWorld = false;
 	}
 }

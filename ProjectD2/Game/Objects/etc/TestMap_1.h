@@ -12,7 +12,6 @@ public:
 	virtual void UpdateObject() override;
 	virtual void RenderObject() override;
 
-	vector<Collider*> m_platforms;
-	Texture* m_texture;
+	vector<GameObject*> m_platforms;
 };
 

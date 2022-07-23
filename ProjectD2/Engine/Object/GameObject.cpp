@@ -50,10 +50,10 @@ void GameObject::Update()
 
 	if (m_state == OBJECT_STATE::ACTIVE)
 	{
-		UpdateWorld();
+		//UpdateWorld();
 		
-		UpdateComponent();
 		UpdateObject();
+		UpdateComponent();
 		UpdateComponentWorldTransform();
 		
 		UpdateWorld();
@@ -116,7 +116,6 @@ void GameObject::Render()
 
 	SetWorld();
 	RenderComponent();
-	SetWorld();
 	RenderObject();
 	
 	m_isRendering = false;

@@ -111,7 +111,7 @@
     <ClCompile Include="Game\Objects\etc\TestMap_1.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\etc\PlatformRect.cpp">
+    <ClCompile Include="Game\Objects\Platforms\PlatformRect.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -230,7 +230,7 @@
     <ClInclude Include="Game\Objects\etc\TestMap_1.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\etc\PlatformRect.h">
+    <ClInclude Include="Game\Objects\Platforms\PlatformRect.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
