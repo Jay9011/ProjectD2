@@ -6,7 +6,7 @@
 
 Game::Game() :
 	m_GameState(GAME_STATE::PLAY)
-	, m_isDbgRendering(false)
+	, m_isDbgRendering(true)
 {
 	/* === === === === ===
 	*       기본 설정

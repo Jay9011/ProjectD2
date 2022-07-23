@@ -77,6 +77,8 @@ LPDIRECT3DTEXTURE9 TextureMgr::LoadTexture(const wstring& _path)
 		&texture
 	);
 
+	assert(texture);
+
 	m_textureMap.emplace(path, texture);
 	
 	return texture;

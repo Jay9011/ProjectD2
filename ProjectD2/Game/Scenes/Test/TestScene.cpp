@@ -6,6 +6,7 @@
 #include "Game/Objects/etc/TestObject2.h"
 #include "Game/Objects/etc/TestObjectCircle.h"
 #include "Game/Objects/etc/TestObjectLine.h"
+#include "Game/Objects/etc/TestMap_1.h"
 
 TestScene::TestScene(Game* _game) :
 	Scene(_game)
@@ -29,6 +30,10 @@ void TestScene::Init()
 	testline = new TestObjectLine(this, OBJECT_TYPE::PLATFORM);
 	testline->SetPos({ WIN_CENTER_X - 300, WIN_CENTER_Y, 0.0f });
 	testline->SetScale(-2, 2);
+
+	testMap_1 = new TestMap_1(this);
+	testMap_1->SetPos(WIN_CENTER_X, WIN_CENTER_Y);
+	testMap_1->SetScale(1.5, 1.5);
 }
 
 void TestScene::Release()

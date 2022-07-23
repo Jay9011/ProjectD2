@@ -20,8 +20,7 @@ TestObject::TestObject(Scene* _scene, OBJECT_TYPE _type, GameObject* _parent) :
 	TwAddVarRW(_scene->twbar, "Speed", TW_TYPE_FLOAT, &m_speed, "min=0.0 max=1000.0 step=1.0");
 #endif // _DEBUG
 
-	//SetScale(1.5f, 1.5f);
-	SetScale(1,1);
+	SetScale(1.5f, 1.5f);
 
 	/* === === === === ===
 	*  Component Setting
@@ -33,8 +32,7 @@ TestObject::TestObject(Scene* _scene, OBJECT_TYPE _type, GameObject* _parent) :
 	/*
 	* Collider
 	*/
-	//m_bodyCollider = new AARect({-20, -17}, {0, 21}, this);
-	m_bodyCollider = ADDCOMP::NewCircle({ 0, 0 }, 20, this);
+	m_bodyCollider = ADDCOMP::NewAARect({ -10, -17 }, { 10, 21 }, this);
 	m_bodyCollider->IsActive(true);
 	m_sight_u = ADDCOMP::NewLine({ 0, 0 }, { 150, -70 }, this);
 	m_sight_u->IsActive(true);

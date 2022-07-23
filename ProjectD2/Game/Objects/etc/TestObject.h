@@ -1,6 +1,8 @@
 #pragma once
 #include "Engine/Object/GameObject.h"
 
+class Scene;
+
 class TestObject : public GameObject
 {
 public:

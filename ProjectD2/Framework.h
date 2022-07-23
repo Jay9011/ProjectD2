@@ -23,6 +23,7 @@
 #include <d3d9.h>
 #include <d3dx9.h>
 // etc...
+#include <cassert>
 #include <functional>
 #include <math.h>
 #include <AntTweakBar.h>
