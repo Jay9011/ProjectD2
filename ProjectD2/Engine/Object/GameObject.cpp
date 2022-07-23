@@ -4,15 +4,16 @@
 #include "Engine/Core/Core.h"
 #include "Engine/Component/Component.h"
 
-GameObject::GameObject(Scene* _scene, GameObject* _parent) :
-	GameObject(_scene, OBJECT_TYPE::DEFAULT, _parent)
+GameObject::GameObject(Scene* _scene, int _updateOrder, GameObject* _parent) :
+	GameObject(_scene, OBJECT_TYPE::DEFAULT, _updateOrder, _parent)
 {}
 
-GameObject::GameObject(Scene* _scene, OBJECT_TYPE _type, GameObject* _parent) :
+GameObject::GameObject(Scene* _scene, OBJECT_TYPE _type, int _updateOrder, GameObject* _parent) :
 	Transform(_parent)
 	, m_scene(_scene)
 	, m_type(_type)
 	, m_state(OBJECT_STATE::ACTIVE)
+	, m_updateOrder(_updateOrder)
 	, m_isUpdating(false)
 	, m_isRendering(false)
 {

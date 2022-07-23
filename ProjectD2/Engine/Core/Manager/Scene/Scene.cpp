@@ -53,7 +53,7 @@ void Scene::Update()
 			for (auto& object : m_pendingObjects[i])
 			{
 				object->UpdateWorld();
-				m_objects[i].emplace_back(object);
+				AddObject(object, (OBJECT_TYPE)i);
 			}
 			m_pendingObjects[i].clear();
 		}
@@ -111,7 +111,17 @@ void Scene::AddObject(GameObject* _object, OBJECT_TYPE _type)
 	}
 	else
 	{
-		m_objects[(UINT)_type].emplace_back(_object);
+		int objectOrder = _object->GetOrder();
+		auto iter = m_objects[(UINT)_type].begin();
+		for (; iter != m_objects[(UINT)_type].end(); iter++)
+		{
+			if (objectOrder < (*iter)->GetOrder())
+			{
+				break;
+			}
+		}
+		
+		m_objects[(UINT)_type].insert(iter, _object);
 	}
 }
 

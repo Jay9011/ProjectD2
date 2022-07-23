@@ -4,7 +4,7 @@
 class TestMap_1 : public GameObject
 {
 public:
-	TestMap_1(Scene* _scene, GameObject* _parent = nullptr);
+	TestMap_1(Scene* _scene, int _updateOrder = 100, GameObject* _parent = nullptr);
 	~TestMap_1();
 
 

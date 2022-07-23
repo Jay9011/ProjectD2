@@ -32,6 +32,7 @@ private:
 	Animation* m_currentAnimation = nullptr;
 	Animation* m_nextAnimation = nullptr;
 
+	GameObject* m_owner = nullptr;
 	
 /* === === === === ===
 *  Getter / Setter

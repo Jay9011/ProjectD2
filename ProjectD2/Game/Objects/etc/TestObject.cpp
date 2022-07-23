@@ -6,12 +6,12 @@
 #include "Engine/Component/Animator/Animator.h"
 #include "Engine/Component/Collision/Collision.h"
 
-TestObject::TestObject(Scene* _scene, GameObject* _parent) :
-	TestObject(_scene, OBJECT_TYPE::DEFAULT, _parent)
+TestObject::TestObject(Scene* _scene, int _updateOrder, GameObject* _parent) :
+	TestObject(_scene, OBJECT_TYPE::DEFAULT, _updateOrder, _parent)
 {}
 
-TestObject::TestObject(Scene* _scene, OBJECT_TYPE _type, GameObject* _parent) :
-	GameObject(_scene, _type, _parent)
+TestObject::TestObject(Scene* _scene, OBJECT_TYPE _type, int _updateOrder, GameObject* _parent) :
+	GameObject(_scene, _type, _updateOrder, _parent)
 	, m_isRight(true)
 	, m_speed(200.f)
 	, m_state(PLAYER_STATE::APPEAR)
@@ -46,6 +46,9 @@ TestObject::~TestObject() = default;
 
 void TestObject::UpdateObject()
 {
+	D3DXVECTOR3 pos = GetPos();
+	SetPos(pos);
+	
 	/*Collision(m_bodyCollider, MOUSEPOS);
 	Collision(m_sight_u, MOUSEPOS);*/
 

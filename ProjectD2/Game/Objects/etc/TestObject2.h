@@ -4,8 +4,8 @@ class Animator;
 class TestObject2 : public GameObject
 {
 public:
-	TestObject2(Scene* _scene, GameObject* _parent = nullptr);
-	TestObject2(Scene* _scene, OBJECT_TYPE _type, GameObject* _parent = nullptr);
+	TestObject2(Scene* _scene, int _updateOrder = 100, GameObject* _parent = nullptr);
+	TestObject2(Scene* _scene, OBJECT_TYPE _type, int _updateOrder = 100, GameObject* _parent = nullptr);
 	virtual ~TestObject2();
 
 	// GameObject을(를) 통해 상속됨

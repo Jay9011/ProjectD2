@@ -6,8 +6,8 @@ class Scene;
 class TestObject : public GameObject
 {
 public:
-	TestObject(Scene* _scene, GameObject* _parent = nullptr);
-	TestObject(Scene* _scene, OBJECT_TYPE _type, GameObject* _parent = nullptr);
+	TestObject(Scene* _scene, int _updateOrder = 100, GameObject* _parent = nullptr);
+	TestObject(Scene* _scene, OBJECT_TYPE _type, int _updateOrder = 100, GameObject* _parent = nullptr);
 	virtual ~TestObject();
 
 	// GameObject을(를) 통해 상속됨

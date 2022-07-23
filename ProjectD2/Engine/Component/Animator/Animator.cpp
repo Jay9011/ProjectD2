@@ -1,11 +1,13 @@
 #include "Framework.h"
 #include "Animator.h"
 
+#include "Engine/Object/GameObject.h"
 #include "Engine/Resource/Shader.h"
 #include "Lib/XML.h"
 
 Animator::Animator(GameObject* _owner, int _updateOrder) :
 	Component(_owner, _updateOrder)
+	, m_owner(_owner)
 {
 }
 

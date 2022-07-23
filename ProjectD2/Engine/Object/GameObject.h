@@ -4,8 +4,8 @@ class Component;
 class GameObject : public Transform
 {
 public:
-	GameObject(Scene* _scene, GameObject* _parent = nullptr);
-	GameObject(Scene* _scene, OBJECT_TYPE _type, GameObject* _parent = nullptr);
+	GameObject(Scene* _scene, int _updateOrder = 100, GameObject* _parent = nullptr);
+	GameObject(Scene* _scene, OBJECT_TYPE _type, int _updateOrder = 100, GameObject* _parent = nullptr);
 	virtual ~GameObject() override;
 
 	void Update();
@@ -26,6 +26,7 @@ private:
 	Scene* m_scene;
 	OBJECT_TYPE  m_type;
 	OBJECT_STATE m_state;
+	int  m_updateOrder;
 	bool m_isUpdating;
 	bool m_isRendering;
 
@@ -52,6 +53,8 @@ public:
 	OBJECT_STATE GetState() const              { return m_state; }
 	void         SetState(OBJECT_STATE _state) { m_state = _state; }
 	bool         IsDead() const                { return m_state == OBJECT_STATE::DEAD; }
+
+	int GetOrder() const { return m_updateOrder; }
 
 	const D3DXVECTOR3& GetDirection() const { return m_direction; }
 

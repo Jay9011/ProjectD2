@@ -4,8 +4,8 @@
 #include "Engine/Component/Component.h"
 #include "Engine/Component/Collision/Collision.h"
 
-TestMap_1::TestMap_1(Scene* _scene, GameObject* _parent) :
-	GameObject(_scene, OBJECT_TYPE::PLATFORM, _parent)
+TestMap_1::TestMap_1(Scene* _scene, int _updateOrder, GameObject* _parent) :
+	GameObject(_scene, OBJECT_TYPE::PLATFORM, _updateOrder, _parent)
 {
 	Collider* tmpCol;
 

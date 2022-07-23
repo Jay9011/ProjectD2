@@ -31,10 +31,11 @@ enum class COLLIDER_TYPE
 enum class OBJECT_TYPE
 {
 	DEFAULT,
-	PLAYER,
 	PLATFORM,
-
-	FIN = 32
+	PLAYER,
+	FOREBLOCK,
+	FOREGROUND,
+	FIN
 };
 
 enum class PLAYER_STATE

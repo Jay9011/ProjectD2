@@ -3,8 +3,8 @@
 class TestObjectLine : public GameObject
 {
 public:
-	TestObjectLine(Scene* _scene, GameObject* _parent = nullptr);
-	TestObjectLine(Scene* _scene, OBJECT_TYPE _type, GameObject* _parent = nullptr);
+	TestObjectLine(Scene* _scene, int _updateOrder = 100, GameObject* _parent = nullptr);
+	TestObjectLine(Scene* _scene, OBJECT_TYPE _type, int _updateOrder = 100, GameObject* _parent = nullptr);
 	virtual ~TestObjectLine();
 
 	// GameObject을(를) 통해 상속됨

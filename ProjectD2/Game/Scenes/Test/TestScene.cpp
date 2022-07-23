@@ -19,10 +19,10 @@ TestScene::~TestScene()
 
 void TestScene::Init()
 {
-	testObject = new TestObject(this, OBJECT_TYPE::PLAYER);
-	testObject->SetPos({ WIN_CENTER_X, WIN_CENTER_Y, 0.5f });
+	testObject = new TestObject(this, OBJECT_TYPE::PLAYER, 110);
+	testObject->SetPos({ WIN_CENTER_X, WIN_CENTER_Y, 0.0f });
 
-	testObject2 = new TestObject2(this, OBJECT_TYPE::PLATFORM);
+	testObject2 = new TestObject2(this, OBJECT_TYPE::FOREBLOCK);
 	testObject2->SetPos({ WIN_CENTER_X + 300, WIN_CENTER_Y, 0.0f });
 
 	testObjectCircle = new TestObjectCircle(this, OBJECT_TYPE::PLATFORM);
@@ -46,6 +46,7 @@ void TestScene::UpdateScene()
 {
 	vector<std::pair<Collider*, Collider*>> collided;
 	GetCollisionMgr()->CheckCollision(OBJECT_TYPE::PLAYER, OBJECT_TYPE::PLATFORM, collided);
+	GetCollisionMgr()->CheckCollision(OBJECT_TYPE::PLAYER, OBJECT_TYPE::FOREBLOCK, collided);
 }
 
 void TestScene::RenderScene()
