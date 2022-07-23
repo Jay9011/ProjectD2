@@ -36,7 +36,8 @@ public:
 * === === === === === */
 private:
 	GameObject* m_owner;
-	int m_updateOrder;
+	int  m_updateOrder;
+	bool m_autoRendering;
 
 /* === === === === ===
 *   Getter / Setter
@@ -44,7 +45,8 @@ private:
 public:
 	GameObject* GetOwner() { return m_owner; }
 	int GetUpdateOrder() const { return m_updateOrder; }
-
+	bool& AutoRendering() { return m_autoRendering; }
+	bool& AutoRendering(const bool& _b) { m_autoRendering = _b; return m_autoRendering; }
 };
 
 using ADDCOMP = Component::Factory;

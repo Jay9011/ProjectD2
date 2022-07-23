@@ -12,6 +12,7 @@
 Component::Component(GameObject* _owner, int _updateOrder) :
 	m_owner(_owner)
 	, m_updateOrder(_updateOrder)
+	, m_autoRendering(true)
 {
 	m_owner->AddComponent(this);
 }

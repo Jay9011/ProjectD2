@@ -1,5 +1,6 @@
 #pragma once
 #include "Engine/Object/GameObject.h"
+class Animator;
 class TestObject2 : public GameObject
 {
 public:
@@ -13,9 +14,18 @@ public:
 
 	bool m_isRight;
 	float m_speed;
+	float m_width;
+	float m_halfWidth;
+	float m_height;
+	float m_halfHeight;
 
 	class AARect* m_bodyCollider;
 
+	Animator* m_animator;
+
+
+	void SetAnimation();
+	
 	void ScaleXInverse()
 	{
 		D3DXVECTOR3 scale = GetScale();

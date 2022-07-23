@@ -1,6 +1,8 @@
 #include "Framework.h"
 #include "TestScene.h"
 
+#include "Engine/Resource/Shader.h"
+#include "Engine/Component/Component.h"
 #include "Engine/Component/Collision/Collision.h"
 #include "Game/Objects/etc/TestObject.h"
 #include "Game/Objects/etc/TestObject2.h"
@@ -32,7 +34,7 @@ void TestScene::Init()
 	testline->SetScale(-2, 2);
 
 	testMap_1 = new TestMap_1(this);
-	testMap_1->SetPos(WIN_CENTER_X, WIN_CENTER_Y);
+	testMap_1->SetPos(WIN_CENTER_X, WIN_CENTER_Y + 200);
 	testMap_1->SetScale(1.5, 1.5);
 }
 

@@ -24,5 +24,6 @@ public:
 	class TestObjectLine* testline;
 
 	class TestMap_1* testMap_1;
+
 };
 

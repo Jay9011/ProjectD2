@@ -125,6 +125,9 @@ void GameObject::RenderComponent()
 {
 	for (auto& component : m_componentList)
 	{
+		if (!component->AutoRendering())
+			return;
+		
 		component->Render();
 	}
 }

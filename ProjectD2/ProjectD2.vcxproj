@@ -218,7 +218,6 @@
     <ClCompile Include="Game\Objects\etc\TestObjectCircle.cpp" />
     <ClCompile Include="Game\Objects\etc\TestObjectLine.cpp" />
     <ClCompile Include="Game\Scenes\Test\TestScene.cpp" />
-    <ClCompile Include="Game\Scenes\Tool\ToolScene.cpp" />
     <ClCompile Include="Headers\functions.cpp" />
     <ClCompile Include="Lib\TweakBar\TweakBar.cpp" />
     <ClCompile Include="Lib\XML.cpp" />
@@ -254,7 +253,6 @@
     <ClInclude Include="Game\Objects\etc\TestObjectLine.h" />
     <ClInclude Include="Game\Scenes\Scenes.h" />
     <ClInclude Include="Game\Scenes\Test\TestScene.h" />
-    <ClInclude Include="Game\Scenes\Tool\ToolScene.h" />
     <ClInclude Include="Headers\Enums.h" />
     <ClInclude Include="Headers\functions.h" />
     <ClInclude Include="Headers\ConstNMacro.h" />
