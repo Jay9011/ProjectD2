@@ -1,15 +1,15 @@
 #include "Framework.h"
 #include "Physics.h"
 
-Physics::Physics() :
-	Physics(0)
-{
-}
+#include "Engine/Object/GameObject.h"
 
-Physics::Physics(float jumpForce) :
-	mass(1)
-	, jumpForce(jumpForce)
+Physics::Physics() :
+	owner(nullptr)
+	, force({ 0, 0, 0 })
+	, mass(1)
+	, jumpForce(0)
 	, isFalling(true)
 	, fallTime(0)
 {
 }
+

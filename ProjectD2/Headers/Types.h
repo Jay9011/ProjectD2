@@ -30,6 +30,19 @@ using FSIZE = struct tagFSIZE
 };
 using PFSIZE = FSIZE*;
 
+// floatÇü RECT
+using FRECT = struct tagFRECT
+{
+	float left;
+	float top;
+	float right;
+	float bottom;
+	
+	tagFRECT() : left(0.0f), top(0.0f), right(0.0f), bottom(0.0f) {}
+	tagFRECT(float left, float top, float right, float bottom) : left(left), top(top), right(right), bottom(bottom) {}
+};
+using PFRECT = FRECT*;
+
 // VertexColor
 using VERTEXCOLOR = struct tagVertexColor
 {

@@ -3,12 +3,15 @@ class Physics
 {
 public:
 	Physics();
-	Physics(float jumpForce);
+
+public:
+	GameObject* owner;
 
 	D3DXVECTOR3 force;
 	float mass;
 	float jumpForce;
 	
 	bool   isFalling;
-	double fallTime;	
+	double fallTime;
+
 };

@@ -16,14 +16,22 @@ public:
 
 	void SetAction(PLAYER_STATE _state);
 
+public:
+	Scene* scene;
+
 	bool m_isRight;
 	float m_speed;
 	PLAYER_STATE m_state;
-	class Animator* m_animator;
-	class Collider* m_bodyCollider;
-	class Collider* m_sight_u;
+	Animator* m_animator;
+	Collider* m_bodyCollider;
+	Collider* m_sight_u;
+	Collider* m_beforePlatform;
 	
-	class Physics m_physics;
+	Physics m_physics;
+#if _DEBUG
+	D3DXVECTOR3 m_dir;
+	D3DXVECTOR2 m_collisionDir;
+#endif
 
 public:
 	void ScaleXInverse()
@@ -35,4 +43,6 @@ public:
 
 private:
 	void SetAnimation();
+	void MoveLeftRight();
+	void GroundCheck();
 };

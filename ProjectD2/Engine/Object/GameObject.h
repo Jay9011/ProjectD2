@@ -58,6 +58,7 @@ public:
 	int GetOrder() const { return m_updateOrder; }
 
 	const D3DXVECTOR3& GetDirection() const { return m_direction; }
+	const D3DXVECTOR3& GetBeforePos() const { return m_beforePos; }
 
 /* === === === === ===
 *  테스트용 VertexBuffer, IndexBuffer
@@ -68,7 +69,10 @@ private:
 	UINT m_indexCount;
 	LPDIRECT3DVERTEXBUFFER9 m_vertexBuffer;
 	LPDIRECT3DINDEXBUFFER9  m_indexBuffer;
+	bool drawDirection = false;
 	void SetVertexData();
 	void DrawDirectionVertex();
+public:
+	void SetDrawDirection(bool _bool) { drawDirection = _bool; }
 #endif // GameObject 위치 탐색용 Vertices
 };

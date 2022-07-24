@@ -58,6 +58,10 @@ TestMap_1::TestMap_1(Scene* _scene, int _updateOrder, GameObject* _parent) :
 	platform = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_14.png", false, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, this);
 	platform->SetPos(-368, 224);
 	m_platforms.push_back(platform);
+	
+	platform = new PlatformRect({ 64, 32 }, L"Tile\\IndustrialTile_59.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, this);
+	platform->SetPos(0, 0);
+	m_platforms.push_back(platform);
 
 }
 

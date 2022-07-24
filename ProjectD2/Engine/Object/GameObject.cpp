@@ -139,7 +139,8 @@ void GameObject::RenderObject()
 		DEVICE->SetIndices(m_indexBuffer);
 		DEVICE->DrawIndexedPrimitive(D3DPT_LINELIST, 0, 0, m_vertexCount, 0, m_indexCount / 2);
 
-		//DrawDirectionVertex();
+		if(drawDirection)
+			DrawDirectionVertex();
 	}
 }
 
