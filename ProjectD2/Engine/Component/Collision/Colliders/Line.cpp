@@ -119,12 +119,6 @@ void Line::Update()
 {
 }
 
-void Line::FinalUpdate()
-{
-	// Collided √ ±‚»≠
-	isCollided = false;
-}
-
 void Line::Render()
 {
 	if (!IsActive())

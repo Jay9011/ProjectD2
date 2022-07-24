@@ -12,7 +12,6 @@ public:
 	virtual bool Contains(const D3DXVECTOR2& _point) override;
 	
 	virtual void Update() override;
-	virtual void FinalUpdate() override;
 	virtual void Render() override;
 	virtual void OnUpdateWorldTransform() override;
 	

@@ -39,12 +39,6 @@ void AARect::Update()
 
 }
 
-void AARect::FinalUpdate()
-{
-	// Collided √ ±‚»≠
-	isCollided = false;
-}
-
 void AARect::Render()
 {
 	if (!IsActive())

@@ -75,3 +75,13 @@ using VERTEXTEXTURE = struct tagVertexTexture
 	
 	static const DWORD FVF = D3DFVF_XYZ | D3DFVF_TEX1;
 };
+
+union COLLIDER_ID
+{
+	struct
+	{
+		UINT ID_1;
+		UINT ID_2;
+	};
+	ULONGLONG ID;
+};

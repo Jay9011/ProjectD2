@@ -7,9 +7,12 @@
 #include "Colliders/Circle.h"
 #include "Colliders/Line.h"
 
+UINT Collider::m_idCounter = 0;
+
 Collider::Collider(GameObject* _owner, int _updateOrder) :
 	Component(_owner, _updateOrder)
 	, isActive (false)
+	, m_id(m_idCounter++)
 {
 	CollisionMgr* collisionMgr = _owner->GetScene()->GetCollisionMgr();
 	if (collisionMgr)
@@ -19,3 +22,9 @@ Collider::Collider(GameObject* _owner, int _updateOrder) :
 }
 
 Collider::~Collider() = default;
+
+void Collider::FinalUpdate()
+{
+	// Collided √ ±‚»≠
+	isCollided = false;
+}

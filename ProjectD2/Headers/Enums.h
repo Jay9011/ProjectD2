@@ -14,6 +14,16 @@ enum class OBJECT_STATE
 	INACTIVE
 };
 
+enum class OBJECT_TYPE
+{
+	DEFAULT,
+	PLATFORM,
+	PLAYER,
+	FOREBLOCK,
+	FOREGROUND,
+	FIN
+};
+
 enum class ANIM_PLAY_TYPE
 {
 	ONCE,
@@ -28,14 +38,11 @@ enum class COLLIDER_TYPE
 	CIRCLE
 };
 
-enum class OBJECT_TYPE
+enum class COLLIDER_STATE
 {
-	DEFAULT,
-	PLATFORM,
-	PLAYER,
-	FOREBLOCK,
-	FOREGROUND,
-	FIN
+	ENTER,
+	STAY,
+	EXIT
 };
 
 enum class PLAYER_STATE

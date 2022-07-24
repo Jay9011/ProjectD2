@@ -1,11 +1,11 @@
 #include "Framework.h"
 #include "TestObject.h"
 
-#include "Engine/Resource/Shader.h"
 #include "Engine/Component/Component.h"
 #include "Engine/Component/Animator/Animator.h"
 #include "Engine/Component/Collision/Collision.h"
 #include "Engine/Component/PhysicsWorld/Physics.h"
+#include "Engine/Resource/Shader.h"
 
 TestObject::TestObject(Scene* _scene, int _updateOrder, GameObject* _parent) :
 	TestObject(_scene, OBJECT_TYPE::DEFAULT, _updateOrder, _parent)

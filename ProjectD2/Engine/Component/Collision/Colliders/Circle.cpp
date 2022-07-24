@@ -25,12 +25,6 @@ void Circle::Update()
 {
 }
 
-void Circle::FinalUpdate()
-{
-	// Collided √ ±‚»≠
-	isCollided = false;
-}
-
 void Circle::Render()
 {
 	if (!IsActive())

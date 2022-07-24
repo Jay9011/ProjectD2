@@ -1,7 +1,6 @@
 #pragma once
 #include "Engine/Component/Component.h"
 
-
 struct CollisionInfo
 {
 	D3DXVECTOR2 point;
@@ -13,6 +12,7 @@ class Collider : public Component
 {
 protected:
 	Collider(GameObject* _owner, int _updateOrder = 100);
+	Collider(const Collider& _other) = delete;
 	virtual ~Collider() override;
 
 public:
@@ -22,18 +22,20 @@ public:
 
 	virtual void Render() {};
 
-	// Component을(를) 통해 상속됨
-	virtual void Update() override = 0;
-	virtual void FinalUpdate() override = 0;
-	virtual void OnUpdateWorldTransform() override = 0;
-
-private:
 	virtual void OnCollisionEnter(Collider* _other) {}
 	virtual void OnCollisionStay(Collider* _other) {}
 	virtual void OnCollisionExit(Collider* _other) {}
 
+	// Component을(를) 통해 상속됨
+	virtual void Update() override = 0;
+	void FinalUpdate() final;
+	virtual void OnUpdateWorldTransform() override = 0;
+
 private:
 	bool isActive;
+	
+	UINT m_id;
+	static UINT m_idCounter;
 
 /* === === === === ===
 *   Getter / Setter
@@ -48,10 +50,14 @@ public:
 	virtual D3DXVECTOR2 GetMin() = 0;
 	virtual D3DXVECTOR2 GetMax() = 0;
 
+	UINT GetID() { return m_id; }
+
 	/* 디버그용 */
 protected:
 	bool isCollided   = false;
 	D3DCOLOR offColor = 0xFF33FF33;
 	D3DCOLOR onColor  = 0xFFFF3333;
+
+	Collider& operator = (const Collider& _other) = delete;
 };
 
