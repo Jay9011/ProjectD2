@@ -38,7 +38,7 @@ enum class COLLIDER_TYPE
 	CIRCLE
 };
 
-enum class COLLIDER_STATE
+enum class COLLISION_STATE
 {
 	ENTER,
 	STAY,

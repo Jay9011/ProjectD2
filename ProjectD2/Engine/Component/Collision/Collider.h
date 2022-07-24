@@ -22,9 +22,9 @@ public:
 
 	virtual void Render() {};
 
-	virtual void OnCollisionEnter(Collider* _other) {}
-	virtual void OnCollisionStay(Collider* _other) {}
-	virtual void OnCollisionExit(Collider* _other) {}
+	virtual void OnCollisionEnter(Collider* _other) { m_state = COLLISION_STATE::ENTER; };
+	virtual void OnCollisionStay(Collider* _other)  { m_state = COLLISION_STATE::STAY; };
+	virtual void OnCollisionExit(Collider* _other)  { m_state = COLLISION_STATE::EXIT; };
 
 	// Component을(를) 통해 상속됨
 	virtual void Update() override = 0;
@@ -37,15 +37,16 @@ private:
 	UINT m_id;
 	static UINT m_idCounter;
 
+	COLLISION_STATE m_state;
+
 /* === === === === ===
 *   Getter / Setter
 * === === === === === */
 public:
-	bool& IsActive() { return isActive; }
-	bool& IsActive(const bool& _b) { isActive = _b; return isActive; }
+	bool IsActive() { return isActive; }
+	bool IsActive(const bool& _b) { isActive = _b; return isActive; }
 
-	bool& IsCollided() { return isCollided; }
-	bool& IsCollided(const bool& _b) { isCollided = _b; return isCollided; }
+	bool IsCollided(const bool& _b) { isCollided = _b; return isCollided; }
 
 	virtual D3DXVECTOR2 GetMin() = 0;
 	virtual D3DXVECTOR2 GetMax() = 0;
