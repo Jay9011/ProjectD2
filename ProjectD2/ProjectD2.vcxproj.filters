@@ -114,6 +114,12 @@
     <ClCompile Include="Game\Objects\Platforms\PlatformRect.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Component\PhysicsWorld\Physics.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Component\PhysicsWorld\Gravity\Gravity.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Framework.h">
@@ -231,6 +237,12 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Game\Objects\Platforms\PlatformRect.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Component\PhysicsWorld\Physics.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Component\PhysicsWorld\Gravity\Gravity.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

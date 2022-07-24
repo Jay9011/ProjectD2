@@ -5,6 +5,7 @@
 #include "Engine/Component/Component.h"
 #include "Engine/Component/Animator/Animator.h"
 #include "Engine/Component/Collision/Collision.h"
+#include "Engine/Component/PhysicsWorld/Physics.h"
 
 TestObject::TestObject(Scene* _scene, int _updateOrder, GameObject* _parent) :
 	TestObject(_scene, OBJECT_TYPE::DEFAULT, _updateOrder, _parent)
@@ -34,9 +35,13 @@ TestObject::TestObject(Scene* _scene, OBJECT_TYPE _type, int _updateOrder, GameO
 	m_sight_u = ADDCOMP::NewLine({ 0, 0 }, { 150, -70 }, this);
 	m_sight_u->IsActive(true);
 	
+	/*
+	* Physics
+	*/
+	ADDCOMP::NewGravity(m_physics, this);
+
 	SetAnimation();
 	m_animator->Find((int)PLAYER_STATE::APPEAR);
-
 }
 
 TestObject::~TestObject() = default;
@@ -85,6 +90,9 @@ void TestObject::UpdateObject()
 
 	if (KEYUP(VK_LEFT) || KEYUP(VK_RIGHT) || KEYUP(VK_UP) || KEYUP(VK_DOWN))
 		SetAction(PLAYER_STATE::IDLE);
+	
+	// 최종 위치 변환
+	AddPos(m_physics.force * fDT);
 }
 
 void TestObject::RenderObject()

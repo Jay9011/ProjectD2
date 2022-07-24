@@ -190,6 +190,8 @@
     <ClCompile Include="Engine\Component\Collision\Colliders\Line.cpp" />
     <ClCompile Include="Engine\Component\Collision\Collision.cpp" />
     <ClCompile Include="Engine\Component\Component.cpp" />
+    <ClCompile Include="Engine\Component\PhysicsWorld\Gravity\Gravity.cpp" />
+    <ClCompile Include="Engine\Component\PhysicsWorld\Physics.cpp" />
     <ClCompile Include="Engine\Core\Core.cpp" />
     <ClCompile Include="Engine\Core\Manager\Device\Device.cpp" />
     <ClCompile Include="Engine\Core\Manager\Input\Input.cpp" />
@@ -230,6 +232,8 @@
     <ClInclude Include="Engine\Component\Collision\Colliders\Line.h" />
     <ClInclude Include="Engine\Component\Collision\Collision.h" />
     <ClInclude Include="Engine\Component\Component.h" />
+    <ClInclude Include="Engine\Component\PhysicsWorld\Gravity\Gravity.h" />
+    <ClInclude Include="Engine\Component\PhysicsWorld\Physics.h" />
     <ClInclude Include="Engine\Core\Core.h" />
     <ClInclude Include="Engine\Core\Manager\Device\Device.h" />
     <ClInclude Include="Engine\Core\Manager\Input\Input.h" />

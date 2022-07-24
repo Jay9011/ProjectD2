@@ -8,6 +8,8 @@
 #include "Collision/Colliders/AARect.h"
 #include "Collision/Colliders/Circle.h"
 #include "Collision/Colliders/Line.h"
+#include "PhysicsWorld/Physics.h"
+#include "PhysicsWorld/Gravity/Gravity.h"
 
 Component::Component(GameObject* _owner, int _updateOrder) :
 	m_owner(_owner)
@@ -48,4 +50,19 @@ Circle* Component::Factory::NewCircle(const D3DXVECTOR2& _center, float _radius,
 Line* Component::Factory::NewLine(const D3DXVECTOR2& _start, const D3DXVECTOR2& _end, GameObject* _owner, int _updateOrder)
 {
 	return new Line(_start, _end, _owner, _updateOrder);
+}
+
+Gravity* Component::Factory::NewGravity(Physics& _physics, GameObject* _owner, int _updateOrder)
+{
+	return new Gravity(_physics, _owner, _updateOrder);
+}
+
+Gravity* Component::Factory::NewGravity(Physics& _physics, float _maxFallSpeed, GameObject* _owner, int _updateOrder)
+{
+	return new Gravity(_physics, _maxFallSpeed, _owner, _updateOrder);
+}
+
+Gravity* Component::Factory::NewGravity(Physics& _physics, float _maxFallSpeed, float _gravity, GameObject* _owner, int _updateOrder)
+{
+	return new Gravity(_physics, _maxFallSpeed, _gravity, _owner, _updateOrder);
 }

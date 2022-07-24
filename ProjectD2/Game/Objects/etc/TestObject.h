@@ -22,6 +22,8 @@ public:
 	class Animator* m_animator;
 	class Collider* m_bodyCollider;
 	class Collider* m_sight_u;
+	
+	class Physics m_physics;
 
 public:
 	void ScaleXInverse()
