@@ -39,8 +39,8 @@ void Device::SetProjection(const PRESOLUTION& _resolution)
 	D3DXMatrixOrthoOffCenterLH
 	(
 		&projection,
-		0.f, (float)_resolution->WIN_WIDTH,
-		(float)_resolution->WIN_HEIGHT, 0.f,
+		0.f, (float)_resolution->width,
+		(float)_resolution->height, 0.f,
 		-1.f, 1.f
 	);
 

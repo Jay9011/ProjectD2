@@ -2,21 +2,63 @@
 #include "TestMap_1.h"
 
 #include "Engine/Object/GameObject.h"
-#include "Engine/Component/Component.h"
-#include "Engine/Component/Collision/Collision.h"
+#include "Engine/Resource/Shader.h"
 #include "Game/Objects/Platforms/PlatformRect.h"
 
 TestMap_1::TestMap_1(Scene* _scene, int _updateOrder, GameObject* _parent) :
 	GameObject(_scene, OBJECT_TYPE::PLATFORM, _updateOrder, _parent)
 {
-	PlatformRect* platform = new PlatformRect({64, 64}, L"Tile\\Entry.png", 8, 1, true, _scene, OBJECT_TYPE::FOREBLOCK, _updateOrder, this);
-	platform->SetPos(100, 100);
-	m_platforms.push_back(platform);
-	m_Entry = platform;
+	m_backgrounds.emplace_back(TEXTURE->Add(L"Background\\2.png", WIN_WIDTH, WIN_HEIGHT));
+	m_backgrounds.emplace_back(TEXTURE->Add(L"Background\\3.png", WIN_WIDTH * 0.9, WIN_HEIGHT * 0.9));
+	m_backgrounds.emplace_back(TEXTURE->Add(L"Background\\4.png", WIN_WIDTH * 0.8, WIN_HEIGHT * 0.8));
+	m_backgrounds.emplace_back(TEXTURE->Add(L"Background\\5.png", WIN_WIDTH * 0.7, WIN_HEIGHT * 0.7));
+	m_backgroundShader = SHADER(L"AlphaShader");
 	
-	platform = new PlatformRect({640, 32}, L"Tile\\IndustrialTile_09.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, this);
-	platform->SetPos(100, 100);
+	PlatformRect* platform;
+
+	m_PlayerStartFlag = new PlatformRect({ 10, 10 }, false, _scene, OBJECT_TYPE::DEFAULT, _updateOrder, this);
+	m_PlayerStartFlag->SetPos(-336, 152);
+
+	platform = new PlatformRect({640, 32}, L"Tile\\IndustrialTile_32.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, this);
+	platform->SetPos(0, 192);
 	m_platforms.push_back(platform);
+	
+	platform = new PlatformRect({32, 32}, L"Tile\\IndustrialTile_31.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, this);
+	platform->SetPos(-336, 192);
+	m_platforms.push_back(platform);
+	
+	platform = new PlatformRect({32, 32}, L"Tile\\IndustrialTile_33.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, this);
+	platform->SetPos(336, 192);
+	m_platforms.push_back(platform);
+	
+	platform = new PlatformRect({640, 32}, L"Tile\\IndustrialTile_41.png", false, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, this);
+	platform->SetPos(0, 224);
+	m_platforms.push_back(platform);
+
+	platform = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_40.png", false, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, this);
+	platform->SetPos(-336, 224);
+	m_platforms.push_back(platform);
+
+	platform = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_42.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, this);
+	platform->SetPos(336, 224);
+	m_platforms.push_back(platform);
+
+	platform = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_16.png", false, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, this);
+	platform->SetPos(-368, 192);
+	m_platforms.push_back(platform);
+	
+	platform = new PlatformRect({ 32, 416 }, L"Tile\\IndustrialTile_15.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, this);
+	platform->SetPos(-368, -32);
+	m_platforms.push_back(platform);
+	
+	platform = new PlatformRect({ 64, 480 }, L"Tile\\IndustrialTile_14.png", false, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, this);
+	platform->SetPos(-416, 0);
+	m_platforms.push_back(platform);
+	
+	platform = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_14.png", false, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, this);
+	platform->SetPos(-368, 224);
+	m_platforms.push_back(platform);
+
 }
 
 TestMap_1::~TestMap_1()
@@ -33,5 +75,21 @@ void TestMap_1::UpdateObject()
 
 void TestMap_1::RenderObject()
 {
+	m_backgroundShader->Begin();
+	for (auto& background : m_backgrounds)
+	{
+		background->Render();
+	}
+	m_backgroundShader->End();
+	
 	GameObject::RenderObject();
+}
+
+D3DXVECTOR3 TestMap_1::GetPlayerStartPoint()
+{
+	assert(m_PlayerStartFlag);
+
+	D3DXVECTOR3 pos = m_PlayerStartFlag->GetWorldPos();
+	
+	return pos;
 }

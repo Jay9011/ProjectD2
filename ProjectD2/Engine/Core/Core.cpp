@@ -58,10 +58,10 @@ bool Core::Init(HINSTANCE _hInstance)
 	/*
     * 기본 해상도 설정
     */
-    if(m_resolution.WIN_WIDTH == 0 || m_resolution.WIN_HEIGHT == 0)
+    if(m_resolution.width == 0 || m_resolution.height == 0)
 	{
-		m_resolution.WIN_WIDTH = 1280;
-		m_resolution.WIN_HEIGHT = 720;
+		m_resolution.width = 1280;
+		m_resolution.height = 720;
 	}
 
 	/*
@@ -229,7 +229,7 @@ bool Core::ChangeWindowSize(RESOLUTION _resolution, bool _bMenu, HWND _hWnd)
 	if(hWnd == nullptr)
 		hWnd = m_hWnd;
 	
-	RECT rect = { 0, 0, _resolution.WIN_WIDTH, _resolution.WIN_HEIGHT};
+	RECT rect = { 0, 0, _resolution.width, _resolution.height};
     if (!AdjustWindowRect(&rect, WS_DEFAULT, _bMenu))
     	    return FALSE;
 	
@@ -299,8 +299,8 @@ INT_PTR CALLBACK ResolutionDlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARA
         if (LOWORD(wParam) == IDOK)
         {
             Core* core = Core::Get();
-            core->Resolution().WIN_WIDTH = GetDlgItemInt(hDlg, IDC_WIDTH, nullptr, FALSE);
-            core->Resolution().WIN_HEIGHT = GetDlgItemInt(hDlg, IDC_HEIGHT, nullptr, FALSE);
+            core->Resolution().width = GetDlgItemInt(hDlg, IDC_WIDTH, nullptr, FALSE);
+            core->Resolution().height = GetDlgItemInt(hDlg, IDC_HEIGHT, nullptr, FALSE);
             core->ChangeWindowSize(core->WinWidth(), core->WinHeight());
             EndDialog(hDlg, LOWORD(wParam));
             return (INT_PTR)TRUE;

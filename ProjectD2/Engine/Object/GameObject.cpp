@@ -19,9 +19,7 @@ GameObject::GameObject(Scene* _scene, OBJECT_TYPE _type, int _updateOrder, GameO
 {
 	m_scene->AddObject(this, _type);
 
-#if _DEBUG
 	SetVertexData();
-#endif // _DEBUG
 }
 
 GameObject::~GameObject()

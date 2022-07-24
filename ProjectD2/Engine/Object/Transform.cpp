@@ -40,8 +40,8 @@ void Transform::UpdateWorld()
 
 		if (m_parent != nullptr)
 		{
-			SumParentValues();
 			m_world *= GetParent()->GetWorld();
+			SumParentValues();
 		}
 		
 		m_recomputeWorld = false;
@@ -58,7 +58,7 @@ void Transform::SumParentValues()
 	if (m_parent == nullptr)
 		return;
 	
-	m_sumParentsPos   = m_parent->GetWorldPos();
+	m_sumParentsPos   = m_world.m[3];
 	m_sumParentsScale = m_parent->GetWorldScale();
 	m_sumParentsAngle = m_parent->GetWorldAngle();
 	m_sumParentsPivot = m_parent->GetWorldPivot();

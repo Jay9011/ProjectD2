@@ -7,6 +7,7 @@ class PlatformRect : public GameObject
 {
 	enum class PlatformType
 	{
+		Normal,
 		Texture,
 		Animation
 	};
@@ -26,12 +27,13 @@ public:
 
 private:
 	PlatformType m_type;
-	Animator* m_animator;
-	Texture*  m_texture;
-	AARect*   m_collider;
 
 	D3DXVECTOR2 m_size;
 	D3DXVECTOR2 m_halfSize;
+	
+	Animator* m_animator;
+	Texture*  m_texture;
+	AARect*   m_collider;
 
 public:
 	Animator* GetAnimator() { return m_animator; }
@@ -45,7 +47,7 @@ public:
 			m_animator->Find(0)->Play();
 			return true;
 		} 
-		return false; 
+		return false;
 	}
 	bool AnimStop() 
 	{ 

@@ -12,6 +12,9 @@ public:
 	virtual void Release() override;
 	virtual void UpdateScene() override;
 	virtual void RenderScene() override;
+	
+	virtual void SceneEnter() override;
+	virtual void SceneExit() override;
 
 	class TestObject* testObject;
 	D3DXVECTOR3 testObjectPos;

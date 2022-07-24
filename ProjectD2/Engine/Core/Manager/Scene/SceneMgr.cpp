@@ -54,8 +54,12 @@ void SceneMgr::ChangeScene(const string& _name)
 		return;
 	
 	if (m_curScene != nullptr)
+	{
+		m_curScene->Exit();
 		m_curScene->Release();
+	}
 
 	m_curScene = m_scenes[_name];
 	m_curScene->Init();
+	m_curScene->Enter();
 }

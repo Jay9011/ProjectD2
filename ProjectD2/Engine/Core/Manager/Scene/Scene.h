@@ -11,7 +11,13 @@ public:
 	virtual void Release() = 0;
 	virtual void UpdateScene() = 0;
 	virtual void RenderScene() = 0;
+
+	virtual void SceneEnter() = 0;
+	virtual void SceneExit()  = 0;
 	
+	void Enter();
+	void Exit();
+
 	void Update();
 	void FinalUpdate();
 	void Render();

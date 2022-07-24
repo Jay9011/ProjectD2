@@ -22,6 +22,37 @@ Scene::~Scene()
 	delete m_CollisionMgr;
 }
 
+void Scene::Enter()
+{
+	// Scene의 Object들이 다 만들어지면 Object들의 World 좌표로 변환 시킨다.
+	m_updatingObjects = true;
+	for (auto& objectTypeVec : m_objects)
+	{
+		for (auto& object : objectTypeVec)
+		{
+			object->UpdateWorld();
+		}
+	}
+	// 부모 좌표를 적용받지 못한 (먼저 UpdateWorld 된) Object들을 적용받게 한다.
+	for (auto& objectTypeVec : m_objects)
+	{
+		for (auto& object : objectTypeVec)
+		{
+			object->IsRecomputeWorld(true);
+			object->UpdateWorld();
+		}
+	}
+	m_updatingObjects = false;
+
+	SceneEnter();
+}
+
+void Scene::Exit()
+{
+	
+	SceneExit();
+}
+
 void Scene::Update()
 {
 	if (m_game->GetGameState() == GAME_STATE::PLAY)

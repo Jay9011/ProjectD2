@@ -67,9 +67,12 @@ public:
 	const D3DXMATRIX& GetR() const     { return m_R; }
 	const D3DXMATRIX& GetT() const     { return m_T; }
 
-	D3DXVECTOR3 GetWorldPos() const   { return m_sumParentsPos + m_pos; }
-	D3DXVECTOR3 GetWorldScale() const { return D3DXVECTOR3(m_sumParentsScale.x * m_scale.x, m_sumParentsScale.y * m_scale.y, m_sumParentsScale.z * m_scale.z); }
-	float       GetWorldAngle() const { return m_sumParentsAngle + m_angle; }
-	D3DXVECTOR3 GetWorldPivot() const { return m_sumParentsPivot + m_pivot; }
+	D3DXVECTOR3 GetWorldPos()   { return m_sumParentsPos; }
+	D3DXVECTOR3 GetWorldScale() { return D3DXVECTOR3(m_sumParentsScale.x * m_scale.x, m_sumParentsScale.y * m_scale.y, m_sumParentsScale.z * m_scale.z); }
+	float       GetWorldAngle() { return m_sumParentsAngle + m_angle; }
+	D3DXVECTOR3 GetWorldPivot() { return m_sumParentsPivot + m_pivot; }
+
+	bool IsRecomputeWorld() const              { return m_recomputeWorld; }
+	bool IsRecomputeWorld(bool recomputeWorld) { m_recomputeWorld = recomputeWorld; return m_recomputeWorld; }
 };
 

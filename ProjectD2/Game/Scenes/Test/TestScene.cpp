@@ -14,18 +14,24 @@ TestScene::TestScene(Game* _game) :
 	Scene(_game)
 {}
 
-TestScene::~TestScene()
-{}
+TestScene::~TestScene() = default;
 
 void TestScene::Init()
 {
-	testObject = new TestObject(this, OBJECT_TYPE::PLAYER, 110);
-	testObject->SetPos({ WIN_CENTER_X + 100, WIN_CENTER_Y + 100, 0.0f });
-	testObject->SetScale(1.5, 1.5);
-	
 	testMap_1 = new TestMap_1(this);
 	testMap_1->SetPos(WIN_CENTER_X, WIN_CENTER_Y);
 	testMap_1->SetScale(1.5, 1.5);
+}
+
+void TestScene::SceneEnter()
+{
+	testObject = new TestObject(this, OBJECT_TYPE::PLAYER, 110);
+	testObject->SetPos(testMap_1->GetPlayerStartPoint());
+	testObject->SetScale(1.5, 1.5);
+}
+
+void TestScene::SceneExit()
+{
 }
 
 void TestScene::Release()

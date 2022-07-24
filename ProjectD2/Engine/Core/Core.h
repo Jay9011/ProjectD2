@@ -4,7 +4,9 @@
 #define PATH	Core::Get()->GetPathMgr()
 #define SCENE	Core::Get()->GetSceneMgr()
 #define TEXTURE Core::Get()->GetTextureMgr()
-#define RESOLUTION_	Core::Get()->Resolution()
+#define WIN_RESOL	Core::Get()->Resolution()
+#define WIN_WIDTH	Core::Get()->Resolution().width
+#define WIN_HEIGHT	Core::Get()->Resolution().height
 #define WIN_CENTER_X	Core::Get()->WinCenterX()
 #define WIN_CENTER_Y	Core::Get()->WinCenterY()
 
@@ -45,10 +47,10 @@ public:
 	int  Run();
 	
 	RESOLUTION& Resolution() { return m_resolution; }
-	UINT&       WinWidth()   { return m_resolution.WIN_WIDTH; }
-	UINT&       WinHeight()  { return m_resolution.WIN_HEIGHT; }
-	float       WinCenterX() { return (float)m_resolution.WIN_WIDTH * .5f; }
-	float       WinCenterY() { return (float)m_resolution.WIN_HEIGHT * .5f; }
+	UINT&       WinWidth()   { return m_resolution.width; }
+	UINT&       WinHeight()  { return m_resolution.height; }
+	float       WinCenterX() { return (float)m_resolution.width * .5f; }
+	float       WinCenterY() { return (float)m_resolution.height * .5f; }
 
 	void DockingMenu(bool _bDocking);
 	bool ChangeWindowSize(RESOLUTION _resolution, bool _bMenu, HWND _hWnd = nullptr);

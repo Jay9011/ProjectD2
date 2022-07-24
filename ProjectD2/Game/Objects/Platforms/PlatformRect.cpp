@@ -9,6 +9,7 @@
 
 PlatformRect::PlatformRect(const D3DXVECTOR2& _size, const bool& _useCollider, Scene* _scene, OBJECT_TYPE _type, int _updateOrder, GameObject* _parent) :
 	GameObject(_scene, _type, _updateOrder, _parent)
+	, m_type(PlatformType::Normal)
 	, m_size(_size)
 	, m_halfSize(_size * 0.5f)
 {
@@ -22,13 +23,16 @@ PlatformRect::PlatformRect(const D3DXVECTOR2& _size, const bool& _useCollider, S
 PlatformRect::PlatformRect(const D3DXVECTOR2& _size, const wstring& _texturePath, const bool& _useCollider, Scene* _scene, OBJECT_TYPE _type, int _updateOrder, GameObject* _parent) :
 	PlatformRect(_size, _useCollider, _scene, _type, _updateOrder, _parent)
 {
-	m_texture = TEXTURE->Add(_texturePath, (UINT)_size.x, (UINT)_size.y, {0, 0}, {_size.x, _size.y});
 	m_type = PlatformType::Texture;
+	
+	m_texture = TEXTURE->Add(_texturePath, (UINT)_size.x, (UINT)_size.y, {0, 0}, {_size.x, _size.y});
 }
 
 PlatformRect::PlatformRect(const D3DXVECTOR2& _size, const wstring& _texturePath, const size_t& _maxFrameX, const size_t& _maxFrameY, const bool& _useCollider, Scene* _scene, OBJECT_TYPE _type, int _updateOrder, GameObject* _parent) :
 	PlatformRect(_size, _texturePath, _useCollider, _scene, _type, _updateOrder, _parent)
 {
+	m_type = PlatformType::Animation;
+
 	m_animator = ADDCOMP::NewAnimator(this, SHADER(L"AlphaShader"));
 	
 	vector<Texture*> frames;
@@ -43,8 +47,6 @@ PlatformRect::PlatformRect(const D3DXVECTOR2& _size, const wstring& _texturePath
 
 	m_animator->PushBack(frames);
 	m_animator->AutoRendering(false);
-
-	m_type = PlatformType::Animation;
 }
 
 PlatformRect::~PlatformRect() = default;
