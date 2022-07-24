@@ -129,8 +129,12 @@ void Line::Render()
 {
 	if (!IsActive())
 		return;
-
-	RenderVertexWithoutTransform();
+	
+	if (Game::IsDbgRendering())
+	{
+		RenderVertex();
+		RenderVertexWithoutTransform();
+	}
 }
 
 void Line::OnUpdateWorldTransform()
@@ -138,18 +142,17 @@ void Line::OnUpdateWorldTransform()
 	m_worldStart = m_start;
 	m_worldEnd   = m_end;
 
-	// Scale에 따라 Start, End 길이 갱신
-	D3DXVECTOR3 scale = GetOwner()->GetScale();
-	m_worldStart.x *= scale.x;
-	m_worldStart.y *= scale.y;
-	m_worldEnd.x   *= scale.x;
-	m_worldEnd.y   *= scale.y;
+	GameObject* object = GetOwner();
+	D3DXVECTOR3 worldScale = GetOwner()->GetWorldScale();
+	D3DXMATRIX worldMatrix = object->GetWorld();
+	
+	m_worldStart.x *= worldScale.x;
+	m_worldStart.y *= worldScale.y;
+	m_worldEnd.x   *= worldScale.x;
+	m_worldEnd.y   *= worldScale.y;
 
-	D3DXVECTOR3 pos = GetOwner()->GetPos();
-	m_worldStart.x += pos.x;
-	m_worldStart.y += pos.y;
-	m_worldEnd.x   += pos.x;
-	m_worldEnd.y   += pos.y;
+	m_worldStart += worldMatrix.m[3];
+	m_worldEnd   += worldMatrix.m[3];
 }
 
 D3DXVECTOR2 Line::GetMin()
@@ -165,6 +168,10 @@ D3DXVECTOR2 Line::GetMax()
 COLLIDER_TYPE Line::GetColliderType()
 {
 	return COLLIDER_TYPE::LINE;
+}
+
+void Line::RenderVertex()
+{
 }
 
 void Line::RenderVertexWithoutTransform()

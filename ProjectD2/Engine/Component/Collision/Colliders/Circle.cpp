@@ -36,7 +36,11 @@ void Circle::Render()
 	if (!IsActive())
 		return;
 
-	RenderVertexWithoutTransform();
+	if (Game::IsDbgRendering())
+	{
+		RenderVertex();
+		RenderVertexWithoutTransform();
+	}
 }
 
 void Circle::OnUpdateWorldTransform()
@@ -45,18 +49,43 @@ void Circle::OnUpdateWorldTransform()
 	m_worldCenter = m_center;
 	m_worldRadius = m_radius;
 
-	// Scale에 따라서 worldRadius 계산 (x나 y 중에서 큰 값을 따른다) (타원이 아님...)
-	D3DXVECTOR3 scale = GetOwner()->GetScale();
-	m_worldRadius *= Math::Max(scale.x, scale.y);
-
-	// Pos에 따라서 worldCenter 계산
-	D3DXVECTOR3 pos = GetOwner()->GetPos();
-	m_worldCenter += D3DXVECTOR2(pos.x, pos.y);
+	GameObject* object = GetOwner();
+	D3DXVECTOR3 worldScale = GetOwner()->GetWorldScale();
+	D3DXMATRIX worldMatrix = object->GetWorld();
+	
+	m_worldRadius *= Math::Max(worldScale.x, worldScale.y);
+	m_worldCenter += worldMatrix.m[3];
 }
 
 COLLIDER_TYPE Circle::GetColliderType()
 {
 	return COLLIDER_TYPE::CIRCLE;
+}
+
+void Circle::RenderVertex()
+{
+	vector<VERTEXCOLOR> vertexList;
+	vector<WORD>        indexList;
+
+	D3DCOLOR color = isCollided ? onColor : offColor;
+
+	short sectorCount = 36;
+
+	float oneSector = 2 * PI / sectorCount;
+
+	for (int i = 0; i < sectorCount; i++)
+	{
+		float angle = (float)i * oneSector;
+		float x = m_radius * cos(angle);
+		float y = m_radius * -sin(angle);
+
+		vertexList.push_back(VERTEXCOLOR(x + m_center.x, y + m_center.y, color, -1.0f));
+		indexList.push_back((WORD)i);
+	}
+	indexList.push_back(0);
+
+	DEVICE->SetFVF(VERTEXCOLOR::FVF);
+	DEVICE->DrawIndexedPrimitiveUP(D3DPT_LINESTRIP, 0, (UINT)vertexList.size(), (UINT)indexList.size() - 1, indexList.data(), D3DFMT_INDEX16, vertexList.data(), sizeof(VERTEXCOLOR));
 }
 
 void Circle::RenderVertexWithoutTransform()

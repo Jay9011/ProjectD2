@@ -50,7 +50,7 @@ void GameObject::Update()
 
 	if (m_state == OBJECT_STATE::ACTIVE)
 	{
-		//UpdateWorld();
+		UpdateWorld();
 		
 		UpdateObject();
 		UpdateComponent();

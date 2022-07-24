@@ -17,6 +17,7 @@ public:
 	virtual void OnUpdateWorldTransform() override;
 	
 private:
+	void RenderVertex();
 	void RenderVertexWithoutTransform();
 
 private:

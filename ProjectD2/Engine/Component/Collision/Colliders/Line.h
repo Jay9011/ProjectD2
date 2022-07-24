@@ -21,6 +21,7 @@ public:
 	virtual void Render() override;
 
 private:
+	void RenderVertex();
 	void RenderVertexWithoutTransform();
 
 private:

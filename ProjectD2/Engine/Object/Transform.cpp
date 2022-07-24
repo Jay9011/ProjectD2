@@ -8,6 +8,10 @@ Transform::Transform(Transform* _parent) :
 	, m_angle(0)
 	, m_pivot(0, 0, 0)
 	, m_recomputeWorld(true)
+	, m_sumParentsPos(m_pos)
+	, m_sumParentsScale(m_scale)
+	, m_sumParentsAngle(m_angle)
+	, m_sumParentsPivot(m_pivot)
 {
 	D3DXMatrixIdentity(&m_S);
 	D3DXMatrixIdentity(&m_R);
@@ -36,6 +40,7 @@ void Transform::UpdateWorld()
 
 		if (m_parent != nullptr)
 		{
+			SumParentValues();
 			m_world *= GetParent()->GetWorld();
 		}
 		
@@ -46,4 +51,15 @@ void Transform::UpdateWorld()
 void Transform::SetWorld()
 {
 	DEVICE->SetTransform(D3DTS_WORLD, &m_world);
+}
+
+void Transform::SumParentValues()
+{
+	if (m_parent == nullptr)
+		return;
+	
+	m_sumParentsPos   = m_parent->GetWorldPos();
+	m_sumParentsScale = m_parent->GetWorldScale();
+	m_sumParentsAngle = m_parent->GetWorldAngle();
+	m_sumParentsPivot = m_parent->GetWorldPivot();
 }

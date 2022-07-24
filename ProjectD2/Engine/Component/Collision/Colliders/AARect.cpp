@@ -53,6 +53,7 @@ void AARect::Render()
 	if (Game::IsDbgRendering())
 	{
 		RenderVertex();
+		RenderVertexWithoutTransform();
 	}
 }
 
@@ -62,20 +63,18 @@ void AARect::OnUpdateWorldTransform()
 	m_worldMin = m_min;
 	m_worldMax = m_max;
 	
-	// Update Scale
-	D3DXVECTOR3 scale = GetOwner()->GetScale();
-	m_worldMin.x *= scale.x;
-	m_worldMin.y *= scale.y;
-	m_worldMax.x *= scale.x;
-	m_worldMax.y *= scale.y;
+	GameObject* object = GetOwner();
+	D3DXVECTOR3 worldScale = object->GetWorldScale();
+	D3DXMATRIX worldMatrix = object->GetWorld();
 
-	// Translate
-	D3DXVECTOR3 pos = GetOwner()->GetPos();
-	m_worldMin.x += pos.x;
-	m_worldMin.y += pos.y;
-	m_worldMax.x += pos.x;
-	m_worldMax.y += pos.y;
+	m_worldMin.x *= worldScale.x;
+	m_worldMin.y *= worldScale.y;
+	m_worldMax.x *= worldScale.x;
+	m_worldMax.y *= worldScale.y;
 
+	m_worldMin += worldMatrix.m[3];
+	m_worldMax += worldMatrix.m[3];
+	
 	// Scale 반전에 의한 변경점 적용
 	if (m_worldMin.x > m_worldMax.x) std::swap(m_worldMin.x, m_worldMax.x);
 	if (m_worldMin.y > m_worldMax.y) std::swap(m_worldMin.y, m_worldMax.y);

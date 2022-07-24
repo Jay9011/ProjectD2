@@ -37,11 +37,12 @@ PlatformRect::PlatformRect(const D3DXVECTOR2& _size, const wstring& _texturePath
 	{
 		for (int x = 0; x < _maxFrameX; ++x)
 		{
-			frames.push_back(TEXTURE->Add(_texturePath, (int)_maxFrameX, (int)_maxFrameY, x, y));
+			frames.push_back(TEXTURE->Add(_texturePath, (int)_maxFrameX, (int)_maxFrameY, x, y, { 0.501f, 0.5f }));
 		}
 	}
 
 	m_animator->PushBack(frames);
+	m_animator->AutoRendering(false);
 
 	m_type = PlatformType::Animation;
 }
