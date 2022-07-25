@@ -89,11 +89,11 @@ void TestMap_1::RenderObject()
 	GameObject::RenderObject();
 }
 
-D3DXVECTOR3 TestMap_1::GetPlayerStartPoint()
+D3DXVECTOR2 TestMap_1::GetPlayerStartPoint()
 {
 	assert(m_PlayerStartFlag);
 
-	D3DXVECTOR3 pos = m_PlayerStartFlag->GetWorldPos();
+	D3DXVECTOR2 pos = m_PlayerStartFlag->GetWorldPos();
 	
 	return pos;
 }

@@ -43,14 +43,14 @@ void TestObject2::UpdateObject()
 
 void TestObject2::RenderObject()
 {
-	D3DXVECTOR3 pos = GetPos();
+	D3DXVECTOR2 pos = GetPos();
 	D3DXVECTOR2 textureSize = m_animator->GetCurrentTexture()->GetSize();
 	D3DXVECTOR2 textureHalfSize = textureSize * 0.5f;
 
 	size_t textureXCount = m_width / textureSize.x;
 	size_t textureYCount = m_height / textureSize.y;
 
-	D3DXVECTOR3 coord = {pos.x - m_halfWidth + textureHalfSize.x, pos.y - m_halfHeight + textureHalfSize.y, 0.0f};
+	D3DXVECTOR2 coord = {pos.x - m_halfWidth + textureHalfSize.x, pos.y - m_halfHeight + textureHalfSize.y };
 
 	for (size_t y = 0; y < textureYCount; y++)
 	{

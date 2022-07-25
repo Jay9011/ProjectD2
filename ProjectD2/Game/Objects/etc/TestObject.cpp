@@ -25,6 +25,7 @@ TestObject::TestObject(Scene* _scene, OBJECT_TYPE _type, int _updateOrder, GameO
 	TwAddVarRW(_scene->twbar, "Force", TW_TYPE_DIR3F, &m_physics.force, "opened=true axisy=-y");
 	TwAddVarRW(_scene->twbar, "Collided", TW_TYPE_DIR3F, &m_collisionDir, "opened=true axisy=-y");
 	TwAddVarRW(_scene->twbar, "isFalling", TW_TYPE_BOOL8, &m_physics.isFalling, "");
+	TwAddVarRO(_scene->twbar, "diff", TW_TYPE_FLOAT, &dbg_diff, "");
 #endif // _DEBUG
 	/* === === === === ===
 	*  Component Setting
@@ -161,8 +162,13 @@ void TestObject::GroundCheck()
 	else
 	{
 		m_physics.isFalling = false;
+		
+		float diff = collided[0].second->GetMin().y - m_bodyCollider->GetMax().y;
+		dbg_diff = diff;
+		diff = abs(diff);
 
-		AddPos(0, -abs(collided[0].second->GetMin().y - m_bodyCollider->GetMax().y));
+		if(diff >= 0.3f)
+			AddPos(0, 0.3f - diff * 0.5f);
 
 		if (m_physics.force.y > 0)
 			m_physics.force.y = 0;

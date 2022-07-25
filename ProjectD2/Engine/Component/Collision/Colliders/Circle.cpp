@@ -44,7 +44,7 @@ void Circle::OnUpdateWorldTransform()
 	m_worldRadius = m_radius;
 
 	GameObject* object = GetOwner();
-	D3DXVECTOR3 worldScale = GetOwner()->GetWorldScale();
+	D3DXVECTOR2 worldScale = GetOwner()->GetWorldScale();
 	D3DXMATRIX worldMatrix = object->GetWorld();
 	
 	m_worldRadius *= Math::Max(worldScale.x, worldScale.y);

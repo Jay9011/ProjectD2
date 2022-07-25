@@ -137,7 +137,7 @@ void Line::OnUpdateWorldTransform()
 	m_worldEnd   = m_end;
 
 	GameObject* object = GetOwner();
-	D3DXVECTOR3 worldScale = GetOwner()->GetWorldScale();
+	D3DXVECTOR2 worldScale = GetOwner()->GetWorldScale();
 	D3DXMATRIX worldMatrix = object->GetWorld();
 	
 	m_worldStart.x *= worldScale.x;

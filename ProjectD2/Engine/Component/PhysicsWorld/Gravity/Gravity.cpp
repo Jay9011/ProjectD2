@@ -34,7 +34,8 @@ void Gravity::Update()
 	{
 		physics.fallTime += DT;
 
-		physics.force.y += physics.mass * gravity * DT;
+		if(physics.fallTime >= 0.2)
+			physics.force.y += physics.mass * gravity * DT;
 
 		if(physics.force.y > maxFallSpeed)
 		{

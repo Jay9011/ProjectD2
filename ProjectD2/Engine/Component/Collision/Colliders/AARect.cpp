@@ -58,7 +58,7 @@ void AARect::OnUpdateWorldTransform()
 	m_worldMax = m_max;
 	
 	GameObject* object = GetOwner();
-	D3DXVECTOR3 worldScale = object->GetWorldScale();
+	D3DXVECTOR2 worldScale = object->GetWorldScale();
 	D3DXMATRIX worldMatrix = object->GetWorld();
 
 	m_worldMin.x *= worldScale.x;

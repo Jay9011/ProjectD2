@@ -3,10 +3,10 @@
 
 Transform::Transform(Transform* _parent) :
 	m_parent(_parent)
-	, m_pos(0, 0, 0)
-	, m_scale(1, 1, 1)
+	, m_pos(0, 0)
+	, m_scale(1, 1)
 	, m_angle(0)
-	, m_pivot(0, 0, 0)
+	, m_pivot(0, 0)
 	, m_recomputeWorld(true)
 	, m_sumParentsPos(m_pos)
 	, m_sumParentsScale(m_scale)
@@ -27,13 +27,13 @@ void Transform::UpdateWorld()
 {
 	if (m_recomputeWorld)
 	{
-		D3DXMatrixScaling(&m_S, m_scale.x, m_scale.y, m_scale.z);
+		D3DXMatrixScaling(&m_S, m_scale.x, m_scale.y, 1);
 		D3DXMatrixRotationZ(&m_R, m_angle);
-		D3DXMatrixTranslation(&m_T, m_pos.x, m_pos.y, m_pos.z);
+		D3DXMatrixTranslation(&m_T, m_pos.x, m_pos.y, 0);
 
 		D3DXMATRIX P;
 		D3DXMATRIX IP;
-		D3DXMatrixTranslation(&P, m_pivot.x, m_pivot.y, m_pivot.z);
+		D3DXMatrixTranslation(&P, m_pivot.x, m_pivot.y, 0);
 		D3DXMatrixInverse(&IP, nullptr, &P);
 
 		m_world = IP * m_S * m_R * m_T * P;

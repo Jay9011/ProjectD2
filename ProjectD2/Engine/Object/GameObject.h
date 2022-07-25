@@ -31,8 +31,9 @@ private:
 	bool m_isUpdating;
 	bool m_isRendering;
 
-	D3DXVECTOR3 m_beforePos;
-	D3DXVECTOR3 m_direction;
+	D3DXVECTOR2 m_beforePos;
+	D3DXVECTOR2 m_direction;
+	D3DXVECTOR2 m_directionPower;
 	
 /* === === === === ===
 *     Component
@@ -57,8 +58,8 @@ public:
 
 	int GetOrder() const { return m_updateOrder; }
 
-	const D3DXVECTOR3& GetDirection() const { return m_direction; }
-	const D3DXVECTOR3& GetBeforePos() const { return m_beforePos; }
+	const D3DXVECTOR2& GetDirection() const { return m_direction; }
+	const D3DXVECTOR2& GetBeforePos() const { return m_beforePos; }
 
 /* === === === === ===
 *  테스트용 VertexBuffer, IndexBuffer

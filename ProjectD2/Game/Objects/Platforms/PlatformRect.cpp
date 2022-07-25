@@ -63,7 +63,7 @@ void PlatformRect::RenderObject()
 	}
 	else if (m_type == PlatformType::Animation)
 	{
-		D3DXVECTOR3 pos = GetPos();
+		D3DXVECTOR2 pos = GetPos();
 		D3DXVECTOR2 textureSize = m_animator->GetCurrentTexture()->GetSize();
 		D3DXVECTOR2 textureHalfSize = textureSize * 0.5f;
 		

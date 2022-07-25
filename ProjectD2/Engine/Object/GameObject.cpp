@@ -85,7 +85,8 @@ void GameObject::FinalUpdate()
 
 	if (m_state == OBJECT_STATE::ACTIVE)
 	{
-		m_direction = Math::NearZeroValue(GetPos() - m_beforePos);
+		m_directionPower = Math::NearZeroValue(GetPos() - m_beforePos);
+		D3DXVec2Normalize(&m_direction, &m_directionPower);
 		
 		FinalUpdateComponent();
 		FinalUpdateObject();
@@ -226,11 +227,11 @@ void GameObject::DrawDirectionVertex()
 
 	D3DCOLOR color = 0xFFFFB03A;
 
-	D3DXVECTOR3 scale = GetScale();
+	D3DXVECTOR2 scale = GetScale();
 	
 	// Direction Vertex
-	vertexList.push_back(VERTEXCOLOR(0, 0, color, -1.f)); // start
-	vertexList.push_back(VERTEXCOLOR(m_direction.x * abs(scale.x) * 30, m_direction.y * abs(scale.y) * 30, color, -1.f)); // end
+	vertexList.push_back(VERTEXCOLOR(0, 0, color)); // start
+	vertexList.push_back(VERTEXCOLOR(m_directionPower.x * abs(scale.x) * 30, m_directionPower.y * abs(scale.y) * 30, color)); // end
 	
 	indexList.push_back(0);
 	indexList.push_back(1);
@@ -241,8 +242,8 @@ void GameObject::DrawDirectionVertex()
 
 	D3DXMATRIX P;
 	D3DXMATRIX IP;
-	D3DXVECTOR3 pivot = GetPivot();
-	D3DXMatrixTranslation(&P, pivot.x, pivot.y, pivot.z);
+	D3DXVECTOR2 pivot = GetPivot();
+	D3DXMatrixTranslation(&P, pivot.x, pivot.y, 0);
 	D3DXMatrixInverse(&IP, nullptr, &P);
 
 	world = IP * m_T * P;

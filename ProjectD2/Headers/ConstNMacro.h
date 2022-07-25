@@ -7,10 +7,10 @@
 *  Constants
 */
 constexpr float PI = 3.14159265358979323846f;
-#define V_LEFT  D3DXVECTOR3(-1.0f, 0.0f, 0.0f)
-#define V_RIGHT D3DXVECTOR3(+1.0f, 0.0f, 0.0f)
-#define V_UP    D3DXVECTOR3(0.0f, -1.0f, 0.0f)
-#define V_DOWN  D3DXVECTOR3(0.0f, +1.0f, 0.0f)
+#define V_LEFT  D3DXVECTOR2(-1.0f, 0.0f)
+#define V_RIGHT D3DXVECTOR2(+1.0f, 0.0f)
+#define V_UP    D3DXVECTOR2(0.0f, -1.0f)
+#define V_DOWN  D3DXVECTOR2(0.0f, +1.0f)
 #define WS_DEFAULT	( WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX )
 
 /*

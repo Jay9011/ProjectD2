@@ -21,7 +21,7 @@ private:
 	PlatformRect* m_PlayerStartFlag;
 
 public:
-	D3DXVECTOR3 GetPlayerStartPoint();
+	D3DXVECTOR2 GetPlayerStartPoint();
 
 };
 

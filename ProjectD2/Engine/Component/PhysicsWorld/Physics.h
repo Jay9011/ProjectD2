@@ -7,11 +7,11 @@ public:
 public:
 	GameObject* owner;
 
-	D3DXVECTOR3 force;
+	D3DXVECTOR2 force;
 	float mass;
 
-	D3DXVECTOR3 resistance;
-	D3DXVECTOR3 airResistance;
+	D3DXVECTOR2 resistance;
+	D3DXVECTOR2 airResistance;
 	
 	float  jumpForce;
 	bool   isFalling;
@@ -23,4 +23,6 @@ public:
 	void MovingX(float _x);
 	
 	void CalcResistance();
+
+	D3DXVECTOR2 CorrectionCollision(const FRECT& ownerRect, const FRECT& blockRect);
 };

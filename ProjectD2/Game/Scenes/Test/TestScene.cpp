@@ -12,7 +12,8 @@
 
 TestScene::TestScene(Game* _game) :
 	Scene(_game)
-{}
+{
+}
 
 TestScene::~TestScene() = default;
 
@@ -28,6 +29,7 @@ void TestScene::SceneEnter()
 	testObject = new TestObject(this, OBJECT_TYPE::PLAYER, 110);
 	testObject->SetPos(testMap_1->GetPlayerStartPoint());
 	testObject->SetScale(1.5, 1.5);
+	testObjectPos = testObject->GetPos();
 }
 
 void TestScene::SceneExit()

@@ -24,6 +24,7 @@
 #include <d3dx9.h>
 // etc...
 #include <cassert>
+#include <cmath>
 #include <functional>
 #include <math.h>
 #include <AntTweakBar.h>

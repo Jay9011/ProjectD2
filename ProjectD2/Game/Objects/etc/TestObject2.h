@@ -28,7 +28,7 @@ public:
 	
 	void ScaleXInverse()
 	{
-		D3DXVECTOR3 scale = GetScale();
+		D3DXVECTOR2 scale = GetScale();
 		scale.x *= -1;
 		SetScale(scale);
 	};
