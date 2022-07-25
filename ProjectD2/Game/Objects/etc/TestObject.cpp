@@ -78,6 +78,14 @@ void TestObject::RenderObject()
 	GameObject::RenderObject();
 }
 
+void TestObject::FinalUpdateObject()
+{
+	/*
+	* 付公府 贸府
+	*/
+	m_physics.CalcResistance();
+}
+
 void TestObject::SetAction(PLAYER_STATE _state)
 {
 	if (this->m_state == _state)
@@ -112,7 +120,7 @@ void TestObject::MoveLeftRight()
 {
 	if (KEYPRESS(VK_LEFT))
 	{
-		m_physics.force += V_LEFT * m_speed * fDT;
+		m_physics.MovingX(V_LEFT.x * m_speed);
 		if (m_isRight)
 		{
 			m_isRight = !m_isRight;
@@ -123,7 +131,7 @@ void TestObject::MoveLeftRight()
 	}
 	if (KEYPRESS(VK_RIGHT))
 	{
-		m_physics.force += V_RIGHT * m_speed * fDT;
+		m_physics.MovingX(V_RIGHT.x * m_speed);
 		if (!m_isRight)
 		{
 			m_isRight = !m_isRight;

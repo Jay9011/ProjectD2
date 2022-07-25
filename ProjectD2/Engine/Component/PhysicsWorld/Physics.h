@@ -9,9 +9,18 @@ public:
 
 	D3DXVECTOR3 force;
 	float mass;
-	float jumpForce;
+
+	D3DXVECTOR3 resistance;
+	D3DXVECTOR3 airResistance;
 	
+	float  jumpForce;
 	bool   isFalling;
 	double fallTime;
 
+	bool   isMoving;
+
+public:
+	void MovingX(float _x);
+	
+	void CalcResistance();
 };

@@ -42,14 +42,18 @@ public:
 	
 	const D3DXVECTOR3& GetPos() const                        { return m_pos; }
 	void               SetPos(const D3DXVECTOR3& position)   { m_pos = position; m_recomputeWorld = true; }
+	void               SetPos(const D3DXVECTOR2& position)   { SetPos({ position.x, position.y, 0 }); }
 	void               SetPos(float x, float y, float z = 0) { SetPos({ x, y, z }); }
 	void               AddPos(const D3DXVECTOR3& position)   { m_pos += position; m_recomputeWorld = true; }
+	void               AddPos(const D3DXVECTOR2& position)   { AddPos({ position.x, position.y, 0 }); }
 	void               AddPos(float x, float y, float z = 0) { AddPos({ x, y, z }); }
 
 	const D3DXVECTOR3& GetScale() const                        { return m_scale; }
 	void               SetScale(const D3DXVECTOR3& scale)      { m_scale = scale; m_recomputeWorld = true; }
+	void               SetScale(const D3DXVECTOR2& scale)      { SetScale({ scale.x, scale.y, 1 }); }
 	void               SetScale(float x, float y, float z = 0) { SetScale({ x, y, z }); }
 	void               AddScale(const D3DXVECTOR3& scale)      { m_scale += scale; m_recomputeWorld = true; }
+	void               AddScale(const D3DXVECTOR2& scale)      { AddScale({ scale.x, scale.y, 1 }); }
 	void               AddScale(float x, float y, float z = 0) { AddScale({ x, y, z }); }
 
 	float GetAngle() const      { return m_angle; }
