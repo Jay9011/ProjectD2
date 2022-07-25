@@ -65,3 +65,5 @@ bool Collision(Circle* _circle, AARect* _rect) { return Collision(_rect, _circle
 
 bool Collision(Line* _line, AARect* _rect)   { return Collision(_rect, _line); }
 bool Collision(Line* _line, Circle* _circle) { return Collision(_circle, _line); }
+
+FRECT GetCollisionRect(AARect* _rect1, AARect* _rect2);

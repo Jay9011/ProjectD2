@@ -473,6 +473,16 @@ bool Collision(Line* _line, Line* _other)
     return false;
 }
 
+FRECT GetCollisionRect(AARect* _rect1, AARect* _rect2)
+{
+	float left   = Math::Max(_rect1->GetMin().x, _rect2->GetMin().x);
+	float top    = Math::Max(_rect1->GetMin().y, _rect2->GetMin().y);
+	float right  = Math::Min(_rect1->GetMax().x, _rect2->GetMax().x);
+	float bottom = Math::Min(_rect1->GetMax().y, _rect2->GetMax().y);
+	
+    return FRECT(left, top, right, bottom);
+}
+
 
 
 bool TestSide(float _start, float _end, float _negd, const D3DXVECTOR2& _norm, vector<std::pair<float, D3DXVECTOR2>>& _out)

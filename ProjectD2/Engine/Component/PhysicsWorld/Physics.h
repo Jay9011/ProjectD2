@@ -23,6 +23,4 @@ public:
 	void MovingX(float _x);
 	
 	void CalcResistance();
-
-	D3DXVECTOR2 CorrectionCollision(const FRECT& ownerRect, const FRECT& blockRect);
 };

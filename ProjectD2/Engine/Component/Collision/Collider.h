@@ -50,6 +50,7 @@ public:
 
 	virtual D3DXVECTOR2 GetMin() = 0;
 	virtual D3DXVECTOR2 GetMax() = 0;
+	FRECT GetRect() { return { GetMin().x, GetMin().y, GetMax().x, GetMax().y }; }
 
 	UINT GetID() { return m_id; }
 

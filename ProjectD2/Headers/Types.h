@@ -30,7 +30,7 @@ using FSIZE = struct tagFSIZE
 };
 using PFSIZE = FSIZE*;
 
-// floatÇü RECT
+// floatÇü RECT left, top, right, bottom
 using FRECT = struct tagFRECT
 {
 	float left;
@@ -40,6 +40,8 @@ using FRECT = struct tagFRECT
 	
 	tagFRECT() : left(0.0f), top(0.0f), right(0.0f), bottom(0.0f) {}
 	tagFRECT(float left, float top, float right, float bottom) : left(left), top(top), right(right), bottom(bottom) {}
+	D3DXVECTOR2 Size() { return D3DXVECTOR2(right - left, bottom - top); }
+	D3DXVECTOR2 Pos() { return D3DXVECTOR2(left + (right - left) * 0.5f, top + (bottom - top) * 0.5f); }
 };
 using PFRECT = FRECT*;
 

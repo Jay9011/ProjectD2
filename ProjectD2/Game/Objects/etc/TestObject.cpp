@@ -25,7 +25,6 @@ TestObject::TestObject(Scene* _scene, OBJECT_TYPE _type, int _updateOrder, GameO
 	TwAddVarRW(_scene->twbar, "Force", TW_TYPE_DIR3F, &m_physics.force, "opened=true axisy=-y");
 	TwAddVarRW(_scene->twbar, "Collided", TW_TYPE_DIR3F, &m_collisionDir, "opened=true axisy=-y");
 	TwAddVarRW(_scene->twbar, "isFalling", TW_TYPE_BOOL8, &m_physics.isFalling, "");
-	TwAddVarRO(_scene->twbar, "diff", TW_TYPE_FLOAT, &dbg_diff, "");
 #endif // _DEBUG
 	/* === === === === ===
 	*  Component Setting
@@ -37,10 +36,8 @@ TestObject::TestObject(Scene* _scene, OBJECT_TYPE _type, int _updateOrder, GameO
 	/*
 	* Collider
 	*/
-	m_bodyCollider = ADDCOMP::NewAARect({ -10, -17 }, { 10, 21 }, this);
+	m_bodyCollider = ADDCOMP::NewAARect({ -15, -20 }, { 15, 20 }, this);
 	m_bodyCollider->IsActive(true);
-	m_sight_u = ADDCOMP::NewLine({ 0, 0 }, { 150, -70 }, this);
-	m_sight_u->IsActive(true);
 	/*
 	* Physics
 	*/
@@ -154,23 +151,54 @@ void TestObject::GroundCheck()
 	vector<std::pair<Collider*, Collider*>> collided;
 	scene->GetCollisionMgr()->CheckCollision(m_bodyCollider, OBJECT_TYPE::PLATFORM, collided);
 	
-	// 플랫폼과 충돌 처리
 	if (collided.empty())
 	{
 		m_physics.isFalling = true;
 	}
 	else
 	{
-		m_physics.isFalling = false;
-		
-		float diff = collided[0].second->GetMin().y - m_bodyCollider->GetMax().y;
-		dbg_diff = diff;
-		diff = abs(diff);
+		FRECT cRect = GetCollisionRect((AARect*)m_bodyCollider, (AARect*)collided[0].second);
 
-		if(diff >= 0.3f)
-			AddPos(0, 0.3f - diff * 0.5f);
+		// 상하 충돌
+		if (cRect.Size().x > cRect.Size().y)
+		{
+			m_physics.isFalling = false;
 
-		if (m_physics.force.y > 0)
-			m_physics.force.y = 0;
+			// y가 0.3 이하면 충돌 보정 하지 않음
+			bool correct = cRect.Size().y > 0.3f ? true : false;
+				
+			if (cRect.Pos().y < m_bodyCollider->GetRect().Pos().y)
+			{
+				// 아래에서 충돌
+				m_physics.isFalling = true;
+				
+				if (correct)
+					AddPos(0, cRect.Size().y * 0.3f);
+			}
+			else
+			{
+				// 위에서 충돌
+				if (correct)
+					AddPos(0, -cRect.Size().y * 0.3f);
+			}
+			if (correct)
+				m_physics.force.y = 0;
+		}
+		// 좌우 충돌
+		else
+		{
+			if(cRect.Pos().x < m_bodyCollider->GetRect().Pos().x)
+			{
+				// 오른쪽에서 충돌
+				AddPos(cRect.Size().x, 0);
+			}
+			else
+			{
+				// 왼쪽에서 충돌
+				AddPos(-cRect.Size().x, 0);
+			}
+			
+			m_physics.force.x = 0;
+		}
 	}
 }

@@ -32,7 +32,6 @@ public:
 #if _DEBUG
 	D3DXVECTOR2 m_dir;
 	D3DXVECTOR2 m_collisionDir;
-	float dbg_diff;
 #endif
 
 public:
