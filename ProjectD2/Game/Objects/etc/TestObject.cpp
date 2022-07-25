@@ -23,7 +23,6 @@ TestObject::TestObject(Scene* _scene, OBJECT_TYPE _type, int _updateOrder, GameO
 	TwAddVarRW(_scene->twbar, "Speed", TW_TYPE_FLOAT, &m_speed, "min=0.0 max=1000.0 step=1.0");
 	TwAddVarRO(_scene->twbar, "Dir", TW_TYPE_DIR3F, &m_dir, "opened=true axisy=-y");
 	TwAddVarRW(_scene->twbar, "Force", TW_TYPE_DIR3F, &m_physics.force, "opened=true axisy=-y");
-	TwAddVarRW(_scene->twbar, "Collided", TW_TYPE_DIR3F, &m_collisionDir, "opened=true axisy=-y");
 	TwAddVarRW(_scene->twbar, "isFalling", TW_TYPE_BOOL8, &m_physics.isFalling, "");
 #endif // _DEBUG
 	/* === === === === ===
@@ -67,7 +66,7 @@ void TestObject::UpdateObject()
 	AddPos(m_physics.force * fDT);
 
 #if _DEBUG
-	m_dir = GetDirection();
+	m_dir = { GetDirection().x, GetDirection().y, 0 };
 #endif // _DEBUG
 }
 
@@ -99,7 +98,7 @@ void TestObject::SetAnimation()
 	
 	// APPEAR
 	m_animator->LoadXML("Character\\Player\\", "Appear", ANIM_PLAY_TYPE::ONCE, 0.1f);
-	m_animator->Find((int)PLAYER_STATE::APPEAR)->SetFrameDuration(16, 3.0f);
+	m_animator->Find((int)PLAYER_STATE::APPEAR)->SetFrameDuration(16, 1.0f);
 	m_animator->SetEndEvent((int)PLAYER_STATE::APPEAR, [this]() {
 		SetAction(PLAYER_STATE::IDLE);
 	});
@@ -157,48 +156,53 @@ void TestObject::GroundCheck()
 	}
 	else
 	{
-		FRECT cRect = GetCollisionRect((AARect*)m_bodyCollider, (AARect*)collided[0].second);
-
-		// 상하 충돌
-		if (cRect.Size().x > cRect.Size().y)
+		for (const auto& collider : collided)
 		{
-			m_physics.isFalling = false;
+			FRECT cRect = GetCollisionRect((AARect*)m_bodyCollider, (AARect*)collider.second);
 
-			// y가 0.3 이하면 충돌 보정 하지 않음
-			bool correct = cRect.Size().y > 0.3f ? true : false;
-				
-			if (cRect.Pos().y < m_bodyCollider->GetRect().Pos().y)
+			// 상하 충돌
+			if (cRect.Size().x > cRect.Size().y)
 			{
-				// 아래에서 충돌
-				m_physics.isFalling = true;
-				
+				m_physics.isFalling = false;
+
+				// y가 0.3 이하면 충돌 보정 하지 않음
+				bool correct = cRect.Size().y > 0.3f ? true : false;
+
+				if (cRect.Pos().y < m_bodyCollider->GetRect().Pos().y)
+				{
+					// 아래에서 충돌
+					m_physics.isFalling = true;
+
+					if (correct)
+						AddPos(0, cRect.Size().y * 0.3f);
+				}
+				else
+				{
+					// 위에서 충돌
+					if (correct)
+						AddPos(0, -cRect.Size().y * 0.3f);
+				}
 				if (correct)
-					AddPos(0, cRect.Size().y * 0.3f);
+					m_physics.force.y = 0;
 			}
+			// 좌우 충돌
 			else
 			{
-				// 위에서 충돌
-				if (correct)
-					AddPos(0, -cRect.Size().y * 0.3f);
+				if (cRect.Pos().x < m_bodyCollider->GetRect().Pos().x)
+				{
+					// 오른쪽에서 충돌
+					AddPos(cRect.Size().x, 0);
+				}
+				else
+				{
+					// 왼쪽에서 충돌
+					AddPos(-cRect.Size().x, 0);
+				}
+
+				m_physics.force.x = 0;
 			}
-			if (correct)
-				m_physics.force.y = 0;
 		}
-		// 좌우 충돌
-		else
-		{
-			if(cRect.Pos().x < m_bodyCollider->GetRect().Pos().x)
-			{
-				// 오른쪽에서 충돌
-				AddPos(cRect.Size().x, 0);
-			}
-			else
-			{
-				// 왼쪽에서 충돌
-				AddPos(-cRect.Size().x, 0);
-			}
-			
-			m_physics.force.x = 0;
-		}
+
+		
 	}
 }

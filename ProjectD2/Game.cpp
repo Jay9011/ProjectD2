@@ -28,12 +28,19 @@ Game::~Game()
 
 void Game::Update()
 {
+	if (KEYDOWN(VK_F7))
+	{
+		ChangeGameState();
+	}
 	if (KEYDOWN(VK_F9))
 	{
 		ChangeDbgRendering();
 	}
 	
-	SCENE->Update();
+	if (m_GameState == GAME_STATE::PLAY)
+	{
+		SCENE->Update();
+	}
 }
 
 void Game::Render()
@@ -43,5 +50,8 @@ void Game::Render()
 
 void Game::FinalUpdate()
 {
-	SCENE->FinalUpdate();
+	if (m_GameState == GAME_STATE::PLAY)
+	{
+		SCENE->FinalUpdate();
+	}
 }

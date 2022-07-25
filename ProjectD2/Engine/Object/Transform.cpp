@@ -17,6 +17,11 @@ Transform::Transform(Transform* _parent) :
 	D3DXMatrixIdentity(&m_R);
 	D3DXMatrixIdentity(&m_T);
 	D3DXMatrixIdentity(&m_world);
+
+	if (m_parent)
+	{
+		m_parent->AddChild(this);
+	}
 }
 
 Transform::~Transform()
@@ -27,6 +32,11 @@ void Transform::UpdateWorld()
 {
 	if (m_recomputeWorld)
 	{
+		for (auto& child : m_children)
+		{
+			child->IsRecomputeWorld(true);
+		}
+
 		D3DXMatrixScaling(&m_S, m_scale.x, m_scale.y, 1);
 		D3DXMatrixRotationZ(&m_R, m_angle);
 		D3DXMatrixTranslation(&m_T, m_pos.x, m_pos.y, 0);

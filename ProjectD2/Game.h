@@ -25,6 +25,7 @@ public:
 
 private:
 	bool& ChangeDbgRendering() { return m_isDbgRendering = !m_isDbgRendering; }
+	void ChangeGameState(){ m_GameState = (m_GameState == GAME_STATE::PLAY) ? GAME_STATE::PAUSE : GAME_STATE::PLAY; }
 
 /* === === === === ===
 *    TWBar ฐüทร

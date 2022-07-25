@@ -16,6 +16,7 @@ enum class OBJECT_STATE
 
 enum class OBJECT_TYPE
 {
+	BACKGROUND,
 	DEFAULT,
 	PLATFORM,
 	PLAYER,

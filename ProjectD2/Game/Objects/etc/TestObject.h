@@ -30,8 +30,7 @@ public:
 	
 	Physics m_physics;
 #if _DEBUG
-	D3DXVECTOR2 m_dir;
-	D3DXVECTOR2 m_collisionDir;
+	D3DXVECTOR3 m_dir;
 #endif
 
 public:

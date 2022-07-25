@@ -23,5 +23,10 @@ private:
 public:
 	D3DXVECTOR2 GetPlayerStartPoint();
 
+
+private:
+	PlatformRect* m_testPlatform;
+	D3DXVECTOR2 m_pos;
+	D3DXVECTOR2 m_scale;
 };
 

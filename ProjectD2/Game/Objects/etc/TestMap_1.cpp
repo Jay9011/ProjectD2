@@ -6,7 +6,7 @@
 #include "Game/Objects/Platforms/PlatformRect.h"
 
 TestMap_1::TestMap_1(Scene* _scene, int _updateOrder, GameObject* _parent) :
-	GameObject(_scene, OBJECT_TYPE::PLATFORM, _updateOrder, _parent)
+	GameObject(_scene, OBJECT_TYPE::DEFAULT, _updateOrder, _parent)
 {
 	m_backgrounds.emplace_back(TEXTURE->Add(L"Background\\2.png", WIN_WIDTH, WIN_HEIGHT));
 	m_backgrounds.emplace_back(TEXTURE->Add(L"Background\\3.png", WIN_WIDTH * 0.9, WIN_HEIGHT * 0.9));
@@ -60,8 +60,27 @@ TestMap_1::TestMap_1(Scene* _scene, int _updateOrder, GameObject* _parent) :
 	m_platforms.push_back(platform);
 	
 	platform = new PlatformRect({ 64, 32 }, L"Tile\\IndustrialTile_59.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, this);
-	platform->SetPos(0, 0);
+	m_testPlatform = platform;
+	
 	m_platforms.push_back(platform);
+
+#if _DEBUG
+	m_pos = { 0, 0 };
+	m_scale = { 1, 1 };
+	TwAddVarRW(_scene->twbar, "Pos", TW_TYPE_DIR3F, &m_pos, "");
+	TwAddVarRW(_scene->twbar, "Scale", TW_TYPE_DIR3F, &m_scale, "min=0.0 max=100.0");
+#endif // _DEBUG
+	
+	platform = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_59.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platform);
+	platform->SetPos(48, 32);
+	platform->SetScale(1.5, 1.5);
+	
+	platform = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_59.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platform);
+	platform->SetPos(32, 32);
+	platform->SetScale(1.5, 1.5);
+	
+	platform = new PlatformRect({32, 64}, L"Tile\\Entry.png", 8, 1, false, _scene, OBJECT_TYPE::FOREBLOCK, _updateOrder, this);
+	platform->SetPos(336, 144);
 
 }
 
@@ -75,6 +94,9 @@ void TestMap_1::UpdateObject()
 	{
 		m_Entry->AnimPauseOrPlay();
 	}
+
+	m_testPlatform->SetPos(m_pos);
+	m_testPlatform->SetScale(m_scale);
 }
 
 void TestMap_1::RenderObject()

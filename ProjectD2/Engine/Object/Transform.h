@@ -13,6 +13,7 @@ private:
 
 protected:
 	Transform* m_parent;
+	vector<Transform*> m_children;
 	
 	D3DXMATRIX  m_world;
 	D3DXMATRIX  m_S;
@@ -74,5 +75,7 @@ public:
 
 	bool IsRecomputeWorld() const              { return m_recomputeWorld; }
 	bool IsRecomputeWorld(bool recomputeWorld) { m_recomputeWorld = recomputeWorld; return m_recomputeWorld; }
+
+	void AddChild(Transform* child) { m_children.push_back(child); }
 };
 
