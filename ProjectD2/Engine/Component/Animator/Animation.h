@@ -1,4 +1,12 @@
 #pragma once
+class Animator;
+
+enum class ANIM_PLAY_TYPE
+{
+	ONCE,
+	LOOP,
+	PINGPONG
+};
 
 struct Frame
 {
@@ -6,7 +14,7 @@ struct Frame
 	float    duration;
 	std::function<void()> callbackEvent;
 };
-class Animator;
+
 class Animation
 {
 public:

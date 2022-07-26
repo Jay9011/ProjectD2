@@ -1,5 +1,13 @@
 #pragma once
 #include "Engine/Object/Transform.h"
+
+enum class OBJECT_STATE
+{
+	DEAD,
+	ACTIVE,
+	INACTIVE
+};
+
 class Component;
 class GameObject : public Transform
 {

@@ -1,6 +1,20 @@
 #pragma once
 #include "Engine/Component/Component.h"
 
+enum class COLLIDER_TYPE
+{
+	LINE,
+	AARECT,
+	CIRCLE
+};
+
+enum class COLLISION_STATE
+{
+	ENTER,
+	STAY,
+	EXIT
+};
+
 struct CollisionInfo
 {
 	D3DXVECTOR2 point;
