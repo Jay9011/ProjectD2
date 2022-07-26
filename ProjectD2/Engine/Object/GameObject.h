@@ -17,6 +17,7 @@ public:
 	void RenderComponent();					// Component Render 용
 	
 	virtual void UpdateObject() = 0;		// 상속받은 GameObject의 Update 용
+	virtual void PostUpdateObject() {};
 	virtual void FinalUpdateObject() {};
 	virtual void RenderObject();
 

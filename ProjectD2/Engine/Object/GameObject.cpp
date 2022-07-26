@@ -53,6 +53,7 @@ void GameObject::Update()
 		UpdateObject();
 		UpdateComponent();
 		UpdateComponentWorldTransform();
+		PostUpdateObject();
 		
 		UpdateWorld();
 	}

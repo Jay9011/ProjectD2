@@ -9,7 +9,7 @@ Gravity::Gravity(Physics& _physics, GameObject* _owner, int _updateOrder) :
 	Component(_owner, _updateOrder)
 	, physics(_physics)
 	, gravity(980)
-	, maxFallSpeed(1000)
+	, maxFallSpeed(980)
 {}
 
 Gravity::Gravity(Physics& _physics, float _maxFallSpeed, GameObject* _owner, int _updateOrder) :

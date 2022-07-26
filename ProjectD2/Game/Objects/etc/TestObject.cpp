@@ -56,7 +56,6 @@ TestObject::~TestObject() = default;
 void TestObject::UpdateObject()
 {
 	MoveLeftRight();
-	GroundCheck();
 	
 	// Animation IDLE 화
 	if (KEYUP(VK_LEFT) || KEYUP(VK_RIGHT) || KEYUP(VK_UP) || KEYUP(VK_DOWN))
@@ -73,6 +72,11 @@ void TestObject::UpdateObject()
 void TestObject::RenderObject()
 {
 	GameObject::RenderObject();
+}
+
+void TestObject::PostUpdateObject()
+{
+	GroundCheck();
 }
 
 void TestObject::FinalUpdateObject()
@@ -150,11 +154,9 @@ void TestObject::GroundCheck()
 	vector<std::pair<Collider*, Collider*>> collided;
 	scene->GetCollisionMgr()->CheckCollision(m_bodyCollider, OBJECT_TYPE::PLATFORM, collided);
 	
-	if (collided.empty())
-	{
-		m_physics.isFalling = true;
-	}
-	else
+	m_physics.isFalling = true;
+	
+	if(!collided.empty())
 	{
 		for (const auto& collider : collided)
 		{
@@ -174,13 +176,13 @@ void TestObject::GroundCheck()
 					m_physics.isFalling = true;
 
 					if (correct)
-						AddPos(0, cRect.Size().y * 0.3f);
+						AddPos(0, cRect.Size().y);
 				}
 				else
 				{
 					// 위에서 충돌
 					if (correct)
-						AddPos(0, -cRect.Size().y * 0.3f);
+						AddPos(0, -cRect.Size().y);
 				}
 				if (correct)
 					m_physics.force.y = 0;
