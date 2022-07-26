@@ -8,6 +8,16 @@ struct CollisionInfo
 	class Collider* other;
 };
 
+struct CollisionCheck
+{
+	bool isCollision;
+	bool isThisFrmChk;
+	class Collider* other;
+
+	CollisionCheck() { isCollision = false; isThisFrmChk = false; }
+	CollisionCheck(bool _b1, bool _b2, Collider* _other) { isCollision = _b1; isThisFrmChk = _b2; other = _other; }
+};
+
 class Collider : public Component
 {
 protected:
@@ -22,9 +32,14 @@ public:
 
 	virtual void Render() {};
 
-	virtual void OnCollisionEnter(Collider* _other) { m_state = COLLISION_STATE::ENTER; };
-	virtual void OnCollisionStay(Collider* _other)  { m_state = COLLISION_STATE::STAY; };
-	virtual void OnCollisionExit(Collider* _other)  { m_state = COLLISION_STATE::EXIT; };
+	void OnCollision(Collider* _other);
+	void OnCollisionEnter(Collider* _other) { m_state = COLLISION_STATE::ENTER; if (m_callbackOnCollisionEnter) m_callbackOnCollisionEnter(); };
+	void OnCollisionStay(Collider* _other)  { m_state = COLLISION_STATE::STAY;  if (m_callbackOnCollisionStay)  m_callbackOnCollisionStay(); };
+	void OnCollisionExit(Collider* _other)  { m_state = COLLISION_STATE::EXIT;  if (m_callbackOnCollisionExit)  m_callbackOnCollisionExit(); };
+
+	void SetCallbackOnCollisionEnter(std::function<void()> const& Event) { m_callbackOnCollisionEnter = Event; };
+	void SetCallbackOnCollisionStay(std::function<void()> const& Event) { m_callbackOnCollisionStay = Event; };
+	void SetCallbackOnCollisionExit(std::function<void()> const& Event) { m_callbackOnCollisionExit = Event; };
 
 	// Component을(를) 통해 상속됨
 	virtual void Update() override = 0;
@@ -38,6 +53,12 @@ private:
 	static UINT m_idCounter;
 
 	COLLISION_STATE m_state;
+
+	map<UINT, CollisionCheck> m_collisionMap;
+
+	std::function<void()> m_callbackOnCollisionEnter;
+	std::function<void()> m_callbackOnCollisionStay;
+	std::function<void()> m_callbackOnCollisionExit;
 
 /* === === === === ===
 *   Getter / Setter

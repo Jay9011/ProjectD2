@@ -241,6 +241,9 @@ bool Collision(AARect* _rect, AARect* _other)
 		_rect->IsCollided(true);
 		_other->IsCollided(true);
 		
+        _rect->OnCollision(_other);
+		_other->OnCollision(_rect);
+		
 		return true;
     }
 	
@@ -258,6 +261,9 @@ bool Collision(AARect* _rect, Circle* _circle)
     {
 		_rect->IsCollided(true);
 		_circle->IsCollided(true);
+
+		_rect->OnCollision(_circle);
+		_circle->OnCollision(_rect);
 		
 		return true;
     }
@@ -299,6 +305,9 @@ bool Collision(AARect* _rect, Line* _line)
 
             _line->IsCollided(true);
             _rect->IsCollided(true);
+
+			_line->OnCollision(_rect);
+			_rect->OnCollision(_line);
 
             return true;
         }
@@ -342,7 +351,7 @@ bool Collision(Circle* _circle, const D3DXVECTOR2& _point)
     if (_circle->Contains(_point))
     {
 		_circle->IsCollided(true);
-		
+
 		return true;
     }
 	
@@ -363,6 +372,9 @@ bool Collision(Circle* _circle, Circle* _other)
     {
 		_circle->IsCollided(true);
 		 _other->IsCollided(true);
+
+		_circle->OnCollision(_other);
+		_other->OnCollision(_circle);
 
         return true;
     }
@@ -397,6 +409,10 @@ bool Collision(Circle* _circle, Line* _line)
         {
 			_circle->IsCollided(true);
 			_line->IsCollided(true);
+
+			_circle->OnCollision(_line);
+            _line->OnCollision(_circle);
+			
 			// 충돌지점 t = t1
             return true;
         }
@@ -404,6 +420,10 @@ bool Collision(Circle* _circle, Line* _line)
         {
 			_circle->IsCollided(true);
 			_line->IsCollided(true);
+
+			_circle->OnCollision(_line);
+			_line->OnCollision(_circle);
+
 			// 충돌지점 t = t2
 			return true;
         }
@@ -466,6 +486,9 @@ bool Collision(Line* _line, Line* _other)
     {
         _line->IsCollided(true);
 		_other->IsCollided(true);
+		
+		_line->OnCollision(_other);
+		_other->OnCollision(_line);
 
         return true;
     }

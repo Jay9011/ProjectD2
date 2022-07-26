@@ -4,6 +4,10 @@
 #include "Game.h"
 #include "Engine/Resource/Shader.h"
 
+#if _DEBUG
+HANDLE hConsole;
+#endif // _DEBUG
+
 /* === === === === ===
 *    static ÃÊ±âÈ­
 * === === === === === */
@@ -100,6 +104,16 @@ bool Core::Init(HINSTANCE _hInstance)
 
 int Core::Run()
 {
+#if _DEBUG
+    if (AllocConsole())
+    {
+		hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+		FILE* fp;
+		freopen_s(&fp, "CONOUT$", "w", stdout);
+		SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
+	}
+#endif // _DEBUG
+
     while (m_isRunning || m_msg.message != WM_QUIT)
     {
         if (PeekMessage(&m_msg, nullptr, 0, 0, PM_REMOVE))
@@ -202,6 +216,10 @@ int Core::Run()
             m_Game->FinalUpdate();
         }
     }
+
+#if _DEBUG
+    FreeConsole();
+#endif // _DEBUG
 	
 	return (int)m_msg.wParam;
 }

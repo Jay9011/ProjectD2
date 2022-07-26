@@ -16,6 +16,11 @@
 #include "Manager/Path/PathMgr.h"
 #include "Manager/Scene/SceneMgr.h"
 #include "Manager/Texture/TextureMgr.h"
+
+#if _DEBUG
+extern HANDLE hConsole;
+#endif // _DEBUG
+
 class Game;
 class Core
 {
