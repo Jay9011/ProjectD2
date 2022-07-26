@@ -36,7 +36,10 @@ TestObject::TestObject(Scene* _scene, OBJECT_TYPE _type, int _updateOrder, GameO
 	* Collider
 	*/
 	m_bodyCollider = ADDCOMP::NewAARect({ -15, -20 }, { 15, 20 }, this);
+	m_bodyCollider->SetCallbackOnCollisionEnter([]() { std::cout << "BodyEnter" << std::endl; });
+    m_bodyCollider->SetCallbackOnCollisionExit([]() { std::cout << "BodyExit" << std::endl; });
 	m_bodyCollider->IsActive(true);
+	m_bodyCollider->SetTag("body");
 	/*
 	* Physics
 	*/
@@ -158,6 +161,8 @@ void TestObject::GroundCheck()
 	
 	if(!collided.empty())
 	{
+		D3DXVECTOR2 correctPos = { 0, 0 };
+        
 		for (const auto& collider : collided)
 		{
 			FRECT cRect = GetCollisionRect((AARect*)m_bodyCollider, (AARect*)collider.second);
@@ -176,13 +181,15 @@ void TestObject::GroundCheck()
 					m_physics.isFalling = true;
 
 					if (correct)
-						AddPos(0, cRect.Size().y);
+						correctPos.y = correctPos.y > cRect.Size().y ? correctPos.y : cRect.Size().y;
+						//AddPos(0, cRect.Size().y);
 				}
 				else
 				{
 					// 위에서 충돌
 					if (correct)
-						AddPos(0, -cRect.Size().y);
+                        correctPos.y = correctPos.y < -cRect.Size().y ? correctPos.y : -cRect.Size().y;
+						//AddPos(0, -cRect.Size().y);
 				}
 				if (correct)
 					m_physics.force.y = 0;
@@ -193,18 +200,22 @@ void TestObject::GroundCheck()
 				if (cRect.Pos().x < m_bodyCollider->GetRect().Pos().x)
 				{
 					// 오른쪽에서 충돌
-					AddPos(cRect.Size().x, 0);
+					correctPos.x = correctPos.x > cRect.Size().x ? correctPos.x : cRect.Size().x;
+					//AddPos(cRect.Size().x, 0);
 				}
 				else
 				{
 					// 왼쪽에서 충돌
-					AddPos(-cRect.Size().x, 0);
+					correctPos.x = correctPos.x < -cRect.Size().x ? correctPos.x : -cRect.Size().x;
+					//AddPos(-cRect.Size().x, 0);
 				}
 
 				m_physics.force.x = 0;
 			}
 		}
 
+        if (correctPos.x != 0 || correctPos.y != 0)
+            AddPos(correctPos);
 		
 	}
 }

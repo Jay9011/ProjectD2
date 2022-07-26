@@ -21,7 +21,7 @@ struct CollisionCheck
 class Collider : public Component
 {
 protected:
-	Collider(GameObject* _owner, int _updateOrder = 100);
+	Collider(GameObject* _owner, int _updateOrder = 100, string _tag = "");
 	Collider(const Collider& _other) = delete;
 	virtual ~Collider() override;
 
@@ -51,6 +51,7 @@ private:
 	
 	UINT m_id;
 	static UINT m_idCounter;
+	string m_tag;
 
 	COLLISION_STATE m_state;
 
@@ -74,6 +75,9 @@ public:
 	FRECT GetRect() { return { GetMin().x, GetMin().y, GetMax().x, GetMax().y }; }
 
 	UINT GetID() { return m_id; }
+    
+    string GetTag()            { return m_tag; }
+    void   SetTag(string _tag) { m_tag = _tag; }
 
 	/* 디버그용 */
 protected:

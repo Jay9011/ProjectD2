@@ -9,10 +9,11 @@
 
 UINT Collider::m_idCounter = 0;
 
-Collider::Collider(GameObject* _owner, int _updateOrder) :
+Collider::Collider(GameObject* _owner, int _updateOrder, string _tag) :
 	Component(_owner, _updateOrder)
-	, isActive (false)
+	, isActive(false)
 	, m_id(m_idCounter++)
+    , m_tag(_tag)
 {
 	CollisionMgr* collisionMgr = _owner->GetScene()->GetCollisionMgr();
 	if (collisionMgr)
@@ -42,7 +43,7 @@ void Collider::OnCollision(Collider* _other)
 		iter = result.first;
 		OnCollisionEnter(_other);
 #if _DEBUG
-		str = "Collision::Enter";
+		str = "Collision::Enter : " + m_tag;
 		std::cout << str << std::endl;
 #endif // _DEBUG
 
@@ -61,7 +62,7 @@ void Collider::OnCollision(Collider* _other)
 				OnCollisionExit(_other);
 				iter->second.isCollision = false;
 #if _DEBUG
-				str = "Collision::Exit";
+				str = "Collision::Exit : " + m_tag;
 				std::cout << str << std::endl;
 #endif // _DEBUG
 			}
@@ -78,7 +79,7 @@ void Collider::OnCollision(Collider* _other)
 				OnCollisionEnter(_other);
 				iter->second.isCollision = true;
 #if _DEBUG
-				str = "Collision::Enter";
+				str = "Collision::Enter : " + m_tag;
 				std::cout << str << std::endl;
 #endif // _DEBUG
 			}
@@ -111,7 +112,7 @@ void Collider::FinalUpdate()
 			iter->second.isCollision = false;
 			OnCollisionExit(iter->second.other);
 #if _DEBUG
-			str = "Collision::Exit";
+			str = "Collision::Exit : " + m_tag;
 			std::cout << str << std::endl;
 #endif // _DEBUG
 		}

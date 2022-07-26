@@ -3,6 +3,7 @@
 
 #include "Engine/Object/GameObject.h"
 #include "Engine/Resource/Shader.h"
+#include "Engine/Component/Collision/Colliders/AARect.h"
 #include "Game/Objects/Platforms/PlatformRect.h"
 
 TestMap_1::TestMap_1(Scene* _scene, int _updateOrder, GameObject* _parent) :
@@ -21,10 +22,12 @@ TestMap_1::TestMap_1(Scene* _scene, int _updateOrder, GameObject* _parent) :
 
 	platform = new PlatformRect({640, 32}, L"Tile\\IndustrialTile_32.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, this);
 	platform->SetPos(0, 192);
+	platform->GetCollider()->SetTag("Floor");
 	m_platforms.push_back(platform);
 	
 	platform = new PlatformRect({32, 32}, L"Tile\\IndustrialTile_31.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, this);
 	platform->SetPos(-336, 192);
+	platform->GetCollider()->SetTag("LeftFloor");
 	m_platforms.push_back(platform);
 	
 	platform = new PlatformRect({32, 32}, L"Tile\\IndustrialTile_33.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, this);
