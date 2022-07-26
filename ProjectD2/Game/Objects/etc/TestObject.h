@@ -28,6 +28,8 @@ public:
 	Collider* m_bodyCollider;
 	Collider* m_sight_u;
 	Collider* m_beforePlatform;
+
+	double pressedJumpKey;
 	
 	Physics m_physics;
 #if _DEBUG

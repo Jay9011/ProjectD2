@@ -10,7 +10,11 @@ Gravity::Gravity(Physics& _physics, GameObject* _owner, int _updateOrder) :
 	, physics(_physics)
 	, gravity(980)
 	, maxFallSpeed(980)
-{}
+{
+#if _DEBUG
+	TwAddVarRW(SCENE->GetCurrentScene()->twbar, "Gravity", TW_TYPE_FLOAT, &gravity, "step=1.0");
+#endif // _DEBUG
+}
 
 Gravity::Gravity(Physics& _physics, float _maxFallSpeed, GameObject* _owner, int _updateOrder) :
 	Gravity(_physics, _owner, _updateOrder)
@@ -32,10 +36,10 @@ void Gravity::Update()
 {
 	if (physics.isFalling)
 	{
-		physics.fallTime += DT;
+		physics.fallTime += fDT;
 
 		if(physics.fallTime >= 0.2)
-			physics.force.y += physics.mass * gravity * DT;
+			physics.force.y += physics.mass * gravity * fDT;
 
 		if(physics.force.y > maxFallSpeed)
 		{

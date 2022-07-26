@@ -15,7 +15,7 @@ TestObject::TestObject(Scene* _scene, OBJECT_TYPE _type, int _updateOrder, GameO
 	GameObject(_scene, _type, _updateOrder, _parent)
 	, scene(_scene)
 	, m_isRight(true)
-	, m_speed(200.f)
+	, m_speed(300.f)
 	, m_state(PLAYER_STATE::APPEAR)
 {
 #if _DEBUG
@@ -23,7 +23,9 @@ TestObject::TestObject(Scene* _scene, OBJECT_TYPE _type, int _updateOrder, GameO
 	TwAddVarRW(_scene->twbar, "Speed", TW_TYPE_FLOAT, &m_speed, "min=0.0 max=1000.0 step=1.0");
 	TwAddVarRO(_scene->twbar, "Dir", TW_TYPE_DIR3F, &m_dir, "opened=true axisy=-y");
 	TwAddVarRW(_scene->twbar, "Force", TW_TYPE_DIR3F, &m_physics.force, "opened=true axisy=-y");
-	TwAddVarRW(_scene->twbar, "isFalling", TW_TYPE_BOOL8, &m_physics.isFalling, "");
+	TwAddVarRO(_scene->twbar, "isFalling", TW_TYPE_BOOL8, &m_physics.isFalling, "");
+	TwAddVarRO(_scene->twbar, "JumpCount", TW_TYPE_INT16, &m_physics.jumpCount, "");
+	TwAddVarRO(_scene->twbar, "PressedJumpTime", TW_TYPE_DOUBLE, &pressedJumpKey, "");
 #endif // _DEBUG
 	/* === === === === ===
 	*  Component Setting
@@ -44,7 +46,9 @@ TestObject::TestObject(Scene* _scene, OBJECT_TYPE _type, int _updateOrder, GameO
 	* Physics
 	*/
 	m_physics.owner = this;
-	m_physics.jumpForce = 200;
+	m_physics.maxJumpCount = 2;
+	m_physics.mass = 1.5;
+	m_physics.jumpForce = 400.f;
 	ADDCOMP::NewGravity(m_physics, this);
 
 	/* === === === === ===
@@ -145,11 +149,10 @@ void TestObject::MoveLeftRight()
 		SetAction(PLAYER_STATE::RUN);
 	}
 
-	if (KEYPRESS(VK_UP))
+	if (KEYDOWN(VK_UP))
 	{
-		m_physics.force += V_UP * m_speed * fDT * 10;
+		m_physics.Jump();
 	}
-
 }
 
 void TestObject::GroundCheck()
@@ -163,13 +166,21 @@ void TestObject::GroundCheck()
 	{
 		D3DXVECTOR2 correctPos = { 0, 0 };
 		bool isBumpWall = false;
+		SIDE side = SIDE::NONE;
         
 		for (const auto& collider : collided)
 		{
-			m_physics.CollisionCorrect(correctPos, m_bodyCollider, collider.second);
+			side = m_physics.CollisionCorrect(correctPos, m_bodyCollider, collider.second);
             
 			if (correctPos.x != 0 && collider.second->GetState() == COLLISION_STATE::ENTER)
+			{
 				isBumpWall = true;
+			}
+
+			if (side == SIDE::UPPER_SIDE && collider.second->GetState() == COLLISION_STATE::ENTER)
+			{
+				m_physics.JumpReset();
+			}
 		}
 
 		if (correctPos.x != 0 || correctPos.y != 0)

@@ -18,3 +18,12 @@ enum class PLAYER_STATE
 	RUN,
 	JUMP
 };
+
+enum class SIDE
+{
+    NONE,
+	UPPER_SIDE,
+    LOWER_SIDE,
+    LEFT_SIDE,
+    RIGHT_SIDE
+};

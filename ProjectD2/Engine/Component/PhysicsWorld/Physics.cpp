@@ -11,7 +11,9 @@ Physics::Physics() :
 	, mass(1.0f)
 	, resistance({ 30.0f, 0.0f })
 	, airResistance({ 1.0f, 0.0f })
-	, jumpForce(0)
+    , jumpCount(1)
+    , maxJumpCount(1)
+	, jumpForce(500)
 	, isFalling(true)
 	, fallTime(0)
 {
@@ -23,6 +25,22 @@ void Physics::MovingX(float _x)
 		force.x += _x * fDT;
 	else
 		force.x = _x;
+}
+
+void Physics::Jump(float _jumpForce)
+{
+	if (jumpCount < maxJumpCount)
+	{
+		++jumpCount;
+
+		fallTime = 0;
+		isFalling = true;
+    
+        if(_jumpForce != 0)
+            force.y = -_jumpForce;
+		else
+			force.y = -jumpForce;
+	}
 }
 
 void Physics::CalcResistance()
@@ -53,8 +71,9 @@ void Physics::CalcResistance()
 	force += resist;
 }
 
-void Physics::CollisionCorrect(OUT D3DXVECTOR2& correctDir, class Collider* movingCollider, class Collider* FixedCollider)
+SIDE Physics::CollisionCorrect(OUT D3DXVECTOR2& correctDir, class Collider* movingCollider, class Collider* FixedCollider)
 {
+	SIDE collSide = SIDE::NONE;
 	FRECT cRect = GetCollisionRect((AARect*)movingCollider, (AARect*)FixedCollider);
     FRECT mRect = movingCollider->GetRect();
 
@@ -69,6 +88,7 @@ void Physics::CollisionCorrect(OUT D3DXVECTOR2& correctDir, class Collider* movi
 		if (cRect.Pos().y < mRect.Pos().y)
 		{
 			// 아래에서 충돌
+			collSide = SIDE::LOWER_SIDE;
 			isFalling = true;
 
 			if (correct)
@@ -77,6 +97,7 @@ void Physics::CollisionCorrect(OUT D3DXVECTOR2& correctDir, class Collider* movi
 		else
 		{
 			// 위에서 충돌
+			collSide = SIDE::UPPER_SIDE;
 			if (correct)
 				correctDir.y = correctDir.y < -cRect.Size().y ? correctDir.y : -cRect.Size().y;
 		}
@@ -90,13 +111,17 @@ void Physics::CollisionCorrect(OUT D3DXVECTOR2& correctDir, class Collider* movi
 		{
 			// 오른쪽에서 충돌
 			correctDir.x = correctDir.x > cRect.Size().x ? correctDir.x : cRect.Size().x;
+			collSide = SIDE::RIGHT_SIDE;
 		}
 		else
 		{
 			// 왼쪽에서 충돌
 			correctDir.x = correctDir.x < -cRect.Size().x ? correctDir.x : -cRect.Size().x;
+			collSide = SIDE::LEFT_SIDE;
 		}
 
 		force.x = 0;
 	}
+
+	return collSide;
 }
