@@ -93,6 +93,8 @@ public:
     string GetTag()            { return m_tag; }
     void   SetTag(string _tag) { m_tag = _tag; }
 
+    COLLISION_STATE GetState() { return m_state; }
+
 	/* 디버그용 */
 protected:
 	bool isCollided   = false;

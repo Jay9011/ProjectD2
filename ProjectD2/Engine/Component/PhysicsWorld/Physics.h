@@ -23,4 +23,5 @@ public:
 	void MovingX(float _x);
 	
 	void CalcResistance();
+	void CollisionCorrect(OUT D3DXVECTOR2& correctDir, class Collider* movingCollider, class Collider* FixedCollider);
 };

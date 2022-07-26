@@ -162,60 +162,26 @@ void TestObject::GroundCheck()
 	if(!collided.empty())
 	{
 		D3DXVECTOR2 correctPos = { 0, 0 };
+		bool isBumpWall = false;
         
 		for (const auto& collider : collided)
 		{
-			FRECT cRect = GetCollisionRect((AARect*)m_bodyCollider, (AARect*)collider.second);
-
-			// 상하 충돌
-			if (cRect.Size().x > cRect.Size().y)
-			{
-				m_physics.isFalling = false;
-
-				// y가 0.3 이하면 충돌 보정 하지 않음
-				bool correct = cRect.Size().y > 0.3f ? true : false;
-
-				if (cRect.Pos().y < m_bodyCollider->GetRect().Pos().y)
-				{
-					// 아래에서 충돌
-					m_physics.isFalling = true;
-
-					if (correct)
-						correctPos.y = correctPos.y > cRect.Size().y ? correctPos.y : cRect.Size().y;
-						//AddPos(0, cRect.Size().y);
-				}
-				else
-				{
-					// 위에서 충돌
-					if (correct)
-                        correctPos.y = correctPos.y < -cRect.Size().y ? correctPos.y : -cRect.Size().y;
-						//AddPos(0, -cRect.Size().y);
-				}
-				if (correct)
-					m_physics.force.y = 0;
-			}
-			// 좌우 충돌
-			else
-			{
-				if (cRect.Pos().x < m_bodyCollider->GetRect().Pos().x)
-				{
-					// 오른쪽에서 충돌
-					correctPos.x = correctPos.x > cRect.Size().x ? correctPos.x : cRect.Size().x;
-					//AddPos(cRect.Size().x, 0);
-				}
-				else
-				{
-					// 왼쪽에서 충돌
-					correctPos.x = correctPos.x < -cRect.Size().x ? correctPos.x : -cRect.Size().x;
-					//AddPos(-cRect.Size().x, 0);
-				}
-
-				m_physics.force.x = 0;
-			}
+			m_physics.CollisionCorrect(correctPos, m_bodyCollider, collider.second);
+            
+			if (correctPos.x != 0 && collider.second->GetState() == COLLISION_STATE::ENTER)
+				isBumpWall = true;
 		}
 
-        if (correctPos.x != 0 || correctPos.y != 0)
+		if (correctPos.x != 0 || correctPos.y != 0)
+		{
             AddPos(correctPos);
+		}
+
+        // 벽에 부딪혔을 때 위로 올라가고 있었다면 올라가는 힘을 줄인다.
+		if (isBumpWall && m_physics.force.y < 0)
+		{
+			m_physics.force.y -= (m_physics.force.y * 0.3f);
+		}
 		
 	}
 }
