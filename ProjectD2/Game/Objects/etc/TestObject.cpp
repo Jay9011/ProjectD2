@@ -15,16 +15,16 @@ TestObject::TestObject(Scene* _scene, OBJECT_TYPE _type, int _updateOrder, GameO
 	GameObject(_scene, _type, _updateOrder, _parent)
 	, scene(_scene)
 	, m_isRight(true)
-	, m_speed(300.f)
 	, m_state(PLAYER_STATE::APPEAR)
 {
 #if _DEBUG
 	SetDrawDirection(true);
-	TwAddVarRW(_scene->twbar, "Speed", TW_TYPE_FLOAT, &m_speed, "min=0.0 max=1000.0 step=1.0");
+	TwAddVarRW(_scene->twbar, "Speed", TW_TYPE_FLOAT, &m_physics.speed, "min=0.0 max=1000.0 step=1.0");
 	TwAddVarRO(_scene->twbar, "Dir", TW_TYPE_DIR3F, &m_dir, "opened=true axisy=-y");
 	TwAddVarRW(_scene->twbar, "Force", TW_TYPE_DIR3F, &m_physics.force, "opened=true axisy=-y");
 	TwAddVarRO(_scene->twbar, "isFalling", TW_TYPE_BOOL8, &m_physics.isFalling, "");
 	TwAddVarRO(_scene->twbar, "isWallSliding", TW_TYPE_BOOL8, &m_physics.isWallSliding, "");
+	TwAddVarRW(_scene->twbar, "WallResistance", TW_TYPE_FLOAT, &m_physics.resistance.y, "");
 	TwAddVarRO(_scene->twbar, "JumpCount", TW_TYPE_INT16, &m_physics.jumpCount, "");
 	TwAddVarRO(_scene->twbar, "PressedJumpTime", TW_TYPE_DOUBLE, &pressedJumpKey, "");
 #endif // _DEBUG
@@ -43,13 +43,12 @@ TestObject::TestObject(Scene* _scene, OBJECT_TYPE _type, int _updateOrder, GameO
     m_bodyCollider->SetCallbackOnCollisionExit([](Collider* _other) { std::cout << "BodyExit  - " + _other->GetTag() << std::endl; });
 	m_bodyCollider->IsActive(true);
 	m_bodyCollider->SetTag("body");
-	m_handCollider = ADDCOMP::NewAARect({0, -15}, {25, 0}, this);
+	m_handCollider = ADDCOMP::NewAARect({0, -15}, {18, 0}, this);
 	m_handCollider->SetCallbackOnCollisionEnter([&](Collider* _other) 
 		{ 
 			if (_other->options.slidable)
 			{
 				std::cout << "Hand HoldOn!!!" << std::endl;
-                m_physics.resistance.y = _other->options.resistance.y;
 			}
 		});
 	m_handCollider->SetCallbackOnCollisionExit([&](Collider* _other)
@@ -67,6 +66,7 @@ TestObject::TestObject(Scene* _scene, OBJECT_TYPE _type, int _updateOrder, GameO
 	m_physics.owner = this;
 	m_physics.maxJumpCount = 2;
 	m_physics.mass = 1.5;
+	m_physics.speed = 300.0f;
 	m_physics.jumpForce = 400.f;
 	ADDCOMP::NewGravity(m_physics, this);
 
@@ -102,8 +102,8 @@ void TestObject::RenderObject()
 
 void TestObject::PostUpdateObject()
 {
-	HandPlatformCheck();
 	BodyPlatformCheck();
+	HandPlatformCheck();
 }
 
 void TestObject::FinalUpdateObject()
@@ -146,9 +146,15 @@ void TestObject::SetAnimation()
 
 void TestObject::MoveLeftRight()
 {
+	// Scale에 따라 벽점프 방향이 달라지기 때문에 Scale 변경 전에 점프를 처리한다.
+	if (KEYDOWN(VK_UP))
+	{
+		m_physics.Jump();
+	}
+    
 	if (KEYPRESS(VK_LEFT))
 	{
-		m_physics.MovingX(V_LEFT.x * m_speed);
+		m_physics.MovingX(V_LEFT.x);
 		if (m_isRight)
 		{
 			m_isRight = !m_isRight;
@@ -159,7 +165,7 @@ void TestObject::MoveLeftRight()
 	}
 	if (KEYPRESS(VK_RIGHT))
 	{
-		m_physics.MovingX(V_RIGHT.x * m_speed);
+		m_physics.MovingX(V_RIGHT.x);
 		if (!m_isRight)
 		{
 			m_isRight = !m_isRight;
@@ -169,10 +175,6 @@ void TestObject::MoveLeftRight()
 		SetAction(PLAYER_STATE::RUN);
 	}
 
-	if (KEYDOWN(VK_UP))
-	{
-		m_physics.Jump();
-	}
 }
 
 void TestObject::BodyPlatformCheck()
@@ -198,6 +200,7 @@ void TestObject::BodyPlatformCheck()
 			// 좌우에서 이번에 부딪힌 경우
 			if (correctPos.x != 0 && collider.second->GetState() == COLLISION_STATE::ENTER)
 			{
+				m_physics.force.x = 0;
 				isBumpWall = true;
 			}
 
@@ -230,9 +233,14 @@ void TestObject::HandPlatformCheck()
 	scene->GetCollisionMgr()->CheckCollision(m_handCollider, OBJECT_TYPE::PLATFORM, collided);
 
 	bool wallSliding = false;
+	float resist = 0.0f;
     
-    // 만약 잡고있는 벽이 있다면
-	if (!collided.empty())
+    // 만약 잡고있는 벽이 없는 경우 모든 상황을 대비해 Resistance.y 를 0으로 초기화시킨다.
+	if (collided.empty())
+	{
+		m_physics.resistance.y = 0;
+	}
+	else
 	{
 		// 모든 충돌체에 대해 슬라이딩이 가능한 충돌체에 HandCollider가 닿아있는지 확인
 		for (auto& platform : collided)
@@ -240,6 +248,8 @@ void TestObject::HandPlatformCheck()
             // 하나라도 slidable인 벽이 있으면
 			if (platform.second->options.slidable == true)
 			{
+				resist = Math::Max(resist, platform.second->options.resistance.y);
+
                 if(m_physics.force.y > 0)
 				{
 					wallSliding = true;
@@ -259,6 +269,8 @@ void TestObject::HandPlatformCheck()
 
 	if (wallSliding)
 	{
+		m_physics.resistance.y = resist;
+        
 		if (!m_physics.isWallSliding)
 			m_physics.WallSlidingStart();
 		else

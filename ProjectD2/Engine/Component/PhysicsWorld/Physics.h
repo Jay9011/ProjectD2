@@ -9,6 +9,7 @@ public:
 
 	D3DXVECTOR2 force;
 	float mass;
+	float speed;
 
 	D3DXVECTOR2 resistance;
 	D3DXVECTOR2 airResistance;
@@ -22,6 +23,13 @@ public:
 	double fallTime;
 
 	bool   isWallSliding;
+    
+private:
+	double WallJumpDelayTime;
+    
+	LARGE_INTEGER startTime{};
+	LARGE_INTEGER endTime{};
+	LARGE_INTEGER frequency{};
     
 public:
 	void MovingX(float _x);

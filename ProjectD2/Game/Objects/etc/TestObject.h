@@ -22,7 +22,6 @@ public:
 	Scene* scene;
 
 	bool m_isRight;
-	float m_speed;
 	PLAYER_STATE m_state;
 	Animator* m_animator;
 	Collider* m_bodyCollider;
@@ -33,7 +32,7 @@ public:
 	double pressedJumpKey;
 	
 	Physics m_physics;
-    
+
 #if _DEBUG
 	D3DXVECTOR3 m_dir;
 #endif

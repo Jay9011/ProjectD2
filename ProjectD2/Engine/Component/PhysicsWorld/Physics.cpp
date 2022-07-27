@@ -9,27 +9,55 @@ Physics::Physics() :
 	owner(nullptr)
 	, force({ 0.0f, 0.0f })
 	, mass(1.0f)
+	, speed(200.0f)
 	, resistance({ 30.0f, 0.0f })
 	, airResistance({ 1.0f, 0.0f })
 	, jumpForce(500)
-    , jumpCount(1)
-    , maxJumpCount(1)
+	, jumpCount(1)
+	, maxJumpCount(1)
 	, isFalling(true)
 	, fallTime(0)
 	, isWallSliding(false)
+	, WallJumpDelayTime(0.2f)
 {
+	QueryPerformanceFrequency(&frequency);
 }
 
 void Physics::MovingX(float _x)
 {
 	if (isFalling)
-		force.x += _x * fDT;
+		force.x += _x * speed * fDT * 2.0f;
 	else
-		force.x = _x;
+		force.x = _x * speed;
 }
 
 void Physics::Jump(float _jumpForce)
 {
+	QueryPerformanceCounter(&endTime);
+    float timer = (float)(endTime.QuadPart - startTime.QuadPart) / (float)frequency.QuadPart;
+
+	// 만약 벽 슬라이딩 중이었다면 반대쪽 방향으로 뛰게 한다.
+	if (isWallSliding || timer <= WallJumpDelayTime)
+	{
+		D3DXVECTOR2 dir = { owner->GetScale().x, 0 };
+		D3DXVec2Normalize(&dir, &dir);
+
+		jumpCount = 1;
+
+		if (_jumpForce != 0)
+			force.y = -_jumpForce;
+		else
+			force.y = -jumpForce;
+
+		if (isWallSliding)
+			force.x = -dir.x * speed;
+		else
+			force.x = dir.x * speed;
+
+		return;
+	}
+    
+    
 	if (jumpCount < maxJumpCount)
 	{
 		++jumpCount;
@@ -41,6 +69,7 @@ void Physics::Jump(float _jumpForce)
             force.y = -_jumpForce;
 		else
 			force.y = -jumpForce;
+        
 	}
 }
 
@@ -61,6 +90,8 @@ inline void Physics::WallSlidingEnd()
 	std::cout << "WallSliding End" << std::endl;
 #endif // _DEBUG
     
+	QueryPerformanceCounter(&startTime);
+    
 	isWallSliding = false;
 	resistance.y = 0;
 }
@@ -77,9 +108,14 @@ void Physics::CalcResistance()
 	else
 	{
 		resist.x -= (force.x * resistance.x) * fDT;
-        resist.y -= (force.y * resistance.y) * fDT;
+	}
+    
+	if (isWallSliding)
+	{
+        resist.y -= force.y * resistance.y * fDT;
 	}
 
+	// 최대 마찰력은 force 정지 마찰력으로 한다.
 	if (resist.x * resist.x >= force.x * force.x)
 	{
 		resist.x = -force.x;
@@ -132,17 +168,15 @@ SIDE Physics::CollisionCorrect(OUT D3DXVECTOR2& correctDir, class Collider* movi
 		if (cRect.Pos().x < mRect.Pos().x)
 		{
 			// 오른쪽에서 충돌
-			correctDir.x = correctDir.x > cRect.Size().x ? correctDir.x : cRect.Size().x;
 			collSide = SIDE::RIGHT_SIDE;
+			correctDir.x = correctDir.x > cRect.Size().x ? correctDir.x : cRect.Size().x;
 		}
 		else
 		{
 			// 왼쪽에서 충돌
-			correctDir.x = correctDir.x < -cRect.Size().x ? correctDir.x : -cRect.Size().x;
 			collSide = SIDE::LEFT_SIDE;
+			correctDir.x = correctDir.x < -cRect.Size().x ? correctDir.x : -cRect.Size().x;
 		}
-
-		force.x = 0;
 	}
 
 	return collSide;
