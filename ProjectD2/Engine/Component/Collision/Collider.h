@@ -47,13 +47,13 @@ public:
 	virtual void Render() {};
 
 	void OnCollision(Collider* _other);
-	void OnCollisionEnter(Collider* _other) { m_state = COLLISION_STATE::ENTER; if (m_callbackOnCollisionEnter) m_callbackOnCollisionEnter(); };
-	void OnCollisionStay(Collider* _other)  { m_state = COLLISION_STATE::STAY;  if (m_callbackOnCollisionStay)  m_callbackOnCollisionStay(); };
-	void OnCollisionExit(Collider* _other)  { m_state = COLLISION_STATE::EXIT;  if (m_callbackOnCollisionExit)  m_callbackOnCollisionExit(); };
+	void OnCollisionEnter(Collider* _other) { m_state = COLLISION_STATE::ENTER; if (m_callbackOnCollisionEnter) m_callbackOnCollisionEnter(_other); };
+	void OnCollisionStay(Collider* _other)  { m_state = COLLISION_STATE::STAY;  if (m_callbackOnCollisionStay) m_callbackOnCollisionStay(_other); };
+	void OnCollisionExit(Collider* _other)  { m_state = COLLISION_STATE::EXIT;  if (m_callbackOnCollisionExit) m_callbackOnCollisionExit(_other); };
 
-	void SetCallbackOnCollisionEnter(std::function<void()> const& Event) { m_callbackOnCollisionEnter = Event; };
-	void SetCallbackOnCollisionStay(std::function<void()> const& Event) { m_callbackOnCollisionStay = Event; };
-	void SetCallbackOnCollisionExit(std::function<void()> const& Event) { m_callbackOnCollisionExit = Event; };
+	void SetCallbackOnCollisionEnter(std::function<void(OUT Collider*)> const& Event) { m_callbackOnCollisionEnter = Event; };
+	void SetCallbackOnCollisionStay(std::function<void(OUT Collider*)> const& Event) { m_callbackOnCollisionStay = Event; };
+	void SetCallbackOnCollisionExit(std::function<void(OUT Collider*)> const& Event) { m_callbackOnCollisionExit = Event; };
 
 	// Component을(를) 통해 상속됨
 	virtual void Update() override = 0;
@@ -71,9 +71,9 @@ private:
 
 	map<UINT, CollisionCheck> m_collisionMap;
 
-	std::function<void()> m_callbackOnCollisionEnter;
-	std::function<void()> m_callbackOnCollisionStay;
-	std::function<void()> m_callbackOnCollisionExit;
+	std::function<void(OUT Collider*)> m_callbackOnCollisionEnter;
+	std::function<void(OUT Collider*)> m_callbackOnCollisionStay;
+	std::function<void(OUT Collider*)> m_callbackOnCollisionExit;
 
 /* === === === === ===
 *   Getter / Setter

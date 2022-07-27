@@ -38,8 +38,8 @@ TestObject::TestObject(Scene* _scene, OBJECT_TYPE _type, int _updateOrder, GameO
 	* Collider
 	*/
 	m_bodyCollider = ADDCOMP::NewAARect({ -15, -20 }, { 15, 20 }, this);
-	m_bodyCollider->SetCallbackOnCollisionEnter([]() { std::cout << "BodyEnter" << std::endl; });
-    m_bodyCollider->SetCallbackOnCollisionExit([]() { std::cout << "BodyExit" << std::endl; });
+	m_bodyCollider->SetCallbackOnCollisionEnter([](Collider* _other) { std::cout << "BodyEnter - " + _other->GetTag() << std::endl; });
+    m_bodyCollider->SetCallbackOnCollisionExit( [](Collider* _other) { std::cout << "BodyExit  - " + _other->GetTag() << std::endl; });
 	m_bodyCollider->IsActive(true);
 	m_bodyCollider->SetTag("body");
 	/*
