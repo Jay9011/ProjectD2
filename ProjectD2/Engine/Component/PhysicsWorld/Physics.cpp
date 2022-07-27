@@ -26,9 +26,13 @@ Physics::Physics() :
 void Physics::MovingX(float _x)
 {
 	if (isFalling)
+	{
 		force.x += _x * speed * fDT * 2.0f;
+	}
 	else
+	{
 		force.x = _x * speed;
+	}
 }
 
 void Physics::Jump(float _jumpForce)
