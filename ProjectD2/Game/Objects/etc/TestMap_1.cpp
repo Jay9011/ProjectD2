@@ -50,9 +50,16 @@ TestMap_1::TestMap_1(Scene* _scene, int _updateOrder, GameObject* _parent) :
 	platform->SetPos(-368, 192);
 	m_platforms.push_back(platform);
 	
-	platform = new PlatformRect({ 32, 416 }, L"Tile\\IndustrialTile_15.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, this);
-	platform->SetPos(-368, -32);
-	platform->GetCollider()->SetTag("Left Wall");
+	platform = new PlatformRect({ 32, 224 }, L"Tile\\IndustrialTile_15.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, this);
+	platform->SetPos(-368, -160);
+	platform->GetCollider()->SetTag("Left Wall1");
+	platform->GetCollider()->options.slidable = true;
+	platform->GetCollider()->options.resistance.y = 20.0f;
+	m_platforms.push_back(platform);
+	
+	platform = new PlatformRect({ 32, 224 }, L"Tile\\IndustrialTile_15.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, this);
+	platform->SetPos(-368, 64);
+	platform->GetCollider()->SetTag("Left Wall2");
 	platform->GetCollider()->options.slidable = true;
 	platform->GetCollider()->options.resistance.y = 20.0f;
 	m_platforms.push_back(platform);

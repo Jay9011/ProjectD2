@@ -33,6 +33,7 @@ public:
 	double pressedJumpKey;
 	
 	Physics m_physics;
+    
 #if _DEBUG
 	D3DXVECTOR3 m_dir;
 #endif
@@ -48,5 +49,6 @@ public:
 private:
 	void SetAnimation();
 	void MoveLeftRight();
-	void GroundCheck();
+	void BodyPlatformCheck();
+	void HandPlatformCheck();
 };

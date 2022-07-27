@@ -11,11 +11,12 @@ Physics::Physics() :
 	, mass(1.0f)
 	, resistance({ 30.0f, 0.0f })
 	, airResistance({ 1.0f, 0.0f })
+	, jumpForce(500)
     , jumpCount(1)
     , maxJumpCount(1)
-	, jumpForce(500)
 	, isFalling(true)
 	, fallTime(0)
+	, isWallSliding(false)
 {
 }
 
@@ -43,19 +44,40 @@ void Physics::Jump(float _jumpForce)
 	}
 }
 
+inline void Physics::WallSlidingStart()
+{
+#if _DEBUG
+	std::cout << "WallSliding Start" << std::endl;
+#endif // _DEBUG
+    
+	isWallSliding = true;
+}
+
+inline void Physics::WallSlidingStay() { isWallSliding = true; }
+
+inline void Physics::WallSlidingEnd() 
+{
+#if _DEBUG
+	std::cout << "WallSliding End" << std::endl;
+#endif // _DEBUG
+    
+	isWallSliding = false;
+	resistance.y = 0;
+}
+
 void Physics::CalcResistance()
 {
-	D3DXVECTOR2 resist;
+	D3DXVECTOR2 resist = { 0, 0 };
 	
 	if (isFalling)
 	{
-		resist.x = -(force.x * airResistance.x) * fDT;
-        resist.y = -(force.y * airResistance.y) * fDT;
+		resist.x -= (force.x * airResistance.x) * fDT;
+        resist.y -= (force.y * airResistance.y) * fDT;
 	}
 	else
 	{
-		resist.x = -(force.x * resistance.x) * fDT;
-        resist.y = -(force.y * resistance.y) * fDT;
+		resist.x -= (force.x * resistance.x) * fDT;
+        resist.y -= (force.y * resistance.y) * fDT;
 	}
 
 	if (resist.x * resist.x >= force.x * force.x)

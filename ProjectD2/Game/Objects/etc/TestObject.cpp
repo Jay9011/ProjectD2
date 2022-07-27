@@ -24,6 +24,7 @@ TestObject::TestObject(Scene* _scene, OBJECT_TYPE _type, int _updateOrder, GameO
 	TwAddVarRO(_scene->twbar, "Dir", TW_TYPE_DIR3F, &m_dir, "opened=true axisy=-y");
 	TwAddVarRW(_scene->twbar, "Force", TW_TYPE_DIR3F, &m_physics.force, "opened=true axisy=-y");
 	TwAddVarRO(_scene->twbar, "isFalling", TW_TYPE_BOOL8, &m_physics.isFalling, "");
+	TwAddVarRO(_scene->twbar, "isWallSliding", TW_TYPE_BOOL8, &m_physics.isWallSliding, "");
 	TwAddVarRO(_scene->twbar, "JumpCount", TW_TYPE_INT16, &m_physics.jumpCount, "");
 	TwAddVarRO(_scene->twbar, "PressedJumpTime", TW_TYPE_DOUBLE, &pressedJumpKey, "");
 #endif // _DEBUG
@@ -43,7 +44,21 @@ TestObject::TestObject(Scene* _scene, OBJECT_TYPE _type, int _updateOrder, GameO
 	m_bodyCollider->IsActive(true);
 	m_bodyCollider->SetTag("body");
 	m_handCollider = ADDCOMP::NewAARect({0, -15}, {25, 0}, this);
-	m_handCollider->SetCallbackOnCollisionEnter([](Collider* _other) { if (_other->options.slidable) std::cout << "Hand HoldOn!!!" << std::endl; });
+	m_handCollider->SetCallbackOnCollisionEnter([&](Collider* _other) 
+		{ 
+			if (_other->options.slidable)
+			{
+				std::cout << "Hand HoldOn!!!" << std::endl;
+                m_physics.resistance.y = _other->options.resistance.y;
+			}
+		});
+	m_handCollider->SetCallbackOnCollisionExit([&](Collider* _other)
+		{
+			if (_other->options.slidable)
+			{
+				std::cout << "Exit Hand!!!" << std::endl;
+			}
+		});
 	m_handCollider->IsActive(true);
 	m_handCollider->SetTag("hand");
 	/*
@@ -87,7 +102,8 @@ void TestObject::RenderObject()
 
 void TestObject::PostUpdateObject()
 {
-	GroundCheck();
+	HandPlatformCheck();
+	BodyPlatformCheck();
 }
 
 void TestObject::FinalUpdateObject()
@@ -159,11 +175,13 @@ void TestObject::MoveLeftRight()
 	}
 }
 
-void TestObject::GroundCheck()
+void TestObject::BodyPlatformCheck()
 {
+	// 충돌중인 모든 Platform을 찾는다.
 	vector<std::pair<Collider*, Collider*>> collided;
 	scene->GetCollisionMgr()->CheckCollision(m_bodyCollider, OBJECT_TYPE::PLATFORM, collided);
 	
+    // 기본적으로 모든 상황에 대비해 Falling을 켜준다.
 	m_physics.isFalling = true;
 	
 	if(!collided.empty())
@@ -172,21 +190,25 @@ void TestObject::GroundCheck()
 		bool isBumpWall = false;
 		SIDE side = SIDE::NONE;
         
+		// 모든 충돌체에 대한 조건 처리
 		for (const auto& collider : collided)
 		{
-			side = m_physics.CollisionCorrect(correctPos, m_bodyCollider, collider.second);
+			side = m_physics.CollisionCorrect(correctPos, m_bodyCollider, collider.second);	// 충돌 방향과 크기 체크
             
+			// 좌우에서 이번에 부딪힌 경우
 			if (correctPos.x != 0 && collider.second->GetState() == COLLISION_STATE::ENTER)
 			{
 				isBumpWall = true;
 			}
 
+			// 땅에 닿는 순간
 			if (side == SIDE::UPPER_SIDE && collider.second->GetState() == COLLISION_STATE::ENTER)
 			{
-				m_physics.JumpReset();
+				m_physics.JumpReset();	// 점프 초기화
 			}
 		}
 
+		// 위치 보정
 		if (correctPos.x != 0 || correctPos.y != 0)
 		{
             AddPos(correctPos);
@@ -199,4 +221,52 @@ void TestObject::GroundCheck()
 		}
 		
 	}
+}
+
+void TestObject::HandPlatformCheck()
+{
+	// 충돌중인 모든 Platform을 찾는다.
+	vector<std::pair<Collider*, Collider*>> collided;
+	scene->GetCollisionMgr()->CheckCollision(m_handCollider, OBJECT_TYPE::PLATFORM, collided);
+
+	bool wallSliding = false;
+    
+    // 만약 잡고있는 벽이 있다면
+	if (!collided.empty())
+	{
+		// 모든 충돌체에 대해 슬라이딩이 가능한 충돌체에 HandCollider가 닿아있는지 확인
+		for (auto& platform : collided)
+		{
+            // 하나라도 slidable인 벽이 있으면
+			if (platform.second->options.slidable == true)
+			{
+                if(m_physics.force.y > 0)
+				{
+					wallSliding = true;
+				}
+				else
+				{
+					wallSliding = false;
+				}
+			}
+			// slidable 벽이 없는 경우
+			else
+			{
+				wallSliding = false;
+			}
+		}
+	}
+
+	if (wallSliding)
+	{
+		if (!m_physics.isWallSliding)
+			m_physics.WallSlidingStart();
+		else
+			m_physics.WallSlidingStay();
+	}
+	else if(m_physics.isWallSliding)
+	{
+		m_physics.WallSlidingEnd();
+	}
+
 }
