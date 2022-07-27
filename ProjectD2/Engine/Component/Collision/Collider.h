@@ -59,6 +59,9 @@ public:
 	virtual void Update() override = 0;
 	void FinalUpdate() final;
 	virtual void OnUpdateWorldTransform() override = 0;
+	
+public:
+	ColliderOptions options;
 
 private:
 	bool isActive;

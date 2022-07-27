@@ -26,6 +26,7 @@ public:
 	PLAYER_STATE m_state;
 	Animator* m_animator;
 	Collider* m_bodyCollider;
+	Collider* m_handCollider;
 	Collider* m_sight_u;
 	Collider* m_beforePlatform;
 

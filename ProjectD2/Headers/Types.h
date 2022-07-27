@@ -1,5 +1,19 @@
 #pragma once
 
+/* === === === === ===
+*   수정 요소 Types
+*  === === === === === */
+using ColliderOptions = struct _colOp
+{
+	bool slidable = false;
+	D3DXVECTOR2 resistance = { 30.0f, 0.0f };
+};
+
+
+/* === === === === === 
+*   수정 불가 Types
+*  === === === === === */
+
 // 모니터 해상도
 using RESOLUTION = struct
 {

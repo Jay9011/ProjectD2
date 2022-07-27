@@ -39,9 +39,13 @@ TestObject::TestObject(Scene* _scene, OBJECT_TYPE _type, int _updateOrder, GameO
 	*/
 	m_bodyCollider = ADDCOMP::NewAARect({ -15, -20 }, { 15, 20 }, this);
 	m_bodyCollider->SetCallbackOnCollisionEnter([](Collider* _other) { std::cout << "BodyEnter - " + _other->GetTag() << std::endl; });
-    m_bodyCollider->SetCallbackOnCollisionExit( [](Collider* _other) { std::cout << "BodyExit  - " + _other->GetTag() << std::endl; });
+    m_bodyCollider->SetCallbackOnCollisionExit([](Collider* _other) { std::cout << "BodyExit  - " + _other->GetTag() << std::endl; });
 	m_bodyCollider->IsActive(true);
 	m_bodyCollider->SetTag("body");
+	m_handCollider = ADDCOMP::NewAARect({0, -15}, {25, 0}, this);
+	m_handCollider->SetCallbackOnCollisionEnter([](Collider* _other) { if (_other->options.slidable) std::cout << "Hand HoldOn!!!" << std::endl; });
+	m_handCollider->IsActive(true);
+	m_handCollider->SetTag("hand");
 	/*
 	* Physics
 	*/

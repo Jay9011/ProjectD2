@@ -32,21 +32,12 @@ void Collider::OnCollision(Collider* _other)
 	UINT otherID = _other->GetID();
 	auto iter = m_collisionMap.find(otherID);
 
-#if _DEBUG
-	string str;
-#endif // _DEBUG
-
 	// 이전에는 충돌하고 있지 않았던 경우
 	if(iter == m_collisionMap.end())
 	{
 		auto result = m_collisionMap.insert(make_pair(otherID, CollisionCheck(true, true, _other)));
 		iter = result.first;
 		OnCollisionEnter(_other);
-#if _DEBUG
-		str = "Collision::Enter : " + m_tag;
-		std::cout << str << std::endl;
-#endif // _DEBUG
-
 	}
 	// 이전에 충돌 정보가 저장되어 있던 경우
 	else
@@ -61,10 +52,6 @@ void Collider::OnCollision(Collider* _other)
 			{
 				OnCollisionExit(_other);
 				iter->second.isCollision = false;
-#if _DEBUG
-				str = "Collision::Exit : " + m_tag;
-				std::cout << str << std::endl;
-#endif // _DEBUG
 			}
 			else
 			{
@@ -78,10 +65,6 @@ void Collider::OnCollision(Collider* _other)
 			{
 				OnCollisionEnter(_other);
 				iter->second.isCollision = true;
-#if _DEBUG
-				str = "Collision::Enter : " + m_tag;
-				std::cout << str << std::endl;
-#endif // _DEBUG
 			}
 		}
 	}
@@ -89,10 +72,6 @@ void Collider::OnCollision(Collider* _other)
 
 void Collider::FinalUpdate()
 {
-#if _DEBUG
-	string str;
-#endif // _DEBUG
-
 	// Collided 초기화
 	isCollided = false;
 
@@ -111,10 +90,6 @@ void Collider::FinalUpdate()
             
 			iter->second.isCollision = false;
 			OnCollisionExit(iter->second.other);
-#if _DEBUG
-			str = "Collision::Exit : " + m_tag;
-			std::cout << str << std::endl;
-#endif // _DEBUG
 		}
         
 		iter->second.isThisFrmChk = false;	// 다음 프레임 체크여부를 false로 초기화
