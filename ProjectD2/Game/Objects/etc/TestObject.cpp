@@ -75,10 +75,12 @@ void TestObject::UpdateObject()
     m_prevEquip = m_equip;
 	m_prevState = m_state;
     //////////////////////////////
-
+	
 	Move();
 	ChangeWeapon();
-	
+	StateProcessing();
+	AnimationProcessing();
+    
 	// 최종 위치 변환
 	AddPos(m_physics.force * fDT);
 
@@ -113,10 +115,11 @@ void TestObject::Move()
 	if (KEYDOWN(VK_UP))
 	{
 		m_physics.Jump();
+		m_prevState = m_state;
+        m_state = PLAYER_STATE::FALL;	// 임시로 떨어지는 상태로 변경한다.
 		UpdateState(PLAYER_STATE::JUMP, m_equip);
-		
 	}
-    
+
 	if (KEYPRESS(VK_LEFT))
 	{
 		m_physics.MovingX(V_LEFT.x);
@@ -141,9 +144,6 @@ void TestObject::Move()
 		if (!m_physics.isFalling)
 			UpdateState(PLAYER_STATE::RUN, m_equip);
 	}
-
-	//if (KEYUP(VK_LEFT) || KEYUP(VK_RIGHT) || KEYUP(VK_UP) || KEYUP(VK_DOWN))
-	//	UpdateState(PLAYER_STATE::IDLE, m_equip);
 }
 
 void TestObject::ChangeWeapon()
@@ -162,13 +162,36 @@ void TestObject::ChangeWeapon()
 	}
 }
 
+void TestObject::StateProcessing()
+{
+	// Idle 상태 체크
+	if (m_state == PLAYER_STATE::RUN && (KEYUP(VK_LEFT) || KEYUP(VK_RIGHT)) && (!KEYPRESS(VK_LEFT) && !KEYPRESS(VK_RIGHT)))
+	{
+		UpdateState(PLAYER_STATE::IDLE, m_equip);
+	}
+    
+	// Falling 상태 체크
+    if(m_physics.isFalling && !m_physics.isWallSliding && m_physics.force.y > 0 && m_state != PLAYER_STATE::APPEAR)
+    {
+        UpdateState(PLAYER_STATE::FALL, m_equip);
+    }
+}
+
+void TestObject::AnimationProcessing()
+{
+
+
+}
+
 void TestObject::UpdateState(PLAYER_STATE _state, PLAYER_EQUIP_TYPE _equip)
 {
-	if (this->m_state == _state && this->m_equip == _equip)
+	if (m_state == _state && m_equip == _equip)
 		return;
-
-	this->m_state = _state;
-	this->m_equip = _equip;
+    
+	m_prevState = m_state;
+	m_state = _state;
+	m_prevEquip = m_equip;
+	m_equip = _equip;
 
 	UpdateAnimation();
 }
@@ -181,18 +204,28 @@ void TestObject::UpdateAnimation()
 	switch (m_state)
 	{
 	case PLAYER_STATE::APPEAR:
+		if (m_prevState == PLAYER_STATE::APPEAR)	// 같은 상태, 다른 장비로 변경된 경우 애니메이션 변경을 처리하지 않는다.
+			break;									// 만약 필요한 경우, 임시로 상태를 변경 후 처리하도록 한다.
 		m_animator->Find((int)PLAYER_ANIM::APPEAR)->Play();
 		break;
 	case PLAYER_STATE::HIT:
+		if (m_prevState == PLAYER_STATE::HIT)
+			break;
         m_animator->Find((int)PLAYER_ANIM::HIT)->Play();
 		break;
 	case PLAYER_STATE::CRITICAL:
+		if (m_prevState == PLAYER_STATE::CRITICAL)
+			break;
         m_animator->Find((int)PLAYER_ANIM::CRITICAL)->Play();
 		break;
 	case PLAYER_STATE::DIE:
+		if (m_prevState == PLAYER_STATE::DIE)
+			break;
         m_animator->Find((int)PLAYER_ANIM::CRITICAL)->Play();
 		break;
 	case PLAYER_STATE::IDLE:
+		if (m_prevState == PLAYER_STATE::IDLE)
+			break;
         m_animator->Find((int)PLAYER_ANIM::IDLE)->Play();
 		break;
 	case PLAYER_STATE::IDLE_ATK:
@@ -245,16 +278,30 @@ void TestObject::UpdateAnimation()
 		break;
 	case PLAYER_STATE::JUMP:
 	{
-		bool reversing = m_animator->GetCurrentAnimation()->IsReverse();
-		UINT nowFrame = m_animator->GetCurrentAnimation()->GetCurrentFrame();
-        if (m_equip == PLAYER_EQUIP_TYPE::GUN)
-        {
-            m_animator->Find((int)PLAYER_ANIM::JUMP_GUN)->Play();
-        }
-        else
-        {
-            m_animator->Find((int)PLAYER_ANIM::JUMP_SWD)->Play();
-        }
+		if (m_prevState == m_state)
+		{
+			bool reversing = m_animator->GetCurrentAnimation()->IsReverse();
+			UINT nowFrame = m_animator->GetCurrentAnimation()->GetCurrentFrame();
+			if (m_equip == PLAYER_EQUIP_TYPE::GUN)
+			{
+				m_animator->Find((int)PLAYER_ANIM::JUMP_GUN)->Play(ANIM_PLAY_FLAG::SetFrameToEnd, nowFrame, -1, reversing);
+			}
+			else
+			{
+				m_animator->Find((int)PLAYER_ANIM::JUMP_SWD)->Play(ANIM_PLAY_FLAG::SetFrameToEnd, nowFrame, -1, reversing);
+			}
+		}
+		else
+		{
+			if (m_equip == PLAYER_EQUIP_TYPE::GUN)
+			{
+				m_animator->Find((int)PLAYER_ANIM::JUMP_GUN)->Play();
+			}
+			else
+			{
+				m_animator->Find((int)PLAYER_ANIM::JUMP_SWD)->Play();
+			}
+		}
 	}
 		break;
 	case PLAYER_STATE::JUMP_ATK:
@@ -267,7 +314,65 @@ void TestObject::UpdateAnimation()
             m_animator->Find((int)PLAYER_ANIM::JUMP_ATK_SWD)->Play();
         }
 		break;
+	case PLAYER_STATE::FALL:
+	{
+		if (m_prevState == m_state)
+		{
+			bool reversing = m_animator->GetCurrentAnimation()->IsReverse();
+			UINT nowFrame = m_animator->GetCurrentAnimation()->GetCurrentFrame();
+			if (m_equip == PLAYER_EQUIP_TYPE::GUN)
+			{
+				m_animator->Find((int)PLAYER_ANIM::FALL_GUN)->Play(ANIM_PLAY_FLAG::SetFrameToEnd, nowFrame, -1, reversing);
+			}
+			else
+			{
+				m_animator->Find((int)PLAYER_ANIM::FALL_SWD)->Play(ANIM_PLAY_FLAG::SetFrameToEnd, nowFrame, -1, reversing);
+			}
+		}
+		else
+		{
+			if (m_equip == PLAYER_EQUIP_TYPE::GUN)
+			{
+				m_animator->Find((int)PLAYER_ANIM::FALL_GUN)->Play();
+			}
+			else
+			{
+				m_animator->Find((int)PLAYER_ANIM::FALL_SWD)->Play();
+			}
+		}
+	}
+		break;
+	case PLAYER_STATE::LANDING:
+	{
+		if (m_prevState == m_state)
+		{
+			bool reversing = m_animator->GetCurrentAnimation()->IsReverse();
+			UINT nowFrame = m_animator->GetCurrentAnimation()->GetCurrentFrame();
+			if (m_equip == PLAYER_EQUIP_TYPE::GUN)
+			{
+				m_animator->Find((int)PLAYER_ANIM::LANDING_GUN)->Play(ANIM_PLAY_FLAG::SetFrameToEnd, nowFrame, -1, reversing);
+			}
+			else
+			{
+				m_animator->Find((int)PLAYER_ANIM::LANDING_SWD)->Play(ANIM_PLAY_FLAG::SetFrameToEnd, nowFrame, -1, reversing);
+			}
+		}
+		else
+		{
+			if (m_equip == PLAYER_EQUIP_TYPE::GUN)
+			{
+				m_animator->Find((int)PLAYER_ANIM::LANDING_GUN)->Play();
+			}
+			else
+			{
+				m_animator->Find((int)PLAYER_ANIM::LANDING_SWD)->Play();
+			}
+		}
+	}
+		break;
 	case PLAYER_STATE::HANG:
+		if (m_prevState == PLAYER_STATE::HANG)
+			break;
 		m_animator->Find((int)PLAYER_ANIM::HANG)->Play();
 		break;
 	case PLAYER_STATE::HANG_ATK:
@@ -293,8 +398,8 @@ void TestObject::SetAnimation()
 		{
 		case PLAYER_ANIM::APPEAR:
 			m_animator->LoadXML("Character\\Player\\", "Appear", ANIM_PLAY_TYPE::ONCE, 0.1f);
-			m_animator->Find((int)PLAYER_STATE::APPEAR)->SetFrameDuration(16, 0.5f);
-			m_animator->SetEndEvent((int)PLAYER_STATE::APPEAR, [this]() {
+			m_animator->Find(i)->SetFrameDuration(16, 0.5f);
+			m_animator->SetEndEvent(i, [this]() {
 				UpdateState(PLAYER_STATE::IDLE, m_equip);
 				});
 			break;
@@ -326,10 +431,28 @@ void TestObject::SetAnimation()
 			m_animator->LoadXML("Character\\Player\\SWD\\", "IdleAttack", ANIM_PLAY_TYPE::ONCE, 0.05f);
 			break;
 		case PLAYER_ANIM::JUMP_GUN:
-			m_animator->LoadXML("Character\\Player\\GUN\\", "Jump", ANIM_PLAY_TYPE::ONCE, 0.05f);
+			m_animator->LoadXML("Character\\Player\\GUN\\", "Jump1", ANIM_PLAY_TYPE::ONCE, 0.07f);
+			break;
+		case PLAYER_ANIM::FALL_GUN:
+			m_animator->LoadXML("Character\\Player\\GUN\\", "Jump2", ANIM_PLAY_TYPE::ONCE, 0.05f);
+			break;
+		case PLAYER_ANIM::LANDING_GUN:
+			m_animator->LoadXML("Character\\Player\\GUN\\", "Jump3", ANIM_PLAY_TYPE::ONCE, 0.05f);
+			m_animator->SetEndEvent(i, [this]() {
+				UpdateState(PLAYER_STATE::IDLE, m_equip);
+				});
 			break;
 		case PLAYER_ANIM::JUMP_SWD:
-			m_animator->LoadXML("Character\\Player\\SWD\\", "Jump", ANIM_PLAY_TYPE::ONCE, 0.05f);
+			m_animator->LoadXML("Character\\Player\\SWD\\", "Jump1", ANIM_PLAY_TYPE::ONCE, 0.07f);
+			break;
+		case PLAYER_ANIM::FALL_SWD:
+			m_animator->LoadXML("Character\\Player\\SWD\\", "Jump2", ANIM_PLAY_TYPE::ONCE, 0.05f);
+			break;
+		case PLAYER_ANIM::LANDING_SWD:
+			m_animator->LoadXML("Character\\Player\\SWD\\", "Jump3", ANIM_PLAY_TYPE::ONCE, 0.05f);
+			m_animator->SetEndEvent(i, [this]() {
+				UpdateState(PLAYER_STATE::IDLE, m_equip);
+				});
 			break;
 		case PLAYER_ANIM::JUMP_ATK_GUN:
 			m_animator->LoadXML("Character\\Player\\GUN\\", "JumpAttack", ANIM_PLAY_TYPE::ONCE, 0.05f);
@@ -384,13 +507,9 @@ void TestObject::BodyPlatformCheck()
 			if (side == SIDE::UPPER_SIDE)
 			{
 				m_physics.JumpReset();	// 점프 초기화
-			}
-
-			switch (side)
-			{
-			case SIDE::UPPER_SIDE:
-				std::cout << "UPPER_SIDE" << std::endl;
-				break;
+                
+                if(m_state == PLAYER_STATE::FALL)
+					UpdateState(PLAYER_STATE::LANDING, m_equip);
 			}
 		}
 
@@ -455,13 +574,19 @@ void TestObject::HandPlatformCheck()
 		m_physics.resistance.y = resist;
 
 		if (!m_physics.isWallSliding)
+		{
 			m_physics.WallSlidingStart();
+			UpdateState(PLAYER_STATE::HANG, m_equip);
+		}
 		else
+		{
 			m_physics.WallSlidingStay();
+		}
 	}
 	else if (m_physics.isWallSliding)
 	{
 		m_physics.WallSlidingEnd();
+		UpdateState(PLAYER_STATE::IDLE, m_equip);
 	}
 
 }

@@ -19,6 +19,8 @@ public:
 private:
 	void Move();
 	void ChangeWeapon();
+	void StateProcessing();
+	void AnimationProcessing();
 
 	void UpdateState(PLAYER_STATE _state, PLAYER_EQUIP_TYPE _equip);
 	void UpdateAnimation();

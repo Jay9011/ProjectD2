@@ -168,40 +168,20 @@ void Animation::Play(const ANIM_PLAY_FLAG& _playFlag, const int& _startFrame, co
 	m_isReverse = _isReversing;
 }
 
-void Animation::PlayStateChange()
+void Animation::PlayStateChange(const int& _startFrame)
 {
+	m_isPause = false;
+
 	if (m_isPause)
-	{
-		m_isPause = false;
-	}
-	else
-	{
-		m_isPause = true;
-		m_currentFrame = 0;
-		m_time = 0.0f;
-		m_isReverse = false;
-		m_isFinish = false;
-	}
+		return;
 
 	m_isPlay = true;
-}
+	m_isReverse = false;
+	m_isFinish = false;
+	m_time = 0.0f;
 
-void Animation::PlayStateChange(const size_t& _startFrame)
-{
-	if (m_isPause)
-	{
-		m_isPause = false;
-	}
-	else
-	{
-		m_isPause = true;
-		m_currentFrame = _startFrame;
-		m_time = 0.0f;
-		m_isReverse = false;
-		m_isFinish = false;
-	}
-
-	m_isPlay = true;
+	m_prevFrame = 0;
+	m_currentFrame = _startFrame < 0 ? 0 : _startFrame;
 }
 
 void Animation::Pause()

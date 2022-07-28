@@ -62,8 +62,7 @@ private:
 	int  m_reserveEndFrame;
 
 private:
-	void PlayStateChange();
-	void PlayStateChange(const size_t& _startFrame);
+	void PlayStateChange(const int& _startFrame = -1);
 	
 /* === === === === ===
 *  Getter / Setter
