@@ -16,23 +16,34 @@ public:
 	virtual void PostUpdateObject() override;
 	virtual void FinalUpdateObject() override;
 
-	void SetAction(PLAYER_STATE _state);
+private:
+	void Move();
+	void ChangeWeapon();
 
+	void UpdateState(PLAYER_STATE _state, PLAYER_EQUIP_TYPE _equip);
+	void UpdateAnimation();
+	void SetAnimation();
+	void BodyPlatformCheck();
+	void HandPlatformCheck();
+    
 public:
 	Scene* scene;
 
 	bool m_isRight;
+    
+	PLAYER_STATE m_prevState;
 	PLAYER_STATE m_state;
+	PLAYER_EQUIP_TYPE m_prevEquip;
+	PLAYER_EQUIP_TYPE m_equip;
+
+	Physics m_physics;
+
 	Animator* m_animator;
 	Collider* m_bodyCollider;
 	Collider* m_handCollider;
 	Collider* m_sight_u;
 	Collider* m_beforePlatform;
-
-	double pressedJumpKey;
-	
-	Physics m_physics;
-
+    
 #if _DEBUG
 	D3DXVECTOR3 m_dir;
 #endif
@@ -45,9 +56,4 @@ public:
 		SetScale(scale);
 	};
 
-private:
-	void SetAnimation();
-	void MoveLeftRight();
-	void BodyPlatformCheck();
-	void HandPlatformCheck();
 };

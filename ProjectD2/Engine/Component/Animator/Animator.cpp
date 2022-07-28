@@ -150,6 +150,21 @@ void Animator::ChangeAnimation()
 		}
 	}
 }
+// 이전 Animation의 상태 그대로 바꾸려는 Animation에게 전달한다.
+void Animator::ChangeCurrentAnimation(Animation* _replacedAnim)
+{
+	m_previousAnimation = m_currentAnimation;
+    m_currentAnimation = _replacedAnim;
+
+	m_currentAnimation->m_isPlay          = m_previousAnimation->m_isPlay;
+	m_currentAnimation->m_isPause         = m_previousAnimation->m_isPause;
+	m_currentAnimation->m_isReverse       = m_previousAnimation->m_isReverse;
+	m_currentAnimation->m_isFinish        = m_previousAnimation->m_isFinish;
+	m_currentAnimation->m_time            = m_previousAnimation->m_time;
+	m_currentAnimation->m_prevFrame       = m_previousAnimation->m_prevFrame;
+	m_currentAnimation->m_currentFrame    = m_previousAnimation->m_currentFrame;
+	m_currentAnimation->m_reserveEndFrame = m_previousAnimation->m_reserveEndFrame;
+}
 
 void Animator::OnUpdateWorldTransform()
 {

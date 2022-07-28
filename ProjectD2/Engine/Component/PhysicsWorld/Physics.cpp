@@ -28,6 +28,9 @@ void Physics::MovingX(float _x)
 	if (isFalling)
 	{
 		force.x += _x * speed * fDT * 2.0f;
+        
+		if (force.x * force.x >= speed * speed)
+			force.x = _x * speed;
 	}
 	else
 	{

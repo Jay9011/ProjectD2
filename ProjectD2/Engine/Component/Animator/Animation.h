@@ -8,6 +8,14 @@ enum class ANIM_PLAY_TYPE
 	PINGPONG
 };
 
+enum class ANIM_PLAY_FLAG
+{
+    NORMAL,
+    SetFrameToEnd,
+    SetFrameToSetEndFrame,
+    ChangeSameMotion
+};
+
 struct Frame
 {
 	Texture* texture;
@@ -25,9 +33,13 @@ public:
 	void FinalUpdate();
 	void Render();
 	
-	void Play();
-	void Play(Animation* _nextAnimation);
+	void Play(Animation* _nextAnimation = nullptr);
 	void Play(const size_t& _nextAnimIdx);
+	void Play(const ANIM_PLAY_FLAG& _playFlag, const Animation* _beforeAnimation, Animation* _nextAnimation = nullptr);
+	void Play(const ANIM_PLAY_FLAG& _playFlag, const int& _startFrame, const int& _endFrame, Animation* _nextAnimation = nullptr);
+    void Play(const ANIM_PLAY_FLAG& _playFlag, const int& _startFrame, const int& _endFrame, const size_t& _nextAnimIdx);
+	void Play(const ANIM_PLAY_FLAG& _playFlag, const int& _startFrame, const int& _endFrame, const bool& _isReversing, Animation* _nextAnimation = nullptr);
+	void Play(const ANIM_PLAY_FLAG& _playFlag, const int& _startFrame, const int& _endFrame, const bool& _isReversing, const size_t& _nextAnimIdx);
 	void Pause();
 	void Stop();
 	void Reset();
@@ -47,9 +59,11 @@ private:
 	
 	UINT m_prevFrame;
 	UINT m_currentFrame;
+	int  m_reserveEndFrame;
 
 private:
 	void PlayStateChange();
+	void PlayStateChange(const size_t& _startFrame);
 	
 /* === === === === ===
 *  Getter / Setter
@@ -63,6 +77,7 @@ public:
 	
 	size_t GetFrameCount() const { return m_frames.size(); }
 	Frame* GetFrame(const size_t& index) { return &m_frames[index]; }
+    UINT   GetCurrentFrame() const { return m_currentFrame; }
 
 	void  SetFrameDuration(const size_t& _index, const float& _duration) { m_frames[_index].duration = _duration; }
 	float GetFrameDuration(const size_t& _index) const                   { return m_frames[_index].duration; }
@@ -71,11 +86,13 @@ public:
 	void SetFinishFrameEvent(const std::function<void()>& _callback){ m_frames.back().callbackEvent = _callback; }
 
 	bool IsPlay() const    { return m_isPlay; }
+    bool IsPause() const   { return m_isPause; }
 	bool IsReverse() const { return m_isReverse; }
 	bool IsDone() const    { return m_isFinish; }
 
 	void ReverseChange()         { m_isReverse = !m_isReverse; }
 	bool Finish(bool _finished)	 { m_isFinish = _finished; return m_isFinish; }
 
+	friend class Animator;
 };
 

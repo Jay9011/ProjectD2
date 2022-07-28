@@ -51,6 +51,9 @@ void GameObject::Update()
 		UpdateWorld();
 		
 		UpdateObject();
+
+		UpdateWorld();
+        
 		UpdateComponent();
 		UpdateComponentWorldTransform();
 		PostUpdateObject();

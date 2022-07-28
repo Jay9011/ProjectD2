@@ -13,6 +13,7 @@ Animation::Animation(Animator* _owner, const vector<Texture*>& _frames, ANIM_PLA
 	, m_time(0.0f)
 	, m_prevFrame(0)
 	, m_currentFrame(0)
+	, m_reserveEndFrame(-1)
 {
 	Frame frame = {};
 	
@@ -64,16 +65,17 @@ void Animation::FinalUpdate()
 {
 	if (m_frames[m_prevFrame].callbackEvent != nullptr)
 		m_frames[m_prevFrame].callbackEvent();
+
+	if (m_prevFrame >= m_reserveEndFrame)
+	{
+		m_reserveEndFrame = -1;
+		Stop();
+	}
 }
 
 void Animation::Render()
 {
 	m_frames[m_currentFrame].texture->Render();
-}
-
-void Animation::Play()
-{
-	Play(nullptr);
 }
 
 void Animation::Play(Animation* _nextAnimation)
@@ -96,6 +98,76 @@ void Animation::Play(const size_t& _nextAnimIdx)
 	PlayStateChange();
 }
 
+void Animation::Play(const ANIM_PLAY_FLAG& _playFlag, const Animation* _beforeAnimation, Animation* _nextAnimation)
+{
+	switch (_playFlag)
+	{
+	case ANIM_PLAY_FLAG::ChangeSameMotion:
+		Play(_nextAnimation);
+		m_isReverse = _beforeAnimation->m_isReverse;
+		m_time = _beforeAnimation->m_time;
+		m_prevFrame = _beforeAnimation->m_prevFrame <= m_frames.size() ? _beforeAnimation->m_prevFrame : (UINT)m_frames.size();
+		m_currentFrame = _beforeAnimation->m_currentFrame <= m_frames.size() ? _beforeAnimation->m_currentFrame : (UINT)m_frames.size();
+		m_reserveEndFrame = _beforeAnimation->m_reserveEndFrame <= m_frames.size() ? _beforeAnimation->m_reserveEndFrame : (UINT)m_frames.size();
+		break;
+	default:
+		Play(_nextAnimation);
+		break;
+	}
+}
+
+void Animation::Play(const ANIM_PLAY_FLAG& _playFlag, const int& _startFrame, const int& _endFrame, Animation* _nextAnimation)
+{
+	switch (_playFlag)
+	{
+	case ANIM_PLAY_FLAG::SetFrameToEnd:
+		Play(_nextAnimation);
+        m_currentFrame = _startFrame;
+		break;
+	case ANIM_PLAY_FLAG::SetFrameToSetEndFrame:
+		Play(_nextAnimation);
+        m_currentFrame = _startFrame;
+		if (_endFrame >= 0 && _endFrame >= _startFrame && _endFrame < m_frames.size())
+			m_reserveEndFrame = _endFrame;
+		break;
+	default:
+		Play(_nextAnimation);
+		break;
+	}
+}
+
+void Animation::Play(const ANIM_PLAY_FLAG& _playFlag, const int& _startFrame, const int& _endFrame, const size_t& _nextAnimIdx)
+{
+    switch (_playFlag)
+    {
+    case ANIM_PLAY_FLAG::SetFrameToEnd:
+        Play(_nextAnimIdx);
+        m_currentFrame = _startFrame;
+        break;
+    case ANIM_PLAY_FLAG::SetFrameToSetEndFrame:
+        Play(_nextAnimIdx);
+        m_currentFrame = _startFrame;
+        if (_endFrame >= 0 && _endFrame >= _startFrame && _endFrame < m_frames.size())
+            m_reserveEndFrame = _endFrame;
+        break;
+    default:
+		Play(_nextAnimIdx);
+        break;
+    }
+}
+
+void Animation::Play(const ANIM_PLAY_FLAG& _playFlag, const int& _startFrame, const int& _endFrame, const bool& _isReversing, Animation* _nextAnimation)
+{
+	Play(_playFlag, _startFrame, _endFrame, _nextAnimation);
+	m_isReverse = _isReversing;
+}
+
+void Animation::Play(const ANIM_PLAY_FLAG& _playFlag, const int& _startFrame, const int& _endFrame, const bool& _isReversing, const size_t& _nextAnimIdx)
+{
+	Play(_playFlag, _startFrame, _endFrame, _nextAnimIdx);
+	m_isReverse = _isReversing;
+}
+
 void Animation::PlayStateChange()
 {
 	if (m_isPause)
@@ -106,6 +178,24 @@ void Animation::PlayStateChange()
 	{
 		m_isPause = true;
 		m_currentFrame = 0;
+		m_time = 0.0f;
+		m_isReverse = false;
+		m_isFinish = false;
+	}
+
+	m_isPlay = true;
+}
+
+void Animation::PlayStateChange(const size_t& _startFrame)
+{
+	if (m_isPause)
+	{
+		m_isPause = false;
+	}
+	else
+	{
+		m_isPause = true;
+		m_currentFrame = _startFrame;
 		m_time = 0.0f;
 		m_isReverse = false;
 		m_isFinish = false;

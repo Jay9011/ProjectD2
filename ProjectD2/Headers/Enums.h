@@ -1,5 +1,13 @@
 #pragma once
 
+enum class SIDE
+{
+	NONE,
+	UPPER_SIDE,
+	LOWER_SIDE,
+	LEFT_SIDE,
+	RIGHT_SIDE
+};
 enum class OBJECT_TYPE
 {
 	BACKGROUND,
@@ -14,16 +22,43 @@ enum class OBJECT_TYPE
 enum class PLAYER_STATE
 {
 	APPEAR,
+    HIT,
+    CRITICAL,
+	DIE,
 	IDLE,
+    IDLE_ATK,
 	RUN,
-	JUMP
+    RUN_ATK,
+	JUMP,
+    JUMP_ATK,
+    HANG,
+    HANG_ATK,
 };
 
-enum class SIDE
+enum class PLAYER_EQUIP_TYPE
 {
-    NONE,
-	UPPER_SIDE,
-    LOWER_SIDE,
-    LEFT_SIDE,
-    RIGHT_SIDE
+    GUN,
+    SWORD,
+};
+
+enum class PLAYER_ANIM
+{
+	APPEAR,
+	HIT,
+	CRITICAL,
+	IDLE,
+	IDLE_ATK_GUN,
+    IDLE_ATK_SWD,
+	RUN_GUN,
+    RUN_SWD,
+	RUN_ATK_GUN,
+	RUN_ATK_SWD,
+	JUMP_GUN,
+    JUMP_SWD,
+	JUMP_ATK_GUN,
+    JUMP_ATK_SWD,
+	HANG,
+	HANG_ATK_GUN,
+    HANG_ATK_SWD,
+	FIN
 };
