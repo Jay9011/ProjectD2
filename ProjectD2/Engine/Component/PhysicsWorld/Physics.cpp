@@ -157,17 +157,23 @@ SIDE Physics::CollisionCorrect(OUT D3DXVECTOR2& correctDir, class Collider* movi
 			isFalling = true;
 
 			if (correct)
+			{
 				correctDir.y = correctDir.y > cRect.Size().y ? correctDir.y : cRect.Size().y;
+				if (force.y < 0)
+					force.y = 0;
+			}
 		}
 		else
 		{
 			// 위에서 충돌
 			collSide = SIDE::UPPER_SIDE;
 			if (correct)
+			{
 				correctDir.y = correctDir.y < -cRect.Size().y ? correctDir.y : -cRect.Size().y;
+                if(force.y > 0)
+                    force.y = 0;
+			}
 		}
-		if (correct)
-			force.y = 0;
 	}
 	// 좌우 충돌
 	else
@@ -177,12 +183,18 @@ SIDE Physics::CollisionCorrect(OUT D3DXVECTOR2& correctDir, class Collider* movi
 			// 오른쪽에서 충돌
 			collSide = SIDE::RIGHT_SIDE;
 			correctDir.x = correctDir.x > cRect.Size().x ? correctDir.x : cRect.Size().x;
+
+			if(force.x < 0)
+                force.x = 0;
 		}
 		else
 		{
 			// 왼쪽에서 충돌
 			collSide = SIDE::LEFT_SIDE;
 			correctDir.x = correctDir.x < -cRect.Size().x ? correctDir.x : -cRect.Size().x;
+
+            if(force.x > 0)
+                force.x = 0;
 		}
 	}
 

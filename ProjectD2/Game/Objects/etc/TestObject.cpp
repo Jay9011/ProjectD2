@@ -377,7 +377,6 @@ void TestObject::BodyPlatformCheck()
 			// ÁÂ¿ì¿¡¼­ ÀÌ¹ø¿¡ ºÎµúÈù °æ¿ì
 			if (correctPos.x != 0 && collider.second->GetState() == COLLISION_STATE::ENTER)
 			{
-				m_physics.force.x = 0;
 				isBumpWall = true;
 			}
 
