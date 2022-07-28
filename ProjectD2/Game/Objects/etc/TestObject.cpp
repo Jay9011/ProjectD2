@@ -15,6 +15,7 @@ TestObject::TestObject(Scene* _scene, OBJECT_TYPE _type, int _updateOrder, GameO
 	GameObject(_scene, _type, _updateOrder, _parent)
 	, scene(_scene)
 	, m_isRight(true)
+	, m_preventKey(true)
 	, m_state(PLAYER_STATE::APPEAR)
     , m_equip(PLAYER_EQUIP_TYPE::GUN)
 {
@@ -111,6 +112,9 @@ void TestObject::FinalUpdateObject()
 
 void TestObject::Move()
 {
+    if (m_preventKey)
+        return;
+    
 	// Scale에 따라 벽점프 방향이 달라지기 때문에 Scale 변경 전에 점프를 처리한다.
 	if (KEYDOWN(VK_UP))
 	{
@@ -148,6 +152,9 @@ void TestObject::Move()
 
 void TestObject::ChangeWeapon()
 {
+	if (m_preventKey)
+		return;
+    
 	if (KEYDOWN(VK_TAB))
 	{
         if (m_equip == PLAYER_EQUIP_TYPE::GUN)
@@ -401,6 +408,7 @@ void TestObject::SetAnimation()
 			m_animator->Find(i)->SetFrameDuration(16, 0.5f);
 			m_animator->SetEndEvent(i, [this]() {
 				UpdateState(PLAYER_STATE::IDLE, m_equip);
+				m_preventKey = false;
 				});
 			break;
 		case PLAYER_ANIM::HIT:

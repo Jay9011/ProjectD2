@@ -28,10 +28,11 @@ private:
 	void BodyPlatformCheck();
 	void HandPlatformCheck();
     
-public:
+private:
 	Scene* scene;
 
 	bool m_isRight;
+	bool m_preventKey;	// 키 입력 막기
     
 	PLAYER_STATE m_prevState;
 	PLAYER_STATE m_state;
@@ -43,14 +44,12 @@ public:
 	Animator* m_animator;
 	Collider* m_bodyCollider;
 	Collider* m_handCollider;
-	Collider* m_sight_u;
-	Collider* m_beforePlatform;
     
 #if _DEBUG
 	D3DXVECTOR3 m_dir;
 #endif
 
-public:
+private:
 	void ScaleXInverse()
 	{
 		D3DXVECTOR2 scale = GetScale();
