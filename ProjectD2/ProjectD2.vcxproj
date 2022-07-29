@@ -214,6 +214,7 @@
     </ClCompile>
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Engine\Object\GameObject.cpp" />
+    <ClCompile Include="Game\Objects\Background\Background.cpp" />
     <ClCompile Include="Game\Objects\Platforms\PlatformRect.cpp" />
     <ClCompile Include="Game\Objects\etc\TestMap_1.cpp" />
     <ClCompile Include="Game\Objects\etc\TestObject.cpp" />
@@ -251,6 +252,7 @@
     <ClInclude Include="Engine\Core\Manager\Texture\TextureMgr.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Engine\Object\GameObject.h" />
+    <ClInclude Include="Game\Objects\Background\Background.h" />
     <ClInclude Include="Game\Objects\Platforms\PlatformRect.h" />
     <ClInclude Include="Game\Objects\etc\TestMap_1.h" />
     <ClInclude Include="Game\Objects\etc\TestObject.h" />

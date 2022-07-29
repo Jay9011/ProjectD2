@@ -33,6 +33,7 @@ void TestScene::SceneEnter()
 	CAMERA->SetOffset({ WIN_CENTER_X, WIN_HEIGHT * 0.6f });
 	CAMERA->SetLookAt(testObject->GetPos());
 	CAMERA->SetTarget(testObject);
+	testMap_1->CameraInit();
 }
 
 void TestScene::SceneExit()
@@ -50,7 +51,7 @@ void TestScene::UpdateScene()
 
 	if (KEYDOWN(VK_F1))
 	{
-		CAMERA->Shake(0.1f, 50.0f);
+		CAMERA->Shake(3.0f, 50.0f);
 	}
 }
 

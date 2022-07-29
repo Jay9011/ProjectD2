@@ -57,11 +57,11 @@ public:
 	void  SetAngle(float angle) { m_angle = angle; m_recomputeWorld = true; }
 	void  AddAngle(float angle) { m_angle += angle; m_recomputeWorld = true; }
 
-	const D3DXVECTOR2& GetPivot() const                        { return m_pivot; }
-	//void               SetPivot(const D3DXVECTOR2& pivot)      { m_pivot = pivot; m_recomputeWorld = true; }
-	//void               SetPivot(float x, float y, float z = 0) { SetPivot({ x, y, z }); }
-	//void               AddPivot(const D3DXVECTOR2& pivot)      { m_pivot += pivot; m_recomputeWorld = true; }
-	//void               AddPivot(float x, float y, float z = 0) { AddPivot({ x, y, z }); }
+	const D3DXVECTOR2& GetPivot() const      { return m_pivot; }
+	void  SetPivot(const D3DXVECTOR2& pivot) { m_pivot = pivot; m_recomputeWorld = true; }
+	void  SetPivot(float x, float y)         { SetPivot( { x, y } ); }
+	void  AddPivot(const D3DXVECTOR2& pivot) { m_pivot += pivot; m_recomputeWorld = true; }
+	void  AddPivot(float x, float y)         { AddPivot( { x, y } ); }
 
 	const D3DXMATRIX& GetWorld() const { return m_world; }
 	const D3DXMATRIX& GetS() const     { return m_S; }

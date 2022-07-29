@@ -4,17 +4,36 @@
 #include "Engine/Object/GameObject.h"
 #include "Engine/Resource/Shader.h"
 #include "Engine/Component/Collision/Colliders/AARect.h"
+#include "Game/Objects/Background/Background.h"
 #include "Game/Objects/Platforms/PlatformRect.h"
 
 TestMap_1::TestMap_1(Scene* _scene, int _updateOrder, GameObject* _parent) :
 	GameObject(_scene, OBJECT_TYPE::DEFAULT, _updateOrder, _parent)
 {
-	m_backgrounds.emplace_back(TEXTURE->Add(L"Background\\2.png", WIN_WIDTH, WIN_HEIGHT));
-	m_backgrounds.emplace_back(TEXTURE->Add(L"Background\\3.png", WIN_WIDTH * 0.9, WIN_HEIGHT * 0.9));
-	m_backgrounds.emplace_back(TEXTURE->Add(L"Background\\4.png", WIN_WIDTH * 0.8, WIN_HEIGHT * 0.8));
-	m_backgrounds.emplace_back(TEXTURE->Add(L"Background\\5.png", WIN_WIDTH * 0.7, WIN_HEIGHT * 0.7));
-	m_backgroundShader = SHADER(L"AlphaShader");
-	
+    /*
+	* Create Background
+	*/
+	Background* background = new Background(TEXTURE->Add(L"Background\\2.png"), SHADER(L"AlphaShader"), { -0.6f, -0.6f } , _scene, OBJECT_TYPE::BACKGROUND, _updateOrder, this);
+	background->SetPos(-350, 20);
+	background->SetScale(1.5f, 1.5f);
+	m_backgrounds.emplace_back(background);
+	background = new Background(TEXTURE->Add(L"Background\\3.png"), SHADER(L"AlphaShader"), { -0.3f, -0.5f } , _scene, OBJECT_TYPE::BACKGROUND, _updateOrder, this);
+	background->SetPos(0, 100);
+	background->SetScale(1.5f, 1.5f);
+	m_backgrounds.emplace_back(background);
+	background = new Background(TEXTURE->Add(L"Background\\4.png"), SHADER(L"AlphaShader"), { -0.1f, -0.3f } , _scene, OBJECT_TYPE::BACKGROUND, _updateOrder, this);
+	background->SetPos(0, 150);
+	background->SetScale(1.5f, 1.5f);
+	m_backgrounds.emplace_back(background);
+	background = new Background(TEXTURE->Add(L"Background\\5.png"), SHADER(L"AlphaShader"), { 0.2f, -0.1f } , _scene, OBJECT_TYPE::BACKGROUND, _updateOrder, this);
+	background->SetPos(0, 200);
+	background->SetScale(1.5f, 1.5f);
+	m_backgrounds.emplace_back(background);
+
+    
+	/*
+	* Create platforms
+    */
 	PlatformRect* platform;
 
 	m_PlayerStartFlag = new PlatformRect({ 10, 10 }, false, _scene, OBJECT_TYPE::DEFAULT, _updateOrder, this);
@@ -101,6 +120,14 @@ TestMap_1::~TestMap_1()
 {
 }
 
+void TestMap_1::CameraInit()
+{
+	for (auto& bg : m_backgrounds)
+	{
+		bg->InitCameraPos();
+	}
+}
+
 void TestMap_1::UpdateObject()
 {
 	if (KEYDOWN(VK_F8))
@@ -114,13 +141,6 @@ void TestMap_1::UpdateObject()
 
 void TestMap_1::RenderObject()
 {
-	m_backgroundShader->Begin();
-	for (auto& background : m_backgrounds)
-	{
-		background->Render();
-	}
-	m_backgroundShader->End();
-	
 	GameObject::RenderObject();
 }
 
