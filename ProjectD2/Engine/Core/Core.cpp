@@ -30,6 +30,7 @@ Core::Core() :
     m_pathMgr = nullptr;
 	m_sceneMgr = nullptr;
     m_textureMgr = nullptr;
+    m_camera = nullptr;
     m_Game = nullptr;
 }
 
@@ -39,6 +40,7 @@ Core::~Core()
     TweakBar::Delete(); // Init에서 Device 다음에 생성됨
 #endif // _DEBUG
     SAFE_DELETE(m_Game);
+    SAFE_DELETE(m_camera);
 	SAFE_DELETE(m_pathMgr);
 	SAFE_DELETE(m_input);
 	SAFE_DELETE(m_timer);
@@ -48,9 +50,6 @@ Core::~Core()
     DestroyMenu(m_hMenu);
 	DestroyWindow(m_hWnd);
 
-    /*
-    * 유사 싱글톤 패턴에서 인스턴스를 제거하는 부분
-    */
     Shader::Delete();
 }
 
@@ -89,6 +88,7 @@ bool Core::Init(HINSTANCE _hInstance)
     m_pathMgr    = new PathMgr(L"\\Bin\\Content\\");
 	m_sceneMgr   = new SceneMgr;
 	m_textureMgr = new TextureMgr;
+    m_camera     = new Camera;
 
 #if _DEBUG
     TweakBar::Create();

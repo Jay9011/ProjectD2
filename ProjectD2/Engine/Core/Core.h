@@ -16,6 +16,7 @@
 #include "Manager/Path/PathMgr.h"
 #include "Manager/Scene/SceneMgr.h"
 #include "Manager/Texture/TextureMgr.h"
+#include "Manager/Camera/Camera.h"
 
 #if _DEBUG
 extern HANDLE hConsole;
@@ -34,6 +35,7 @@ public:
 	PathMgr*    GetPathMgr() const    { return m_pathMgr; }
 	SceneMgr*   GetSceneMgr() const   { return m_sceneMgr; }
 	TextureMgr* GetTextureMgr() const { return m_textureMgr; }
+    Camera*     GetCamera() const     { return m_camera; }
 
 private:
 	Device*     m_device;
@@ -42,6 +44,7 @@ private:
 	PathMgr*    m_pathMgr;
 	SceneMgr*   m_sceneMgr;
 	TextureMgr* m_textureMgr;
+	Camera*		m_camera;
 	Game* m_Game;
 
 /*
