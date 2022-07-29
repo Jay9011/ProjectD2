@@ -67,6 +67,6 @@ void Camera::TargetMode()
     
     D3DXVECTOR2 cameraPos = GetPos();
     
-    D3DXVec2Lerp(&cameraPos, &cameraPos, &destPos, fDT);
+    D3DXVec2Lerp(&cameraPos, &cameraPos, &destPos, fDT * 4.5f);
     SetPos(cameraPos);
 }

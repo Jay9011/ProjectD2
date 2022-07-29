@@ -32,7 +32,7 @@ void TestScene::SceneEnter()
 	testObjectPos = testObject->GetPos();
 
 	CAMERA->SetTarget(testObject);
-    CAMERA->SetOffset({WIN_CENTER_X, WIN_HEIGHT * 0.7f});
+    CAMERA->SetOffset({WIN_CENTER_X, WIN_HEIGHT * 0.6f});
 }
 
 void TestScene::SceneExit()
