@@ -165,6 +165,11 @@ int Core::Run()
             );
 #endif // _DEBUG
             DEVICE->BeginScene();
+
+            /* === === === === ===
+            *   최초 Render 처리
+            * === === === === === */
+            m_camera->Render();
 			
             /* === === === === ===
             *     Game Render

@@ -7,6 +7,7 @@ Camera::Camera() :
     m_speed(500)
     , m_target(nullptr)
     , m_offset(WIN_CENTER_X, WIN_CENTER_Y)
+    , m_postOffset(m_offset)
     , m_restrictRange(FLT_MIN, FLT_MIN, FLT_MAX, FLT_MAX)
 {
 }
@@ -40,6 +41,12 @@ void Camera::Update()
     DEVICE->SetTransform(D3DTS_VIEW, &m_world);
 }
 
+void Camera::Render()
+{
+
+    CameraEffectProgress();
+}
+
 void Camera::FreeMode()
 {
 	static D3DXVECTOR2 prevPos = { WIN_CENTER_X, WIN_CENTER_Y };
@@ -63,7 +70,7 @@ void Camera::FreeMode()
 void Camera::TargetMode()
 {
     D3DXVECTOR2 destPos = m_target->GetPos();
-    destPos = -destPos + m_offset;
+    destPos = -destPos + m_postOffset;
     
     D3DXVECTOR2 cameraPos = GetPos();
     
@@ -71,10 +78,54 @@ void Camera::TargetMode()
     SetPos(cameraPos);
 }
 
+void Camera::CameraEffectProgress()
+{
+    if (m_effectQueue.empty())
+        return;
+
+    auto& effect = m_effectQueue.front();
+    effect.progTime += fDT;
+    
+    float percent = effect.progTime / effect.duration;
+    if(percent < 0.0f)
+    {
+        percent = 0.0f;
+    }
+    else if(percent > 1.0f)
+    {
+        percent = 1.0f;
+    }
+
+    /*
+    *  Effect 贸府
+    */
+    switch (effect.effect)
+    {
+    case CAM_EFFECT::SHAKE:
+    {
+        sign *= -1;
+        D3DXVECTOR2 offset = m_offset - D3DXVECTOR2(sign * effect.power, sign * effect.power);
+        m_postOffset = offset;
+    }
+        break;
+    default:
+        break;
+    }
+    
+    /*
+    * Effect 辆丰 贸府
+    */
+    if (effect.progTime >= effect.duration)
+    {
+        m_effectQueue.pop();
+        m_postOffset = m_offset;
+    }
+}
+
 inline void Camera::SetLookAt(const D3DXVECTOR2& _look)
 {
     D3DXVECTOR2 destPos = _look;
-    destPos = -destPos + m_offset;
+    destPos = -destPos + m_postOffset;
     
     SetPos(destPos);
 }

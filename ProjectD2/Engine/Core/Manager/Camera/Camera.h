@@ -24,9 +24,13 @@ public:
     
 public:
     void Update();
+    void Render();
 
+private:
     void FreeMode();
     void TargetMode();
+    
+    void CameraEffectProgress();
   
 private:
     float m_speed;
@@ -34,10 +38,13 @@ private:
     Transform* m_target;
     
     D3DXVECTOR2 m_offset;
+    D3DXVECTOR2 m_postOffset;
     FRECT m_restrictRange;
     
     std::queue<tagCamEffect> m_effectQueue;
 
+    short sign = 1;
+    
 public:
     /* === === === === === 
     *  Camera Effects
@@ -60,7 +67,7 @@ public:
     *  Getter / Setter
     *  === === === === === */
     void SetTarget(Transform* _target) { m_target = _target; }
-    void SetOffset(const D3DXVECTOR2& _offset) { m_offset = _offset; }
+    void SetOffset(const D3DXVECTOR2& _offset) { m_offset = _offset; m_postOffset = _offset; }
     
     void SetRestrictRange(FRECT _rect) { m_restrictRange = _rect; }
     void SetRestrictRange(float _left, float _top, float _right, float _bottom) { m_restrictRange = FRECT(_left, _top, _right, _bottom); }
