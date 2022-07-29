@@ -4,6 +4,7 @@
 #define PATH	Core::Get()->GetPathMgr()
 #define SCENE	Core::Get()->GetSceneMgr()
 #define TEXTURE Core::Get()->GetTextureMgr()
+#define CAMERA	Core::Get()->GetCamera()
 #define WIN_RESOL	Core::Get()->Resolution()
 #define WIN_WIDTH	Core::Get()->Resolution().width
 #define WIN_HEIGHT	Core::Get()->Resolution().height

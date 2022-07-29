@@ -135,6 +135,11 @@ int Core::Run()
             m_Game->Update();
 
             /* === === === === ===
+            *  Render 전 마지막 Update
+            * === === === === === */
+            m_camera->Update();
+
+            /* === === === === ===
             *	     Render
             * === === === === === */
             // Device Clear

@@ -30,6 +30,9 @@ void TestScene::SceneEnter()
 	testObject->SetPos(testMap_1->GetPlayerStartPoint());
 	testObject->SetScale(1.5, 1.5);
 	testObjectPos = testObject->GetPos();
+
+	CAMERA->SetTarget(testObject);
+    CAMERA->SetOffset({WIN_CENTER_X, WIN_HEIGHT * 0.7f});
 }
 
 void TestScene::SceneExit()
