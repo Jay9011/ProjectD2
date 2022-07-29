@@ -65,5 +65,6 @@ public:
     void SetRestrictRange(FRECT _rect) { m_restrictRange = _rect; }
     void SetRestrictRange(float _left, float _top, float _right, float _bottom) { m_restrictRange = FRECT(_left, _top, _right, _bottom); }
     
+    void SetLookAt(const D3DXVECTOR2& _look);
 };
 

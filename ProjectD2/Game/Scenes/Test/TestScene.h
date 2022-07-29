@@ -17,9 +17,6 @@ public:
 	virtual void SceneExit() override;
 
 	class TestObject* testObject;
-	D3DXVECTOR2 testObjectPos;
-	D3DXVECTOR2 testObjectSize;
-	float       testObjectAngle;
 
 	class TestObject2* testObject2;
 

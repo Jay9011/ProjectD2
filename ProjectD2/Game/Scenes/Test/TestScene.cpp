@@ -29,10 +29,10 @@ void TestScene::SceneEnter()
 	testObject = new TestObject(this, OBJECT_TYPE::PLAYER, 110);
 	testObject->SetPos(testMap_1->GetPlayerStartPoint());
 	testObject->SetScale(1.5, 1.5);
-	testObjectPos = testObject->GetPos();
 
+	CAMERA->SetOffset({ WIN_CENTER_X, WIN_HEIGHT * 0.6f });
+	CAMERA->SetLookAt(testObject->GetPos());
 	CAMERA->SetTarget(testObject);
-    CAMERA->SetOffset({WIN_CENTER_X, WIN_HEIGHT * 0.6f});
 }
 
 void TestScene::SceneExit()

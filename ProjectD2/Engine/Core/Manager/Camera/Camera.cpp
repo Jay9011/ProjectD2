@@ -70,3 +70,11 @@ void Camera::TargetMode()
     D3DXVec2Lerp(&cameraPos, &cameraPos, &destPos, fDT * 4.5f);
     SetPos(cameraPos);
 }
+
+inline void Camera::SetLookAt(const D3DXVECTOR2& _look)
+{
+    D3DXVECTOR2 destPos = _look;
+    destPos = -destPos + m_offset;
+    
+    SetPos(destPos);
+}
