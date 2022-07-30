@@ -13,6 +13,7 @@ Game::Game() :
 	*       기본 설정
 	* === === === === === */
 	DEVICE->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);	// Backface culling 사용 안함
+	CAMERA->SetOffset({ WIN_CENTER_X, WIN_HEIGHT * 0.6f });	// Camera Offset 설정
 	
 	/* === === === === ===
 	*       Scene 추가

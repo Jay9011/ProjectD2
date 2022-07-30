@@ -15,6 +15,8 @@ Background::Background(Texture* _texture, Shader* _shader, D3DXVECTOR2 _scrollSp
     , m_beforeCameraPos(CAMERA->GetPos())
     , m_afterCameraPos(CAMERA->GetPos())
 {
+    m_textureSize = m_texture->GetSize();
+    m_textureHalfSize = m_texture->GetHalfSize();
 }
 
 Background::~Background() = default;
@@ -39,3 +41,26 @@ void Background::RenderObject()
     m_texture->Render();
     m_shader->End();
 }
+
+/* === === === === ===
+*  Getter / Setter
+* === === === === === */
+
+inline FRECT Background::Rect() 
+{ 
+    D3DXVECTOR2 pos = GetWorldPos(); 
+    D3DXVECTOR2 scale = GetWorldScale(); 
+    
+    return FRECT(
+        pos.x - (m_textureHalfSize.x * scale.x),
+        pos.y - (m_textureHalfSize.y * scale.y),
+        pos.x + (m_textureHalfSize.x * scale.x),
+        pos.y + (m_textureHalfSize.y * scale.y));
+}
+
+inline D3DXVECTOR2 Background::Size() 
+{ 
+    D3DXVECTOR2 scale = GetWorldScale(); 
+    return { m_textureSize.x * scale.x, m_textureSize.y * scale.y }; 
+}
+

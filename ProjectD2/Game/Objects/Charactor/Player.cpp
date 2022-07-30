@@ -1,5 +1,5 @@
 #include "Framework.h"
-#include "TestObject.h"
+#include "Player.h"
 
 #include "Engine/Component/Component.h"
 #include "Engine/Component/Animator/Animator.h"
@@ -7,11 +7,11 @@
 #include "Engine/Component/PhysicsWorld/Physics.h"
 #include "Engine/Resource/Shader.h"
 
-TestObject::TestObject(Scene* _scene, int _updateOrder, GameObject* _parent) :
-	TestObject(_scene, OBJECT_TYPE::DEFAULT, _updateOrder, _parent)
+Player::Player(Scene* _scene, int _updateOrder, GameObject* _parent) :
+	Player(_scene, OBJECT_TYPE::DEFAULT, _updateOrder, _parent)
 {}
 
-TestObject::TestObject(Scene* _scene, OBJECT_TYPE _type, int _updateOrder, GameObject* _parent) :
+Player::Player(Scene* _scene, OBJECT_TYPE _type, int _updateOrder, GameObject* _parent) :
 	GameObject(_scene, _type, _updateOrder, _parent)
 	, scene(_scene)
 	, m_isRight(true)
@@ -68,9 +68,9 @@ TestObject::TestObject(Scene* _scene, OBJECT_TYPE _type, int _updateOrder, GameO
 	m_animator->Find((int)PLAYER_STATE::APPEAR);
 }
 
-TestObject::~TestObject() = default;
+Player::~Player() = default;
 
-void TestObject::UpdateObject()
+void Player::UpdateObject()
 {
 	// 상태 혹은 Animation을 변경하기 전 이전 상태를 저장한다.
     m_prevEquip = m_equip;
@@ -90,19 +90,19 @@ void TestObject::UpdateObject()
 #endif // _DEBUG
 }
 
-void TestObject::RenderObject()
+void Player::RenderObject()
 {
 	GameObject::RenderObject();
 }
 
-void TestObject::PostUpdateObject()
+void Player::PostUpdateObject()
 {
 	BodyPlatformCheck();
 	HandPlatformCheck();
 
 }
 
-void TestObject::FinalUpdateObject()
+void Player::FinalUpdateObject()
 {
 	/*
 	* 마무리 처리
@@ -110,7 +110,7 @@ void TestObject::FinalUpdateObject()
 	m_physics.CalcResistance();
 }
 
-void TestObject::Move()
+void Player::Move()
 {
     if (m_preventKey)
         return;
@@ -150,7 +150,7 @@ void TestObject::Move()
 	}
 }
 
-void TestObject::ChangeWeapon()
+void Player::ChangeWeapon()
 {
 	if (m_preventKey)
 		return;
@@ -169,7 +169,7 @@ void TestObject::ChangeWeapon()
 	}
 }
 
-void TestObject::StateProcessing()
+void Player::StateProcessing()
 {
 	// Idle 상태 체크
 	if (m_state == PLAYER_STATE::RUN && (KEYUP(VK_LEFT) || KEYUP(VK_RIGHT)) && (!KEYPRESS(VK_LEFT) && !KEYPRESS(VK_RIGHT)))
@@ -184,13 +184,13 @@ void TestObject::StateProcessing()
     }
 }
 
-void TestObject::AnimationProcessing()
+void Player::AnimationProcessing()
 {
 
 
 }
 
-void TestObject::UpdateState(PLAYER_STATE _state, PLAYER_EQUIP_TYPE _equip)
+void Player::UpdateState(PLAYER_STATE _state, PLAYER_EQUIP_TYPE _equip)
 {
 	if (m_state == _state && m_equip == _equip)
 		return;
@@ -203,7 +203,7 @@ void TestObject::UpdateState(PLAYER_STATE _state, PLAYER_EQUIP_TYPE _equip)
 	UpdateAnimation();
 }
 
-void TestObject::UpdateAnimation()
+void Player::UpdateAnimation()
 {
 	if(m_prevState == m_state && m_prevEquip == m_equip)
         return;
@@ -397,7 +397,7 @@ void TestObject::UpdateAnimation()
 	}
 }
 
-void TestObject::SetAnimation()
+void Player::SetAnimation()
 {
 	for (int i = 0; i < (int)PLAYER_ANIM::FIN; i++)
 	{
@@ -485,7 +485,7 @@ void TestObject::SetAnimation()
 	}
 }
 
-void TestObject::BodyPlatformCheck()
+void Player::BodyPlatformCheck()
 {
 	// 충돌중인 모든 Platform을 찾는다.
 	vector<std::pair<Collider*, Collider*>> collided;
@@ -536,7 +536,7 @@ void TestObject::BodyPlatformCheck()
 	}
 }
 
-void TestObject::HandPlatformCheck()
+void Player::HandPlatformCheck()
 {
 	// 충돌중인 모든 Platform을 찾는다.
 	vector<std::pair<Collider*, Collider*>> collided;

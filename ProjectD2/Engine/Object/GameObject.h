@@ -73,7 +73,6 @@ public:
 /* === === === === ===
 *  테스트용 VertexBuffer, IndexBuffer
 * === === === === === */
-#if _DEBUG
 private:
 	UINT m_vertexCount;
 	UINT m_indexCount;
@@ -84,5 +83,4 @@ private:
 	void DrawDirectionVertex();
 public:
 	void SetDrawDirection(bool _bool) { drawDirection = _bool; }
-#endif // GameObject 위치 탐색용 Vertices
 };

@@ -35,6 +35,7 @@ private:
 public:
 	void        SetSize(D3DXVECTOR2 _size) { m_size = _size; m_halfSize = _size * 0.5f; }
 	D3DXVECTOR2 GetSize() const            { return m_size; }
+	D3DXVECTOR2 GetHalfSize() const        { return m_halfSize; }
 
 	LPDIRECT3DTEXTURE9 GetTexture() const { return m_texture; }
 	

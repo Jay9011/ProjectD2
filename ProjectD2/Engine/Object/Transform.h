@@ -68,7 +68,7 @@ public:
 	const D3DXMATRIX& GetR() const     { return m_R; }
 	const D3DXMATRIX& GetT() const     { return m_T; }
 
-	D3DXVECTOR2 GetWorldPos()   { return m_sumParentsPos; }
+	D3DXVECTOR2 GetWorldPos()   { return m_world.m[3]; }
 	D3DXVECTOR2 GetWorldScale() { return D3DXVECTOR2(m_sumParentsScale.x * m_scale.x, m_sumParentsScale.y * m_scale.y); }
 	float       GetWorldAngle() { return m_sumParentsAngle + m_angle; }
 	D3DXVECTOR2 GetWorldPivot() { return m_sumParentsPivot + m_pivot; }

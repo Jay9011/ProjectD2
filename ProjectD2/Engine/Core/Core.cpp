@@ -213,6 +213,7 @@ int Core::Run()
 #pragma endregion
 
 #if _DEBUG
+            m_camera->RenderCameraRect();
             TweakBar::Get()->Render();
 #endif // _DEBUG
 

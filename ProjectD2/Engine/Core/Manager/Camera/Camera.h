@@ -2,6 +2,8 @@
 #include <queue>
 #include "Engine/Object/Transform.h"
 
+class Core;
+
 enum class CAM_EFFECT
 {
     SHAKE,
@@ -31,6 +33,8 @@ private:
     void TargetMode();
     
     void CameraEffectProgress();
+
+    void CameraRestrictCorrection();
   
 private:
     float m_speed;
@@ -44,6 +48,7 @@ private:
     std::queue<tagCamEffect> m_effectQueue;
 
     short sign = 1;
+    D3DXVECTOR2 m_reducer = { 0,0 };
     
 public:
     /* === === === === === 
@@ -66,6 +71,13 @@ public:
     /* === === === === === 
     *  Getter / Setter
     *  === === === === === */
+    void SetSpeed(float _speed) { m_speed = _speed; }
+
+    float Left();
+    float Right();
+    float Top();
+    float Bottom();
+
     void SetTarget(Transform* _target) { m_target = _target; }
     void SetOffset(const D3DXVECTOR2& _offset) { m_offset = _offset; m_postOffset = _offset; }
     
@@ -73,5 +85,11 @@ public:
     void SetRestrictRange(float _left, float _top, float _right, float _bottom) { m_restrictRange = FRECT(_left, _top, _right, _bottom); }
     
     void SetLookAt(const D3DXVECTOR2& _look);
+
+    /* === === === === === 
+    *  µð¹ö±ë¿ë
+    * === === === === === */
+public:
+    void RenderCameraRect();
 };
 

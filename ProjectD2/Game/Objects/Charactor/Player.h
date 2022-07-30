@@ -3,12 +3,12 @@
 
 class Scene;
 
-class TestObject : public GameObject
+class Player : public GameObject
 {
 public:
-	TestObject(Scene* _scene, int _updateOrder = 100, GameObject* _parent = nullptr);
-	TestObject(Scene* _scene, OBJECT_TYPE _type, int _updateOrder = 100, GameObject* _parent = nullptr);
-	virtual ~TestObject();
+	Player(Scene* _scene, int _updateOrder = 100, GameObject* _parent = nullptr);
+	Player(Scene* _scene, OBJECT_TYPE _type, int _updateOrder = 100, GameObject* _parent = nullptr);
+	virtual ~Player();
 
 	// GameObject을(를) 통해 상속됨
 	virtual void UpdateObject() override;

@@ -8,9 +8,8 @@ Camera::Camera() :
     , m_target(nullptr)
     , m_offset(WIN_CENTER_X, WIN_CENTER_Y)
     , m_postOffset(m_offset)
-    , m_restrictRange(FLT_MIN, FLT_MIN, FLT_MAX, FLT_MAX)
-{
-}
+    , m_restrictRange(-FLT_MAX, -FLT_MAX, FLT_MAX, FLT_MAX)
+{}
 
 Camera::~Camera() = default;
 
@@ -35,6 +34,8 @@ void Camera::Update()
     {
         TargetMode();
     }
+
+    CameraRestrictCorrection(); // 카메라 위치 보정
 
     UpdateWorld();
 
@@ -122,10 +123,80 @@ void Camera::CameraEffectProgress()
     }
 }
 
+void Camera::CameraRestrictCorrection()
+{
+    if (Left() < m_restrictRange.left)
+    {
+        AddPos(Left() - m_restrictRange.left, 0.0f);
+    }
+    else if (Right() > m_restrictRange.right)
+    {
+        AddPos(Right() - m_restrictRange.right, 0.0f);
+    }
+
+    if (Top() < m_restrictRange.top)
+    {
+        AddPos(0.0f, Top() - m_restrictRange.top);
+    }
+    else if (Bottom() > m_restrictRange.bottom)
+    {
+        AddPos(0.0f, Bottom() - m_restrictRange.bottom);
+    }
+}
+
 inline void Camera::SetLookAt(const D3DXVECTOR2& _look)
 {
     D3DXVECTOR2 destPos = _look;
     destPos = -destPos + m_postOffset;
     
     SetPos(destPos);
+}
+
+void Camera::RenderCameraRect()
+{
+    vector<VERTEXCOLOR> vertexList;
+    vector<WORD>        indexList;
+
+    D3DCOLOR color = 0xFFF637EC;
+
+    vertexList.push_back(VERTEXCOLOR(Left()  + 1.0f , Top()    + 1.0f, color, 0.0f)); // LT
+    vertexList.push_back(VERTEXCOLOR(Right() - 1.0f , Top()    + 1.0f, color, 0.0f)); // RT
+    vertexList.push_back(VERTEXCOLOR(Right() - 1.0f , Bottom() - 1.0f, color, 0.0f)); // RB
+    vertexList.push_back(VERTEXCOLOR(Left()  + 1.0f , Bottom() - 1.0f, color, 0.0f)); // LB
+
+    indexList.push_back(0);
+    indexList.push_back(1);
+    indexList.push_back(2);
+    indexList.push_back(3);
+    indexList.push_back(0);
+
+    D3DXMATRIX world;
+    D3DXMatrixIdentity(&world);
+    DEVICE->SetTransform(D3DTS_WORLD, &world);
+    DEVICE->SetFVF(VERTEXCOLOR::FVF);
+    DEVICE->DrawIndexedPrimitiveUP(D3DPT_LINESTRIP, 0, (UINT)vertexList.size(), (UINT)indexList.size() - 1, indexList.data(), D3DFMT_INDEX16, vertexList.data(), sizeof(VERTEXCOLOR));
+
+    SetWorld();
+}
+
+
+/* === === === === ===
+*  Getter / Setter
+*  === === === === === */
+
+inline float Camera::Left() 
+{ 
+    return -GetPos().x + m_reducer.x;
+}
+inline float Camera::Right() 
+{ 
+    return -GetPos().x + WIN_WIDTH - m_reducer.y;
+}
+inline float Camera::Top() 
+{ 
+    return -GetPos().y + m_reducer.x;
+}
+inline float Camera::Bottom() 
+{ 
+    return -GetPos().y + WIN_HEIGHT - m_reducer.y;
 }

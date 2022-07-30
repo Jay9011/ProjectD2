@@ -1,5 +1,5 @@
 #pragma once
-class TestObject;
+class Player;
 class TestScene : public Scene
 {
 public:
@@ -16,14 +16,8 @@ public:
 	virtual void SceneEnter() override;
 	virtual void SceneExit() override;
 
-	class TestObject* testObject;
-
-	class TestObject2* testObject2;
-
-	class TestObjectCircle* testObjectCircle;
-	class TestObjectLine* testline;
-
 	class TestMap_1* testMap_1;
-
+	class Player* testObject;
+    
 };
 

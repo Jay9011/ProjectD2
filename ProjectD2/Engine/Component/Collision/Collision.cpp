@@ -24,6 +24,9 @@ bool CollisionMgr::CheckCollision(Collider* _chkCollider, OBJECT_TYPE _type, OUT
 	
     for (auto& collider : m_colliders[(UINT)_type])
     {
+        if (!collider->IsActive())
+            continue;
+
         if (_chkCollider == collider)
             continue;
 		
@@ -58,7 +61,9 @@ bool CollisionMgr::CheckCollision(OBJECT_TYPE _typeA, OBJECT_TYPE _typeB, OUT ve
         for (size_t j = 0; j < m_colliders[(UINT)_typeB].size(); j++)
         {
             Collider* colliderB = m_colliders[(UINT)_typeB][j];
-			
+            if (!colliderA->IsActive() || !colliderB->IsActive())
+                continue;
+            
 			if (colliderA == colliderB)
 				continue;
 			
