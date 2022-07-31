@@ -7,6 +7,9 @@
 #include "Engine/Component/PhysicsWorld/Physics.h"
 #include "Engine/Resource/Shader.h"
 
+// test
+#include "Game/Objects/Charactor/Projectile/Bullet.h"
+
 Player::Player(Scene* _scene, int _updateOrder, GameObject* _parent) :
 	Player(_scene, OBJECT_TYPE::DEFAULT, _updateOrder, _parent)
 {}
@@ -16,6 +19,8 @@ Player::Player(Scene* _scene, OBJECT_TYPE _type, int _updateOrder, GameObject* _
 	, scene(_scene)
 	, m_isRight(true)
 	, m_preventKey(true)
+    , m_isAttack(false)
+	, m_equipChangeable(true)
 	, m_state(PLAYER_STATE::APPEAR)
     , m_equip(PLAYER_EQUIP_TYPE::GUN)
 {
@@ -66,6 +71,10 @@ Player::Player(Scene* _scene, OBJECT_TYPE _type, int _updateOrder, GameObject* _
 	* === === === === === */
 	SetAnimation();
 	m_animator->Find((int)PLAYER_STATE::APPEAR);
+
+	//test
+    m_bullet = new Bullet(1000.0f, 0.0f, 500.0f, _scene, _updateOrder);
+	m_bullet->SetScale(2.0f, 2.0f);
 }
 
 Player::~Player() = default;
@@ -73,11 +82,12 @@ Player::~Player() = default;
 void Player::UpdateObject()
 {
 	// 상태 혹은 Animation을 변경하기 전 이전 상태를 저장한다.
-    m_prevEquip = m_equip;
-	m_prevState = m_state;
+	//m_prevEquip = m_equip;
+	//m_prevState = m_state;
     //////////////////////////////
 	
 	Move();
+	Attack();
 	ChangeWeapon();
 	StateProcessing();
 	AnimationProcessing();
@@ -150,9 +160,70 @@ void Player::Move()
 	}
 }
 
-void Player::ChangeWeapon()
+void Player::Attack()
 {
 	if (m_preventKey)
+		return;
+    
+	if (KEYDOWN('D'))
+	{
+		if (m_equip == PLAYER_EQUIP_TYPE::GUN)
+		{
+			m_bullet->SetPos(GetPos());
+			D3DXVECTOR2 dir = m_isRight ? V_RIGHT : V_LEFT;
+			m_bullet->Fire(dir);
+		}
+		else
+		{
+			// 근접 공격
+		}
+        
+		/*
+		* 상태별 공격 상태 전환
+		*/
+		switch (m_state)
+		{
+		case PLAYER_STATE::HIT:
+		case PLAYER_STATE::CRITICAL:
+		case PLAYER_STATE::LANDING:
+		case PLAYER_STATE::IDLE:
+			UpdateState(PLAYER_STATE::IDLE_ATK, m_equip);
+			break;
+		case PLAYER_STATE::RUN:
+			UpdateState(PLAYER_STATE::RUN_ATK, m_equip);
+			break;
+		case PLAYER_STATE::FALL:
+		case PLAYER_STATE::JUMP:
+			UpdateState(PLAYER_STATE::JUMP_ATK, m_equip);
+			break;
+		case PLAYER_STATE::HANG:
+			UpdateState(PLAYER_STATE::HANG_ATK, m_equip);
+			break;
+		default:
+			break;
+		}
+
+		m_isAttack = true;
+		m_equipChangeable = false;	// 공격 모션중에는 무기를 바꾸지 못한다.
+	}
+    
+	
+}
+
+void Player::AttackEnd()
+{
+	m_isAttack = false;
+	m_equipChangeable = true;	// 공격모션이 끝나면 무기 변경 가능
+    
+	if (m_reservState != PLAYER_STATE::APPEAR)	// Appear 상태를 예약이 없는 상태로 사용...
+	{
+		UpdateState(m_reservState, m_equip);
+	}
+}
+
+void Player::ChangeWeapon()
+{
+	if (m_preventKey || !m_equipChangeable)
 		return;
     
 	if (KEYDOWN(VK_TAB))
@@ -172,7 +243,8 @@ void Player::ChangeWeapon()
 void Player::StateProcessing()
 {
 	// Idle 상태 체크
-	if (m_state == PLAYER_STATE::RUN && (KEYUP(VK_LEFT) || KEYUP(VK_RIGHT)) && (!KEYPRESS(VK_LEFT) && !KEYPRESS(VK_RIGHT)))
+	if (m_state == PLAYER_STATE::RUN &&(KEYNONE(VK_LEFT) && KEYNONE(VK_RIGHT))	// 달리는 상태인데, 이동 키를 누르지 않고있다면 Idle 상태로 변경한다.
+		)
 	{
 		UpdateState(PLAYER_STATE::IDLE, m_equip);
 	}
@@ -187,13 +259,21 @@ void Player::StateProcessing()
 void Player::AnimationProcessing()
 {
 
-
 }
 
 void Player::UpdateState(PLAYER_STATE _state, PLAYER_EQUIP_TYPE _equip)
 {
 	if (m_state == _state && m_equip == _equip)
 		return;
+    
+	/*
+	* 만약 공격모션중이었다면 상태를 예약하고 종료한다.
+	*/
+	if(m_isAttack)
+    {
+        m_reservState = _state;
+		return;
+    }
     
 	m_prevState = m_state;
 	m_state = _state;
@@ -422,9 +502,17 @@ void Player::SetAnimation()
 			break;
 		case PLAYER_ANIM::IDLE_ATK_GUN:
 			m_animator->LoadXML("Character\\Player\\GUN\\", "IdleAttack", ANIM_PLAY_TYPE::ONCE, 0.1f);
+			m_animator->SetEndEvent(i, [this]() {
+                UpdateState(PLAYER_STATE::IDLE, m_equip);
+				AttackEnd();
+                });
 			break;
 		case PLAYER_ANIM::IDLE_ATK_SWD:
-			m_animator->LoadXML("Character\\Player\\SWD\\", "IdleAttack", ANIM_PLAY_TYPE::ONCE, 0.1f);
+			m_animator->LoadXML("Character\\Player\\SWD\\", "IdleAttack", ANIM_PLAY_TYPE::ONCE, 0.05f);
+			m_animator->SetEndEvent(i, [this]() {
+				UpdateState(PLAYER_STATE::IDLE, m_equip);
+				AttackEnd();
+				});
 			break;
 		case PLAYER_ANIM::RUN_GUN:
 			m_animator->LoadXML("Character\\Player\\GUN\\", "Run", ANIM_PLAY_TYPE::LOOP, 0.05f);
@@ -434,9 +522,15 @@ void Player::SetAnimation()
 			break;
 		case PLAYER_ANIM::RUN_ATK_GUN:
 			m_animator->LoadXML("Character\\Player\\GUN\\", "RunAttack", ANIM_PLAY_TYPE::ONCE, 0.05f);
+			m_animator->SetEndEvent(i, [this]() {
+				AttackEnd();
+				});
 			break;
 		case PLAYER_ANIM::RUN_ATK_SWD:
 			m_animator->LoadXML("Character\\Player\\SWD\\", "IdleAttack", ANIM_PLAY_TYPE::ONCE, 0.05f);
+			m_animator->SetEndEvent(i, [this]() {
+				AttackEnd();
+				});
 			break;
 		case PLAYER_ANIM::JUMP_GUN:
 			m_animator->LoadXML("Character\\Player\\GUN\\", "Jump1", ANIM_PLAY_TYPE::ONCE, 0.07f);
@@ -464,18 +558,30 @@ void Player::SetAnimation()
 			break;
 		case PLAYER_ANIM::JUMP_ATK_GUN:
 			m_animator->LoadXML("Character\\Player\\GUN\\", "JumpAttack", ANIM_PLAY_TYPE::ONCE, 0.05f);
+			m_animator->SetEndEvent(i, [this]() {
+				AttackEnd();
+				});
 			break;
 		case PLAYER_ANIM::JUMP_ATK_SWD:
 			m_animator->LoadXML("Character\\Player\\SWD\\", "JumpAttack", ANIM_PLAY_TYPE::ONCE, 0.05f);
+			m_animator->SetEndEvent(i, [this]() {
+				AttackEnd();
+				});
 			break;
 		case PLAYER_ANIM::HANG:
 			m_animator->LoadXML("Character\\Player\\", "HoldOn", ANIM_PLAY_TYPE::ONCE, 0.05f);
 			break;
 		case PLAYER_ANIM::HANG_ATK_GUN:
 			m_animator->LoadXML("Character\\Player\\GUN\\", "HoldOnAttack", ANIM_PLAY_TYPE::ONCE, 0.05f);
+			m_animator->SetEndEvent(i, [this]() {
+				AttackEnd();
+				});
 			break;
 		case PLAYER_ANIM::HANG_ATK_SWD:
 			m_animator->LoadXML("Character\\Player\\SWD\\", "HoldOnAttack", ANIM_PLAY_TYPE::ONCE, 0.05f);
+			m_animator->SetEndEvent(i, [this]() {
+				AttackEnd();
+				});
 			break;
 		default:
 			// Animation 등록 갯수가 맞지 않으면 에러

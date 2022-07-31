@@ -7,6 +7,7 @@
 #define KEYPRESS(key)	Core::Get()->GetInput()->Press(key)
 #define KEYDOWN(key)	Core::Get()->GetInput()->Down(key)
 #define KEYUP(key)		Core::Get()->GetInput()->Up(key)
+#define KEYNONE(key)	Core::Get()->GetInput()->None(key)
 
 /*
 * Note...
@@ -32,6 +33,7 @@ public:
 	bool  Down(DWORD _key) const { return m_keyState[_key] == KEY_STATE::DOWN; };
 	bool Press(DWORD _key) const { return m_keyState[_key] == KEY_STATE::PRESS; };
 	bool    Up(DWORD _key) const { return m_keyState[_key] == KEY_STATE::UP; };
+    bool  None(DWORD _key) const { return m_keyState[_key] == KEY_STATE::NONE; };
 	
 	const D3DXVECTOR2& GetMousePos() const { return m_mousePos; };
 

@@ -18,6 +18,8 @@ public:
 
 private:
 	void Move();
+	void Attack();
+	void AttackEnd();
 	void ChangeWeapon();
 	void StateProcessing();
 	void AnimationProcessing();
@@ -33,9 +35,12 @@ private:
 
 	bool m_isRight;
 	bool m_preventKey;	// 키 입력 막기
+	bool m_isAttack;	// 공격중인지 확인
+	bool m_equipChangeable;	// 무기 변경 막기
     
 	PLAYER_STATE m_prevState;
 	PLAYER_STATE m_state;
+	PLAYER_STATE m_reservState;
 	PLAYER_EQUIP_TYPE m_prevEquip;
 	PLAYER_EQUIP_TYPE m_equip;
 
@@ -45,6 +50,9 @@ private:
 	Collider* m_bodyCollider;
 	Collider* m_handCollider;
     
+	//test
+	Bullet* m_bullet;
+
 #if _DEBUG
 	D3DXVECTOR3 m_dir;
 #endif

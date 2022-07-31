@@ -73,6 +73,9 @@ void Scene::Update()
 					continue;
 				}
 
+				if (object->GetState() == OBJECT_STATE::INACTIVE)	// Inactive 상태인 것은 넘긴다.
+					continue;
+
 				object->Update();
 			}
 		}
@@ -107,6 +110,9 @@ void Scene::FinalUpdate()
 		{
 			for (auto& object : objectTypeVec)
 			{
+				if (object->GetState() == OBJECT_STATE::INACTIVE)	// Inactive 상태인 것은 넘긴다.
+					continue;
+                
 				object->FinalUpdate();
 			}
 		}
@@ -123,6 +129,9 @@ void Scene::Render()
 	{
 		for (auto& object : objectTypeVector)
 		{
+			if (object->GetState() == OBJECT_STATE::INACTIVE)	// Inactive 상태인 것은 넘긴다.
+				continue;
+            
 			object->Render();
 		}
 	}
