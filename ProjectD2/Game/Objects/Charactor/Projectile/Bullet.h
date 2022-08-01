@@ -4,7 +4,6 @@
 class Bullet : public GameObject
 {
 public:
-    Bullet(Scene* _scene, int _updateOrder = 100);
     Bullet(float _limitDist, float _damage, float _speed, Scene* _scene, int _updateOrder = 100);
     ~Bullet();
     

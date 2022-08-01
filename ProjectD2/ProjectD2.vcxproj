@@ -216,6 +216,7 @@
     <ClCompile Include="Engine\Object\GameObject.cpp" />
     <ClCompile Include="Game\Objects\Background\Background.cpp" />
     <ClCompile Include="Game\Objects\Charactor\Projectile\Bullet.cpp" />
+    <ClCompile Include="Game\Objects\Charactor\Projectile\BulletManager.cpp" />
     <ClCompile Include="Game\Objects\Platforms\PlatformRect.cpp" />
     <ClCompile Include="Game\Objects\etc\TestMap_1.cpp" />
     <ClCompile Include="Game\Objects\Charactor\Player.cpp" />
@@ -255,6 +256,7 @@
     <ClInclude Include="Engine\Object\GameObject.h" />
     <ClInclude Include="Game\Objects\Background\Background.h" />
     <ClInclude Include="Game\Objects\Charactor\Projectile\Bullet.h" />
+    <ClInclude Include="Game\Objects\Charactor\Projectile\BulletManager.h" />
     <ClInclude Include="Game\Objects\Platforms\PlatformRect.h" />
     <ClInclude Include="Game\Objects\etc\TestMap_1.h" />
     <ClInclude Include="Game\Objects\Charactor\Player.h" />

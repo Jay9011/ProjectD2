@@ -44,14 +44,21 @@ private:
 	PLAYER_EQUIP_TYPE m_prevEquip;
 	PLAYER_EQUIP_TYPE m_equip;
 
-	Physics m_physics;
-
+	bool  m_endAttackTimerOn;
+	float m_endAttackTime;
+	float m_endAttackTimeMax;
 	Animator* m_animator;
 	Collider* m_bodyCollider;
 	Collider* m_handCollider;
-    
-	//test
-	Bullet* m_bullet;
+
+	/*
+	* 능력치 관련
+	*/
+	Physics m_physics;
+    BulletManager* m_bulletManager;
+    float m_reloadTime;
+	float m_reloadTimeMax;
+    bool  m_isReload;
 
 #if _DEBUG
 	D3DXVECTOR3 m_dir;

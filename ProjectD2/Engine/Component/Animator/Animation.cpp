@@ -66,10 +66,11 @@ void Animation::FinalUpdate()
 	if (m_frames[m_prevFrame].callbackEvent != nullptr)
 		m_frames[m_prevFrame].callbackEvent();
 
-	if (m_prevFrame >= m_reserveEndFrame)
+	if (m_currentFrame == m_reserveEndFrame)
 	{
 		m_reserveEndFrame = -1;
-		Stop();
+		m_reserveEvent();
+		Reset();
 	}
 }
 
@@ -106,9 +107,9 @@ void Animation::Play(const ANIM_PLAY_FLAG& _playFlag, const Animation* _beforeAn
 		Play(_nextAnimation);
 		m_isReverse = _beforeAnimation->m_isReverse;
 		m_time = _beforeAnimation->m_time;
-		m_prevFrame = _beforeAnimation->m_prevFrame <= m_frames.size() ? _beforeAnimation->m_prevFrame : (UINT)m_frames.size();
-		m_currentFrame = _beforeAnimation->m_currentFrame <= m_frames.size() ? _beforeAnimation->m_currentFrame : (UINT)m_frames.size();
-		m_reserveEndFrame = _beforeAnimation->m_reserveEndFrame <= m_frames.size() ? _beforeAnimation->m_reserveEndFrame : (UINT)m_frames.size();
+		m_prevFrame = _beforeAnimation->m_prevFrame <= m_frames.size() ? _beforeAnimation->m_prevFrame : (UINT)m_frames.size() - 1;
+		m_currentFrame = _beforeAnimation->m_currentFrame <= m_frames.size() ? _beforeAnimation->m_currentFrame : (UINT)m_frames.size() - 1;
+		m_reserveEndFrame = _beforeAnimation->m_reserveEndFrame <= m_frames.size() ? _beforeAnimation->m_reserveEndFrame : (UINT)m_frames.size() - 1;
 		break;
 	default:
 		Play(_nextAnimation);
@@ -116,19 +117,22 @@ void Animation::Play(const ANIM_PLAY_FLAG& _playFlag, const Animation* _beforeAn
 	}
 }
 
-void Animation::Play(const ANIM_PLAY_FLAG& _playFlag, const int& _startFrame, const int& _endFrame, Animation* _nextAnimation)
+void Animation::Play(const ANIM_PLAY_FLAG& _playFlag, const int& _startFrame, const int& _endFrame, Animation* _nextAnimation, const std::function<void()>& _reserveEvent)
 {
 	switch (_playFlag)
 	{
 	case ANIM_PLAY_FLAG::SetFrameToEnd:
 		Play(_nextAnimation);
-        m_currentFrame = _startFrame;
+		m_currentFrame = _startFrame;
 		break;
 	case ANIM_PLAY_FLAG::SetFrameToSetEndFrame:
 		Play(_nextAnimation);
-        m_currentFrame = _startFrame;
-		if (_endFrame >= 0 && _endFrame >= _startFrame && _endFrame < m_frames.size())
-			m_reserveEndFrame = _endFrame;
+		m_currentFrame = _startFrame;
+		m_reserveEvent = _reserveEvent;
+		if (_endFrame >= 0)
+		{
+			m_reserveEndFrame = _endFrame >= m_frames.size() ? (UINT)m_frames.size() - 1 : (UINT)_endFrame;
+		}
 		break;
 	default:
 		Play(_nextAnimation);
@@ -136,35 +140,38 @@ void Animation::Play(const ANIM_PLAY_FLAG& _playFlag, const int& _startFrame, co
 	}
 }
 
-void Animation::Play(const ANIM_PLAY_FLAG& _playFlag, const int& _startFrame, const int& _endFrame, const size_t& _nextAnimIdx)
+void Animation::Play(const ANIM_PLAY_FLAG& _playFlag, const int& _startFrame, const int& _endFrame, const size_t& _nextAnimIdx, const std::function<void()>& _reserveEvent)
 {
-    switch (_playFlag)
-    {
-    case ANIM_PLAY_FLAG::SetFrameToEnd:
-        Play(_nextAnimIdx);
-        m_currentFrame = _startFrame;
-        break;
-    case ANIM_PLAY_FLAG::SetFrameToSetEndFrame:
-        Play(_nextAnimIdx);
-        m_currentFrame = _startFrame;
-        if (_endFrame >= 0 && _endFrame >= _startFrame && _endFrame < m_frames.size())
-            m_reserveEndFrame = _endFrame;
-        break;
-    default:
+	switch (_playFlag)
+	{
+	case ANIM_PLAY_FLAG::SetFrameToEnd:
 		Play(_nextAnimIdx);
-        break;
-    }
+		m_currentFrame = _startFrame;
+		break;
+	case ANIM_PLAY_FLAG::SetFrameToSetEndFrame:
+		Play(_nextAnimIdx);
+		m_currentFrame = _startFrame;
+		m_reserveEvent = _reserveEvent;
+		if (_endFrame >= 0)
+		{
+			m_reserveEndFrame = _endFrame >= m_frames.size() ? (UINT)m_frames.size() - 1 : (UINT)_endFrame;
+		}
+		break;
+	default:
+		Play(_nextAnimIdx);
+		break;
+	}
 }
 
-void Animation::Play(const ANIM_PLAY_FLAG& _playFlag, const int& _startFrame, const int& _endFrame, const bool& _isReversing, Animation* _nextAnimation)
+void Animation::Play(const ANIM_PLAY_FLAG& _playFlag, const int& _startFrame, const int& _endFrame, const bool& _isReversing, Animation* _nextAnimation, const std::function<void()>& _reserveEvent)
 {
-	Play(_playFlag, _startFrame, _endFrame, _nextAnimation);
+	Play(_playFlag, _startFrame, _endFrame, _nextAnimation, _reserveEvent);
 	m_isReverse = _isReversing;
 }
 
-void Animation::Play(const ANIM_PLAY_FLAG& _playFlag, const int& _startFrame, const int& _endFrame, const bool& _isReversing, const size_t& _nextAnimIdx)
+void Animation::Play(const ANIM_PLAY_FLAG& _playFlag, const int& _startFrame, const int& _endFrame, const bool& _isReversing, const size_t& _nextAnimIdx, const std::function<void()>& _reserveEvent)
 {
-	Play(_playFlag, _startFrame, _endFrame, _nextAnimIdx);
+	Play(_playFlag, _startFrame, _endFrame, _nextAnimIdx, _reserveEvent);
 	m_isReverse = _isReversing;
 }
 

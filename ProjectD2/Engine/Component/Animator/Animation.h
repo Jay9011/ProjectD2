@@ -36,10 +36,10 @@ public:
 	void Play(Animation* _nextAnimation = nullptr);
 	void Play(const size_t& _nextAnimIdx);
 	void Play(const ANIM_PLAY_FLAG& _playFlag, const Animation* _beforeAnimation, Animation* _nextAnimation = nullptr);
-	void Play(const ANIM_PLAY_FLAG& _playFlag, const int& _startFrame, const int& _endFrame, Animation* _nextAnimation = nullptr);
-    void Play(const ANIM_PLAY_FLAG& _playFlag, const int& _startFrame, const int& _endFrame, const size_t& _nextAnimIdx);
-	void Play(const ANIM_PLAY_FLAG& _playFlag, const int& _startFrame, const int& _endFrame, const bool& _isReversing, Animation* _nextAnimation = nullptr);
-	void Play(const ANIM_PLAY_FLAG& _playFlag, const int& _startFrame, const int& _endFrame, const bool& _isReversing, const size_t& _nextAnimIdx);
+	void Play(const ANIM_PLAY_FLAG& _playFlag, const int& _startFrame, const int& _endFrame, Animation* _nextAnimation = nullptr, const std::function<void()>& _reserveEvent = nullptr);
+    void Play(const ANIM_PLAY_FLAG& _playFlag, const int& _startFrame, const int& _endFrame, const size_t& _nextAnimIdx, const std::function<void()>& _reserveEvent = nullptr);
+	void Play(const ANIM_PLAY_FLAG& _playFlag, const int& _startFrame, const int& _endFrame, const bool& _isReversing, Animation* _nextAnimation = nullptr, const std::function<void()>& _reserveEvent = nullptr);
+	void Play(const ANIM_PLAY_FLAG& _playFlag, const int& _startFrame, const int& _endFrame, const bool& _isReversing, const size_t& _nextAnimIdx, const std::function<void()>& _reserveEvent = nullptr);
 	void Pause();
 	void Stop();
 	void Reset();
@@ -60,6 +60,8 @@ private:
 	UINT m_prevFrame;
 	UINT m_currentFrame;
 	int  m_reserveEndFrame;
+
+	std::function<void()> m_reserveEvent;
 
 private:
 	void PlayStateChange(const int& _startFrame = -1);

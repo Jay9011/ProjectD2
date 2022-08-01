@@ -6,10 +6,6 @@
 #include "Engine/Component/Animator/Animator.h"
 #include "Engine/Component/Collision/Colliders/AARect.h"
 
-Bullet::Bullet(Scene* _scene, int _updateOrder) :
-    Bullet(200.0f, 0.0f, 0.0f, _scene, _updateOrder)
-{}
-
 Bullet::Bullet(float _limitDist, float _damage, float _speed, Scene* _scene, int _updateOrder) :
     GameObject(_scene, _updateOrder, nullptr)
     , m_speed(_speed)

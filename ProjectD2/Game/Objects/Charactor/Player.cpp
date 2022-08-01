@@ -7,8 +7,7 @@
 #include "Engine/Component/PhysicsWorld/Physics.h"
 #include "Engine/Resource/Shader.h"
 
-// test
-#include "Game/Objects/Charactor/Projectile/Bullet.h"
+#include "Game/Objects/Charactor/Projectile/BulletManager.h"
 
 Player::Player(Scene* _scene, int _updateOrder, GameObject* _parent) :
 	Player(_scene, OBJECT_TYPE::DEFAULT, _updateOrder, _parent)
@@ -23,6 +22,12 @@ Player::Player(Scene* _scene, OBJECT_TYPE _type, int _updateOrder, GameObject* _
 	, m_equipChangeable(true)
 	, m_state(PLAYER_STATE::APPEAR)
     , m_equip(PLAYER_EQUIP_TYPE::GUN)
+	, m_endAttackTimerOn(false)
+    , m_endAttackTime(0)
+	, m_endAttackTimeMax(0.3f)
+	, m_reloadTime(0)
+	, m_reloadTimeMax(0.5f)
+    , m_isReload(true)
 {
 #if _DEBUG
 	SetDrawDirection(true);
@@ -56,6 +61,10 @@ Player::Player(Scene* _scene, OBJECT_TYPE _type, int _updateOrder, GameObject* _
 	m_handCollider = ADDCOMP::NewAARect({0, -15}, {18, 0}, this);
 	m_handCollider->IsActive(true);
 	m_handCollider->SetTag("hand");
+
+	/* === === === === ===
+	*   Init Settings
+	* === === === === === */
 	/*
 	* Physics
 	*/
@@ -65,19 +74,23 @@ Player::Player(Scene* _scene, OBJECT_TYPE _type, int _updateOrder, GameObject* _
 	m_physics.speed = 300.0f;
 	m_physics.jumpForce = 400.f;
 	ADDCOMP::NewGravity(m_physics, this);
+	/*
+	* Bullets
+	*/
+	m_bulletManager = new BulletManager(30, 1000.0f, 1.0f, 500.0f, _scene, _updateOrder);
+	m_bulletManager->SetScale({ 2.0f, 2.0f });
 
-	/* === === === === ===
-	*   Init Settings
-	* === === === === === */
+    /*
+	* Start Animation
+	*/
 	SetAnimation();
 	m_animator->Find((int)PLAYER_STATE::APPEAR);
-
-	//test
-    m_bullet = new Bullet(1000.0f, 0.0f, 500.0f, _scene, _updateOrder);
-	m_bullet->SetScale(2.0f, 2.0f);
 }
 
-Player::~Player() = default;
+Player::~Player()
+{
+    delete m_bulletManager;
+}
 
 void Player::UpdateObject()
 {
@@ -109,7 +122,6 @@ void Player::PostUpdateObject()
 {
 	BodyPlatformCheck();
 	HandPlatformCheck();
-
 }
 
 void Player::FinalUpdateObject()
@@ -162,16 +174,23 @@ void Player::Move()
 
 void Player::Attack()
 {
+	if (m_reloadTime < m_reloadTimeMax)
+		m_reloadTime += fDT;
+
 	if (m_preventKey)
 		return;
     
-	if (KEYDOWN('D'))
+	if (KEYPRESS('D'))
 	{
+		if (m_reloadTime < m_reloadTimeMax)
+			return;
+		else
+            m_reloadTime = 0.0f;
+
 		if (m_equip == PLAYER_EQUIP_TYPE::GUN)
 		{
-			m_bullet->SetPos(GetPos());
 			D3DXVECTOR2 dir = m_isRight ? V_RIGHT : V_LEFT;
-			m_bullet->Fire(dir);
+			m_bulletManager->Fire(GetPos(), dir);
 		}
 		else
 		{
@@ -205,8 +224,11 @@ void Player::Attack()
 
 		m_isAttack = true;
 		m_equipChangeable = false;	// 공격 모션중에는 무기를 바꾸지 못한다.
+        
+        std::cout << "Attack!!!" << std::endl;
+
+		UpdateState(m_prevState, m_equip);		// 이전 상태를 저장해둔다.
 	}
-    
 	
 }
 
@@ -258,7 +280,16 @@ void Player::StateProcessing()
 
 void Player::AnimationProcessing()
 {
-
+	if (m_endAttackTimerOn)
+	{
+		m_endAttackTime -= fDT;
+        if (m_endAttackTime <= 0.0f)
+        {
+            m_endAttackTime = 0.0f;
+			m_endAttackTimerOn = false;
+            AttackEnd();
+        }
+	}
 }
 
 void Player::UpdateState(PLAYER_STATE _state, PLAYER_EQUIP_TYPE _equip)
@@ -327,6 +358,9 @@ void Player::UpdateAnimation()
 		break;
 	case PLAYER_STATE::RUN:
 	{
+		if (m_prevState == PLAYER_STATE::RUN_ATK && m_equip == PLAYER_EQUIP_TYPE::GUN)
+            break;
+            
 		if (m_prevState == m_state)
 		{
 			bool reversing = m_animator->GetCurrentAnimation()->IsReverse();
@@ -356,15 +390,20 @@ void Player::UpdateAnimation()
 	case PLAYER_STATE::RUN_ATK:
         if (m_equip == PLAYER_EQUIP_TYPE::GUN)
         {
-            m_animator->Find((int)PLAYER_ANIM::RUN_ATK_GUN)->Play();
+			m_endAttackTime = m_endAttackTimeMax;
+			m_endAttackTimerOn = true;
+            //m_animator->Find((int)PLAYER_ANIM::RUN_ATK_GUN)->Play();
         }
-        else
+        if(m_equip == PLAYER_EQUIP_TYPE::SWORD)
         {
             m_animator->Find((int)PLAYER_ANIM::RUN_ATK_SWD)->Play();
         }
 		break;
 	case PLAYER_STATE::JUMP:
 	{
+		if (m_prevState == PLAYER_STATE::JUMP_ATK && m_equip == PLAYER_EQUIP_TYPE::GUN)
+			break;
+        
 		if (m_prevState == m_state)
 		{
 			bool reversing = m_animator->GetCurrentAnimation()->IsReverse();
@@ -394,7 +433,9 @@ void Player::UpdateAnimation()
 	case PLAYER_STATE::JUMP_ATK:
         if (m_equip == PLAYER_EQUIP_TYPE::GUN)
         {
-            m_animator->Find((int)PLAYER_ANIM::JUMP_ATK_GUN)->Play();
+			m_endAttackTime = m_endAttackTimeMax;
+			m_endAttackTimerOn = true;
+            //m_animator->Find((int)PLAYER_ANIM::JUMP_ATK_GUN)->Play();
         }
         else
         {
@@ -460,6 +501,11 @@ void Player::UpdateAnimation()
 	case PLAYER_STATE::HANG:
 		if (m_prevState == PLAYER_STATE::HANG)
 			break;
+		else if (m_prevState == PLAYER_STATE::HANG_ATK)
+		{
+			m_animator->Find((int)PLAYER_ANIM::HANG)->Play(ANIM_PLAY_FLAG::SetFrameToEnd, 3, -1);	// 이전 상태가 매달린 상태였다면 마지막 부분만 재생한다.
+			break;
+		}
 		m_animator->Find((int)PLAYER_ANIM::HANG)->Play();
 		break;
 	case PLAYER_STATE::HANG_ATK:
@@ -501,16 +547,14 @@ void Player::SetAnimation()
 			m_animator->LoadXML("Character\\Player\\", "Idle", ANIM_PLAY_TYPE::PINGPONG, 0.2f);
 			break;
 		case PLAYER_ANIM::IDLE_ATK_GUN:
-			m_animator->LoadXML("Character\\Player\\GUN\\", "IdleAttack", ANIM_PLAY_TYPE::ONCE, 0.1f);
+			m_animator->LoadXML("Character\\Player\\GUN\\", "IdleAttack", ANIM_PLAY_TYPE::ONCE, 0.05f);
 			m_animator->SetEndEvent(i, [this]() {
-                UpdateState(PLAYER_STATE::IDLE, m_equip);
 				AttackEnd();
                 });
 			break;
 		case PLAYER_ANIM::IDLE_ATK_SWD:
-			m_animator->LoadXML("Character\\Player\\SWD\\", "IdleAttack", ANIM_PLAY_TYPE::ONCE, 0.05f);
+			m_animator->LoadXML("Character\\Player\\SWD\\", "IdleAttack", ANIM_PLAY_TYPE::ONCE, 0.03f);
 			m_animator->SetEndEvent(i, [this]() {
-				UpdateState(PLAYER_STATE::IDLE, m_equip);
 				AttackEnd();
 				});
 			break;
@@ -521,13 +565,10 @@ void Player::SetAnimation()
 			m_animator->LoadXML("Character\\Player\\SWD\\", "Run", ANIM_PLAY_TYPE::LOOP, 0.05f);
 			break;
 		case PLAYER_ANIM::RUN_ATK_GUN:
-			m_animator->LoadXML("Character\\Player\\GUN\\", "RunAttack", ANIM_PLAY_TYPE::ONCE, 0.05f);
-			m_animator->SetEndEvent(i, [this]() {
-				AttackEnd();
-				});
+			m_animator->LoadXML("Character\\Player\\GUN\\", "RunAttack", ANIM_PLAY_TYPE::LOOP, 0.05f);
 			break;
 		case PLAYER_ANIM::RUN_ATK_SWD:
-			m_animator->LoadXML("Character\\Player\\SWD\\", "IdleAttack", ANIM_PLAY_TYPE::ONCE, 0.05f);
+			m_animator->LoadXML("Character\\Player\\SWD\\", "IdleAttack", ANIM_PLAY_TYPE::LOOP, 0.03f);
 			m_animator->SetEndEvent(i, [this]() {
 				AttackEnd();
 				});
@@ -558,12 +599,9 @@ void Player::SetAnimation()
 			break;
 		case PLAYER_ANIM::JUMP_ATK_GUN:
 			m_animator->LoadXML("Character\\Player\\GUN\\", "JumpAttack", ANIM_PLAY_TYPE::ONCE, 0.05f);
-			m_animator->SetEndEvent(i, [this]() {
-				AttackEnd();
-				});
 			break;
 		case PLAYER_ANIM::JUMP_ATK_SWD:
-			m_animator->LoadXML("Character\\Player\\SWD\\", "JumpAttack", ANIM_PLAY_TYPE::ONCE, 0.05f);
+			m_animator->LoadXML("Character\\Player\\SWD\\", "JumpAttack", ANIM_PLAY_TYPE::ONCE, 0.03f);
 			m_animator->SetEndEvent(i, [this]() {
 				AttackEnd();
 				});
@@ -578,7 +616,7 @@ void Player::SetAnimation()
 				});
 			break;
 		case PLAYER_ANIM::HANG_ATK_SWD:
-			m_animator->LoadXML("Character\\Player\\SWD\\", "HoldOnAttack", ANIM_PLAY_TYPE::ONCE, 0.05f);
+			m_animator->LoadXML("Character\\Player\\SWD\\", "HoldOnAttack", ANIM_PLAY_TYPE::ONCE, 0.03f);
 			m_animator->SetEndEvent(i, [this]() {
 				AttackEnd();
 				});
