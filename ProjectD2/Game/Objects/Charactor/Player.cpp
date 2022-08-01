@@ -7,6 +7,7 @@
 #include "Engine/Component/PhysicsWorld/Physics.h"
 #include "Engine/Resource/Shader.h"
 
+#include "Game/Objects/Charactor/Part/Part.h"
 #include "Game/Objects/Charactor/Projectile/BulletManager.h"
 
 Player::Player(Scene* _scene, int _updateOrder, GameObject* _parent) :
@@ -24,7 +25,7 @@ Player::Player(Scene* _scene, OBJECT_TYPE _type, int _updateOrder, GameObject* _
     , m_equip(PLAYER_EQUIP_TYPE::GUN)
 	, m_endAttackTimerOn(false)
     , m_endAttackTime(0)
-	, m_endAttackTimeMax(0.3f)
+	, m_endAttackTimeMax(0.0f)
 	, m_reloadTime(0)
 	, m_reloadTimeMax(0.5f)
     , m_isReload(true)
@@ -61,6 +62,12 @@ Player::Player(Scene* _scene, OBJECT_TYPE _type, int _updateOrder, GameObject* _
 	m_handCollider = ADDCOMP::NewAARect({0, -15}, {18, 0}, this);
 	m_handCollider->IsActive(true);
 	m_handCollider->SetTag("hand");
+    /*
+	* Part
+	*/
+	m_handAttackPoint = new Part(_scene, _updateOrder, this);
+	m_handAttackPointOrigin = { 18, -8 };
+	m_handAttackPoint->SetPos(m_handAttackPointOrigin);
 
 	/* === === === === ===
 	*   Init Settings
@@ -190,7 +197,7 @@ void Player::Attack()
 		if (m_equip == PLAYER_EQUIP_TYPE::GUN)
 		{
 			D3DXVECTOR2 dir = m_isRight ? V_RIGHT : V_LEFT;
-			m_bulletManager->Fire(GetPos(), dir);
+			m_bulletManager->Fire(m_handAttackPoint->GetWorldPos(), dir * m_iAttackReverse);
 		}
 		else
 		{
@@ -225,8 +232,6 @@ void Player::Attack()
 		m_isAttack = true;
 		m_equipChangeable = false;	// 공격 모션중에는 무기를 바꾸지 못한다.
         
-        std::cout << "Attack!!!" << std::endl;
-
 		UpdateState(m_prevState, m_equip);		// 이전 상태를 저장해둔다.
 	}
 	
@@ -280,6 +285,25 @@ void Player::StateProcessing()
 
 void Player::AnimationProcessing()
 {
+	if (m_state == PLAYER_STATE::HANG || m_state == PLAYER_STATE::HANG_ATK)
+	{
+		m_iAttackReverse = -1;
+		D3DXVECTOR2 handPos = m_handAttackPoint->GetPos();
+		if (handPos == m_handAttackPointOrigin)
+		{
+			m_handAttackPoint->SetPos(handPos.x * -1, handPos.y);
+		}
+	}
+	else
+	{
+		m_iAttackReverse = 1;
+		D3DXVECTOR2 handPos = m_handAttackPoint->GetPos();
+		if (handPos != m_handAttackPointOrigin)
+		{
+			m_handAttackPoint->SetPos(m_handAttackPointOrigin);
+		}
+	}
+
 	if (m_endAttackTimerOn)
 	{
 		m_endAttackTime -= fDT;

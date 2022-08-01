@@ -33,7 +33,9 @@ private:
 private:
 	Scene* scene;
 
-	bool m_isRight;
+	bool  m_isRight;
+	short m_iAttackReverse;
+    
 	bool m_preventKey;	// 키 입력 막기
 	bool m_isAttack;	// 공격중인지 확인
 	bool m_equipChangeable;	// 무기 변경 막기
@@ -50,6 +52,8 @@ private:
 	Animator* m_animator;
 	Collider* m_bodyCollider;
 	Collider* m_handCollider;
+	Part*	    m_handAttackPoint;
+	D3DXVECTOR2 m_handAttackPointOrigin;
 
 	/*
 	* 능력치 관련
