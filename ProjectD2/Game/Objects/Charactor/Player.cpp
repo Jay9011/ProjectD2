@@ -59,7 +59,7 @@ Player::Player(Scene* _scene, OBJECT_TYPE _type, int _updateOrder, GameObject* _
 	m_bodyCollider = ADDCOMP::NewAARect({ -15, -20 }, { 15, 20 }, this);
 	m_bodyCollider->IsActive(true);
 	m_bodyCollider->SetTag("body");
-	m_handCollider = ADDCOMP::NewAARect({0, -15}, {18, 0}, this);
+	m_handCollider = ADDCOMP::NewAARect({0, -15}, {18, 0}, OBJECT_TYPE::DEFAULT, this);
 	m_handCollider->IsActive(true);
 	m_handCollider->SetTag("hand");
     /*
@@ -68,6 +68,10 @@ Player::Player(Scene* _scene, OBJECT_TYPE _type, int _updateOrder, GameObject* _
 	m_handAttackPoint = new Part(_scene, _updateOrder, this);
 	m_handAttackPointOrigin = { 18, -8 };
 	m_handAttackPoint->SetPos(m_handAttackPointOrigin);
+	m_swordOriginMin = { -15, -30 };
+	m_swordOriginMax = { 60, 30 };
+	m_swordCollider = ADDCOMP::NewAARect(m_swordOriginMin, m_swordOriginMax, OBJECT_TYPE::PLAYER_ATK, this);
+	m_swordCollider->IsActive(true);
 
 	/* === === === === ===
 	*   Init Settings
@@ -293,6 +297,13 @@ void Player::AnimationProcessing()
 		{
 			m_handAttackPoint->SetPos(handPos.x * -1, handPos.y);
 		}
+		D3DXVECTOR2 swordMin = m_swordCollider->GetLocalMin();
+		if (swordMin == m_swordOriginMin)
+		{
+			D3DXVECTOR2 swordMax = m_swordCollider->GetLocalMax();
+			m_swordCollider->SetMin({ swordMin.x * -1, swordMin.y });
+			m_swordCollider->SetMax({ swordMax.x * -1, swordMax.y });
+		}
 	}
 	else
 	{
@@ -301,6 +312,12 @@ void Player::AnimationProcessing()
 		if (handPos != m_handAttackPointOrigin)
 		{
 			m_handAttackPoint->SetPos(m_handAttackPointOrigin);
+		}
+		D3DXVECTOR2 swordMin = m_swordCollider->GetLocalMin();
+		if (swordMin != m_swordOriginMin)
+		{
+			m_swordCollider->SetMin(m_swordOriginMin);
+			m_swordCollider->SetMax(m_swordOriginMax);
 		}
 	}
 

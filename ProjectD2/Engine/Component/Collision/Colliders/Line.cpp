@@ -4,7 +4,12 @@
 #include "Engine/Object/GameObject.h"
 
 Line::Line(const D3DXVECTOR2& _start, const D3DXVECTOR2& _end, GameObject* _owner, int _updateOrder) :
-	Collider(_owner, _updateOrder)
+	Line(_start, _end, _owner->GetType(), _owner, _updateOrder)
+{
+}
+
+Line::Line(const D3DXVECTOR2& _start, const D3DXVECTOR2& _end, OBJECT_TYPE _type, GameObject* _owner, int _updateOrder) :
+	Collider(_type, _owner, _updateOrder)
 	, m_start(_start)
 	, m_end(_end)
 {

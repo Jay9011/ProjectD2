@@ -42,14 +42,29 @@ AARect* Component::Factory::NewAARect(const D3DXVECTOR2& _min, const D3DXVECTOR2
 	return new AARect(_min, _max, _owner, _updateOrder);
 }
 
+AARect* Component::Factory::NewAARect(const D3DXVECTOR2& _min, const D3DXVECTOR2& _max, OBJECT_TYPE _type, GameObject* _owner, int _updateOrder)
+{
+	return new AARect(_min, _max, _type, _owner, _updateOrder);
+}
+
 Circle* Component::Factory::NewCircle(const D3DXVECTOR2& _center, float _radius, GameObject* _owner, int _updateOrder)
 {
 	return new Circle(_center, _radius, _owner, _updateOrder);
 }
 
+Circle* Component::Factory::NewCircle(const D3DXVECTOR2& _center, float _radius, OBJECT_TYPE _type, GameObject* _owner, int _updateOrder)
+{
+	return new Circle(_center, _radius, _type, _owner, _updateOrder);
+}
+
 Line* Component::Factory::NewLine(const D3DXVECTOR2& _start, const D3DXVECTOR2& _end, GameObject* _owner, int _updateOrder)
 {
 	return new Line(_start, _end, _owner, _updateOrder);
+}
+
+Line* Component::Factory::NewLine(const D3DXVECTOR2& _start, const D3DXVECTOR2& _end, OBJECT_TYPE _type, GameObject* _owner, int _updateOrder)
+{
+	return new Line(_start, _end, _type, _owner, _updateOrder);
 }
 
 Gravity* Component::Factory::NewGravity(Physics& _physics, GameObject* _owner, int _updateOrder)

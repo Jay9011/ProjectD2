@@ -49,9 +49,15 @@ private:
 	bool  m_endAttackTimerOn;
 	float m_endAttackTime;
 	float m_endAttackTimeMax;
+	
 	Animator* m_animator;
+	
 	Collider* m_bodyCollider;
 	Collider* m_handCollider;
+    
+    AARect*     m_swordCollider;
+	D3DXVECTOR2 m_swordOriginMin;
+    D3DXVECTOR2 m_swordOriginMax;
 	Part*	    m_handAttackPoint;
 	D3DXVECTOR2 m_handAttackPointOrigin;
 

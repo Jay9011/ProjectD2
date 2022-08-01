@@ -5,7 +5,12 @@
 #include "Circle.h"
 
 AARect::AARect(const D3DXVECTOR2& _min, const D3DXVECTOR2& _max, class GameObject* _owner, int _updateOrder) :
-	Collider(_owner, _updateOrder)
+	AARect(_min, _max, _owner->GetType(), _owner, _updateOrder)
+{
+}
+
+AARect::AARect(const D3DXVECTOR2& _min, const D3DXVECTOR2& _max, OBJECT_TYPE _type, GameObject* _owner, int _updateOrder) :
+	Collider(_type, _owner, _updateOrder)
 	, m_min(_min)
 	, m_max(_max)
 {

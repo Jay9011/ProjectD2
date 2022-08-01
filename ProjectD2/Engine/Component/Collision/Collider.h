@@ -36,6 +36,7 @@ class Collider : public Component
 {
 protected:
 	Collider(GameObject* _owner, int _updateOrder = 100, string _tag = "");
+	Collider(OBJECT_TYPE _type, GameObject* _owner, int _updateOrder = 100, string _tag = "");
 	Collider(const Collider& _other) = delete;
 	virtual ~Collider() override;
 

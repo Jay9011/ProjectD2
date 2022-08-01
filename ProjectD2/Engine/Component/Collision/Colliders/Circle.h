@@ -5,6 +5,7 @@ class Circle : public Collider
 {
 private:
 	Circle(const D3DXVECTOR2& center, const float& radius, class GameObject* _owner, int _updateOrder = 100);
+	Circle(const D3DXVECTOR2& center, const float& radius, OBJECT_TYPE _type, class GameObject* _owner, int _updateOrder = 100);
 	virtual ~Circle() override;
 
 public:
@@ -31,10 +32,12 @@ private:
 public:
 	virtual COLLIDER_TYPE GetColliderType() override;
 
+	float GetLocalRadius() const   { return m_radius; }
 	float GetRadius() const        { return m_worldRadius; }
 	float GetRadiusSq() const      { return m_worldRadius * m_worldRadius; }
 	void  SetRadius(float _radius) { m_radius = _radius; }
 
+    D3DXVECTOR2 GetLocalCenter() const                { return m_center; }
 	D3DXVECTOR2 GetCenter() const                     { return m_worldCenter; }
 	void        SetCenter(const D3DXVECTOR2& _center) { m_center = _center; }
 

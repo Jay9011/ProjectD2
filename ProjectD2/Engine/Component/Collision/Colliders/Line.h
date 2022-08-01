@@ -5,6 +5,7 @@ class Line : public Collider
 {
 private:
 	Line(const D3DXVECTOR2& _start, const D3DXVECTOR2& _end, class GameObject* _owner, int _updateOrder = 100);
+	Line(const D3DXVECTOR2& _start, const D3DXVECTOR2& _end, OBJECT_TYPE _type, class GameObject* _owner, int _updateOrder = 100);
 	virtual ~Line() override;
 	
 public:
@@ -37,6 +38,9 @@ public:
 
 	virtual D3DXVECTOR2 GetStart() { return m_worldStart; }
 	virtual D3DXVECTOR2 GetEnd()   { return m_worldEnd; }
+
+    D3DXVECTOR2 GetLocalStart() const { return m_start; }
+    D3DXVECTOR2 GetLocalEnd() const   { return m_end; }
 
 	friend class Component;
 };

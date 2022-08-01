@@ -5,7 +5,12 @@
 #include "AARect.h"
 
 Circle::Circle(const D3DXVECTOR2& center, const float& radius, GameObject* _owner, int _updateOrder) :
-	Collider(_owner, _updateOrder)
+	Circle(center, radius, _owner->GetType(), _owner, _updateOrder)
+{
+}
+
+Circle::Circle(const D3DXVECTOR2& center, const float& radius, OBJECT_TYPE _type, GameObject* _owner, int _updateOrder) :
+	Collider(_type, _owner, _updateOrder)
 	, m_center(center)
 	, m_radius(radius)
 {

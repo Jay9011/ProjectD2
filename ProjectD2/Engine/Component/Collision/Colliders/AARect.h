@@ -5,6 +5,7 @@ class AARect : public Collider
 {
 private:
 	AARect(const D3DXVECTOR2& _min, const D3DXVECTOR2& _max, class GameObject* _owner, int _updateOrder = 100);
+	AARect(const D3DXVECTOR2& _min, const D3DXVECTOR2& _max, OBJECT_TYPE _type, class GameObject* _owner, int _updateOrder = 100);
 	virtual ~AARect() override;
 
 public:
@@ -36,9 +37,11 @@ public:
 
 	void SetMin(const D3DXVECTOR2& _min) { m_min = _min; }
 	void SetMax(const D3DXVECTOR2& _max) { m_max = _max; }
+	D3DXVECTOR2 GetLocalMin() { return m_min; }
+	D3DXVECTOR2 GetLocalMax() { return m_max; }
 	
-	D3DXVECTOR2 GetMin() override { return m_worldMin; };
-	D3DXVECTOR2 GetMax() override { return m_worldMax; };
+	D3DXVECTOR2 GetMin() override { return m_worldMin; }
+	D3DXVECTOR2 GetMax() override { return m_worldMax; }
 
 	friend class Component;
 };

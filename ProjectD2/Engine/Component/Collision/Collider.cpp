@@ -10,15 +10,21 @@
 UINT Collider::m_idCounter = 0;
 
 Collider::Collider(GameObject* _owner, int _updateOrder, string _tag) :
+	Collider(_owner->GetType(), _owner, _updateOrder, _tag)
+{
+	
+}
+
+Collider::Collider(OBJECT_TYPE _type, GameObject* _owner, int _updateOrder, string _tag) :
 	Component(_owner, _updateOrder)
 	, isActive(false)
 	, m_id(m_idCounter++)
-    , m_tag(_tag)
+	, m_tag(_tag)
 {
 	CollisionMgr* collisionMgr = _owner->GetScene()->GetCollisionMgr();
 	if (collisionMgr)
 	{
-		collisionMgr->AddCollider(_owner->GetType(), this);
+		collisionMgr->AddCollider(_type, this);
 	}
 }
 
