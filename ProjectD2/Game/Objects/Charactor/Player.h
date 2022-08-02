@@ -69,6 +69,7 @@ private:
     float m_reloadTime;
 	float m_reloadTimeMax;
     bool  m_isReload;
+	ATK_Info m_atkInfo;
 
 #if _DEBUG
 	D3DXVECTOR3 m_dir;

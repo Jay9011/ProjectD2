@@ -13,8 +13,10 @@ public:
     virtual void UpdateObject() override;
 
 private:
+    Scene* m_scene;
+
+    ATK_Info m_atkInfo;
     float m_speed;
-    float m_damage;
     D3DXVECTOR2 m_dir;
 
     Animator* m_animator;

@@ -9,6 +9,17 @@ using ColliderOptions = struct _colOp
 	D3DXVECTOR2 resistance = { 30.0f, 0.0f };
 };
 
+enum class ATK_Type
+{
+    GUN,
+	SWORD,
+};
+using ATK_Info = struct _atkInfo
+{
+	ATK_Type type;
+	float damage;
+};
+
 
 /* === === === === === 
 *   수정 불가 Types

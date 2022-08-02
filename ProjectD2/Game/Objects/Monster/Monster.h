@@ -16,7 +16,7 @@ public:
 
 public:
     virtual bool FindOut() = 0;
-
+    virtual void OnHit(ATK_Info _info) = 0;
     virtual void StateProcessing() = 0;
     virtual void UpdateAnimation(MON_STATE _state) = 0;
 
@@ -26,11 +26,16 @@ public:
     void FinalUpdateObject() override;
     
 protected:
+    Scene* m_scene;
+    
     MonInfo m_info;
     Physics m_physics;
     AI<Monster, MON_STATE>* m_AI;
 
     Collider* m_bodyCollider;
+
+    GameObject* m_lastFindPlayer;
+    Collider*   m_lastFindPlayerCollider;
 
 /* === === === === === 
 *  Getter/Setter

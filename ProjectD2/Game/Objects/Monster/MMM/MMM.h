@@ -1,6 +1,5 @@
 #pragma once
 #include "Game/Objects/Monster/Monster.h"
-
 class MMM : public Monster
 {
 public:
@@ -10,6 +9,7 @@ public:
 public:
     // Monster을(를) 통해 상속됨
     bool FindOut() override;
+    void OnHit(ATK_Info _info) override;
     void StateProcessing() override;
     
     void UpdateAnimation(MON_STATE _state) override;
@@ -17,11 +17,30 @@ public:
 private:
     Animator* m_animator;
     Collider* m_attackCollider;
+    Collider* m_attackRangeCollider;
+    Gravity*  m_gravity;
 
     vector<Collider*> m_sight;
+    Collider* m_floorSight;
+    
+/* === === === === === 
+*  상태변경 관련 멤버
+* === === === === === */
+private:
+    bool  m_isDead = false;
+    float m_timer = 0.0f;
     
 private:
     void SetAnimation();
     
+    void Idle();
+    void Patrol();
+    void Chase();
+    void Attack();
+    void AttackEnd();
+    void Die();
+    void DieEnd();
+    
+    bool CheckFloor(Collider& _sight);
 };
 

@@ -10,6 +10,7 @@ enum class COLLIDER_TYPE
 
 enum class COLLISION_STATE
 {
+    NONE,
 	ENTER,
 	STAY,
 	EXIT
@@ -60,11 +61,16 @@ public:
 	virtual void Update() override = 0;
 	void FinalUpdate() final;
 	virtual void OnUpdateWorldTransform() override = 0;
-	
+
+private:
+	void ActiveOff();
+
 public:
 	ColliderOptions options;
 
 private:
+	GameObject* m_owner;
+	OBJECT_TYPE m_type;
 	bool isActive;
 	
 	UINT m_id;
@@ -84,7 +90,7 @@ private:
 * === === === === === */
 public:
 	bool IsActive() { return isActive; }
-	bool IsActive(const bool& _b) { isActive = _b; return isActive; }
+	bool IsActive(const bool& _b) { isActive = _b; if (!_b) { ActiveOff(); } return isActive; }
 
 	bool IsCollided(const bool& _b) { isCollided = _b; return isCollided; }
 

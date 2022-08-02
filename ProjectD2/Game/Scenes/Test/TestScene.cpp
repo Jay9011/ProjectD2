@@ -47,6 +47,7 @@ void TestScene::UpdateScene()
 {
 	vector<std::pair<Collider*, Collider*>> collided;
 	GetCollisionMgr()->CheckCollision(OBJECT_TYPE::PLAYER, OBJECT_TYPE::PLATFORM, collided);
+	GetCollisionMgr()->CheckCollision(OBJECT_TYPE::PLAYER_ATK, OBJECT_TYPE::MONSTER, collided);
 
 }
 

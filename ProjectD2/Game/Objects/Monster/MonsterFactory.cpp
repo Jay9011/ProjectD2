@@ -13,7 +13,7 @@ Monster* MonsterFactory::CreateMonster(Scene* _scene, MONSTERS _monsterType, D3D
     switch (_monsterType)
     {
     case MONSTERS::MMM:
-        monster = new MMM(_scene, OBJECT_TYPE::MONSTER, 120, _parent);
+        monster = new MMM(_scene, OBJECT_TYPE::MONSTER, 110, _parent);
         monster->SetPos(_pos);
         info.hp = 5.0f;
         info.attack = 1.0f;

@@ -9,6 +9,7 @@
 
 #include "Game/Objects/Charactor/Part/Part.h"
 #include "Game/Objects/Charactor/Projectile/BulletManager.h"
+#include "Game/Objects/Monster/Monster.h"
 
 Player::Player(Scene* _scene, int _updateOrder, GameObject* _parent) :
 	Player(_scene, OBJECT_TYPE::DEFAULT, _updateOrder, _parent)
@@ -59,7 +60,7 @@ Player::Player(Scene* _scene, OBJECT_TYPE _type, int _updateOrder, GameObject* _
 	m_bodyCollider = ADDCOMP::NewAARect({ -15, -20 }, { 15, 20 }, this);
 	m_bodyCollider->IsActive(true);
 	m_bodyCollider->SetTag("body");
-	m_handCollider = ADDCOMP::NewAARect({0, -15}, {18, 0}, OBJECT_TYPE::DEFAULT, this);
+	m_handCollider = ADDCOMP::NewAARect({0, -15}, {18, 0}, OBJECT_TYPE::PLAYER_ETC, this);
 	m_handCollider->IsActive(true);
 	m_handCollider->SetTag("hand");
     /*
@@ -70,9 +71,7 @@ Player::Player(Scene* _scene, OBJECT_TYPE _type, int _updateOrder, GameObject* _
 	m_handAttackPoint->SetPos(m_handAttackPointOrigin);
 	m_swordOriginMin = { -15, -30 };
 	m_swordOriginMax = { 60, 30 };
-	m_swordCollider = ADDCOMP::NewAARect(m_swordOriginMin, m_swordOriginMax, OBJECT_TYPE::PLAYER_ATK, this);
-	m_swordCollider->IsActive(true);
-
+	
 	/* === === === === ===
 	*   Init Settings
 	* === === === === === */
@@ -90,7 +89,19 @@ Player::Player(Scene* _scene, OBJECT_TYPE _type, int _updateOrder, GameObject* _
 	*/
 	m_bulletManager = new BulletManager(30, 1000.0f, 1.0f, 500.0f, _scene, _updateOrder);
 	m_bulletManager->SetScale({ 2.0f, 2.0f });
-
+	/*
+	* Sword
+	*/
+	m_atkInfo.type = ATK_Type::SWORD;
+	m_atkInfo.damage = 5.0f;
+	m_swordCollider = ADDCOMP::NewAARect(m_swordOriginMin, m_swordOriginMax, OBJECT_TYPE::PLAYER_ATK, this);
+	m_swordCollider->SetCallbackOnCollisionEnter([this](Collider* _other) {
+		if (_other->GetOwner()->GetType() == OBJECT_TYPE::MONSTER)
+		{
+			Monster* monster = (Monster*)_other->GetOwner();
+			monster->OnHit(m_atkInfo);
+		}
+	});
     /*
 	* 
 	*/
@@ -200,6 +211,7 @@ void Player::Attack()
 		else
 		{
 			// 근접 공격
+			m_swordCollider->IsActive(true);
 		}
         
 		/*
@@ -237,6 +249,7 @@ void Player::Attack()
 
 void Player::AttackEnd()
 {
+	m_swordCollider->IsActive(false);
 	m_isAttack = false;
 	m_equipChangeable = true;	// 공격모션이 끝나면 무기 변경 가능
     

@@ -216,7 +216,6 @@ void Physics::BodyCollision(Collider* bodyCollider)
 	if (!collided.empty())
 	{
 		D3DXVECTOR2 correctPos = { 0, 0 };
-		bool isBumpWall = false;
 		SIDE side = SIDE::NONE;
 
 		// 모든 충돌체에 대한 조건 처리
@@ -228,6 +227,7 @@ void Physics::BodyCollision(Collider* bodyCollider)
 			if (side == SIDE::UPPER_SIDE)
 			{
 				JumpReset();	// 점프 초기화
+				correctPos.y += 1.0f;
 			}
 		}
 

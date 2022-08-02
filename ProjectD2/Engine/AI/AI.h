@@ -60,7 +60,7 @@ public:
     }
     void RevertToPreviousState()
     {
-        ChangeState(m_previousState);
+        ChangeState(m_previousState->GetType());
     }
     void SetGlobalState(E _state)
     {

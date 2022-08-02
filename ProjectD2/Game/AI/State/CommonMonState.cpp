@@ -28,6 +28,7 @@ void CommonMonState::Idle::Exit(Monster* _entity)
 *  === === === === === */
 void CommonMonState::Patrol::Enter(Monster* _entity)
 {
+    _entity->ScaleXInverse();
     _entity->UpdateAnimation(MON_STATE::PATROL);
 }
 
@@ -100,7 +101,7 @@ void CommonMonState::Global::Enter(Monster* _entity)
 
 void CommonMonState::Global::Update(Monster* _entity)
 {
-    if (_entity->GetMonInfo().hp <= 0)  // 체력이 다하면 죽음
+    if (_entity->GetMonInfo().hp <= 0 && _entity->GetAI()->GetState() != MON_STATE::DIE)  // 체력이 다하면 죽음
     {
         _entity->GetAI()->ChangeState(MON_STATE::DIE);
     }

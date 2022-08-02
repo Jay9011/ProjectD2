@@ -17,6 +17,8 @@ Collider::Collider(GameObject* _owner, int _updateOrder, string _tag) :
 
 Collider::Collider(OBJECT_TYPE _type, GameObject* _owner, int _updateOrder, string _tag) :
 	Component(_owner, _updateOrder)
+    , m_owner(_owner)
+    , m_type(_type)
 	, isActive(false)
 	, m_id(m_idCounter++)
 	, m_tag(_tag)
@@ -28,7 +30,14 @@ Collider::Collider(OBJECT_TYPE _type, GameObject* _owner, int _updateOrder, stri
 	}
 }
 
-Collider::~Collider() = default;
+Collider::~Collider()
+{
+    CollisionMgr* collisionMgr = m_owner->GetScene()->GetCollisionMgr();
+    if (collisionMgr)
+    {
+        collisionMgr->RemoveCollider(m_type, this);
+    }
+}
 
 /*
 * 충돌시 충돌 정보(Enter, Stay, Exit)를 갱신한다.
@@ -101,4 +110,23 @@ void Collider::FinalUpdate()
 		iter->second.isThisFrmChk = false;	// 다음 프레임 체크여부를 false로 초기화
 		++iter;
 	}
+}
+
+void Collider::ActiveOff()
+{
+	// Active를 끄게되면 동작
+    auto iter = m_collisionMap.begin();
+    while (iter != m_collisionMap.end())
+    {
+		if (iter->second.isCollision)	// 이전에 충돌하고 있던 모든 물체에 대해 충돌 해제를 해준다.
+		{
+			iter->second.isCollision = false;
+
+			OnCollisionExit(iter->second.other);
+			iter->second.other->OnCollisionExit(this);
+		}
+        
+		iter->second.isThisFrmChk = false;
+        ++iter;
+    }
 }
