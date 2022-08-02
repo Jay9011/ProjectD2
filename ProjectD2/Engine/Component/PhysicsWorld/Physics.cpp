@@ -200,3 +200,41 @@ SIDE Physics::CollisionCorrect(OUT D3DXVECTOR2& correctDir, class Collider* movi
 
 	return collSide;
 }
+
+void Physics::BodyCollision(Collider* bodyCollider)
+{
+	if (owner == nullptr)
+		return;
+    
+	// 충돌중인 모든 Platform을 찾는다.
+	vector<std::pair<Collider*, Collider*>> collided;
+    owner->GetScene()->GetCollisionMgr()->CheckCollision(bodyCollider, OBJECT_TYPE::PLATFORM, collided);
+
+	// 기본적으로 모든 상황에 대비해 Falling을 켜준다.
+	isFalling = true;
+
+	if (!collided.empty())
+	{
+		D3DXVECTOR2 correctPos = { 0, 0 };
+		bool isBumpWall = false;
+		SIDE side = SIDE::NONE;
+
+		// 모든 충돌체에 대한 조건 처리
+		for (const auto& collider : collided)
+		{
+			side = CollisionCorrect(correctPos, bodyCollider, collider.second);	// 충돌 방향과 크기 체크
+
+			// 땅에 닿는 순간
+			if (side == SIDE::UPPER_SIDE)
+			{
+				JumpReset();	// 점프 초기화
+			}
+		}
+
+		// 위치 보정
+		if (correctPos.x != 0 || correctPos.y != 0)
+		{
+            owner->AddPos(correctPos);
+		}
+	}
+}

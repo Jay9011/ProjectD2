@@ -214,10 +214,14 @@
     </ClCompile>
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Engine\Object\GameObject.cpp" />
+    <ClCompile Include="Game\AI\State\CommonMonState.cpp" />
     <ClCompile Include="Game\Objects\Background\Background.cpp" />
     <ClCompile Include="Game\Objects\Charactor\Part\Part.cpp" />
     <ClCompile Include="Game\Objects\Charactor\Projectile\Bullet.cpp" />
     <ClCompile Include="Game\Objects\Charactor\Projectile\BulletManager.cpp" />
+    <ClCompile Include="Game\Objects\Monster\MMM\MMM.cpp" />
+    <ClCompile Include="Game\Objects\Monster\Monster.cpp" />
+    <ClCompile Include="Game\Objects\Monster\MonsterFactory.cpp" />
     <ClCompile Include="Game\Objects\Platforms\PlatformRect.cpp" />
     <ClCompile Include="Game\Objects\etc\TestMap_1.cpp" />
     <ClCompile Include="Game\Objects\Charactor\Player.cpp" />
@@ -255,10 +259,17 @@
     <ClInclude Include="Engine\Core\Manager\Texture\TextureMgr.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Engine\Object\GameObject.h" />
+    <ClInclude Include="Game\AI\State\CommonMonState.h" />
+    <ClInclude Include="Engine\AI\State\State.h" />
+    <ClInclude Include="Engine\AI\AI.h" />
     <ClInclude Include="Game\Objects\Background\Background.h" />
     <ClInclude Include="Game\Objects\Charactor\Part\Part.h" />
     <ClInclude Include="Game\Objects\Charactor\Projectile\Bullet.h" />
     <ClInclude Include="Game\Objects\Charactor\Projectile\BulletManager.h" />
+    <ClInclude Include="Game\Objects\Monster\MMM\MMM.h" />
+    <ClInclude Include="Game\Objects\Monster\Monster.h" />
+    <ClInclude Include="Game\Objects\Monster\MonsterFactory.h" />
+    <ClInclude Include="Game\Objects\Monster\Monsters.h" />
     <ClInclude Include="Game\Objects\Platforms\PlatformRect.h" />
     <ClInclude Include="Game\Objects\etc\TestMap_1.h" />
     <ClInclude Include="Game\Objects\Charactor\Player.h" />

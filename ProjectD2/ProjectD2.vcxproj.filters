@@ -135,6 +135,18 @@
     <ClCompile Include="Game\Objects\Charactor\Part\Part.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Objects\Monster\Monster.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\AI\State\CommonMonState.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Objects\Monster\MonsterFactory.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Objects\Monster\MMM\MMM.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Framework.h">
@@ -273,6 +285,27 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Game\Objects\Charactor\Part\Part.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\AI\State\State.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Objects\Monster\Monster.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\AI\State\CommonMonState.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\AI\AI.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Objects\Monster\MonsterFactory.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Objects\Monster\MMM\MMM.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Objects\Monster\Monsters.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

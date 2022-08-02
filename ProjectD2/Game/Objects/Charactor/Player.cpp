@@ -92,10 +92,9 @@ Player::Player(Scene* _scene, OBJECT_TYPE _type, int _updateOrder, GameObject* _
 	m_bulletManager->SetScale({ 2.0f, 2.0f });
 
     /*
-	* Start Animation
+	* 
 	*/
 	SetAnimation();
-	m_animator->Find((int)PLAYER_STATE::APPEAR);
 }
 
 Player::~Player()
@@ -105,11 +104,6 @@ Player::~Player()
 
 void Player::UpdateObject()
 {
-	// 상태 혹은 Animation을 변경하기 전 이전 상태를 저장한다.
-	//m_prevEquip = m_equip;
-	//m_prevState = m_state;
-    //////////////////////////////
-	
 	Move();
 	Attack();
 	ChangeWeapon();

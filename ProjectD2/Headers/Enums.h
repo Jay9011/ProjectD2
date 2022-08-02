@@ -14,7 +14,10 @@ enum class OBJECT_TYPE
 	DEFAULT,
 	PLATFORM,
 	PLAYER,
+    MONSTER,
+    MONSTER_SIGHT,
     PLAYER_ATK,
+    MONSTER_ATK,
 	FOREBLOCK,
 	FOREGROUND,
 	FIN
@@ -68,4 +71,15 @@ enum class PLAYER_ANIM
 	HANG_ATK_GUN,
     HANG_ATK_SWD,
 	FIN
+};
+
+enum class MON_STATE
+{
+	IDLE,
+    PATROL,
+    CHASE,
+    ATTACK,
+    DIE,
+    GLOBAL,
+    FIN
 };

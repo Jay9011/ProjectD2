@@ -43,4 +43,6 @@ public:
 	
 	void CalcResistance();
 	SIDE CollisionCorrect(OUT D3DXVECTOR2& correctDir, class Collider* movingCollider, class Collider* FixedCollider);
+
+	void BodyCollision(class Collider* bodyCollider);
 };

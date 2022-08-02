@@ -16,6 +16,8 @@ public:
 	virtual void RenderObject() override;
 
 private:
+	Scene* m_scene;
+
 	vector<Background*> m_backgrounds;
     
 	vector<GameObject*> m_platforms;
@@ -25,5 +27,6 @@ private:
 
 public:
 	D3DXVECTOR2 GetPlayerStartPoint();
+	void SetMonsters();
 };
 

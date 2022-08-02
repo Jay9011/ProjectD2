@@ -6,9 +6,11 @@
 #include "Engine/Component/Collision/Colliders/AARect.h"
 #include "Game/Objects/Background/Background.h"
 #include "Game/Objects/Platforms/PlatformRect.h"
+#include "Game/Objects/Monster/MonsterFactory.h"
 
 TestMap_1::TestMap_1(Scene* _scene, int _updateOrder, GameObject* _parent) :
 	GameObject(_scene, OBJECT_TYPE::DEFAULT, _updateOrder, _parent)
+	, m_scene(_scene)
 {
 	/*
 	* 카메라 설정
@@ -138,6 +140,10 @@ TestMap_1::TestMap_1(Scene* _scene, int _updateOrder, GameObject* _parent) :
 	*/
 	platform = new PlatformRect({32, 64}, L"Tile\\Entry.png", 8, 1, false, _scene, OBJECT_TYPE::FOREBLOCK, _updateOrder, this);
 	platform->SetPos(336, 144);
+
+    /*
+	*/
+	SetMonsters();
 }
 
 TestMap_1::~TestMap_1()
@@ -183,4 +189,9 @@ D3DXVECTOR2 TestMap_1::GetPlayerStartPoint()
 	D3DXVECTOR2 pos = m_PlayerStartFlag->GetWorldPos();
 	
 	return pos;
+}
+
+void TestMap_1::SetMonsters()
+{
+	MonsterFactory::CreateMonster(m_scene, MONSTERS::MMM, { 0, 0 }, this);
 }
