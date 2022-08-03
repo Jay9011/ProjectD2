@@ -57,7 +57,7 @@ void Scene::Update()
 {
 	if (m_game->GetGameState() == GAME_STATE::PLAY)
 	{
-		std::vector<GameObject*> deadObjects; // 죽은 object들 저장용 벡터
+		list<GameObject*> deadObjects;	// 이번 프레임에 죽은 object들 저장용 벡터
 
 		/* === === === === ===
 		*   Objects Update
@@ -65,19 +65,25 @@ void Scene::Update()
 		m_updatingObjects = true;
 		for (auto& objectTypeVec : m_objects)
 		{
-			for (auto& object : objectTypeVec)
-			{
-				if (object->IsDead())
+            auto iter = objectTypeVec.begin();
+            while (iter != objectTypeVec.end())
+            {
+                if ((*iter)->IsDead())
+                {
+                    deadObjects.emplace_back(*iter);
+                    iter = objectTypeVec.erase(iter);
+					continue;
+                }
+                
+				if ((*iter)->GetState() == OBJECT_STATE::INACTIVE)
 				{
-					deadObjects.emplace_back(object);
-					continue;
+                    ++iter;
+                    continue;
 				}
-
-				if (object->GetState() == OBJECT_STATE::INACTIVE)	// Inactive 상태인 것은 넘긴다.
-					continue;
-
-				object->Update();
-			}
+                
+                (*iter)->Update();
+                ++iter;
+            }
 		}
 		m_updatingObjects = false;
 
@@ -92,7 +98,14 @@ void Scene::Update()
 			m_pendingObjects[i].clear();
 		}
 
-		SAFE_DELETE_VEC(deadObjects);
+        // 이전 프레임에 죽은 오브젝트들 삭제
+        for (auto& object : m_deadObjects)
+        {
+            SAFE_DELETE(object);
+        }
+        m_deadObjects.clear();
+        
+        std::swap(m_deadObjects, deadObjects);
 	}
 
 	UpdateScene();

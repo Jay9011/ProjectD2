@@ -31,7 +31,7 @@ void TestScene::SceneEnter()
 	testObject->SetPos(testMap_1->GetPlayerStartPoint());
 	
 	CAMERA->SetLookAt(testObject->GetPos());
-	//CAMERA->SetTarget(testObject);
+	CAMERA->SetTarget(testObject);
 	testMap_1->CameraInit();
 }
 
@@ -45,6 +45,13 @@ void TestScene::Release()
 
 void TestScene::UpdateScene()
 {
+    /*
+	* 카메라의 타겟 확인
+	*/
+	if (testObject->IsDead())
+	{
+        CAMERA->SetTarget(nullptr);
+    }
     /*
 	* 글로벌 충돌 확인
 	*/

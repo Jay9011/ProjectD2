@@ -75,7 +75,7 @@ Player::Player(Scene* _scene, OBJECT_TYPE _type, int _updateOrder, GameObject* _
 	/* === === === === ===
 	*   Init Settings
 	* === === === === === */
-	m_status.hp = 30.0f;
+	m_status.hp = 3.0f;
 	/*
 	* Physics
 	*/
@@ -176,6 +176,7 @@ void Player::Die()
 
 void Player::DieEnd()
 {
+	m_bodyCollider->IsActive(false);
 	SetState(OBJECT_STATE::DEAD);
 }
 

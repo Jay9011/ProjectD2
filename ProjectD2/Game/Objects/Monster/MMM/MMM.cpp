@@ -100,9 +100,12 @@ bool MMM::PlayerLost()
     {
         return result;
     }
-    else if (m_lastFindPlayer->GetState() == OBJECT_STATE::DEAD) // 플레이어가 죽은 상태라면
+    else if (m_lastFindPlayer->IsDead()) // 플레이어가 죽은 상태라면
     {
-        
+        m_lastFindPlayer = nullptr;
+        m_lastFindPlayerCollider = nullptr;
+        m_isFindPlayer = false;
+        result = true;
     }
     
     return result;

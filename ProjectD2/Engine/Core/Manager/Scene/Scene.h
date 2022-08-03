@@ -38,6 +38,7 @@ private:
 	
 	vector<GameObject*> m_objects[(UINT)OBJECT_TYPE::FIN];
 	vector<GameObject*> m_pendingObjects[(UINT)OBJECT_TYPE::FIN];	// 대기중인 오브젝트들
+	list<GameObject*> m_deadObjects;	// 삭제 예정 죽은 오브젝트들
 	
 	
 /* === === === === ===
