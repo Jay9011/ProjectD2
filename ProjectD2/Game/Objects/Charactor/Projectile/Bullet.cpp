@@ -29,8 +29,12 @@ Bullet::Bullet(float _limitDist, float _damage, float _speed, Scene* _scene, int
         // 충돌이 발생하면
         if (_other->GetOwner()->GetType() == OBJECT_TYPE::MONSTER)
         {
-            Monster* monster = (Monster*)_other->GetOwner();
-            monster->OnHit(m_atkInfo);
+            Monster* monster = dynamic_cast<Monster*>(_other->GetOwner());
+            if(monster == nullptr)
+                return;
+
+            D3DXVECTOR2 pos = GetWorldPos() - monster->GetWorldPos();
+            monster->OnHit(m_atkInfo, pos);
         }
 
         Active(false);

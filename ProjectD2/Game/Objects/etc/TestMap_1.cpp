@@ -194,5 +194,4 @@ D3DXVECTOR2 TestMap_1::GetPlayerStartPoint()
 void TestMap_1::SetMonsters()
 {
 	MonsterFactory::CreateMonster(m_scene, MONSTERS::MMM, { 0, 0 }, this);
-	MonsterFactory::CreateMonster(m_scene, MONSTERS::MMM, { 0, 0 }, this);
 }

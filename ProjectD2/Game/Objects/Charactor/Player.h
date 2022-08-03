@@ -2,7 +2,10 @@
 #include "Engine/Object/GameObject.h"
 
 class Scene;
-
+using PlayerStatus = struct tagPlayerStatus
+{
+	float hp;
+};
 class Player : public GameObject
 {
 public:
@@ -16,8 +19,12 @@ public:
 	virtual void PostUpdateObject() override;
 	virtual void FinalUpdateObject() override;
 
+	void Damage(float _damage);
+
 private:
 	void Move();
+	void Die();
+	void DieEnd();
 	void Attack();
 	void AttackEnd();
 	void ChangeWeapon();
@@ -64,12 +71,13 @@ private:
 	/*
 	* 능력치 관련
 	*/
+	PlayerStatus m_status;
+	ATK_Info m_atkInfo;
 	Physics m_physics;
     BulletManager* m_bulletManager;
     float m_reloadTime;
 	float m_reloadTimeMax;
     bool  m_isReload;
-	ATK_Info m_atkInfo;
 
 #if _DEBUG
 	D3DXVECTOR3 m_dir;

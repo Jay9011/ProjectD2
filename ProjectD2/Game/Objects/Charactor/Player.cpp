@@ -75,6 +75,7 @@ Player::Player(Scene* _scene, OBJECT_TYPE _type, int _updateOrder, GameObject* _
 	/* === === === === ===
 	*   Init Settings
 	* === === === === === */
+	m_status.hp = 30.0f;
 	/*
 	* Physics
 	*/
@@ -93,13 +94,17 @@ Player::Player(Scene* _scene, OBJECT_TYPE _type, int _updateOrder, GameObject* _
 	* Sword
 	*/
 	m_atkInfo.type = ATK_Type::SWORD;
-	m_atkInfo.damage = 5.0f;
+	m_atkInfo.damage = 0.0f;
 	m_swordCollider = ADDCOMP::NewAARect(m_swordOriginMin, m_swordOriginMax, OBJECT_TYPE::PLAYER_ATK, this);
 	m_swordCollider->SetCallbackOnCollisionEnter([this](Collider* _other) {
 		if (_other->GetOwner()->GetType() == OBJECT_TYPE::MONSTER)
 		{
-			Monster* monster = (Monster*)_other->GetOwner();
-			monster->OnHit(m_atkInfo);
+            Monster* monster = dynamic_cast<Monster*>(_other->GetOwner());
+			if(monster == nullptr)
+                return;
+            
+			D3DXVECTOR2 dir = GetWorldPos() - monster->GetWorldPos();
+			monster->OnHit(m_atkInfo, dir);
 		}
 	});
     /*
@@ -146,6 +151,32 @@ void Player::FinalUpdateObject()
 	* 마무리 처리
 	*/
 	m_physics.CalcResistance();
+}
+
+void Player::Damage(float _damage)
+{
+    if(m_state == PLAYER_STATE::CRITICAL || m_state == PLAYER_STATE::DIE)
+        return;
+
+    m_status.hp -= _damage;
+	UpdateState(PLAYER_STATE::HIT, m_equip);
+    
+    if (m_status.hp <= 0)
+    {
+		m_preventKey = true;
+        m_status.hp = 0;
+		UpdateState(PLAYER_STATE::CRITICAL, m_equip);
+    }
+}
+
+void Player::Die()
+{
+    UpdateState(PLAYER_STATE::DIE, m_equip);
+}
+
+void Player::DieEnd()
+{
+	SetState(OBJECT_STATE::DEAD);
 }
 
 void Player::Move()
@@ -253,7 +284,11 @@ void Player::AttackEnd()
 	m_isAttack = false;
 	m_equipChangeable = true;	// 공격모션이 끝나면 무기 변경 가능
     
-	if (m_reservState != PLAYER_STATE::APPEAR)	// Appear 상태를 예약이 없는 상태로 사용...
+	if (m_reservState == PLAYER_STATE::APPEAR)	// Appear 상태를 예약이 없는 상태로 사용...
+	{
+		UpdateState(PLAYER_STATE::IDLE, m_equip);	// 아무 동작이 없다면 IDLE로 변경한다.
+	}
+	else
 	{
 		UpdateState(m_reservState, m_equip);
 	}
@@ -350,6 +385,9 @@ void Player::UpdateState(PLAYER_STATE _state, PLAYER_EQUIP_TYPE _equip)
 	*/
 	if(m_isAttack)
     {
+		if (_state != PLAYER_STATE::HIT || _state != PLAYER_STATE::CRITICAL)	// 공격 중 히트 애니메이션을 재생하지 않는다.
+			return;
+
         m_reservState = _state;
 		return;
     }
@@ -387,7 +425,7 @@ void Player::UpdateAnimation()
 	case PLAYER_STATE::DIE:
 		if (m_prevState == PLAYER_STATE::DIE)
 			break;
-        m_animator->Find((int)PLAYER_ANIM::CRITICAL)->Play();
+        m_animator->Find((int)PLAYER_ANIM::DIE)->Play();
 		break;
 	case PLAYER_STATE::IDLE:
 		if (m_prevState == PLAYER_STATE::IDLE)
@@ -586,10 +624,22 @@ void Player::SetAnimation()
 				});
 			break;
 		case PLAYER_ANIM::HIT:
-			m_animator->LoadXML("Character\\Player\\", "Hit", ANIM_PLAY_TYPE::ONCE, 0.1f);
+			m_animator->LoadXML("Character\\Player\\", "Hit", ANIM_PLAY_TYPE::ONCE, 0.05f);
+			m_animator->SetEndEvent(i, [this]() {
+				UpdateState(PLAYER_STATE::IDLE, m_equip);
+				});
 			break;
 		case PLAYER_ANIM::CRITICAL:
-			m_animator->LoadXML("Character\\Player\\", "Critial", ANIM_PLAY_TYPE::ONCE, 0.1f);
+			m_animator->LoadXML("Character\\Player\\", "Critial", ANIM_PLAY_TYPE::ONCE, 0.05f);
+			m_animator->SetEndEvent(i, [this]() {
+				Die();
+				});
+			break;
+		case PLAYER_ANIM::DIE:
+			m_animator->LoadXML("SFX\\Explosion\\", "Effect03", ANIM_PLAY_TYPE::ONCE, 0.1f);
+			m_animator->SetEndEvent(i, [this]() {
+				DieEnd();
+				});
 			break;
 		case PLAYER_ANIM::IDLE:
 			m_animator->LoadXML("Character\\Player\\", "Idle", ANIM_PLAY_TYPE::PINGPONG, 0.2f);

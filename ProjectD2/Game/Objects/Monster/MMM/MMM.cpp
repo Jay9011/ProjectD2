@@ -8,6 +8,7 @@
 #include "Engine/Component/PhysicsWorld/Gravity/Gravity.h"
 
 #include "Game/AI/State/CommonMonState.h"
+#include "Game/Objects/Charactor/Player.h"
 
 MMM::MMM(Scene* _scene, OBJECT_TYPE _type, int _updateOrder, GameObject* _parent) :
     Monster(_scene, _type, _updateOrder, _parent)
@@ -26,6 +27,17 @@ MMM::MMM(Scene* _scene, OBJECT_TYPE _type, int _updateOrder, GameObject* _parent
     m_bodyCollider->IsActive(true);
     m_attackCollider = ADDCOMP::NewAARect({-25, -12}, {0, 30}, OBJECT_TYPE::MONSTER_ATK, this);
     m_attackCollider->IsActive(false);
+    m_attackCollider->SetCallbackOnCollisionEnter([this](Collider* _other) {
+        std::cout << "MMM Attack Hit!" << std::endl;
+        if (_other->GetOwner()->GetType() == OBJECT_TYPE::PLAYER)
+        {
+            Player* player = dynamic_cast<Player*>(_other->GetOwner());
+            if(player == nullptr)
+                return;
+            
+            player->Damage(m_info.attack);
+        }
+        });
     m_attackRangeCollider = ADDCOMP::NewAARect({-25, -12}, {0, 30}, OBJECT_TYPE::MONSTER_SIGHT, this);
     m_attackRangeCollider->IsActive(true);
     m_floorSight = ADDCOMP::NewLine({ -20, 0 }, { -20, 100 }, OBJECT_TYPE::MONSTER_SIGHT, this);
@@ -50,6 +62,7 @@ MMM::MMM(Scene* _scene, OBJECT_TYPE _type, int _updateOrder, GameObject* _parent
     m_AI->AddState(new CommonMonState::Idle());
     m_AI->AddState(new CommonMonState::Patrol());
     m_AI->AddState(new CommonMonState::Chase());
+    m_AI->AddState(new CommonMonState::Trace());
     m_AI->AddState(new CommonMonState::Attack());
     m_AI->AddState(new CommonMonState::Die());
     m_AI->AddState(new CommonMonState::Global());
@@ -73,17 +86,41 @@ bool MMM::FindOut()
     {
         m_lastFindPlayerCollider = collided.back().second;
         m_lastFindPlayer = collided.back().second->GetOwner();
-        return true;
+        m_isFindPlayer = true;
     }
     
-    return false;
+    return m_isFindPlayer;
 }
 
-void MMM::OnHit(ATK_Info _info)
+bool MMM::PlayerLost()
 {
-    ATK_Info info = _info;
+    bool result = false;
+    
+    if (m_lastFindPlayer == nullptr)
+    {
+        return result;
+    }
+    else if (m_lastFindPlayer->GetState() == OBJECT_STATE::DEAD) // 플레이어가 죽은 상태라면
+    {
+        
+    }
+    
+    return result;
+}
 
+void MMM::OnHit(ATK_Info _info, D3DXVECTOR2 _dir)
+{
+    m_isDamaged = true;
+    m_damagedDir = _dir;
+
+    ATK_Info info = _info;
     m_info.hp -= info.damage;
+
+    // 플레이어를 발견하지 못한 상태에서 공격에 맞은 경우 플레이어를 찾기 시작한다.
+    if (!m_isFindPlayer)
+    {
+        m_AI->ChangeState(MON_STATE::TRACE);
+    }
 }
 
 void MMM::StateProcessing()
@@ -97,6 +134,9 @@ void MMM::StateProcessing()
         break;
     case MON_STATE::PATROL:
         Patrol();
+        break;
+    case MON_STATE::TRACE:
+        Trace();
         break;
     case MON_STATE::CHASE:
         Chase();
@@ -122,6 +162,9 @@ void MMM::UpdateAnimation(MON_STATE _state)
         break;
     case MON_STATE::PATROL:
         m_animator->Find((int)MON_STATE::PATROL)->Play();
+        break;
+    case MON_STATE::TRACE:
+        m_animator->Find((int)MON_STATE::TRACE)->Play();
         break;
     case MON_STATE::CHASE:
         m_animator->Find((int)MON_STATE::CHASE)->Play();
@@ -150,6 +193,9 @@ void MMM::SetAnimation()
             break;
         case MON_STATE::PATROL:
             m_animator->LoadXML("Monster\\", "mmm_Move", ANIM_PLAY_TYPE::LOOP, 0.15f);
+            break;
+        case MON_STATE::TRACE:
+            m_animator->LoadXML("Monster\\", "mmm_Move", ANIM_PLAY_TYPE::LOOP, 0.1f);
             break;
         case MON_STATE::CHASE:
             m_animator->LoadXML("Monster\\", "mmm_Move", ANIM_PLAY_TYPE::LOOP, 0.1f);
@@ -215,6 +261,36 @@ void MMM::Patrol()
     return;
 }
 
+void MMM::Trace()
+{
+    if (m_timer <= 10.0f && CheckFloor(*m_sight[2]))    // 조사중 바닥이 없으면 조사 종료
+    {
+        m_timer += fDT;
+
+        if (m_damagedDir.x < 0) // 왼쪽으로 조사할 때
+        {
+            if (GetScale().x < 0)   // 오른쪽을 보고 있다면
+                ScaleXInverse();
+                
+            m_physics.MovingX(V_LEFT.x * 0.5f);
+        }
+        else
+        {
+            if (GetScale().x > 0)   // 왼쪽을 보고 있다면
+                ScaleXInverse();
+            
+            m_physics.MovingX(V_RIGHT.x * 0.5f);
+        }
+
+        return;
+    }
+
+    // 추적 종료
+    m_timer = 0.0f;
+    m_AI->ChangeState(MON_STATE::IDLE);
+    return;
+}
+
 void MMM::Chase()
 {
     GameObject* player = m_lastFindPlayer;
@@ -250,11 +326,12 @@ void MMM::Chase()
 
 void MMM::Attack()
 {
-
+    m_attackCollider->IsActive(true);
 }
 
 void MMM::AttackEnd()
 {
+    m_attackCollider->IsActive(false);
     m_AI->RevertToPreviousState();
     return;
 }
@@ -275,9 +352,16 @@ void MMM::DieEnd()
 
 bool MMM::CheckFloor(Collider& _sight)
 {
+    bool result = false;
+    
     vector<std::pair<Collider*, Collider*>> collided;
     // 바닥을 보는 sight는 2번 sight
     m_scene->GetCollisionMgr()->CheckCollision(&_sight, OBJECT_TYPE::PLATFORM, collided);
 
-    return !collided.empty();
+    if (!collided.empty())
+    {
+        result = true;
+    }
+    
+    return result;
 }

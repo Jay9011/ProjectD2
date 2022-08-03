@@ -45,6 +45,26 @@ void CommonMonState::Patrol::Exit(Monster* _entity)
 }
 
 /* === === === === ===
+*  Trace 상태
+*  === === === === === */
+void CommonMonState::Trace::Enter(Monster* _entity)
+{
+    _entity->UpdateAnimation(MON_STATE::TRACE);
+}
+
+void CommonMonState::Trace::Update(Monster* _entity)
+{
+    if (_entity->FindOut())
+    {
+        _entity->GetAI()->ChangeState(MON_STATE::CHASE);
+    }
+}
+
+void CommonMonState::Trace::Exit(Monster* _entity)
+{
+}
+
+/* === === === === ===
 *  Chase 상태
 *  === === === === === */
 void CommonMonState::Chase::Enter(Monster* _entity)
@@ -101,9 +121,16 @@ void CommonMonState::Global::Enter(Monster* _entity)
 
 void CommonMonState::Global::Update(Monster* _entity)
 {
+    if (_entity->PlayerLost())  // 플레이어를 잃은 상태라면
+    {
+        _entity->GetAI()->ChangeState(MON_STATE::IDLE);
+        return;
+    }
+    
     if (_entity->GetMonInfo().hp <= 0 && _entity->GetAI()->GetState() != MON_STATE::DIE)  // 체력이 다하면 죽음
     {
         _entity->GetAI()->ChangeState(MON_STATE::DIE);
+        return;
     }
 }
 

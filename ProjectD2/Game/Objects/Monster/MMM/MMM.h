@@ -3,13 +3,14 @@
 class MMM : public Monster
 {
 public:
-    MMM(Scene* _scene, OBJECT_TYPE _type, int _updateOrder = 100, GameObject* _parent = nullptr);
+    MMM(Scene* _scene, OBJECT_TYPE _type, int _updateOrder = 110, GameObject* _parent = nullptr);
     ~MMM() override;
 
 public:
     // Monster을(를) 통해 상속됨
     bool FindOut() override;
-    void OnHit(ATK_Info _info) override;
+    bool PlayerLost() override;
+    void OnHit(ATK_Info _info, D3DXVECTOR2 _dir) override;
     void StateProcessing() override;
     
     void UpdateAnimation(MON_STATE _state) override;
@@ -36,6 +37,7 @@ private:
     void Idle();
     void Patrol();
     void Chase();
+    void Trace();
     void Attack();
     void AttackEnd();
     void Die();

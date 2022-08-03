@@ -53,6 +53,7 @@ enum class PLAYER_ANIM
 	APPEAR,
 	HIT,
 	CRITICAL,
+    DIE,
 	IDLE,
 	IDLE_ATK_GUN,
     IDLE_ATK_SWD,
@@ -78,6 +79,7 @@ enum class MON_STATE
 {
 	IDLE,
     PATROL,
+	TRACE,
     CHASE,
     ATTACK,
     DIE,

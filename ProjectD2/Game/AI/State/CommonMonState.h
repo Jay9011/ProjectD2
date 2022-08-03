@@ -19,6 +19,14 @@ namespace CommonMonState
 
 		MON_STATE GetType() const override { return MON_STATE::PATROL; }
 	};
+	class Trace : public State<Monster>
+	{
+        void Enter(Monster* _entity) override;
+        void Update(Monster* _entity) override;
+        void Exit(Monster* _entity) override;
+
+        MON_STATE GetType() const override { return MON_STATE::TRACE; }
+    };
 	class Chase : public State<Monster>
 	{
 		void Enter(Monster* _entity) override;
