@@ -33,6 +33,7 @@ private:
 	
 	Animator* m_animator;
 	Texture*  m_texture;
+	Shader*   m_shader;
 	AARect*   m_collider;
 
 public:

@@ -26,6 +26,7 @@ PlatformRect::PlatformRect(const D3DXVECTOR2& _size, const wstring& _texturePath
 	m_type = PlatformType::Texture;
 	
 	m_texture = TEXTURE->Add(_texturePath, (UINT)_size.x, (UINT)_size.y, {0, 0}, {_size.x, _size.y});
+	m_shader = SHADER(L"AlphaShader");
 }
 
 PlatformRect::PlatformRect(const D3DXVECTOR2& _size, const wstring& _texturePath, const size_t& _maxFrameX, const size_t& _maxFrameY, const bool& _useCollider, Scene* _scene, OBJECT_TYPE _type, int _updateOrder, GameObject* _parent) :
@@ -59,7 +60,9 @@ void PlatformRect::RenderObject()
 {
 	if (m_type == PlatformType::Texture)
 	{
+		m_shader->Begin();
 		m_texture->Render();
+		m_shader->End();
 	}
 	else if (m_type == PlatformType::Animation)
 	{

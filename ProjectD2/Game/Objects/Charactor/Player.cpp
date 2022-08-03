@@ -75,7 +75,7 @@ Player::Player(Scene* _scene, OBJECT_TYPE _type, int _updateOrder, GameObject* _
 	/* === === === === ===
 	*   Init Settings
 	* === === === === === */
-	m_status.hp = 3.0f;
+	m_status.hp = 30.0f;
 	/*
 	* Physics
 	*/
@@ -94,7 +94,7 @@ Player::Player(Scene* _scene, OBJECT_TYPE _type, int _updateOrder, GameObject* _
 	* Sword
 	*/
 	m_atkInfo.type = ATK_Type::SWORD;
-	m_atkInfo.damage = 0.0f;
+	m_atkInfo.damage = 5.0f;
 	m_swordCollider = ADDCOMP::NewAARect(m_swordOriginMin, m_swordOriginMax, OBJECT_TYPE::PLAYER_ATK, this);
 	m_swordCollider->SetCallbackOnCollisionEnter([this](Collider* _other) {
 		if (_other->GetOwner()->GetType() == OBJECT_TYPE::MONSTER)
@@ -285,14 +285,13 @@ void Player::AttackEnd()
 	m_isAttack = false;
 	m_equipChangeable = true;	// 공격모션이 끝나면 무기 변경 가능
     
-	if (m_reservState == PLAYER_STATE::APPEAR)	// Appear 상태를 예약이 없는 상태로 사용...
-	{
-		UpdateState(PLAYER_STATE::IDLE, m_equip);	// 아무 동작이 없다면 IDLE로 변경한다.
-	}
-	else
+	if (m_reservState != PLAYER_STATE::APPEAR)	// Appear 상태를 예약이 없는 상태로 사용...
 	{
 		UpdateState(m_reservState, m_equip);
+		return;
 	}
+    
+	//UpdateState(PLAYER_STATE::IDLE, m_equip);	// 아무 동작이 없다면 IDLE로 변경한다.
 }
 
 void Player::ChangeWeapon()
@@ -386,7 +385,7 @@ void Player::UpdateState(PLAYER_STATE _state, PLAYER_EQUIP_TYPE _equip)
 	*/
 	if(m_isAttack)
     {
-		if (_state != PLAYER_STATE::HIT || _state != PLAYER_STATE::CRITICAL)	// 공격 중 히트 애니메이션을 재생하지 않는다.
+		if (_state == PLAYER_STATE::HIT || _state == PLAYER_STATE::CRITICAL)	// 공격 중 히트 애니메이션을 재생하지 않는다.
 			return;
 
         m_reservState = _state;
@@ -837,7 +836,10 @@ void Player::HandPlatformCheck()
 	else if (m_physics.isWallSliding)
 	{
 		m_physics.WallSlidingEnd();
-		UpdateState(PLAYER_STATE::IDLE, m_equip);
+		if (m_state == PLAYER_STATE::HANG || m_state == PLAYER_STATE::HANG_ATK)
+		{
+			UpdateState(PLAYER_STATE::IDLE, m_equip);
+		}
 	}
 
 }

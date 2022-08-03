@@ -15,7 +15,7 @@ TestMap_1::TestMap_1(Scene* _scene, int _updateOrder, GameObject* _parent) :
 	/*
 	* 카메라 설정
 	*/
-	//CAMERA->SetRestrictRange(0, 0, 1300, 1080);
+	CAMERA->SetRestrictRange(-80, -FLT_MAX, FLT_MAX, FLT_MAX);
 	CAMERA->SetSpeed(1500.0f);
     
     /*
@@ -63,78 +63,132 @@ TestMap_1::TestMap_1(Scene* _scene, int _updateOrder, GameObject* _parent) :
 	background->SetPos(0, 200);
 	m_backgrounds.emplace_back(background);
 
+
 	/*
 	* Create platforms
     */
-	PlatformRect* platform;
-
-	m_PlayerStartFlag = new PlatformRect({ 10, 10 }, false, _scene, OBJECT_TYPE::DEFAULT, _updateOrder, this);
-	m_PlayerStartFlag->SetPos(-336, 152);
-
-	platform = new PlatformRect({640, 32}, L"Tile\\IndustrialTile_32.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, this);
-	platform->SetPos(0, 192);
-	platform->GetCollider()->SetTag("Floor");
-	m_platforms.push_back(platform);
-	
-	platform = new PlatformRect({32, 32}, L"Tile\\IndustrialTile_33.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, this);
-	platform->SetPos(336, 192);
-	m_platforms.push_back(platform);
-	
-	platform = new PlatformRect({640, 32}, L"Tile\\IndustrialTile_41.png", false, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, this);
-	platform->SetPos(0, 224);
-	m_platforms.push_back(platform);
-
-	platform = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_40.png", false, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, this);
-	platform->SetPos(-336, 224);
-	m_platforms.push_back(platform);
-
-	platform = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_42.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, this);
-	platform->SetPos(336, 224);
-	m_platforms.push_back(platform);
+	PlatformRect *platform, *platformLT, *platformMT, *platformRT, *platformLM, *platformMM, *platformRM, *platformLB, *platformMB, *platformRB;
 
 #pragma region 왼쪽 벽 세트
-	// 하단 우
-	platform = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_16.png", false, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, this);
-	platform->SetPos(-368, 192);
-	// 중앙 우
-	platform = new PlatformRect({ 32, 448 }, L"Tile\\IndustrialTile_15.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platform);
-	platform->SetPos(0, -240);
-	platform->GetCollider()->options.slidable = true;
-	platform->GetCollider()->options.resistance.y = 10.0f;
-	// 상단 우
-	platform = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_06.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platform);
-	platform->SetPos(0, -240);
-	platform->GetCollider()->options.slidable = true;
-	platform->GetCollider()->options.resistance.y = 10.0f;
-	// 상단 중
-	platform = new PlatformRect({ 64, 32 }, L"Tile\\IndustrialTile_05.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platform);
-	platform->SetPos(-48, 0);
-	// 중앙 덩어리
-	platform = new PlatformRect({ 64, 448 }, L"Tile\\IndustrialTile_14.png", false, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platform);
-	platform->SetPos(0, 240);
-	// 하단 중
-	platform = new PlatformRect({ 64, 32 }, L"Tile\\IndustrialTile_14.png", false, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platform);
-	platform->SetPos(0, 240);
-    // 하단 좌
-	platform = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_12.png", false, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platform);
-	platform->SetPos(-48, 0);
-	// 중앙 좌
-	platform = new PlatformRect({ 32, 448 }, L"Tile\\IndustrialTile_13.png", false, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platform);
-	platform->SetPos(0, -240);
-	// 상단 좌
-	platform = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_04.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platform);
-	platform->SetPos(0, -240);
+	// 우하단
+	platformRB = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_16.png", false, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, this);
+	platformRB->SetPos(-368, 192);
+	// 중하단
+	platformMB = new PlatformRect({ 64, 32 }, L"Tile\\IndustrialTile_14.png", false, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformRB);
+	platformMB->SetPos(-48, 0);
+	// 좌하단
+	platformLB = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_12.png", false, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformMB);
+	platformLB->SetPos(-48, 0);
+	// 우중단
+	platformRM = new PlatformRect({ 32, 448 }, L"Tile\\IndustrialTile_15.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformRB);
+	platformRM->SetPos(0, -240);
+	platformRM->GetCollider()->options.slidable = true;
+	platformRM->GetCollider()->options.resistance.y = 10.0f;
+	// 중중단
+	platformMM = new PlatformRect({ 64, 448 }, L"Tile\\IndustrialTile_14.png", false, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformMB);
+	platformMM->SetPos(0, -240);
+	// 좌중단
+	platformLM = new PlatformRect({ 32, 448 }, L"Tile\\IndustrialTile_13.png", false, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformLB);
+	platformLM->SetPos(0, -240);
+	// 우상단
+	platformRT = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_06.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformRM);
+	platformRT->SetPos(0, -240);
+	platformRT->GetCollider()->options.slidable = true;
+	platformRT->GetCollider()->options.resistance.y = 10.0f;
+	// 중상단
+	platformMT = new PlatformRect({ 64, 32 }, L"Tile\\IndustrialTile_05.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformMM);
+	platformMT->SetPos(0, -240);
+	// 좌상단
+	platformLT = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_04.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformLM);
+	platformLT->SetPos(0, -240);
+#pragma endregion
+	platform = new PlatformRect({ 128, 320 }, L"Tile\\IndustrialTile_02.png", false, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformMB);
+	platform->SetPos(0, 176);
+
+	// 굴뚝
+	platform = new PlatformRect({ 32, 160 }, L"Tile\\IndustrialTile_63.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformLT);
+	platform->SetPos(32, -96);
+	platform = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_54.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platform);
+	platform->SetPos(0, -96);
+	platform = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_45.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platform);
+	platform->SetPos(0, -32);
+
+#pragma region 아래쪽 바닥 세트 1
+	// 좌상단
+	platformLT = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_31.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, this);
+	platformLT->SetPos(-336, 192);
+	platformLT->GetCollider()->SetTag("LeftFloor");
+	// 상단
+	platformMT = new PlatformRect({ 704, 32 }, L"Tile\\IndustrialTile_32.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformLT);
+	platformMT->SetPos(368, 0);
+	platformMT->GetCollider()->SetTag("Floor");
+	// 우상단
+	platformRT = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_33.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformMT);
+	platformRT->SetPos(368, 0);
+	platformRT->GetCollider()->options.slidable = true;
+	platformRT->GetCollider()->options.resistance.y = 10.0f;
+	// 좌중간
+	platformLM = new PlatformRect({ 32, 384 }, L"Tile\\IndustrialTile_40.png", false, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformLT);
+	platformLM->SetPos(0, 208);
+	// 중간
+	platformMM = new PlatformRect({ 704, 384 }, L"Tile\\IndustrialTile_41.png", false, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformMT);
+	platformMM->SetPos(0, 208);
+	// 우중단
+	platformRM = new PlatformRect({ 32, 224 }, L"Tile\\IndustrialTile_42.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformRT);
+	platformRM->SetPos(0, 128);
+	platformRM->GetCollider()->options.slidable = true;
+	platformRM->GetCollider()->options.resistance.y = 10.0f;
+	platformRM = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_43.png", false, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformRM);
+	platformRM->SetPos(0, 128);
+	platformRM = new PlatformRect({ 32, 128 }, L"Tile\\IndustrialTile_41.png", false, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformRM);
+	platformRM->SetPos(0, 80);
+	// 좌하단
+	platformLB = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_49.png", false, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformLM);
+	platformLB->SetPos(0, 208);
+	// 중하단
+	platformMB = new PlatformRect({ 704, 32 }, L"Tile\\IndustrialTile_50.png", false, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformMM);
+	platformMB->SetPos(0, 208);
+	// 우하단
+	platformRB = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_50.png", false, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformRM);
+	platformRB->SetPos(0, 80);
 #pragma endregion
 
-	platform = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_31.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, this);
-	platform->SetPos(-336, 192);
-	platform->GetCollider()->SetTag("LeftFloor");
-	m_platforms.push_back(platform);
-	
-	platform = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_14.png", false, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, this);
-	platform->SetPos(-368, 224);
-	m_platforms.push_back(platform);
-	
+#pragma region 아래쪽 바닥 세트 2
+	// 좌하단
+	platformLB = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_50.png", false, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformRB);
+	platformLB->SetPos(32, 0);
+	// 중하단
+	platformMB = new PlatformRect({ 704, 32 }, L"Tile\\IndustrialTile_50.png", false, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformLB);
+	platformMB->SetPos(368, 0);
+	// 우하단
+	platformRB = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_51.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformMB);
+	platformRB->SetPos(368, 0);
+	platformRB->GetCollider()->options.slidable = true;
+	platformRB->GetCollider()->options.resistance.y = 10.0f;
+	// 좌중간
+	platformLM = new PlatformRect({ 32, 128 }, L"Tile\\IndustrialTile_41.png", false, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformLB);
+	platformLM->SetPos(0, -80);
+	// 중간
+	platformMM = new PlatformRect({ 704, 128 }, L"Tile\\IndustrialTile_41.png", false, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformMB);
+	platformMM->SetPos(0, -80);
+	// 우중단
+	platformRM = new PlatformRect({ 32, 128 }, L"Tile\\IndustrialTile_42.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformRB);
+	platformRM->SetPos(0, -80);
+	platformRM->GetCollider()->options.slidable = true;
+	platformRM->GetCollider()->options.resistance.y = 10.0f;
+	// 좌상단
+	platformLT = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_32.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformLM);
+	platformLT->SetPos(0, -80);
+	// 상단
+	platformMT = new PlatformRect({ 704, 32 }, L"Tile\\IndustrialTile_32.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformMM);
+	platformMT->SetPos(0, -80);
+	// 우상단
+	platformRT = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_33.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformRM);
+	platformRT->SetPos(0, -80);
+	platformRT->GetCollider()->options.slidable = true;
+	platformRT->GetCollider()->options.resistance.y = 10.0f;
+#pragma endregion
+
 	/*
 	* Object Placement
 	*/
@@ -143,6 +197,9 @@ TestMap_1::TestMap_1(Scene* _scene, int _updateOrder, GameObject* _parent) :
 
     /*
 	*/
+	m_PlayerStartFlag = new PlatformRect({ 10, 10 }, false, _scene, OBJECT_TYPE::DEFAULT, _updateOrder, this);
+	m_PlayerStartFlag->SetPos(-336, 152);
+
 	SetMonsters();
 }
 
@@ -193,5 +250,5 @@ D3DXVECTOR2 TestMap_1::GetPlayerStartPoint()
 
 void TestMap_1::SetMonsters()
 {
-	MonsterFactory::CreateMonster(m_scene, MONSTERS::MMM, { 0, 0 }, this);
+	MonsterFactory::CreateMonster(m_scene, MONSTERS::MMM, { 0, 130 }, this);
 }
