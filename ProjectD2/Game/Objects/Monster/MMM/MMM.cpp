@@ -227,7 +227,7 @@ void MMM::SetAnimation()
 
 void MMM::Idle()
 {
-    if (m_timer <= 2.0f)
+    if (m_timer <= 2.0f * Math::Random(1.0f, 4.0f))
     {
         m_timer += fDT;
         return;
@@ -300,8 +300,11 @@ void MMM::Chase()
 
     if (player != nullptr && player->GetState() != OBJECT_STATE::DEAD)
     {
-        if (Collision(m_attackRangeCollider, m_lastFindPlayerCollider)) // 공격 범위에 들어오면 공격을 시도한다.
+        m_timer += fDT;
+        
+        if (m_timer >= 1.0f && Collision(m_attackRangeCollider, m_lastFindPlayerCollider)) // 공격 범위에 들어오면 공격을 시도한다.
         {
+            m_timer = 0.0f;
             m_AI->ChangeState(MON_STATE::ATTACK);
             return;
         }
@@ -309,6 +312,9 @@ void MMM::Chase()
         if (CheckFloor(*m_floorSight))    // 바닥이 있을 때 Player를 쫓아간다.
         {
             D3DXVECTOR2 dir = player->GetWorldPos() - GetWorldPos();
+            if (Math::NearZero(dir.x, 15.0f))    // 가까이 접근하면 더 이상 이동하지 않는다.
+                return;
+
             if (dir.x < 0)
             {
                 if (GetScale().x < 0)
@@ -330,12 +336,14 @@ void MMM::Chase()
 void MMM::Attack()
 {
     m_attackCollider->IsActive(true);
+    m_timer = 0.0f;
 }
 
 void MMM::AttackEnd()
 {
     m_attackCollider->IsActive(false);
     m_AI->RevertToPreviousState();
+    m_timer = 0.0f;
     return;
 }
 

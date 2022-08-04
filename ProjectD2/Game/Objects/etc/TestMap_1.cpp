@@ -17,6 +17,7 @@ TestMap_1::TestMap_1(Scene* _scene, int _updateOrder, GameObject* _parent) :
 	/*
 	* 카메라 설정
 	*/
+	//CAMERA->SetRestrictRange(-80.0f, -1000.0f, FLT_MAX, FLT_MAX);
 	CAMERA->SetRestrictRange(-80.0f, -1000.0f, 1264.0f, FLT_MAX);
 	CAMERA->SetSpeed(1500.0f);
     
@@ -161,18 +162,18 @@ TestMap_1::TestMap_1(Scene* _scene, int _updateOrder, GameObject* _parent) :
 	platformLB = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_50.png", false, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformRB);
 	platformLB->SetPos(32, 0);
 	// 중하단
-	platformMB = new PlatformRect({ 704, 32 }, L"Tile\\IndustrialTile_50.png", false, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformLB);
-	platformMB->SetPos(368, 0);
+	platformMB = new PlatformRect({ 1408, 32 }, L"Tile\\IndustrialTile_50.png", false, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformLB);
+	platformMB->SetPos(720, 0);
 	// 우하단
 	platformRB = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_51.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformMB);
-	platformRB->SetPos(368, 0);
+	platformRB->SetPos(720, 0);
 	platformRB->GetCollider()->options.slidable = true;
 	platformRB->GetCollider()->options.resistance.y = 10.0f;
 	// 좌중간
 	platformLM = new PlatformRect({ 32, 128 }, L"Tile\\IndustrialTile_41.png", false, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformLB);
 	platformLM->SetPos(0, -80);
 	// 중간
-	platformMM = new PlatformRect({ 704, 128 }, L"Tile\\IndustrialTile_41.png", false, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformMB);
+	platformMM = new PlatformRect({ 1408, 128 }, L"Tile\\IndustrialTile_41.png", false, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformMB);
 	platformMM->SetPos(0, -80);
 	// 우중단
 	platformRM = new PlatformRect({ 32, 128 }, L"Tile\\IndustrialTile_42.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformRB);
@@ -183,7 +184,7 @@ TestMap_1::TestMap_1(Scene* _scene, int _updateOrder, GameObject* _parent) :
 	platformLT = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_32.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformLM);
 	platformLT->SetPos(0, -80);
 	// 상단
-	platformMT = new PlatformRect({ 704, 32 }, L"Tile\\IndustrialTile_32.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformMM);
+	platformMT = new PlatformRect({ 1408, 32 }, L"Tile\\IndustrialTile_32.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformMM);
 	platformMT->SetPos(0, -80);
 	// 우상단
 	platformRT = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_33.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformRM);
@@ -192,6 +193,87 @@ TestMap_1::TestMap_1(Scene* _scene, int _updateOrder, GameObject* _parent) :
 	platformRT->GetCollider()->options.resistance.y = 10.0f;
 #pragma endregion
 
+#pragma region 우측 벽 세트
+	// 좌하단
+	platformLB = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_36.png", false, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformRB);
+	platformLB->SetPos(32, 0);
+	// 중하단
+	platformMB = new PlatformRect({ 160, 32 }, L"Tile\\IndustrialTile_36.png", false, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformLB);
+	platformMB->SetPos(96, 0);
+	// 우하단
+	platformRB = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_36.png", false, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformMB);
+	platformRB->SetPos(96, 0);
+	// 좌중단
+	platformLM = new PlatformRect({ 32, 480 }, L"Tile\\IndustrialTile_13.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformLB);
+	platformLM->SetPos(0, -256);
+	platformLM->GetCollider()->options.slidable = true;
+	platformLM->GetCollider()->options.resistance.y = 10.0f;
+	// 중중단
+	platformMM = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_28.png", false, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformLB);
+	platformMM->SetPos(32, -32);
+	platformMM = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_19.png", false, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformMM);
+	platformMM->SetPos(0, -32);
+	platformMM = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_10.png", false, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformMM);
+	platformMM->SetPos(0, -32);
+	platformMM = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_28.png", false, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformMM);
+	platformMM->SetPos(0, -32);
+	platformMM = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_19.png", false, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformMM);
+	platformMM->SetPos(0, -32);
+	platformMM = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_10.png", false, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformMM);
+	platformMM->SetPos(0, -32);
+	platformMM = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_28.png", false, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformMM);
+	platformMM->SetPos(0, -32);
+	platformMM = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_19.png", false, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformMM);
+	platformMM->SetPos(0, -32);
+	platformMM = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_10.png", false, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformMM);
+	platformMM->SetPos(0, -32);
+	platformMM = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_28.png", false, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformMM);
+	platformMM->SetPos(0, -32);
+	platformMM = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_19.png", false, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformMM);
+	platformMM->SetPos(0, -32);
+	platformMM = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_10.png", false, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformMM);
+	platformMM->SetPos(0, -32);
+	platformMM = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_28.png", false, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformMM);
+	platformMM->SetPos(0, -32);
+	platformMM = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_19.png", false, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformMM);
+	platformMM->SetPos(0, -32);
+	platformMM = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_10.png", false, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformMM);
+	platformMM->SetPos(0, -32);
+	platformMM = new PlatformRect({ 128, 480 }, L"Tile\\IndustrialTile_14.png", false, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformMB);
+	platformMM->SetPos(16, -256);
+	// 우중단
+	platformRM = new PlatformRect({ 32, 480 }, L"Tile\\IndustrialTile_15.png", false, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformRB);
+	platformRM->SetPos(0, -256);
+	// 좌상단
+	platformLT = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_04.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformLM);
+	platformLT->SetPos(0, -256);
+	platformRT->GetCollider()->options.slidable = true;
+	platformRT->GetCollider()->options.resistance.y = 10.0f;
+	// 중상단
+	platformMT = new PlatformRect({ 160, 32 }, L"Tile\\IndustrialTile_05.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformMM);
+	platformMT->SetPos(-16, -256);
+	// 우상단
+	platformRT = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_06.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformRM);
+	platformRT->SetPos(0, -256);
+#pragma endregion
+	
+	// 굴뚝
+	platform = new PlatformRect({ 32, 160 }, L"Tile\\IndustrialTile_63.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformLT);
+	platform->SetPos(32, -96);
+	platform = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_54.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platform);
+	platform->SetPos(0, -96);
+	platform = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_45.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platform);
+	platform->SetPos(0, -32);
+
+	// 굴뚝
+	platform = new PlatformRect({ 32, 160 }, L"Tile\\IndustrialTile_63.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformRT);
+	platform->SetPos(-32, -96);
+	platform = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_54.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platform);
+	platform->SetPos(0, -96);
+	platform = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_45.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platform);
+	platform->SetPos(0, -32);
+
+	
 	/*
 	* Object Placement
 	*/
@@ -266,4 +348,8 @@ D3DXVECTOR2 TestMap_1::GetPlayerStartPoint()
 void TestMap_1::SetMonsters()
 {
 	MonsterFactory::CreateMonster(m_scene, MONSTERS::MMM, { 0, 130 }, this);
+    
+	MonsterFactory::CreateMonster(m_scene, MONSTERS::MMM, { 600, 300 }, this);
+	MonsterFactory::CreateMonster(m_scene, MONSTERS::MMM, { 750, 300 }, this);
+	MonsterFactory::CreateMonster(m_scene, MONSTERS::MMM, { 1000, 300 }, this);
 }

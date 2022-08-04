@@ -25,6 +25,7 @@
 // etc...
 #include <cassert>
 #include <cmath>
+#include <ctime>
 #include <functional>
 #include <math.h>
 #include <AntTweakBar.h>

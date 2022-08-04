@@ -32,6 +32,8 @@ Core::Core() :
     m_textureMgr = nullptr;
     m_camera = nullptr;
     m_Game = nullptr;
+
+    srand((UINT)time(nullptr));
 }
 
 Core::~Core()
