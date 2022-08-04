@@ -17,17 +17,16 @@ GameObject::GameObject(Scene* _scene, OBJECT_TYPE _type, int _updateOrder, GameO
 	, m_isUpdating(false)
 	, m_isRendering(false)
 {
-	m_scene->AddObject(this, _type);
+	if (_type != OBJECT_TYPE::UI)
+	{
+		m_scene->AddObject(this, _type);
 
-	SetVertexData();
+		SetVertexData();
+	}
 }
 
 GameObject::~GameObject()
 {
-	/*     Buffer Release     */
-	m_vertexBuffer->Release();
-	 m_indexBuffer->Release();
-	
 	/*     Component Release       */
 	while (!m_componentList.empty())
 	{
@@ -35,8 +34,15 @@ GameObject::~GameObject()
 		//delete m_componentList.back();
 	}
 	
-	/*     GameObject Release        */
-	m_scene->DeleteObject(this);
+	if (m_type != OBJECT_TYPE::UI)
+	{
+		/*     Buffer Release     */
+		m_vertexBuffer->Release();
+		m_indexBuffer->Release();
+        
+		/*     GameObject Release        */
+		m_scene->DeleteObject(this);
+	}
 }
 
 void GameObject::Update()
@@ -89,13 +95,19 @@ void GameObject::FinalUpdate()
 
 	if (m_state == OBJECT_STATE::ACTIVE)
 	{
-		m_directionPower = Math::NearZeroValue(GetPos() - m_beforePos);
-		D3DXVec2Normalize(&m_direction, &m_directionPower);
+		if (m_type == OBJECT_TYPE::PLAYER)
+		{
+			m_directionPower = Math::NearZeroValue(GetPos() - m_beforePos);
+			D3DXVec2Normalize(&m_direction, &m_directionPower);
+		}
 		
 		FinalUpdateComponent();
 		FinalUpdateObject();
-		
-		m_beforePos = GetPos();
+        
+		if (m_type == OBJECT_TYPE::PLAYER)
+		{
+			m_beforePos = GetPos();
+		}
 	}
 	
 	m_isUpdating = false;
@@ -118,6 +130,7 @@ void GameObject::Render()
 	m_isRendering = true;
 
 	SetWorld();
+    
 	RenderComponent();
 	RenderObject();
 	

@@ -220,7 +220,7 @@
     <ClCompile Include="Game\Objects\Charactor\Part\Part.cpp" />
     <ClCompile Include="Game\Objects\Charactor\Projectile\Bullet.cpp" />
     <ClCompile Include="Game\Objects\Charactor\Projectile\BulletManager.cpp" />
-    <ClCompile Include="Game\Objects\etc\TestUI_1.cpp" />
+    <ClCompile Include="Game\Objects\UI\WeaponUI.cpp" />
     <ClCompile Include="Game\Objects\Monster\MMM\MMM.cpp" />
     <ClCompile Include="Game\Objects\Monster\Monster.cpp" />
     <ClCompile Include="Game\Objects\Monster\MonsterFactory.cpp" />
@@ -255,6 +255,7 @@
     <ClInclude Include="Engine\Component\Animator\Animation.h" />
     <ClInclude Include="Engine\Component\Animator\Animator.h" />
     <ClInclude Include="Engine\Object\UIObject.h" />
+    <ClInclude Include="Engine\Observer\Observer.h" />
     <ClInclude Include="Engine\Resource\Shader.h" />
     <ClInclude Include="Engine\Core\Manager\Timer\Timer.h" />
     <ClInclude Include="Engine\Object\Transform.h" />
@@ -269,7 +270,7 @@
     <ClInclude Include="Game\Objects\Charactor\Part\Part.h" />
     <ClInclude Include="Game\Objects\Charactor\Projectile\Bullet.h" />
     <ClInclude Include="Game\Objects\Charactor\Projectile\BulletManager.h" />
-    <ClInclude Include="Game\Objects\etc\TestUI_1.h" />
+    <ClInclude Include="Game\Objects\UI\WeaponUI.h" />
     <ClInclude Include="Game\Objects\Monster\MMM\MMM.h" />
     <ClInclude Include="Game\Objects\Monster\Monster.h" />
     <ClInclude Include="Game\Objects\Monster\MonsterFactory.h" />

@@ -5,7 +5,8 @@ enum class OBJECT_STATE
 {
 	DEAD,
 	ACTIVE,
-	INACTIVE
+	INACTIVE,
+    HIDDEN
 };
 
 class Component;

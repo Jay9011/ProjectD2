@@ -111,6 +111,8 @@ Player::Player(Scene* _scene, OBJECT_TYPE _type, int _updateOrder, GameObject* _
 	* 
 	*/
 	SetAnimation();
+
+	m_observable = scene->GetGame()->playerObservable;
 }
 
 Player::~Player()
@@ -310,6 +312,7 @@ void Player::ChangeWeapon()
 			UpdateState(m_state, PLAYER_EQUIP_TYPE::GUN);
         }
 		
+		m_observable->Notify(*this, "GetEquip");
 	}
 }
 

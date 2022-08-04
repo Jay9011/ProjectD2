@@ -1,5 +1,6 @@
 #pragma once
 #include "Engine/Object/GameObject.h"
+#include "Engine/Observer/Observer.h"
 
 class Scene;
 using PlayerStatus = struct tagPlayerStatus
@@ -79,6 +80,11 @@ private:
 	float m_reloadTimeMax;
     bool  m_isReload;
 
+    /*
+	* Observer
+	*/
+    Observable<Player>* m_observable;
+
 #if _DEBUG
 	D3DXVECTOR3 m_dir;
 #endif
@@ -91,4 +97,10 @@ private:
 		SetScale(scale);
 	};
 
+/* === === === === ===
+*  Getter / Setter
+* === === === === === */
+public:
+    PLAYER_EQUIP_TYPE GetEquip() const { return m_equip; }
+    
 };

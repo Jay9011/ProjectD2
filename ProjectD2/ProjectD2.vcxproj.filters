@@ -150,7 +150,7 @@
     <ClCompile Include="Engine\Object\UIObject.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Objects\etc\TestUI_1.cpp">
+    <ClCompile Include="Game\Objects\UI\WeaponUI.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -317,7 +317,10 @@
     <ClInclude Include="Engine\Object\UIObject.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Objects\etc\TestUI_1.h">
+    <ClInclude Include="Game\Objects\UI\WeaponUI.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Observer\Observer.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

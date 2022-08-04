@@ -9,7 +9,7 @@
 #include "Game/Objects/etc/TestObjectCircle.h"
 #include "Game/Objects/etc/TestObjectLine.h"
 #include "Game/Objects/etc/TestMap_1.h"
-#include "Game/Objects/etc/TestUI_1.h"
+#include "Game/Objects/UI/WeaponUI.h"
 
 TestScene::TestScene(Game* _game) :
 	Scene(_game)
@@ -24,7 +24,7 @@ void TestScene::Init()
 	testMap_1->SetScale(1.5, 1.5);
 	testMap_1->SetPos(WIN_CENTER_X, WIN_CENTER_Y);
 
-	testUi_1 = new TestUI_1(this);
+	playerWeapon = new WeaponUI(this);
 }
 
 void TestScene::SceneEnter()

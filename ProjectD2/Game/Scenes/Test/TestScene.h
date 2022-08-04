@@ -16,9 +16,9 @@ public:
 	virtual void SceneEnter() override;
 	virtual void SceneExit() override;
 
+private:
 	class TestMap_1* testMap_1;
 	class Player* testObject;
-    
-	class TestUI_1* testUi_1;
+	class WeaponUI* playerWeapon;
 };
 

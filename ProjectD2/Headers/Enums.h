@@ -21,6 +21,7 @@ enum class OBJECT_TYPE
     MONSTER_ATK,
 	FOREBLOCK,
 	FOREGROUND,
+	UI,	// 반드시 필요함
 	FIN
 };
 

@@ -8,6 +8,7 @@ bool Game::m_isDbgRendering = true;
 
 Game::Game() :
 	m_GameState(GAME_STATE::PLAY)
+    , playerObservable(new Observable<Player>)
 {
 	/* === === === === ===
 	*       기본 설정
@@ -21,10 +22,12 @@ Game::Game() :
 	SCENE->Add("Test", new TestScene(this));
 	
 	SCENE->ChangeScene("Test");
+
 }
 
 Game::~Game()
 {
+    delete playerObservable;
 }
 
 void Game::Update()

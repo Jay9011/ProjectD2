@@ -19,6 +19,10 @@ Scene::Scene(Game* _game) :
 
 Scene::~Scene()
 {
+	for (auto& ui : m_uiObjects)
+	{
+		delete ui;
+	}
 	DeleteAll();
 	delete m_CollisionMgr;
 }
@@ -92,7 +96,7 @@ void Scene::Update()
         auto iter = m_uiObjects.begin();
         while (iter != m_uiObjects.end())
         {
-            if ((*iter)->IsInactive())
+            if ((*iter)->IsDead())
                 continue;
             
             (*iter)->Update();
@@ -149,7 +153,7 @@ void Scene::FinalUpdate()
 		* === === === === ===*/
         for (auto& object : m_uiObjects)
         {
-            if (object->IsInactive())
+            if (object->IsDead())
                 continue;
             
             object->FinalUpdate();
@@ -179,9 +183,12 @@ void Scene::Render()
     /* === === === === ===
 	* 마지막에 UI를 Render한다.
 	* === === === === === */
+	D3DXMATRIX view;
+	D3DXMatrixIdentity(&view);
+	DEVICE->SetTransform(D3DTS_VIEW, &view);
     for (auto& ui : m_uiObjects)
     {
-        if (ui->IsHidden() || ui->IsInactive())
+        if (ui->GetState() == OBJECT_STATE::INACTIVE || ui->GetState() == OBJECT_STATE::HIDDEN)
             continue;
         
         ui->Render();
