@@ -12,9 +12,10 @@ HeartUI::HeartUI(Scene* _scene, int _updateOrder, UIObject* _parent) :
     , m_scene(_scene)
 {
     m_scene->GetGame()->playerObservable->Subscribe(this);
-    
-    // 기본적으로 하트를 1개 생성해둔다. (사용하기 위함)
-    //m_hearts.emplace_back(new Heart(m_scene, 100, this));
+
+    m_fullHeart = TEXTURE->Add(L"UI\\Heart.png");
+    m_emptyHeart = TEXTURE->Add(L"UI\\EmptyHeart.png");
+    m_shader = SHADER(L"AlphaShader");
 }
 
 HeartUI::~HeartUI()
@@ -32,7 +33,31 @@ void HeartUI::UpdateObject()
 
 void HeartUI::RenderObject()
 {
+    D3DXVECTOR2 pos = GetWorldPos();
+    D3DXVECTOR2 scale = GetWorldScale();
+    D3DXVECTOR2 textureSize = m_fullHeart->GetSize();
 
+    m_shader->Begin();
+    for (int i = 0; i < m_maxHP; i++)
+    {
+        SetPos(pos.x + (scale.x * textureSize.x * i), pos.y);
+        UpdateWorld();
+        SetWorld();
+        
+        if (i < m_HP)
+        {
+            m_fullHeart->Render();
+        }
+        else
+        {
+            m_emptyHeart->Render();
+        }
+    }
+    m_shader->End();
+    
+    SetPos(pos);
+    UpdateWorld();
+    SetWorld();
 }
 
 void HeartUI::FieldChanged(Player& field, const string& fieldName)
@@ -46,58 +71,6 @@ void HeartUI::FieldChanged(Player& field, const string& fieldName)
         if (m_maxHP == 0)
         {
             m_maxHP = field.GetMaxHP();
-            InitHeart();
         }
     }
 }
-
-void HeartUI::InitHeart()
-{
-    int countX = m_maxHP;
-        
-    D3DXVECTOR2 pos = GetPos();
-    D3DXVECTOR2 textureSize = m_hearts[0]->animator->GetCurrentTexture()->GetSize();
-    D3DXVECTOR2 textureHalfSize = textureSize * 0.5f;
-
-    //for (size_t x = 1; x < countX; x++)
-    //{
-    //    m_hearts.emplace_back(new Heart(m_scene, 100, this));
-    //    m_hearts[x]->SetPos(pos.x + textureSize.x, 0);
-    //    pos = m_hearts[x]->GetPos();
-    //}
-}
-//
-//Heart::Heart(Scene* _scene, int _updateOrder, UIObject* _parent) :
-//    UIObject(_scene, _updateOrder, _parent)
-//{
-//    animator = ADDCOMP::NewAnimator(this, SHADER(L"AlphaShader"));
-//
-//    for (int i = 0; i < (int)HEART_STATE::FIN; i++)
-//    {
-//        switch ((HEART_STATE)i)
-//        {
-//        case HEART_STATE::Empty:
-//            animator->LoadXML("UI\\", "heartEmpty", ANIM_PLAY_TYPE::ONCE, 0.05f);
-//            break;
-//        case HEART_STATE::Full:
-//            animator->LoadXML("UI\\", "heart", ANIM_PLAY_TYPE::ONCE, 0.05f);
-//            break;
-//        default:
-//            break;
-//        }
-//    }
-//
-//    animator->SetCurrentAnimation(animator->Find((int)HEART_STATE::Full));
-//}
-//
-//Heart::~Heart()
-//{
-//}
-//
-//void Heart::UpdateObject()
-//{
-//}
-//
-//void Heart::RenderObject()
-//{
-//}

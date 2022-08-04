@@ -77,8 +77,8 @@ Player::Player(Scene* _scene, OBJECT_TYPE _type, int _updateOrder, GameObject* _
 	/* === === === === ===
 	*   Init Settings
 	* === === === === === */
-	m_status.maxHp = 30.0f;
-	m_status.hp = 30.0f;
+	m_status.maxHp = 10.0f;
+	m_status.hp = 10.0f;
 	m_observable->Notify(*this, "GetMaxHP");
 	m_observable->Notify(*this, "GetHP");
 	/*
@@ -163,7 +163,9 @@ void Player::Damage(float _damage)
     if(m_state == PLAYER_STATE::CRITICAL || m_state == PLAYER_STATE::DIE)
         return;
 
+	CAMERA->Shake(0.2f, 100.0f);
     m_status.hp -= _damage;
+	m_observable->Notify(*this, "GetHP");
 	UpdateState(PLAYER_STATE::HIT, m_equip);
     
     if (m_status.hp <= 0)
