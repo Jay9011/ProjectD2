@@ -73,7 +73,11 @@ void TestScene::UpdateScene()
 	GetCollisionMgr()->CheckCollision(OBJECT_TYPE::PLAYER, OBJECT_TYPE::PLATFORM, collided);
 	GetCollisionMgr()->CheckCollision(OBJECT_TYPE::PLAYER_ATK, OBJECT_TYPE::MONSTER, collided);
 	GetCollisionMgr()->CheckCollision(OBJECT_TYPE::MONSTER_ATK, OBJECT_TYPE::PLAYER, collided);
-
+	
+    /*
+	* Interactive Object 사용 확인
+	*/
+	GetCollisionMgr()->CheckCollision(OBJECT_TYPE::PLAYER, OBJECT_TYPE::INTERACTIVE, collided);
 }
 
 void TestScene::RenderScene()

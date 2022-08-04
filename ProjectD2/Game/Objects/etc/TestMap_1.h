@@ -18,12 +18,14 @@ public:
 private:
 	Scene* m_scene;
 
-	vector<Background*> m_backgrounds;
+	PlatformRect* m_PlayerStartFlag;
     
 	vector<GameObject*> m_platforms;
+	vector<Background*> m_backgrounds;
+    
+	
 	PlatformRect* m_Entry;
 	
-	PlatformRect* m_PlayerStartFlag;
 
 public:
 	D3DXVECTOR2 GetPlayerStartPoint();

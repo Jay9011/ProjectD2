@@ -7,6 +7,8 @@
 #include "Game/Objects/Background/Background.h"
 #include "Game/Objects/Platforms/PlatformRect.h"
 #include "Game/Objects/Monster/MonsterFactory.h"
+#include "Game/Objects/Interactive/ScreenButton.h"
+#include "Game/Objects/Interactive/Door.h"
 
 TestMap_1::TestMap_1(Scene* _scene, int _updateOrder, GameObject* _parent) :
 	GameObject(_scene, OBJECT_TYPE::DEFAULT, _updateOrder, _parent)
@@ -15,7 +17,7 @@ TestMap_1::TestMap_1(Scene* _scene, int _updateOrder, GameObject* _parent) :
 	/*
 	* 카메라 설정
 	*/
-	CAMERA->SetRestrictRange(-80, -FLT_MAX, FLT_MAX, FLT_MAX);
+	CAMERA->SetRestrictRange(-80.0f, -1000.0f, 1264.0f, FLT_MAX);
 	CAMERA->SetSpeed(1500.0f);
     
 	/*
@@ -193,8 +195,20 @@ TestMap_1::TestMap_1(Scene* _scene, int _updateOrder, GameObject* _parent) :
 	/*
 	* Object Placement
 	*/
-	platform = new PlatformRect({32, 64}, L"Tile\\Entry.png", 8, 1, false, _scene, OBJECT_TYPE::FOREBLOCK, _updateOrder, this);
-	platform->SetPos(336, 144);
+    Door* door = new Door(_scene, OBJECT_TYPE::FOREBLOCK, _updateOrder, this);
+	door->SetPos(400, 144);
+	door->SetOpenFunc([](){
+		CAMERA->SetRestrictRange(-80.0f, -1000.0f, FLT_MAX, FLT_MAX);
+	});
+    
+	ScreenButton* button = new ScreenButton(_scene, OBJECT_TYPE::INTERACTIVE, _updateOrder, this);
+	button->SetPos(300, 155);
+	button->SetInteractObject(door);
+
+    platform = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_71.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, door);
+	platform->SetPos(0, -48);
+    platform = new PlatformRect({ 32, 320 }, L"Tile\\IndustrialTile_73.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platform);
+	platform->SetPos(0, -176);
 
     /*
 	*/

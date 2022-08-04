@@ -220,6 +220,8 @@
     <ClCompile Include="Game\Objects\Charactor\Part\Part.cpp" />
     <ClCompile Include="Game\Objects\Charactor\Projectile\Bullet.cpp" />
     <ClCompile Include="Game\Objects\Charactor\Projectile\BulletManager.cpp" />
+    <ClCompile Include="Game\Objects\Interactive\Door.cpp" />
+    <ClCompile Include="Game\Objects\Interactive\ScreenButton.cpp" />
     <ClCompile Include="Game\Objects\UI\HeartUI.cpp" />
     <ClCompile Include="Game\Objects\UI\WeaponUI.cpp" />
     <ClCompile Include="Game\Objects\Monster\MMM\MMM.cpp" />
@@ -271,6 +273,8 @@
     <ClInclude Include="Game\Objects\Charactor\Part\Part.h" />
     <ClInclude Include="Game\Objects\Charactor\Projectile\Bullet.h" />
     <ClInclude Include="Game\Objects\Charactor\Projectile\BulletManager.h" />
+    <ClInclude Include="Game\Objects\Interactive\Door.h" />
+    <ClInclude Include="Game\Objects\Interactive\ScreenButton.h" />
     <ClInclude Include="Game\Objects\UI\HeartUI.h" />
     <ClInclude Include="Game\Objects\UI\WeaponUI.h" />
     <ClInclude Include="Game\Objects\Monster\MMM\MMM.h" />
