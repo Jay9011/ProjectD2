@@ -39,13 +39,18 @@ void Camera::Update()
 
     UpdateWorld();
 
-    DEVICE->SetTransform(D3DTS_VIEW, &m_world);
+    SetView();
 }
 
 void Camera::Render()
 {
 
     CameraEffectProgress();
+}
+
+void Camera::SetView()
+{
+    DEVICE->SetTransform(D3DTS_VIEW, &m_world);
 }
 
 void Camera::FreeMode()

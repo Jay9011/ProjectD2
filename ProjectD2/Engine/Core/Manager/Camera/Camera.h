@@ -27,6 +27,7 @@ public:
 public:
     void Update();
     void Render();
+    void SetView();
 
 private:
     void FreeMode();

@@ -2,6 +2,7 @@
 #include "Scene.h"
 
 #include "Engine/Object/GameObject.h"
+#include "Engine/Object/UIObject.h"
 #include "Engine/Component/Collision/Collision.h"
 
 Scene::Scene(Game* _game) :
@@ -85,6 +86,19 @@ void Scene::Update()
                 ++iter;
             }
 		}
+        /* === === === === ===
+		*  UI Objects Update
+		* === === === === ===*/
+        auto iter = m_uiObjects.begin();
+        while (iter != m_uiObjects.end())
+        {
+            if ((*iter)->IsInactive())
+                continue;
+            
+            (*iter)->Update();
+            ++iter;
+        }
+        
 		m_updatingObjects = false;
 
 		// 대기중인 object들 갱신후 이동
@@ -130,6 +144,17 @@ void Scene::FinalUpdate()
 			}
 		}
 
+		/* === === === === ===
+		*  UI Objects Final Update
+		* === === === === ===*/
+        for (auto& object : m_uiObjects)
+        {
+            if (object->IsInactive())
+                continue;
+            
+            object->FinalUpdate();
+        }
+
 		m_updatingObjects = false;
 	}
 	
@@ -150,6 +175,19 @@ void Scene::Render()
 	}
 
 	RenderScene();
+
+    /* === === === === ===
+	* 마지막에 UI를 Render한다.
+	* === === === === === */
+    for (auto& ui : m_uiObjects)
+    {
+        if (ui->IsHidden() || ui->IsInactive())
+            continue;
+        
+        ui->Render();
+    }
+	CAMERA->SetView(); // UI Render를 마친 후 View를 원래 상태로 되돌린다.
+    
 }
 
 void Scene::AddObject(GameObject* _object, OBJECT_TYPE _type)
@@ -195,6 +233,31 @@ void Scene::DeleteObject(GameObject* _object)
 			m_objects[(UINT)type].pop_back();
 		}
 	}
+}
+
+void Scene::AddUI(UIObject* _ui)
+{
+	int objectOrder = _ui->GetOrder();
+	auto iter = m_uiObjects.begin();
+	for (; iter != m_uiObjects.end(); iter++)
+	{
+		if (objectOrder < (*iter)->GetOrder())
+		{
+			break;
+		}
+	}
+
+	m_uiObjects.insert(iter, _ui);
+}
+
+void Scene::DeleteUI(UIObject* _ui)
+{
+	auto iter = std::find(m_uiObjects.begin(), m_uiObjects.end(), _ui);
+	if(iter != m_uiObjects.end())
+    {
+        std::iter_swap(iter, m_uiObjects.end() - 1);
+        m_uiObjects.pop_back();
+    }
 }
 
 void Scene::DeleteGroup(OBJECT_TYPE _type)

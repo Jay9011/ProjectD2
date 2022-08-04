@@ -1,6 +1,7 @@
 #pragma once
 class Game;
 class GameObject;
+class UIObject;
 class Scene
 {
 public:
@@ -24,6 +25,9 @@ public:
 
 	void AddObject(GameObject* _object, OBJECT_TYPE _type);
 	void DeleteObject(GameObject* _object);
+	
+	void AddUI(UIObject* _ui);
+	void DeleteUI(UIObject* _ui);
 
 	void DeleteGroup(OBJECT_TYPE _type);
 	void DeleteAll();
@@ -39,7 +43,8 @@ private:
 	vector<GameObject*> m_objects[(UINT)OBJECT_TYPE::FIN];
 	vector<GameObject*> m_pendingObjects[(UINT)OBJECT_TYPE::FIN];	// 대기중인 오브젝트들
 	list<GameObject*> m_deadObjects;	// 삭제 예정 죽은 오브젝트들
-	
+    
+	vector<UIObject*> m_uiObjects;
 	
 /* === === === === ===
 *  Getter / Setter
