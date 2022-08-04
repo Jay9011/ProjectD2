@@ -1,12 +1,18 @@
 #pragma once
 #include "Engine/Object/UIObject.h"
 #include "Engine/Observer/Observer.h"
-
-class WeaponUI :public UIObject, public Observer<Player>
+class Player;
+class HeartUI : public UIObject, public Observer<Player>
 {
+    enum Heart
+    {
+        Full,
+        Empty,
+        FIN
+    };
 public:
-    WeaponUI(Scene* _scene, int _updateOrder = 100, UIObject* _parent = nullptr);
-    ~WeaponUI() override;
+    HeartUI(Scene* _scene, int _updateOrder = 100, UIObject* _parent = nullptr);
+    ~HeartUI();
 
     // UIObject을(를) 통해 상속됨
     virtual void UpdateObject() override;
@@ -17,12 +23,14 @@ public:
 
 private:
     void SetAnimation();
-    void PlayAnimation(PLAYER_EQUIP_TYPE _type);
 
 private:
     Scene* m_scene;
-    
+
     Animator* m_animator;
-    
+
+    float m_maxHP;
+    float m_HP;
+
 };
 

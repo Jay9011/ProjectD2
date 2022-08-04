@@ -19,10 +19,12 @@ Scene::Scene(Game* _game) :
 
 Scene::~Scene()
 {
-	for (auto& ui : m_uiObjects)
+	while (!m_uiObjects.empty())
 	{
-		delete ui;
+        delete m_uiObjects.back();
 	}
+	m_uiObjects.clear();
+    
 	DeleteAll();
 	delete m_CollisionMgr;
 }

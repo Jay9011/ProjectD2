@@ -47,6 +47,8 @@ Player::Player(Scene* _scene, OBJECT_TYPE _type, int _updateOrder, GameObject* _
 	TwAddVarRW(_scene->twbar, "WallResistance", TW_TYPE_FLOAT, &m_physics.resistance.y, "");
 	TwAddVarRO(_scene->twbar, "JumpCount", TW_TYPE_INT16, &m_physics.jumpCount, "");
 #endif // _DEBUG
+	m_observable = scene->GetGame()->playerObservable;
+    
 	/* === === === === ===
 	*  Component Setting
 	* === === === === === */
@@ -75,7 +77,10 @@ Player::Player(Scene* _scene, OBJECT_TYPE _type, int _updateOrder, GameObject* _
 	/* === === === === ===
 	*   Init Settings
 	* === === === === === */
+	m_status.maxHp = 30.0f;
 	m_status.hp = 30.0f;
+	m_observable->Notify(*this, "GetMaxHP");
+	m_observable->Notify(*this, "GetHP");
 	/*
 	* Physics
 	*/
@@ -111,8 +116,6 @@ Player::Player(Scene* _scene, OBJECT_TYPE _type, int _updateOrder, GameObject* _
 	* 
 	*/
 	SetAnimation();
-
-	m_observable = scene->GetGame()->playerObservable;
 }
 
 Player::~Player()

@@ -20,5 +20,6 @@ private:
 	class TestMap_1* testMap_1;
 	class Player* testObject;
 	class WeaponUI* playerWeapon;
+	class HeartUI*  playerHeart;
 };
 

@@ -5,6 +5,7 @@
 class Scene;
 using PlayerStatus = struct tagPlayerStatus
 {
+	float maxHp;
 	float hp;
 };
 class Player : public GameObject
@@ -102,5 +103,7 @@ private:
 * === === === === === */
 public:
     PLAYER_EQUIP_TYPE GetEquip() const { return m_equip; }
+	float GetMaxHP() const { return m_status.maxHp; }
+    float GetHP() const { return m_status.hp; }
     
 };

@@ -27,7 +27,7 @@ Game::Game() :
 
 Game::~Game()
 {
-    delete playerObservable;
+	SAFE_DELETE(playerObservable);
 }
 
 void Game::Update()

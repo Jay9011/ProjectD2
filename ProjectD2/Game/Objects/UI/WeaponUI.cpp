@@ -13,14 +13,15 @@ WeaponUI::WeaponUI(Scene* _scene, int _updateOrder, UIObject* _parent) :
 {
 	m_animator = ADDCOMP::NewAnimator(this, SHADER(L"AlphaShader"));
 	SetAnimation();
-	SetPos({ 80.0f, 50.0f });
-	SetScale(0.5f, 0.5f);
 
 	m_scene->GetGame()->playerObservable->Subscribe(this);
 }
 
 WeaponUI::~WeaponUI()
 {
+    Observable<Player>* playerObservable = m_scene->GetGame()->playerObservable;
+    if(playerObservable != nullptr)
+		playerObservable->Unsubscribe(this);
 }
 
 void WeaponUI::UpdateObject()

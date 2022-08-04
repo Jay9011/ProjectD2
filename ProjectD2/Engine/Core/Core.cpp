@@ -39,14 +39,14 @@ Core::~Core()
 #if _DEBUG
     TweakBar::Delete(); // Init에서 Device 다음에 생성됨
 #endif // _DEBUG
-    SAFE_DELETE(m_Game);
-    SAFE_DELETE(m_camera);
+	SAFE_DELETE(m_sceneMgr);
+	SAFE_DELETE(m_textureMgr);
 	SAFE_DELETE(m_pathMgr);
+    SAFE_DELETE(m_camera);
 	SAFE_DELETE(m_input);
 	SAFE_DELETE(m_timer);
     SAFE_DELETE(m_device);
-	SAFE_DELETE(m_sceneMgr);
-	SAFE_DELETE(m_textureMgr);
+    SAFE_DELETE(m_Game);
     DestroyMenu(m_hMenu);
 	DestroyWindow(m_hWnd);
 
