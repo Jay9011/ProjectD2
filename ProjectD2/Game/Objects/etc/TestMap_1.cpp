@@ -18,51 +18,52 @@ TestMap_1::TestMap_1(Scene* _scene, int _updateOrder, GameObject* _parent) :
 	CAMERA->SetRestrictRange(-80, -FLT_MAX, FLT_MAX, FLT_MAX);
 	CAMERA->SetSpeed(1500.0f);
     
-    /*
+	/*
 	* Create Background
 	*/
 	Background* background = nullptr;
-    
+
+#pragma region 배경 설정
 	background = new Background(TEXTURE->Add(L"Background\\2.png"), SHADER(L"AlphaShader"), { -0.6f, -0.6f }, _scene, OBJECT_TYPE::BACKGROUND, _updateOrder, this);
 	background->SetScale(1.5f, 1.5f);
 	background->SetPos(-350, 20);
 	m_backgrounds.emplace_back(background);
-    
+
 	background = new Background(TEXTURE->Add(L"Background\\2.png"), SHADER(L"AlphaShader"), { -0.6f, -0.6f }, _scene, OBJECT_TYPE::BACKGROUND, _updateOrder, this);
 	background->SetScale(1.5f, 1.5f);
 	background->SetPos(-350 + background->LocalSize().x, 20);
 	m_backgrounds.emplace_back(background);
-    
-	background = new Background(TEXTURE->Add(L"Background\\3.png"), SHADER(L"AlphaShader"), { -0.3f, -0.5f } , _scene, OBJECT_TYPE::BACKGROUND, _updateOrder, this);
+
+	background = new Background(TEXTURE->Add(L"Background\\3.png"), SHADER(L"AlphaShader"), { -0.3f, -0.5f }, _scene, OBJECT_TYPE::BACKGROUND, _updateOrder, this);
 	background->SetScale(1.5f, 1.5f);
 	background->SetPos(0, 100);
 	m_backgrounds.emplace_back(background);
-    
-	background = new Background(TEXTURE->Add(L"Background\\3.png"), SHADER(L"AlphaShader"), { -0.3f, -0.5f } , _scene, OBJECT_TYPE::BACKGROUND, _updateOrder, this);
+
+	background = new Background(TEXTURE->Add(L"Background\\3.png"), SHADER(L"AlphaShader"), { -0.3f, -0.5f }, _scene, OBJECT_TYPE::BACKGROUND, _updateOrder, this);
 	background->SetScale(1.5f, 1.5f);
 	background->SetPos(0 - background->LocalSize().x, 100);
 	m_backgrounds.emplace_back(background);
-    
-	background = new Background(TEXTURE->Add(L"Background\\4.png"), SHADER(L"AlphaShader"), { -0.1f, -0.3f } , _scene, OBJECT_TYPE::BACKGROUND, _updateOrder, this);
+
+	background = new Background(TEXTURE->Add(L"Background\\4.png"), SHADER(L"AlphaShader"), { -0.1f, -0.3f }, _scene, OBJECT_TYPE::BACKGROUND, _updateOrder, this);
 	background->SetScale(1.5f, 1.5f);
 	background->SetPos(0 - background->LocalSize().x, 150);
 	m_backgrounds.emplace_back(background);
-    
-	background = new Background(TEXTURE->Add(L"Background\\4.png"), SHADER(L"AlphaShader"), { -0.1f, -0.3f } , _scene, OBJECT_TYPE::BACKGROUND, _updateOrder, this);
+
+	background = new Background(TEXTURE->Add(L"Background\\4.png"), SHADER(L"AlphaShader"), { -0.1f, -0.3f }, _scene, OBJECT_TYPE::BACKGROUND, _updateOrder, this);
 	background->SetScale(1.5f, 1.5f);
 	background->SetPos(0, 150);
 	m_backgrounds.emplace_back(background);
-    
-	background = new Background(TEXTURE->Add(L"Background\\5.png"), SHADER(L"AlphaShader"), { 0.2f, -0.1f } , _scene, OBJECT_TYPE::BACKGROUND, _updateOrder, this);
+
+	background = new Background(TEXTURE->Add(L"Background\\5.png"), SHADER(L"AlphaShader"), { 0.2f, -0.1f }, _scene, OBJECT_TYPE::BACKGROUND, _updateOrder, this);
 	background->SetScale(1.5f, 1.5f);
 	background->SetPos(0 - background->LocalSize().x, 200);
 	m_backgrounds.emplace_back(background);
-	
-	background = new Background(TEXTURE->Add(L"Background\\5.png"), SHADER(L"AlphaShader"), { 0.2f, -0.1f } , _scene, OBJECT_TYPE::BACKGROUND, _updateOrder, this);
+
+	background = new Background(TEXTURE->Add(L"Background\\5.png"), SHADER(L"AlphaShader"), { 0.2f, -0.1f }, _scene, OBJECT_TYPE::BACKGROUND, _updateOrder, this);
 	background->SetScale(1.5f, 1.5f);
 	background->SetPos(0, 200);
 	m_backgrounds.emplace_back(background);
-
+#pragma endregion
 
 	/*
 	* Create platforms

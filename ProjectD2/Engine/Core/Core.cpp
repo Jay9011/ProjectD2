@@ -212,14 +212,8 @@ int Core::Run()
 			SetDlgItemText(m_hMonitorWnd, IDC_RUNTIME, timeStr.c_str());
 #pragma endregion
 
-#if _DEBUG
-            m_camera->RenderCameraRect();
-            TweakBar::Get()->Render();
-#endif // _DEBUG
-
             DEVICE->EndScene();
             DEVICE->Present(nullptr, nullptr, nullptr, nullptr);
-
 			
             /* === === === === ===
             *     Final Update

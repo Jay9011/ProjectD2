@@ -47,6 +47,11 @@ void Game::Update()
 void Game::Render()
 {
 	SCENE->Render();
+	if (m_isDbgRendering)
+	{
+        CAMERA->RenderCameraRect();
+		TweakBar::Get()->Render();
+	}
 }
 
 void Game::FinalUpdate()
