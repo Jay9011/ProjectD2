@@ -26,8 +26,7 @@ TestMap_1::TestMap_1(Scene* _scene, int _updateOrder, GameObject* _parent) :
 	/*
 	* 카메라 설정
 	*/
-	//CAMERA->SetRestrictRange(-80.0f, -1000.0f, FLT_MAX, FLT_MAX);
-	//CAMERA->SetRestrictRange(-80.0f, -1000.0f, 1264.0f, FLT_MAX);
+	CAMERA->SetRestrictRange(-80.0f, -1000.0f, 1264.0f, FLT_MAX);
 	CAMERA->SetSpeed(1500.0f);
 
 	/*
@@ -331,12 +330,12 @@ TestMap_1::TestMap_1(Scene* _scene, int _updateOrder, GameObject* _parent) :
 				m_dialogUI->Clear();
 				m_dialogUI->SetText(L"잘하셨어요. 다음엔 저기 태블릿이 보이시나요?\n저 태블릿을 작동시켜야 문이 열릴거에요.");
                 m_dialogUI->IsWaiting(true);
-				//CAMERA->SetTarget(button_01);
+				CAMERA->SetTarget(button_01);
 				m_targetSFX->Play(button_01->GetWorldPos());
 				m_dialogUI->SetUpdateEvent([this]() {
 					if (KEYDOWN('F') && m_dialogUI->IsWait())
 					{
-						//CAMERA->SetTarget(m_player);
+						CAMERA->SetTarget(m_player);
 						m_targetSFX->Stop();
 						m_dialogUI->Clear();
 						m_dialogUI->SetText(L"저기로 한 번 가보죠.\n좌(←), 우(→) 방향키와 위(↑) 쪽 방향키로 움직일 수 있어요.\n위(↑)쪽 방향키를 누르면 점프를 할 수 있죠.");
@@ -411,7 +410,48 @@ TestMap_1::TestMap_1(Scene* _scene, int _updateOrder, GameObject* _parent) :
 	* 몬스터 발견 이벤트
 	*/
 	monster_01 = MonsterFactory::CreateMonster(m_scene, MONSTERS::MMM, { 800, 300 }, this);
-
+	monsterFindEvent = new DialogEvent({ -100, -80 }, { 100, 80 }, _scene, OBJECT_TYPE::EVENTFLAG);
+	monsterFindEvent->SetPos(1350, 930);
+	monsterFindEvent->GetCollider()->SetCallbackOnCollisionEnter([this](Collider* _other) {
+		if (_other->GetOwner()->GetType() == OBJECT_TYPE::PLAYER)
+		{
+			m_player->SetPreventKey(true);    // 키 입력 방지
+			m_dialogUI->Clear();
+			m_dialogUI->SetText(L"잠깐만요! 저기 오토마톤이에요!\n유한상태 오토마타로 만들어진 녀석으로 저희를 발견하면 공격할거에요.");
+			m_dialogUI->IsWaiting(true);
+			m_dialogUI->SetState(OBJECT_STATE::ACTIVE);
+			m_targetSFX->Play(monster_01->GetWorldPos());
+			CAMERA->SetTarget(monster_01);
+			m_dialogUI->SetUpdateEvent([this]() {
+				m_targetSFX->SetPos(monster_01->GetWorldPos());
+				if (KEYDOWN('F') && m_dialogUI->IsWait())
+				{
+					m_targetSFX->Stop();
+					m_dialogUI->Clear();
+					m_dialogUI->SetText(L"우선, 'TAB'키를 누르면 무기를 바꿀 수 있어요.\n원거리 공격은 멀리서 공격할 수 있지만 약하고\n근거리 공격은 저 녀석을 한 방에 쓰러트릴 정도로 강하죠.");
+					m_dialogUI->IsWaiting(true);
+					CAMERA->SetTarget(m_player);
+					m_dialogUI->SetUpdateEvent([this]() {
+						if (KEYDOWN('F') && m_dialogUI->IsWait())
+						{
+							m_dialogUI->Clear();
+							m_dialogUI->SetText(L"어떻게 공격할지는 자유에요!\n자, 다음으로 넘어가기 위해 저 녀석을 부숴버리죠!");
+							m_dialogUI->IsWaiting(true);
+							m_dialogUI->SetUpdateEvent([this]() {
+								if (KEYDOWN('F') && m_dialogUI->IsWait())
+								{
+									m_player->SetPreventKey(false);
+									monsterFindEvent->GetCollider()->IsActive(false);
+									m_dialogUI->SetState(OBJECT_STATE::HIDDEN);
+									m_dialogUI->Clear();
+								}
+							});
+						}
+					});
+				}
+			});
+		}
+	});
 
     /*
 	*/

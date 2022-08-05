@@ -54,7 +54,7 @@ void TestScene::SceneEnter()
 	player->SetPos(testMap_1->GetPlayerStartPoint());
 	
 	CAMERA->SetLookAt(player->GetPos());
-	//CAMERA->SetTarget(player);
+	CAMERA->SetTarget(player);
 
 	testMap_1->CameraInit();
 	testMap_1->SetPlayer(player);

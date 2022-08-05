@@ -41,8 +41,8 @@ private:
 	DialogEvent* m_doorOpenEvent;
 	ScreenButton* button_01;
 	Door* door_01;
-
     Monster* monster_01; // 이벤트 몬스터
+	DialogEvent* monsterFindEvent;
 
 	// Effects
 	Effect* m_targetSFX;
