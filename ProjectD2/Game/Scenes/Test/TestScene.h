@@ -17,9 +17,13 @@ public:
 	virtual void SceneExit() override;
 
 private:
+	// Map
 	class TestMap_1* testMap_1;
-	class Player* testObject;
-	class WeaponUI* playerWeapon;
-	class HeartUI*  playerHeart;
+    // Player ฐüทร
+	class Player*   player;
+	class WeaponUI* playerWeaponUI;
+	class HeartUI*  playerHeartUI;
+	// Dialog
+    class DialogUI* dialogUI;
 };
 

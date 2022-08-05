@@ -162,6 +162,9 @@
     <ClCompile Include="Game\Objects\Interactive\Door.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Objects\UI\DialogUI.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Framework.h">
@@ -339,6 +342,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Game\Objects\Interactive\Door.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Objects\UI\DialogUI.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

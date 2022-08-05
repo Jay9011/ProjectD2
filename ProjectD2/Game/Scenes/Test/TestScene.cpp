@@ -12,6 +12,7 @@
 
 #include "Game/Objects/UI/WeaponUI.h"
 #include "Game/Objects/UI/HeartUI.h"
+#include "Game/Objects/UI/DialogUI.h"
 
 TestScene::TestScene(Game* _game) :
 	Scene(_game)
@@ -29,23 +30,26 @@ void TestScene::Init()
     /*
 	* UI 생성
 	*/
-	playerWeapon = new WeaponUI(this);
-    playerWeapon->SetPos({ 80.0f, 50.0f });
-	playerWeapon->SetScale(0.5f, 0.5f);
+	playerWeaponUI = new WeaponUI(this);
+    playerWeaponUI->SetPos({ 80.0f, 50.0f });
+	playerWeaponUI->SetScale(0.5f, 0.5f);
     
-	playerHeart = new HeartUI(this);
-    playerHeart->SetPos({150.0f, 30.0f});
-    playerHeart->SetScale(0.2f, 0.2f);
+	playerHeartUI = new HeartUI(this);
+    playerHeartUI->SetPos({150.0f, 30.0f});
+    playerHeartUI->SetScale(0.2f, 0.2f);
+
+    dialogUI = new DialogUI(this);
+    dialogUI->SetPos({ WIN_CENTER_X, WIN_HEIGHT - 100.0f });
 }
 
 void TestScene::SceneEnter()
 {
-	testObject = new Player(this, OBJECT_TYPE::PLAYER, 110);
-	testObject->SetScale(1.5, 1.5);
-	testObject->SetPos(testMap_1->GetPlayerStartPoint());
+	player = new Player(this, OBJECT_TYPE::PLAYER, 110);
+	player->SetScale(1.5, 1.5);
+	player->SetPos(testMap_1->GetPlayerStartPoint());
 	
-	CAMERA->SetLookAt(testObject->GetPos());
-	CAMERA->SetTarget(testObject);
+	CAMERA->SetLookAt(player->GetPos());
+	CAMERA->SetTarget(player);
 	testMap_1->CameraInit();
 }
 
@@ -62,7 +66,7 @@ void TestScene::UpdateScene()
     /*
 	* 카메라의 타겟 확인
 	*/
-	if (testObject->IsDead())
+	if (player->IsDead())
 	{
         CAMERA->SetTarget(nullptr);
     }
