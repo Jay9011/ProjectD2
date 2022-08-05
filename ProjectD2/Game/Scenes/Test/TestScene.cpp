@@ -24,10 +24,6 @@ TestScene::~TestScene() = default;
 
 void TestScene::Init()
 {
-	testMap_1 = new TestMap_1(this);
-	testMap_1->SetScale(1.5, 1.5);
-	testMap_1->SetPos(WIN_CENTER_X, WIN_CENTER_Y);
-
     /*
 	* UI 持失
 	*/
@@ -41,6 +37,13 @@ void TestScene::Init()
 
     dialogUI = new DialogUI(this);
     dialogUI->SetPos({ WIN_CENTER_X, WIN_HEIGHT - 100.0f });
+
+    /*
+	* Map 持失
+	*/
+	testMap_1 = new TestMap_1(this);
+	testMap_1->SetScale(1.5, 1.5);
+	testMap_1->SetPos(WIN_CENTER_X, WIN_CENTER_Y);
 
 }
 

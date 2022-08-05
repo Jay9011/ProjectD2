@@ -75,7 +75,7 @@ void Camera::FreeMode()
 
 void Camera::TargetMode()
 {
-    D3DXVECTOR2 destPos = m_target->GetPos();
+    D3DXVECTOR2 destPos = m_target->GetWorldPos();
     destPos = -destPos + m_postOffset;
     
     D3DXVECTOR2 cameraPos = GetPos();

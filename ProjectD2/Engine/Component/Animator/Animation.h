@@ -26,6 +26,7 @@ struct Frame
 class Animation
 {
 public:
+	Animation(const vector<Texture*>& _frames, ANIM_PLAY_TYPE _playType = ANIM_PLAY_TYPE::LOOP, float _speed = 0.1f);
 	Animation(Animator* _owner, const vector<Texture*>& _frames, ANIM_PLAY_TYPE _playType = ANIM_PLAY_TYPE::LOOP, float _speed = 0.1f);
 	~Animation();
 

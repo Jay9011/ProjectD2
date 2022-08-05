@@ -3,7 +3,11 @@
 
 #include "Engine/Object/GameObject.h"
 #include "Engine/Resource/Shader.h"
+#include "Engine/Component/Component.h"
+#include "Engine/Component/Animator/Animator.h"
 #include "Engine/Component/Collision/Colliders/AARect.h"
+#include "Engine/Object/Effect.h"
+
 #include "Game/Objects/Background/Background.h"
 #include "Game/Objects/Platforms/PlatformRect.h"
 #include "Game/Objects/Monster/MonsterFactory.h"
@@ -24,6 +28,11 @@ TestMap_1::TestMap_1(Scene* _scene, int _updateOrder, GameObject* _parent) :
 	CAMERA->SetRestrictRange(-80.0f, -1000.0f, 1264.0f, FLT_MAX);
 	CAMERA->SetSpeed(1500.0f);
     
+    /*
+	* 이펙트 설정
+	*/
+	m_targetSFX = new Effect(L"SFX\\etc\\Target.png", 6, 1, ANIM_PLAY_TYPE::LOOP);
+
 	/*
 	* Create Background
 	*/
@@ -276,7 +285,46 @@ TestMap_1::TestMap_1(Scene* _scene, int _updateOrder, GameObject* _parent) :
 	platform = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_45.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platform);
 	platform->SetPos(0, -32);
 
-	
+
+
+	/*
+	* 첫 입장 이벤트
+	*/
+	m_enterEvent = new DialogEvent({ -50, -50 }, { 50, 50 }, _scene, OBJECT_TYPE::EVENTFLAG);
+	m_enterEvent->SetPos(150, 600);
+	m_enterEvent->GetCollider()->SetCallbackOnCollisionEnter([this](Collider* _other) {
+		m_dialogUI->SetText(L"안녕하세요. 저는 당신의 여정을 도울 D2라고 합니다.\n우선 대화창 우측 하단에 'F'키 입력 대기 아이콘이 나타나면\n'F'키를 눌러볼까요?");
+		m_dialogUI->IsWaiting(true);
+		m_dialogUI->SetState(OBJECT_STATE::ACTIVE);
+		m_dialogUI->SetUpdateEvent([this]() {
+			if (KEYDOWN('F') && m_dialogUI->IsWait())
+			{
+				m_dialogUI->Clear();
+				m_dialogUI->SetText(L"잘하셨어요. 다음엔 저기 태블릿이 보이시나요?\n저 태블릿을 작동시켜야 문이 열릴거에요.");
+                m_dialogUI->IsWaiting(true);
+				CAMERA->SetTarget(button_01);
+				m_dialogUI->SetUpdateEvent([this]() {
+					if (KEYDOWN('F') && m_dialogUI->IsWait())
+					{
+						CAMERA->SetTarget(m_player);
+						m_dialogUI->Clear();
+						m_dialogUI->SetText(L"저기로 한 번 가보죠.\n좌(←), 우(→) 방향키와 위(↑) 쪽 방향키로 움직일 수 있어요.\n위(↑)쪽 방향키를 누르면 점프를 할 수 있죠.");
+						m_dialogUI->IsWaiting(true);
+						m_player->SetPreventKey(false);
+						m_dialogUI->SetUpdateEvent([this]() {
+							if (KEYDOWN(VK_UP) || KEYDOWN(VK_RIGHT) || KEYDOWN(VK_LEFT))
+							{
+								m_dialogUI->SetState(OBJECT_STATE::HIDDEN);
+								m_dialogUI->Clear();
+								m_enterEvent->GetCollider()->IsActive(false);
+							}
+						});
+					}
+				});
+			}
+		});
+	});
+    
 	/*
 	* Event 생성 (문 열기)
 	*/
@@ -359,6 +407,7 @@ void TestMap_1::UpdateObject()
             bg->AddPos(-(bg->LocalSize().x * 2.0f), 0.0f);
         }
 	}
+
 }
 
 void TestMap_1::RenderObject()

@@ -628,7 +628,6 @@ void Player::SetAnimation()
 			m_animator->Find(i)->SetFrameDuration(16, 0.5f);
 			m_animator->SetEndEvent(i, [this]() {
 				UpdateState(PLAYER_STATE::IDLE, m_equip);
-				m_preventKey = false;
 				});
 			break;
 		case PLAYER_ANIM::HIT:

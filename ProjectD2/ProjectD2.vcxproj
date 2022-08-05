@@ -201,6 +201,7 @@
     <ClCompile Include="Engine\Core\Manager\Scene\SceneMgr.cpp" />
     <ClCompile Include="Engine\Component\Animator\Animation.cpp" />
     <ClCompile Include="Engine\Component\Animator\Animator.cpp" />
+    <ClCompile Include="Engine\Object\Effect.cpp" />
     <ClCompile Include="Engine\Object\UIObject.cpp" />
     <ClCompile Include="Engine\Resource\Shader.cpp" />
     <ClCompile Include="Engine\Core\Manager\Timer\Timer.cpp" />
@@ -259,6 +260,7 @@
     <ClInclude Include="Engine\Core\Manager\Scene\SceneMgr.h" />
     <ClInclude Include="Engine\Component\Animator\Animation.h" />
     <ClInclude Include="Engine\Component\Animator\Animator.h" />
+    <ClInclude Include="Engine\Object\Effect.h" />
     <ClInclude Include="Engine\Object\UIObject.h" />
     <ClInclude Include="Engine\Observer\Observer.h" />
     <ClInclude Include="Engine\Resource\Shader.h" />

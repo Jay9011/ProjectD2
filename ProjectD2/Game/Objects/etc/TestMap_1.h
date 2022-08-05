@@ -7,6 +7,7 @@ class DialogUI;
 class DialogEvent;
 class Door;
 class ScreenButton;
+class Effect;
 class TestMap_1 : public GameObject
 {
 public:
@@ -34,12 +35,15 @@ private:
 	vector<GameObject*> m_platforms;
 	vector<Background*> m_backgrounds;
     
-	PlatformRect* m_Entry;
-
 	// Events
+	float m_eventTimer;
+	DialogEvent* m_enterEvent;
 	DialogEvent* m_doorOpenEvent;
 	ScreenButton* button_01;
 	Door* door_01;
+
+	// Effects
+	Effect* m_targetSFX;
 
 public:
 	D3DXVECTOR2 GetPlayerStartPoint();

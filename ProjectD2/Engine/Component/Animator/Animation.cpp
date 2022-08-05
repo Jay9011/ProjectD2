@@ -3,6 +3,28 @@
 
 #include "Animator.h"
 
+Animation::Animation(const vector<Texture*>& _frames, ANIM_PLAY_TYPE _playType, float _speed) :
+	m_playType(_playType)
+	, m_isPlay(false)
+	, m_isPause(false)
+	, m_isReverse(false)
+	, m_isFinish(false)
+	, m_time(0.0f)
+	, m_prevFrame(0)
+	, m_currentFrame(0)
+	, m_reserveEndFrame(-1)
+{
+	Frame frame = {};
+
+	for (Texture* texture : _frames)
+	{
+		frame.texture = texture;
+		frame.duration = _speed;
+
+		m_frames.push_back(frame);
+	}
+}
+
 Animation::Animation(Animator* _owner, const vector<Texture*>& _frames, ANIM_PLAY_TYPE _playType, float _speed) :
 	m_owner(_owner)
 	, m_playType(_playType)
