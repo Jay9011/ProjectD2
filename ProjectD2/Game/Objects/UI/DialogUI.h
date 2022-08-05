@@ -1,15 +1,16 @@
 #pragma once
 #include "Engine/Object/UIObject.h"
 
+enum class DialogFace
+{
+    Normal,
+    Serious,
+    Surprised,
+    Face_FIN
+};
+
 class DialogUI : public UIObject
 {
-    enum Face
-    {
-        Normal,
-        Serious,
-        Surprised,
-        Face_FIN
-    };
     enum Keys
     {
         LEFT,
@@ -41,7 +42,7 @@ private:
     Texture* m_dialogBox;   // 전체 dialogBox
 
     vector<Texture*> m_faces;
-    Face m_face;
+    DialogFace  m_face;
     D3DXVECTOR2 m_facePos;  // 얼굴의 위치
     
     RECT m_textBox;     // 텍스트를 담을 영역
@@ -71,6 +72,7 @@ private:
 public:
     void SetText(const wstring& _text) { m_text = _text; };
     void SetTextSpeed(float _speed) { m_textSpeed = _speed; };
+    void SetFace(DialogFace _face) { m_face = _face; };
 
     bool IsFirst() const        { return m_isFirst; };
     bool IsFirst(bool _isFirst) 
@@ -106,6 +108,7 @@ public:
     }
     void Init()
     {
+        m_face = DialogFace::Normal;
         m_isFirst = true;
         m_textIndex = 0;
         m_textTimer = 0.0f;

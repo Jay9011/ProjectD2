@@ -107,4 +107,19 @@ public:
     float GetHP() const { return m_status.hp; }
     
 	void SetPreventKey(bool _b) { m_preventKey = _b; }
+	
+	void SetWeapon(PLAYER_EQUIP_TYPE _equip) { m_equip = _equip; }
+	void SwitchingWeapon() 
+	{
+		if (m_equip == PLAYER_EQUIP_TYPE::GUN)
+		{
+			UpdateState(m_state, PLAYER_EQUIP_TYPE::SWORD);
+		}
+		else
+		{
+			UpdateState(m_state, PLAYER_EQUIP_TYPE::GUN);
+		}
+
+		m_observable->Notify(*this, "GetEquip");
+	}
 };

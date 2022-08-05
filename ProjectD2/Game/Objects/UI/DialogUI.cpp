@@ -9,7 +9,7 @@ DialogUI::DialogUI(Scene* _scene, int _updateOrder, UIObject* _parent) :
     UIObject(_scene, _updateOrder, _parent)
     , m_scene(_scene)
     , m_shader(SHADER(L"AlphaShader"))
-    , m_face(Face::Normal)
+    , m_face(DialogFace::Normal)
     , m_facePos({ -330.0f, 1.0f })
     , m_textBox({ -230, -50, 400, 50 })
     , m_textSpeed(0.02f)
@@ -59,7 +59,7 @@ void DialogUI::RenderObject()
     AddPos(m_facePos.x, m_facePos.y);
     UpdateWorld();
     SetWorld();
-    m_faces[m_face]->Render();
+    m_faces[(int)m_face]->Render();
     SetPos(pos);
     UpdateWorld();
     SetWorld();
@@ -121,17 +121,17 @@ void DialogUI::InitTexture()
     /*
     *  ¾ó±¼ Texture
     */
-    for (size_t i = 0; i < Face::Face_FIN; i++)
+    for (size_t i = 0; i < (int)DialogFace::Face_FIN; i++)
     {
-        switch (i)
+        switch ((DialogFace)i)
         {
-        case DialogUI::Normal:
+        case DialogFace::Normal:
             m_faces.push_back(TEXTURE->Add(L"UI\\face\\3.png", 172, 130));
             break;
-        case DialogUI::Serious:
+        case DialogFace::Serious:
             m_faces.push_back(TEXTURE->Add(L"UI\\face\\1.png", 172, 130));
             break;
-        case DialogUI::Surprised:
+        case DialogFace::Surprised:
             m_faces.push_back(TEXTURE->Add(L"UI\\face\\0.png", 172, 130));
             break;
         default:

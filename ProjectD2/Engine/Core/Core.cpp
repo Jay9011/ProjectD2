@@ -161,7 +161,7 @@ int Core::Run()
                 0,
                 nullptr,
                 D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER,
-                0xFFFFFF,
+                0xFF888888,
                 1.f,
                 0
             );

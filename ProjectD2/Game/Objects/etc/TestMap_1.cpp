@@ -26,7 +26,7 @@ TestMap_1::TestMap_1(Scene* _scene, int _updateOrder, GameObject* _parent) :
 	/*
 	* 카메라 설정
 	*/
-	CAMERA->SetRestrictRange(-80.0f, -1000.0f, 1264.0f, FLT_MAX);
+	//CAMERA->SetRestrictRange(-80.0f, -1000.0f, 1264.0f, FLT_MAX);
 	CAMERA->SetSpeed(1500.0f);
 
 	/*
@@ -113,7 +113,7 @@ TestMap_1::TestMap_1(Scene* _scene, int _updateOrder, GameObject* _parent) :
 	// 좌상단
 	platformLT = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_04.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformLM);
 	platformLT->SetPos(0, -240);
-#pragma endregion
+    
 	platform = new PlatformRect({ 128, 320 }, L"Tile\\IndustrialTile_02.png", false, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformMB);
 	platform->SetPos(0, 176);
 
@@ -124,6 +124,7 @@ TestMap_1::TestMap_1(Scene* _scene, int _updateOrder, GameObject* _parent) :
 	platform->SetPos(0, -96);
 	platform = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_45.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platform);
 	platform->SetPos(0, -32);
+#pragma endregion
 
 #pragma region 아래쪽 바닥 세트 1
 	// 좌상단
@@ -263,8 +264,7 @@ TestMap_1::TestMap_1(Scene* _scene, int _updateOrder, GameObject* _parent) :
 	// 우상단
 	platformRT = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_06.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformRM);
 	platformRT->SetPos(0, -256);
-#pragma endregion
-	
+
 	// 굴뚝
 	platform = new PlatformRect({ 32, 160 }, L"Tile\\IndustrialTile_63.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformLT);
 	platform->SetPos(32, -96);
@@ -281,6 +281,8 @@ TestMap_1::TestMap_1(Scene* _scene, int _updateOrder, GameObject* _parent) :
 	platform = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_45.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platform);
 	platform->SetPos(0, -32);
 
+#pragma endregion
+	
 #pragma region 중앙 벤트
 	// 중앙 벤트
 	platformLT = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_55.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, this);
@@ -315,9 +317,8 @@ TestMap_1::TestMap_1(Scene* _scene, int _updateOrder, GameObject* _parent) :
 	platformRM->GetCollider()->options.resistance.y = 10.0f;
 #pragma endregion
 
-	/*
-	* 첫 입장 이벤트
-	*/
+#pragma region 첫 입장 Event
+
 	m_enterEvent = new DialogEvent({ -50, -50 }, { 50, 50 }, _scene, OBJECT_TYPE::EVENTFLAG);
 	m_enterEvent->SetPos(150, 600);
 	m_enterEvent->GetCollider()->SetCallbackOnCollisionEnter([this](Collider* _other) {
@@ -329,7 +330,7 @@ TestMap_1::TestMap_1(Scene* _scene, int _updateOrder, GameObject* _parent) :
 			{
 				m_dialogUI->Clear();
 				m_dialogUI->SetText(L"잘하셨어요. 다음엔 저기 태블릿이 보이시나요?\n저 태블릿을 작동시켜야 문이 열릴거에요.");
-                m_dialogUI->IsWaiting(true);
+				m_dialogUI->IsWaiting(true);
 				CAMERA->SetTarget(button_01);
 				m_targetSFX->Play(button_01->GetWorldPos());
 				m_dialogUI->SetUpdateEvent([this]() {
@@ -354,29 +355,30 @@ TestMap_1::TestMap_1(Scene* _scene, int _updateOrder, GameObject* _parent) :
 								m_dialogUI->IsFirst(true);
 								m_dialogUI->SetText(L"아! 말하는 것을 잊었네요.\n대화가 끝났지만 우측아래 'F'키 입력 대기 아이콘이 나타나지 않는다면\n해당 목표를 완료할 때까지 기다리는 거에요.\n자, 방향키를 눌러 목표로 가보죠.");
 							}
-						});
+							});
 					}
-				});
+					});
 			}
+			});
 		});
-	});
-    
-	/*
-	* Event 생성 (문 열기)
-	*/
-    door_01 = new Door(_scene, OBJECT_TYPE::FOREBLOCK, _updateOrder, this);
+
+#pragma endregion
+
+#pragma region 문열기 Event
+
+	door_01 = new Door(_scene, OBJECT_TYPE::FOREBLOCK, _updateOrder, this);
 	door_01->SetPos(400, 144);
-	door_01->SetOpenFunc([](){
+	door_01->SetOpenFunc([]() {
 		CAMERA->SetRestrictRange(-80.0f, -1000.0f, FLT_MAX, FLT_MAX);
-	});
-    
+		});
+
 	button_01 = new ScreenButton(_scene, OBJECT_TYPE::INTERACTIVE, _updateOrder, this);
 	button_01->SetPos(300, 155);
 	button_01->SetInteractObject(door_01);
 
-    platform = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_71.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, door_01);
+	platform = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_71.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, door_01);
 	platform->SetPos(0, -48);
-    platform = new PlatformRect({ 32, 320 }, L"Tile\\IndustrialTile_73.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platform);
+	platform = new PlatformRect({ 32, 320 }, L"Tile\\IndustrialTile_73.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platform);
 	platform->SetPos(0, -176);
 
 	m_doorOpenEvent = new DialogEvent({ -50, -40 }, { 50, 30 }, _scene, OBJECT_TYPE::EVENTFLAG);
@@ -391,11 +393,11 @@ TestMap_1::TestMap_1(Scene* _scene, int _updateOrder, GameObject* _parent) :
 			m_dialogUI->IsWaiting(false);
 			m_doorOpenEvent->IsFirst(false);
 		}
-	});
+		});
 	m_doorOpenEvent->GetCollider()->SetCallbackOnCollisionStay([this](Collider* _other) {
 		if (_other->GetOwner()->GetType() == OBJECT_TYPE::PLAYER && m_dialogUI->IsEnd())	// 대화가 끝난 경우 움직일 수 있게 한다.
 			m_player->SetPreventKey(false);
-		
+
 		if (door_01->IsUsed())
 		{
 			button_01->GetInteractBox()->IsActive(false);
@@ -403,12 +405,13 @@ TestMap_1::TestMap_1(Scene* _scene, int _updateOrder, GameObject* _parent) :
 			m_dialogUI->SetState(OBJECT_STATE::HIDDEN);
 			m_dialogUI->Clear();
 		}
-	});
+		});
 
-    
-    /*
-	* 몬스터 발견 이벤트
-	*/
+
+#pragma endregion
+
+#pragma region 몬스터 발견 Event
+
 	monster_01 = MonsterFactory::CreateMonster(m_scene, MONSTERS::MMM, { 800, 300 }, this);
 	monsterFindEvent = new DialogEvent({ -100, -80 }, { 100, 80 }, _scene, OBJECT_TYPE::EVENTFLAG);
 	monsterFindEvent->SetPos(1350, 930);
@@ -417,6 +420,7 @@ TestMap_1::TestMap_1(Scene* _scene, int _updateOrder, GameObject* _parent) :
 		{
 			m_player->SetPreventKey(true);    // 키 입력 방지
 			m_dialogUI->Clear();
+			m_dialogUI->SetFace(DialogFace::Surprised);
 			m_dialogUI->SetText(L"잠깐만요! 저기 오토마톤이에요!\n유한상태 오토마타로 만들어진 녀석으로 저희를 발견하면 공격할거에요.");
 			m_dialogUI->IsWaiting(true);
 			m_dialogUI->SetState(OBJECT_STATE::ACTIVE);
@@ -428,14 +432,17 @@ TestMap_1::TestMap_1(Scene* _scene, int _updateOrder, GameObject* _parent) :
 				{
 					m_targetSFX->Stop();
 					m_dialogUI->Clear();
+					m_dialogUI->SetFace(DialogFace::Serious);
 					m_dialogUI->SetText(L"우선, 'TAB'키를 누르면 무기를 바꿀 수 있어요.\n원거리 공격은 멀리서 공격할 수 있지만 약하고\n근거리 공격은 저 녀석을 한 방에 쓰러트릴 정도로 강하죠.");
-					m_dialogUI->IsWaiting(true);
+					m_dialogUI->IsWaiting(false);
 					CAMERA->SetTarget(m_player);
 					m_dialogUI->SetUpdateEvent([this]() {
-						if (KEYDOWN('F') && m_dialogUI->IsWait())
+						if (KEYDOWN(VK_TAB))
 						{
+							m_player->SwitchingWeapon();
 							m_dialogUI->Clear();
-							m_dialogUI->SetText(L"어떻게 공격할지는 자유에요!\n자, 다음으로 넘어가기 위해 저 녀석을 부숴버리죠!");
+							m_dialogUI->SetFace(DialogFace::Normal);
+							m_dialogUI->SetText(L"공격은 'D'키를 눌러 공격할 수 있어요.\n자, 다음으로 넘어가기 위해 저 녀석을 부숴버리죠!");
 							m_dialogUI->IsWaiting(true);
 							m_dialogUI->SetUpdateEvent([this]() {
 								if (KEYDOWN('F') && m_dialogUI->IsWait())
@@ -445,13 +452,14 @@ TestMap_1::TestMap_1(Scene* _scene, int _updateOrder, GameObject* _parent) :
 									m_dialogUI->SetState(OBJECT_STATE::HIDDEN);
 									m_dialogUI->Clear();
 								}
-							});
+								});
 						}
-					});
+						});
 				}
-			});
+				});
 		}
-	});
+		});
+#pragma endregion
 
     /*
 	*/
