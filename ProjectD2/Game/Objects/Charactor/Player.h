@@ -102,6 +102,11 @@ private:
 *  Getter / Setter
 * === === === === === */
 public:
+    void AddForce(D3DXVECTOR2 _force) 
+	{
+		m_physics.force += _force;
+	}
+        
     PLAYER_EQUIP_TYPE GetEquip() const { return m_equip; }
 	float GetMaxHP() const { return m_status.maxHp; }
     float GetHP() const { return m_status.hp; }

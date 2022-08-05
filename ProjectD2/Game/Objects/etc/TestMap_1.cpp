@@ -9,14 +9,15 @@
 #include "Engine/Object/Effect.h"
 
 #include "Game/Objects/Background/Background.h"
-#include "Game/Objects/Platforms/PlatformRect.h"
-#include "Game/Objects/Monster/MonsterFactory.h"
 #include "Game/Objects/Interactive/ScreenButton.h"
 #include "Game/Objects/Interactive/Door.h"
+#include "Game/Objects/Platforms/PlatformRect.h"
+#include "Game/Objects/Platforms/FallPlatform.h"
 #include "Game/Objects/UI/DialogUI.h"
 #include "Game/Objects/UI/DialogEvent.h"
 #include "Game/Objects/Charactor/Player.h"
 #include "Game/Objects/Monster/Monster.h"
+#include "Game/Objects/Monster/MonsterFactory.h"
 
 TestMap_1::TestMap_1(Scene* _scene, int _updateOrder, GameObject* _parent) :
 	GameObject(_scene, OBJECT_TYPE::DEFAULT, _updateOrder, _parent)
@@ -80,6 +81,7 @@ TestMap_1::TestMap_1(Scene* _scene, int _updateOrder, GameObject* _parent) :
 	* Create platforms
     */
 	PlatformRect *platform, *platformLT, *platformMT, *platformRT, *platformLM, *platformMM, *platformRM, *platformLB, *platformMB, *platformRB;
+    FallPlatform *fallPlatform;
 
 #pragma region 왼쪽 벽 세트
 	// 우하단
@@ -433,7 +435,7 @@ TestMap_1::TestMap_1(Scene* _scene, int _updateOrder, GameObject* _parent) :
 					m_targetSFX->Stop();
 					m_dialogUI->Clear();
 					m_dialogUI->SetFace(DialogFace::Serious);
-					m_dialogUI->SetText(L"우선, 'TAB'키를 누르면 무기를 바꿀 수 있어요.\n원거리 공격은 멀리서 공격할 수 있지만 약하고\n근거리 공격은 저 녀석을 한 방에 쓰러트릴 정도로 강하죠.");
+					m_dialogUI->SetText(L"우선, 'TAB'키를 누르면 무기를 바꿀 수 있어요.\n원거리 공격은 멀리서 공격할 수 있지만 약하고\n근거리 공격은 저 녀석을 한 방에 쓰러트릴 정도로 강하죠.\n'TAB'키를 눌러볼래요?");
 					m_dialogUI->IsWaiting(false);
 					CAMERA->SetTarget(m_player);
 					m_dialogUI->SetUpdateEvent([this]() {
@@ -460,6 +462,9 @@ TestMap_1::TestMap_1(Scene* _scene, int _updateOrder, GameObject* _parent) :
 		}
 		});
 #pragma endregion
+
+	fallPlatform = new FallPlatform(_scene, OBJECT_TYPE::PLATFORM, _updateOrder, this);
+	fallPlatform->SetPos(0, 60);
 
     /*
 	*/
