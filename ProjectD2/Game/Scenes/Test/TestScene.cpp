@@ -13,6 +13,7 @@
 #include "Game/Objects/UI/WeaponUI.h"
 #include "Game/Objects/UI/HeartUI.h"
 #include "Game/Objects/UI/DialogUI.h"
+#include "Game/Objects/UI/DialogEvent.h"
 
 TestScene::TestScene(Game* _game) :
 	Scene(_game)
@@ -40,6 +41,7 @@ void TestScene::Init()
 
     dialogUI = new DialogUI(this);
     dialogUI->SetPos({ WIN_CENTER_X, WIN_HEIGHT - 100.0f });
+
 }
 
 void TestScene::SceneEnter()
@@ -50,7 +52,10 @@ void TestScene::SceneEnter()
 	
 	CAMERA->SetLookAt(player->GetPos());
 	CAMERA->SetTarget(player);
+
 	testMap_1->CameraInit();
+	testMap_1->SetPlayer(player);
+	testMap_1->SetDialogUI(dialogUI);
 }
 
 void TestScene::SceneExit()
@@ -82,6 +87,7 @@ void TestScene::UpdateScene()
 	* Interactive Object 사용 확인
 	*/
 	GetCollisionMgr()->CheckCollision(OBJECT_TYPE::PLAYER, OBJECT_TYPE::INTERACTIVE, collided);
+	GetCollisionMgr()->CheckCollision(OBJECT_TYPE::PLAYER, OBJECT_TYPE::EVENTFLAG, collided);
 }
 
 void TestScene::RenderScene()

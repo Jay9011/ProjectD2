@@ -33,5 +33,6 @@ private:
 
 public:
     void SetOpenFunc(std::function<void()> _func) { m_openFunc = _func; }
+    bool IsUsed() { return m_isUsed; }
 };
 

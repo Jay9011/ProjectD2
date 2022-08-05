@@ -41,5 +41,7 @@ public:
     void SetInteractObject(Door* _object) { m_interactObject = _object; }
 
     bool GetIsUsed() { return m_isUsed; }
+
+    Collider* GetInteractBox() { return m_InteractBox; }
 };
 

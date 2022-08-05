@@ -1,5 +1,6 @@
 #pragma once
 class Player;
+class DialogEvent;
 class TestScene : public Scene
 {
 public:
@@ -25,5 +26,6 @@ private:
 	class HeartUI*  playerHeartUI;
 	// Dialog
     class DialogUI* dialogUI;
+    
 };
 

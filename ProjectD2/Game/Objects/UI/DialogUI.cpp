@@ -31,8 +31,8 @@ DialogUI::DialogUI(Scene* _scene, int _updateOrder, UIObject* _parent) :
     desc.PitchAndFamily = DEFAULT_PITCH | FF_DONTCARE;
     
     D3DXCreateFontIndirect(DEVICE, &desc, &m_font);
-    
-    m_text = L"안녕하세요. 저는 당신의 여행을 도와줄 D2라고 합니다. /UP/ \n엔터 테스트";
+
+    SetState(OBJECT_STATE::HIDDEN);
 }
 
 DialogUI::~DialogUI()
@@ -42,12 +42,13 @@ DialogUI::~DialogUI()
 
 void DialogUI::UpdateObject()
 {
-    m_updateEvent();
+    if(m_updateEvent != nullptr)
+        m_updateEvent();
 }
 
 void DialogUI::RenderObject()
 {
-    D3DXVECTOR2 pos = GetWorldPos();
+    D3DXVECTOR2 pos = GetPos();
     RECT rect = {pos.x + m_textBox.left, pos.y + m_textBox.top, pos.x + m_textBox.right, pos.y + m_textBox.bottom};
 
     m_shader->Begin();
@@ -94,7 +95,8 @@ void DialogUI::RenderObject()
         else    // 텍스트를 완성시킨 경우
         {
             m_isEnd = true;
-            m_isWait = true;
+            if(m_isWaiting)
+                m_isWait = true;
         }
         
         m_font->DrawText(nullptr, m_text.c_str(), m_textIndex, &rect, DT_LEFT | DT_TOP, D3DCOLOR_ARGB(255, 255, 255, 255));

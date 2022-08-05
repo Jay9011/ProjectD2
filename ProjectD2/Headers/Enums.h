@@ -23,6 +23,7 @@ enum class OBJECT_TYPE
 	FOREBLOCK,
 	FOREGROUND,
 	UI,	// 반드시 필요함
+    EVENTFLAG,
 	FIN
 };
 

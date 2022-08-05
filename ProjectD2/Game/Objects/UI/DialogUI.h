@@ -22,7 +22,7 @@ class DialogUI : public UIObject
     };
 public:
     DialogUI(Scene* _scene, int _updateOrder = 100, UIObject* _parent = nullptr);
-    ~DialogUI();
+    ~DialogUI() override;
 
     // UIObject을(를) 통해 상속됨
     virtual void UpdateObject() override;
@@ -54,10 +54,11 @@ private:
     float   m_textSpeed;        // 텍스트 타이핑 속도
     float   m_textTimer = 0.0f; // 타이핑 타이머
 
-    bool    m_isEnd = false;    // 대화 종료 여부
-    bool    m_isWait = false;   // 대화 종료 후 대기 여부
-    float   m_waitTime = 0.0f;  // 대기 시간
-    float   m_waitTimer = 0.0f; // 대기 타이머
+    bool    m_isWaiting = false; // 키 입력을 기다리는지 확인용
+    bool    m_isEnd = false;     // 대화 종료 여부
+    bool    m_isWait = false;    // 대화 종료 후 대기 여부
+    float   m_waitTime = 0.0f;   // 대기 시간
+    float   m_waitTimer = 0.0f;  // 대기 타이머
     
     vector<Texture*> m_keys;
 
@@ -90,6 +91,9 @@ public:
     
     bool IsWait() const       { return m_isWait; };
     bool IsWait(bool _isWait) { m_isWait = _isWait; return m_isWait; };
+
+    bool IsWaiting() const          { return m_isWaiting; }
+    bool IsWaiting(bool _isWaiting) { m_isWaiting = _isWaiting; return m_isWaiting; }
 
     float GetWaitTime() const      { return m_waitTime; };
     void  SetWaitTime(float _time) { m_waitTime = _time; };

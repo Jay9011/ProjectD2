@@ -9,6 +9,9 @@
 #include "Game/Objects/Monster/MonsterFactory.h"
 #include "Game/Objects/Interactive/ScreenButton.h"
 #include "Game/Objects/Interactive/Door.h"
+#include "Game/Objects/UI/DialogUI.h"
+#include "Game/Objects/UI/DialogEvent.h"
+#include "Game/Objects/Charactor/Player.h"
 
 TestMap_1::TestMap_1(Scene* _scene, int _updateOrder, GameObject* _parent) :
 	GameObject(_scene, OBJECT_TYPE::DEFAULT, _updateOrder, _parent)
@@ -275,22 +278,48 @@ TestMap_1::TestMap_1(Scene* _scene, int _updateOrder, GameObject* _parent) :
 
 	
 	/*
-	* Object Placement
+	* Event 생성 (문 열기)
 	*/
-    Door* door = new Door(_scene, OBJECT_TYPE::FOREBLOCK, _updateOrder, this);
-	door->SetPos(400, 144);
-	door->SetOpenFunc([](){
+    door_01 = new Door(_scene, OBJECT_TYPE::FOREBLOCK, _updateOrder, this);
+	door_01->SetPos(400, 144);
+	door_01->SetOpenFunc([](){
 		CAMERA->SetRestrictRange(-80.0f, -1000.0f, FLT_MAX, FLT_MAX);
 	});
     
-	ScreenButton* button = new ScreenButton(_scene, OBJECT_TYPE::INTERACTIVE, _updateOrder, this);
-	button->SetPos(300, 155);
-	button->SetInteractObject(door);
+	button_01 = new ScreenButton(_scene, OBJECT_TYPE::INTERACTIVE, _updateOrder, this);
+	button_01->SetPos(300, 155);
+	button_01->SetInteractObject(door_01);
 
-    platform = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_71.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, door);
+    platform = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_71.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, door_01);
 	platform->SetPos(0, -48);
     platform = new PlatformRect({ 32, 320 }, L"Tile\\IndustrialTile_73.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platform);
 	platform->SetPos(0, -176);
+
+	m_doorOpenEvent = new DialogEvent({ -50, -40 }, { 50, 30 }, _scene, OBJECT_TYPE::EVENTFLAG);
+	m_doorOpenEvent->SetPos(1100, 600);
+	m_doorOpenEvent->GetCollider()->SetCallbackOnCollisionEnter([this](Collider* _other) {
+		if (_other->GetOwner()->GetType() == OBJECT_TYPE::PLAYER && m_doorOpenEvent->IsFirst())	// 플레이어가 첫 진입인 경우
+		{
+			m_player->SetPreventKey(true);    // 키 입력 방지
+			m_dialogUI->Clear();
+			m_dialogUI->SetText(L"좋아요. 이제 태블릿 앞에서 'F'키를 눌러 문을 열어볼까요?\n태블릿 앞으로 정확히 다가가면 태블릿 위에 'F' 키보드 모양이 뜰 거에요.");
+			m_dialogUI->SetState(OBJECT_STATE::ACTIVE);
+			m_dialogUI->IsWaiting(false);
+			m_doorOpenEvent->IsFirst(false);
+		}
+	});
+	m_doorOpenEvent->GetCollider()->SetCallbackOnCollisionStay([this](Collider* _other) {
+		if (_other->GetOwner()->GetType() == OBJECT_TYPE::PLAYER && m_dialogUI->IsEnd())	// 대화가 끝난 경우 움직일 수 있게 한다.
+			m_player->SetPreventKey(false);
+		
+		if (door_01->IsUsed())
+		{
+			button_01->GetInteractBox()->IsActive(false);
+			m_doorOpenEvent->GetCollider()->IsActive(false);
+			m_dialogUI->SetState(OBJECT_STATE::HIDDEN);
+			m_dialogUI->Clear();
+		}
+	});
 
     /*
 	*/
@@ -298,6 +327,7 @@ TestMap_1::TestMap_1(Scene* _scene, int _updateOrder, GameObject* _parent) :
 	m_PlayerStartFlag->SetPos(-336, 152);
 
 	SetMonsters();
+
 }
 
 TestMap_1::~TestMap_1()

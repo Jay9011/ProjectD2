@@ -106,4 +106,5 @@ public:
 	float GetMaxHP() const { return m_status.maxHp; }
     float GetHP() const { return m_status.hp; }
     
+	void SetPreventKey(bool _b) { m_preventKey = _b; }
 };
