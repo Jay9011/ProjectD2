@@ -103,20 +103,26 @@ void Animation::Render()
 
 void Animation::Play(Animation* _nextAnimation)
 {
-	m_owner->SetCurrentAnimation(this);
+    if(m_owner != nullptr)
+	{
+		m_owner->SetCurrentAnimation(this);
 	
-	if(_nextAnimation != nullptr)
-		m_owner->SetNextAnimation(_nextAnimation);
+		if(_nextAnimation != nullptr)
+			m_owner->SetNextAnimation(_nextAnimation);
+	}
 	
 	PlayStateChange();
 }
 
 void Animation::Play(const size_t& _nextAnimIdx)
 {
-	m_owner->SetCurrentAnimation(this);
+	if (m_owner != nullptr)
+	{
+		m_owner->SetCurrentAnimation(this);
 	
-	if(_nextAnimIdx < m_owner->GetAnimationsSize())
-		m_owner->SetNextAnimation(_nextAnimIdx);
+		if(_nextAnimIdx < m_owner->GetAnimationsSize())
+			m_owner->SetNextAnimation(_nextAnimIdx);
+	}
 
 	PlayStateChange();
 }

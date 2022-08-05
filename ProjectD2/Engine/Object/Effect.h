@@ -11,11 +11,13 @@ public:
     void Update();
     void Render();
 
-    void Play(D3DXVECTOR2 _pos, D3DXCOLOR _color);
+    void Play(D3DXVECTOR2 _pos, D3DXCOLOR _color = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
+    void Stop();
 
 private:
     Shader* m_shader;
     Animation* m_animation;
+    ANIM_PLAY_TYPE m_type;
 
     bool isActive;
     bool isAdditive;

@@ -42,6 +42,8 @@ private:
 	ScreenButton* button_01;
 	Door* door_01;
 
+    Monster* monster_01; // 이벤트 몬스터
+
 	// Effects
 	Effect* m_targetSFX;
 

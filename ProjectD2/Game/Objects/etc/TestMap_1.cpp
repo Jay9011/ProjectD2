@@ -16,22 +16,19 @@
 #include "Game/Objects/UI/DialogUI.h"
 #include "Game/Objects/UI/DialogEvent.h"
 #include "Game/Objects/Charactor/Player.h"
+#include "Game/Objects/Monster/Monster.h"
 
 TestMap_1::TestMap_1(Scene* _scene, int _updateOrder, GameObject* _parent) :
 	GameObject(_scene, OBJECT_TYPE::DEFAULT, _updateOrder, _parent)
 	, m_scene(_scene)
+	, m_targetSFX(_scene->GetGame()->m_targetSFX)
 {
 	/*
 	* 카메라 설정
 	*/
 	//CAMERA->SetRestrictRange(-80.0f, -1000.0f, FLT_MAX, FLT_MAX);
-	CAMERA->SetRestrictRange(-80.0f, -1000.0f, 1264.0f, FLT_MAX);
+	//CAMERA->SetRestrictRange(-80.0f, -1000.0f, 1264.0f, FLT_MAX);
 	CAMERA->SetSpeed(1500.0f);
-    
-    /*
-	* 이펙트 설정
-	*/
-	m_targetSFX = new Effect(L"SFX\\etc\\Target.png", 6, 1, ANIM_PLAY_TYPE::LOOP);
 
 	/*
 	* Create Background
@@ -285,7 +282,39 @@ TestMap_1::TestMap_1(Scene* _scene, int _updateOrder, GameObject* _parent) :
 	platform = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_45.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platform);
 	platform->SetPos(0, -32);
 
-
+#pragma region 중앙 벤트
+	// 중앙 벤트
+	platformLT = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_55.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, this);
+	platformLT->SetPos(432, 96);
+	platformMT = new PlatformRect({ 128, 32 }, L"Tile\\IndustrialTile_56.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformLT);
+	platformMT->SetPos(80, 0);
+	platformRT = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_57.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformMT);
+	platformRT->SetPos(80, 0);
+	platformLM = new PlatformRect({ 32, 192 }, L"Tile\\IndustrialTile_13.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformRT);
+	platformLM->SetPos(-64, 112);
+	platformLM->GetCollider()->options.slidable = true;
+	platformLM->GetCollider()->options.resistance.y = 10.0f;
+    platformLB = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_22.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformLM);
+	platformLB->SetPos(0, 112);
+	platformLB->GetCollider()->options.slidable = true;
+	platformLB->GetCollider()->options.resistance.y = 10.0f;
+	platformMM = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_01.png", false, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformRT);
+	platformMM->SetPos(-32, 32);
+	platformMM = new PlatformRect({ 32, 64 }, L"Tile\\IndustrialTile_19.png", false, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformMM);
+	platformMM->SetPos(0, 48);
+	platformMM = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_28.png", false, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformMM);
+	platformMM->SetPos(0, 48);
+	platformMM = new PlatformRect({ 32, 64 }, L"Tile\\IndustrialTile_21.png", false, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformMM);
+	platformMM->SetPos(0, 48);
+	platformMB = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_23.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformMM);
+	platformMB->SetPos(0, 48);
+	platformRB = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_24.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformMB);
+	platformRB->SetPos(32, 0);
+	platformRM = new PlatformRect({ 32, 192 }, L"Tile\\IndustrialTile_15.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformRB);
+	platformRM->SetPos(0, -112);
+	platformRM->GetCollider()->options.slidable = true;
+	platformRM->GetCollider()->options.resistance.y = 10.0f;
+#pragma endregion
 
 	/*
 	* 첫 입장 이벤트
@@ -302,14 +331,17 @@ TestMap_1::TestMap_1(Scene* _scene, int _updateOrder, GameObject* _parent) :
 				m_dialogUI->Clear();
 				m_dialogUI->SetText(L"잘하셨어요. 다음엔 저기 태블릿이 보이시나요?\n저 태블릿을 작동시켜야 문이 열릴거에요.");
                 m_dialogUI->IsWaiting(true);
-				CAMERA->SetTarget(button_01);
+				//CAMERA->SetTarget(button_01);
+				m_targetSFX->Play(button_01->GetWorldPos());
 				m_dialogUI->SetUpdateEvent([this]() {
 					if (KEYDOWN('F') && m_dialogUI->IsWait())
 					{
-						CAMERA->SetTarget(m_player);
+						//CAMERA->SetTarget(m_player);
+						m_targetSFX->Stop();
 						m_dialogUI->Clear();
 						m_dialogUI->SetText(L"저기로 한 번 가보죠.\n좌(←), 우(→) 방향키와 위(↑) 쪽 방향키로 움직일 수 있어요.\n위(↑)쪽 방향키를 누르면 점프를 할 수 있죠.");
-						m_dialogUI->IsWaiting(true);
+						m_dialogUI->IsWaiting(false);
+						m_dialogUI->SetWaitTime(2.0f);
 						m_player->SetPreventKey(false);
 						m_dialogUI->SetUpdateEvent([this]() {
 							if (KEYDOWN(VK_UP) || KEYDOWN(VK_RIGHT) || KEYDOWN(VK_LEFT))
@@ -317,6 +349,11 @@ TestMap_1::TestMap_1(Scene* _scene, int _updateOrder, GameObject* _parent) :
 								m_dialogUI->SetState(OBJECT_STATE::HIDDEN);
 								m_dialogUI->Clear();
 								m_enterEvent->GetCollider()->IsActive(false);
+							}
+							else if (m_dialogUI->IsWaitOver())
+							{
+								m_dialogUI->IsFirst(true);
+								m_dialogUI->SetText(L"아! 말하는 것을 잊었네요.\n대화가 끝났지만 우측아래 'F'키 입력 대기 아이콘이 나타나지 않는다면\n해당 목표를 완료할 때까지 기다리는 거에요.\n자, 방향키를 눌러 목표로 가보죠.");
 							}
 						});
 					}
@@ -369,6 +406,13 @@ TestMap_1::TestMap_1(Scene* _scene, int _updateOrder, GameObject* _parent) :
 		}
 	});
 
+    
+    /*
+	* 몬스터 발견 이벤트
+	*/
+	monster_01 = MonsterFactory::CreateMonster(m_scene, MONSTERS::MMM, { 800, 300 }, this);
+
+
     /*
 	*/
 	m_PlayerStartFlag = new PlatformRect({ 10, 10 }, false, _scene, OBJECT_TYPE::DEFAULT, _updateOrder, this);
@@ -407,12 +451,10 @@ void TestMap_1::UpdateObject()
             bg->AddPos(-(bg->LocalSize().x * 2.0f), 0.0f);
         }
 	}
-
 }
 
 void TestMap_1::RenderObject()
 {
-	GameObject::RenderObject();
 }
 
 D3DXVECTOR2 TestMap_1::GetPlayerStartPoint()
@@ -426,9 +468,5 @@ D3DXVECTOR2 TestMap_1::GetPlayerStartPoint()
 
 void TestMap_1::SetMonsters()
 {
-	MonsterFactory::CreateMonster(m_scene, MONSTERS::MMM, { 0, 130 }, this);
-    
-	MonsterFactory::CreateMonster(m_scene, MONSTERS::MMM, { 600, 300 }, this);
-	MonsterFactory::CreateMonster(m_scene, MONSTERS::MMM, { 750, 300 }, this);
-	MonsterFactory::CreateMonster(m_scene, MONSTERS::MMM, { 1000, 300 }, this);
+	
 }

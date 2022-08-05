@@ -2,6 +2,9 @@
 #include "Game.h"
 
 #include "Engine/Core/Core.h"
+#include "Engine/Object/Effect.h"
+#include "Engine/Component/Animator/Animator.h"
+
 #include "Game/Scenes/Scenes.h"
 
 bool Game::m_isDbgRendering = true;
@@ -15,7 +18,12 @@ Game::Game() :
 	* === === === === === */
 	DEVICE->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);	// Backface culling 사용 안함
 	CAMERA->SetOffset({ WIN_CENTER_X, WIN_HEIGHT * 0.6f });	// Camera Offset 설정
-	
+
+	/* === === === === ===
+	*     이펙트 추가
+	* === === === === === */
+	m_targetSFX = new Effect(L"SFX\\etc\\Target.png", 6, 1, ANIM_PLAY_TYPE::LOOP);
+
 	/* === === === === ===
 	*       Scene 추가
 	* === === === === === */
@@ -28,6 +36,7 @@ Game::Game() :
 Game::~Game()
 {
 	SAFE_DELETE(playerObservable);
+	delete m_targetSFX;
 }
 
 void Game::Update()
@@ -44,12 +53,21 @@ void Game::Update()
 	if (m_GameState == GAME_STATE::PLAY)
 	{
 		SCENE->Update();
+
+		/*
+		* Effect Update
+		*/
+		m_targetSFX->Update();
 	}
 }
 
 void Game::Render()
 {
 	SCENE->Render();
+    
+	// Effect Render
+    m_targetSFX->Render();
+
 	if (m_isDbgRendering)
 	{
         CAMERA->RenderCameraRect();

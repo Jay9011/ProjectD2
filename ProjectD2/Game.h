@@ -25,6 +25,10 @@ private:
 public:
 	Observable<class Player>* playerObservable;
 
+	// Effects
+	class Effect* m_targetSFX;
+
+    
 /* === === === === ===
 * Getter / Setter
 * === === === === ===*/

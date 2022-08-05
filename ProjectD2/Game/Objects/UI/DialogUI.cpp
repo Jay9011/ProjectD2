@@ -66,6 +66,11 @@ void DialogUI::RenderObject()
     
     m_dialogBox->Render();
 
+    if (m_waitTime > 0 && m_waitTimer >= m_waitTime)
+    {
+        m_isWaitOver = true;
+    }
+
     // 종료 대기 Key 출력
     if (m_isWait)
     {
@@ -94,6 +99,7 @@ void DialogUI::RenderObject()
         }
         else    // 텍스트를 완성시킨 경우
         {
+            m_waitTimer += fDT;
             m_isEnd = true;
             if(m_isWaiting)
                 m_isWait = true;

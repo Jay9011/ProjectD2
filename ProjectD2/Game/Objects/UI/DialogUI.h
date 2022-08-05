@@ -55,6 +55,7 @@ private:
     float   m_textTimer = 0.0f; // 타이핑 타이머
 
     bool    m_isWaiting = false; // 키 입력을 기다리는지 확인용
+    bool    m_isWaitOver = false;// 키 입력 대기 시간을 초과했는지 확인용
     bool    m_isEnd = false;     // 대화 종료 여부
     bool    m_isWait = false;    // 대화 종료 후 대기 여부
     float   m_waitTime = 0.0f;   // 대기 시간
@@ -77,11 +78,7 @@ public:
         m_isFirst = _isFirst;
         if (_isFirst)
         {
-            m_textIndex = 0;
-            m_textTimer = 0.0f;
-            m_isEnd = false;
-            m_isWait = false;
-            m_waitTimer = 0.0f;
+            Init();
         }
         return m_isFirst;
     };
@@ -97,18 +94,26 @@ public:
 
     float GetWaitTime() const      { return m_waitTime; };
     void  SetWaitTime(float _time) { m_waitTime = _time; };
+
+    bool IsWaitOver() const       { return m_isWaitOver; };
     
     void SetUpdateEvent(std::function<void()> _event) { m_updateEvent = _event; };
     void Clear()
     {
+        Init();
         m_text.clear();
+        m_updateEvent = nullptr;
+    }
+    void Init()
+    {
         m_isFirst = true;
         m_textIndex = 0;
         m_textTimer = 0.0f;
         m_isEnd = false;
         m_isWait = false;
+        m_isWaitOver = false;
+        m_waitTime = 0.0f;
         m_waitTimer = 0.0f;
-        m_updateEvent = nullptr;
     }
 };
 

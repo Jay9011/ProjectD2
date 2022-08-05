@@ -6,7 +6,8 @@
 #include "Engine/Resource/Shader.h"
 
 Effect::Effect(const wstring& _path, int _maxFrameX, int _maxFrameY, ANIM_PLAY_TYPE _type, bool _isAdditive, float speed) :
-    isActive(false)
+    m_type(_type)
+    , isActive(false)
     , isAdditive(_isAdditive)
     , m_color(1.0f, 1.0f, 1.0f, 1.0f)
 {
@@ -24,7 +25,7 @@ Effect::Effect(const wstring& _path, int _maxFrameX, int _maxFrameY, ANIM_PLAY_T
     
 	if (_type == ANIM_PLAY_TYPE::ONCE)
 	{
-		m_animation->SetFinishFrameEvent([this]() {isActive = false; });
+		m_animation->SetFinishFrameEvent(std::bind(&Effect::Stop, this));
 	}
 }
 
@@ -40,6 +41,8 @@ void Effect::Update()
 
 	m_animation->Update();
 	UpdateWorld();
+	if (m_type == ANIM_PLAY_TYPE::LOOP && m_animation->IsDone())
+		m_animation->Reset();
 }
 
 void Effect::Render()
@@ -64,4 +67,9 @@ void Effect::Play(D3DXVECTOR2 _pos, D3DXCOLOR _color)
     m_color = _color;
     
 	m_animation->Play();
+}
+
+void Effect::Stop()
+{
+	isActive = false;
 }
