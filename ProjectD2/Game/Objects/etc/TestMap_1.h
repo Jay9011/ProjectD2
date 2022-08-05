@@ -38,11 +38,22 @@ private:
 	// Events
 	float m_eventTimer;
 	DialogEvent* m_enterEvent;
-	DialogEvent* m_doorOpenEvent;
+    
+	DialogEvent*  m_doorOpenEvent;	// 문 열기 이벤트 관련
 	ScreenButton* button_01;
-	Door* door_01;
-    Monster* monster_01; // 이벤트 몬스터
-	DialogEvent* monsterFindEvent;
+	Door*         door_01;
+    
+	DialogEvent* monsterFindEvent;	// 몬스터 발견 이벤트 관련
+    Monster*     monster_01;
+    
+	DialogEvent* monsterRegion;		// 몬스터 소환 이벤트 관련
+	GameObject*  monsterRegionObject;
+	bool         monsterExist = true;
+	float        monsterTimer = 0.0f;
+
+	DialogEvent* factoryFindEvent;	// 공장 발견 이벤트
+    
+	DialogEvent* finishEvent;		// 마지막 이벤트
 
 	// Effects
 	Effect* m_targetSFX;

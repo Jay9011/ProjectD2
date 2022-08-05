@@ -81,6 +81,8 @@ private:
 	float m_reloadTimeMax;
     bool  m_isReload;
 
+    bool  m_isDie = false;
+
     /*
 	* Observer
 	*/

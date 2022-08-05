@@ -21,7 +21,7 @@ FallPlatform::FallPlatform(Scene* _scene, OBJECT_TYPE _type, int _updateOrder, G
 			m_animator->Find(Anim::SINK)->Play();
 		}
 	});
-	
+    
 	m_animator->Find(Anim::HOLD)->Play();
 }
 
@@ -69,7 +69,7 @@ void FallPlatform::InitAnim()
 			{
 				frames.push_back(TEXTURE->Add(L"Tile\\Platform.png", 8, 1, x, 0, { 0.501f, 0.5f }));
 			}
-			speed = 0.05f;
+			speed = 0.1f;
 			break;
 		default:
 			break;

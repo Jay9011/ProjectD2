@@ -168,10 +168,13 @@ void Player::Damage(float _damage)
 	m_observable->Notify(*this, "GetHP");
 	UpdateState(PLAYER_STATE::HIT, m_equip);
     
-    if (m_status.hp <= 0)
+    if (m_status.hp <= 0 && !m_isDie)
     {
+		m_isDie = true;
 		m_preventKey = true;
         m_status.hp = 0;
+		m_state = PLAYER_STATE::IDLE;
+		m_isAttack = false;
 		UpdateState(PLAYER_STATE::CRITICAL, m_equip);
     }
 }
@@ -189,7 +192,7 @@ void Player::DieEnd()
 
 void Player::Move()
 {
-    if (m_preventKey)
+    if (m_preventKey || m_isDie)
         return;
     
 	// Scale에 따라 벽점프 방향이 달라지기 때문에 Scale 변경 전에 점프를 처리한다.
@@ -229,6 +232,9 @@ void Player::Move()
 
 void Player::Attack()
 {
+	if (m_isDie)
+		return;
+    
 	if (m_reloadTime < m_reloadTimeMax)
 		m_reloadTime += fDT;
 
@@ -303,7 +309,7 @@ void Player::AttackEnd()
 
 void Player::ChangeWeapon()
 {
-	if (m_preventKey || !m_equipChangeable)
+	if (m_preventKey || !m_equipChangeable || m_isDie)
 		return;
     
 	if (KEYDOWN(VK_TAB))
@@ -323,6 +329,9 @@ void Player::ChangeWeapon()
 
 void Player::StateProcessing()
 {
+    if (m_isDie)
+        return;
+    
 	// Idle 상태 체크
 	if (m_state == PLAYER_STATE::RUN &&(KEYNONE(VK_LEFT) && KEYNONE(VK_RIGHT))	// 달리는 상태인데, 이동 키를 누르지 않고있다면 Idle 상태로 변경한다.
 		)
@@ -339,6 +348,9 @@ void Player::StateProcessing()
 
 void Player::AnimationProcessing()
 {
+    if (m_isDie)
+        return;
+    
 	if (m_state == PLAYER_STATE::HANG || m_state == PLAYER_STATE::HANG_ATK)
 	{
 		m_iAttackReverse = -1;
@@ -787,6 +799,9 @@ void Player::BodyPlatformCheck()
 
 void Player::HandPlatformCheck()
 {
+	if (m_isDie)
+		return;
+    
 	// 충돌중인 모든 Platform을 찾는다.
 	vector<std::pair<Collider*, Collider*>> collided;
 	scene->GetCollisionMgr()->CheckCollision(m_handCollider, OBJECT_TYPE::PLATFORM, collided);

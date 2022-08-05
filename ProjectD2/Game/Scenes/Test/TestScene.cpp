@@ -91,6 +91,7 @@ void TestScene::UpdateScene()
 	*/
 	GetCollisionMgr()->CheckCollision(OBJECT_TYPE::PLAYER, OBJECT_TYPE::INTERACTIVE, collided);
 	GetCollisionMgr()->CheckCollision(OBJECT_TYPE::PLAYER, OBJECT_TYPE::EVENTFLAG, collided);
+	GetCollisionMgr()->CheckCollision(OBJECT_TYPE::MONSTER, OBJECT_TYPE::EVENTFLAG, collided);
 }
 
 void TestScene::RenderScene()

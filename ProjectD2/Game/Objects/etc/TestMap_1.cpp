@@ -289,34 +289,36 @@ TestMap_1::TestMap_1(Scene* _scene, int _updateOrder, GameObject* _parent) :
 	// 중앙 벤트
 	platformLT = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_55.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, this);
 	platformLT->SetPos(432, 96);
-	platformMT = new PlatformRect({ 128, 32 }, L"Tile\\IndustrialTile_56.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformLT);
-	platformMT->SetPos(80, 0);
+	platformMT = new PlatformRect({ 96, 32 }, L"Tile\\IndustrialTile_56.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformLT);
+	platformMT->SetPos(64, 0);
 	platformRT = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_57.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformMT);
-	platformRT->SetPos(80, 0);
-	platformLM = new PlatformRect({ 32, 192 }, L"Tile\\IndustrialTile_13.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformRT);
-	platformLM->SetPos(-64, 112);
-	platformLM->GetCollider()->options.slidable = true;
-	platformLM->GetCollider()->options.resistance.y = 10.0f;
-    platformLB = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_22.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformLM);
-	platformLB->SetPos(0, 112);
-	platformLB->GetCollider()->options.slidable = true;
-	platformLB->GetCollider()->options.resistance.y = 10.0f;
-	platformMM = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_01.png", false, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformRT);
-	platformMM->SetPos(-32, 32);
-	platformMM = new PlatformRect({ 32, 64 }, L"Tile\\IndustrialTile_19.png", false, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformMM);
-	platformMM->SetPos(0, 48);
-	platformMM = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_28.png", false, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformMM);
-	platformMM->SetPos(0, 48);
-	platformMM = new PlatformRect({ 32, 64 }, L"Tile\\IndustrialTile_21.png", false, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformMM);
-	platformMM->SetPos(0, 48);
-	platformMB = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_23.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformMM);
-	platformMB->SetPos(0, 48);
-	platformRB = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_24.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformMB);
-	platformRB->SetPos(32, 0);
-	platformRM = new PlatformRect({ 32, 192 }, L"Tile\\IndustrialTile_15.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformRB);
-	platformRM->SetPos(0, -112);
+	platformRT->SetPos(64, 0);
+	platformRM = new PlatformRect({ 32, 192 }, L"Tile\\IndustrialTile_15.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformRT);
+	platformRM->SetPos(0, 112);
 	platformRM->GetCollider()->options.slidable = true;
 	platformRM->GetCollider()->options.resistance.y = 10.0f;
+	platformRB = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_24.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformRM);
+	platformRB->SetPos(0, 112);
+	platformRB->GetCollider()->options.slidable = true;
+	platformRB->GetCollider()->options.resistance.y = 10.0f;
+	platformLB = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_22.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformRB);
+	platformLB->SetPos(-32, 0);
+	platformLB->GetCollider()->options.slidable = true;
+	platformLB->GetCollider()->options.resistance.y = 10.0f;
+	platformLM = new PlatformRect({ 32, 192 }, L"Tile\\IndustrialTile_13.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformLB);
+	platformLM->SetPos(0, -112);
+	platformLM->GetCollider()->options.slidable = true;
+	platformLM->GetCollider()->options.resistance.y = 10.0f;
+    
+	platform = new PlatformRect({ 96, 124 }, L"Tile\\IndustrialTile_01.png", false, _scene, OBJECT_TYPE::DEFAULT, _updateOrder, platformRT);
+	platform->SetPos(-96, 78);
+	platform = new PlatformRect({ 96, 128 }, L"Tile\\IndustrialTile_19.png", false, _scene, OBJECT_TYPE::DEFAULT, _updateOrder, platform);
+	platform->SetPos(0, 80);
+	platform = new PlatformRect({ 96, 32 }, L"Tile\\IndustrialTile_28.png", false, _scene, OBJECT_TYPE::DEFAULT, _updateOrder, platform);
+	platform->SetPos(0, 80);
+	platform = new PlatformRect({ 160, 96 }, L"Tile\\IndustrialTile_21.png", false, _scene, OBJECT_TYPE::DEFAULT, _updateOrder, platform);
+	platform->SetPos(32, 50);
+    
 #pragma endregion
 
 #pragma region 첫 입장 Event
@@ -346,7 +348,7 @@ TestMap_1::TestMap_1(Scene* _scene, int _updateOrder, GameObject* _parent) :
 						m_dialogUI->SetWaitTime(2.0f);
 						m_player->SetPreventKey(false);
 						m_dialogUI->SetUpdateEvent([this]() {
-							if (KEYDOWN(VK_UP) || KEYDOWN(VK_RIGHT) || KEYDOWN(VK_LEFT))
+							if (KEYPRESS(VK_UP) || KEYPRESS(VK_RIGHT) || KEYPRESS(VK_LEFT))
 							{
 								m_dialogUI->SetState(OBJECT_STATE::HIDDEN);
 								m_dialogUI->Clear();
@@ -414,7 +416,7 @@ TestMap_1::TestMap_1(Scene* _scene, int _updateOrder, GameObject* _parent) :
 
 #pragma region 몬스터 발견 Event
 
-	monster_01 = MonsterFactory::CreateMonster(m_scene, MONSTERS::MMM, { 800, 300 }, this);
+	monster_01 = MonsterFactory::CreateMonster(m_scene, MONSTERS::MMM, { 750, 300 }, this);
 	monsterFindEvent = new DialogEvent({ -100, -80 }, { 100, 80 }, _scene, OBJECT_TYPE::EVENTFLAG);
 	monsterFindEvent->SetPos(1350, 930);
 	monsterFindEvent->GetCollider()->SetCallbackOnCollisionEnter([this](Collider* _other) {
@@ -435,7 +437,7 @@ TestMap_1::TestMap_1(Scene* _scene, int _updateOrder, GameObject* _parent) :
 					m_targetSFX->Stop();
 					m_dialogUI->Clear();
 					m_dialogUI->SetFace(DialogFace::Serious);
-					m_dialogUI->SetText(L"우선, 'TAB'키를 누르면 무기를 바꿀 수 있어요.\n원거리 공격은 멀리서 공격할 수 있지만 약하고\n근거리 공격은 저 녀석을 한 방에 쓰러트릴 정도로 강하죠.\n'TAB'키를 눌러볼래요?");
+					m_dialogUI->SetText(L"'TAB'키를 누르면 무기를 바꿀 수 있어요.\n원거리 공격은 멀리서 공격할 수 있지만 약하고\n근거리 공격은 저 녀석을 한 방에 쓰러트릴 정도로 강하죠.\n우선, 'TAB'키를 눌러볼래요?");
 					m_dialogUI->IsWaiting(false);
 					CAMERA->SetTarget(m_player);
 					m_dialogUI->SetUpdateEvent([this]() {
@@ -463,8 +465,167 @@ TestMap_1::TestMap_1(Scene* _scene, int _updateOrder, GameObject* _parent) :
 		});
 #pragma endregion
 
-	fallPlatform = new FallPlatform(_scene, OBJECT_TYPE::PLATFORM, _updateOrder, this);
-	fallPlatform->SetPos(0, 60);
+#pragma region 중앙 공장부지 1
+	platform = new PlatformRect({ 320, 224 }, L"Tile\\IndustrialTile_46.png", false, _scene, OBJECT_TYPE::DEFAULT, _updateOrder, this);
+    platform->SetPos(1216, 320);
+	platformLB = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_22.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platform);
+    platformLB->SetPos(-208, 32);
+	platformLB->GetCollider()->options.slidable = true;
+	platformLB->GetCollider()->options.resistance.y = 10.0f;
+	platformLM = new PlatformRect({ 32, 96 }, L"Tile\\IndustrialTile_13.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformLB);
+    platformLM->SetPos(0, -64);
+	platformLM->GetCollider()->options.slidable = true;
+	platformLM->GetCollider()->options.resistance.y = 10.0f;
+	platformLT = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_04.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformLM);
+    platformLT->SetPos(0, -64);
+	platformLT->GetCollider()->options.slidable = true;
+	platformLT->GetCollider()->options.resistance.y = 10.0f;
+	platformMT = new PlatformRect({ 192, 32 }, L"Tile\\IndustrialTile_05.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformLT);
+    platformMT->SetPos(112, 0);
+	platformRT = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_06.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformMT);
+    platformRT->SetPos(112, 0);
+	platformRT->GetCollider()->options.slidable = true;
+	platformRT->GetCollider()->options.resistance.y = 10.0f;
+	platformRM = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_24.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformRT);
+    platformRM->SetPos(0, 32);
+	platformMM = new PlatformRect({ 160, 32 }, L"Tile\\IndustrialTile_23.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformRM);
+    platformMM->SetPos(-96, 0);
+	platformMM = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_07.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformMM);
+    platformMM->SetPos(-96, 0);
+	platformMB = new PlatformRect({ 32, 64 }, L"Tile\\IndustrialTile_15.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformMM);
+    platformMB->SetPos(0, 48);
+	platformMB->GetCollider()->options.slidable = true;
+	platformMB->GetCollider()->options.resistance.y = 10.0f;
+	platformRB = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_24.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformMB);
+    platformRB->SetPos(0, 48);
+	platformRB->GetCollider()->options.slidable = true;
+	platformRB->GetCollider()->options.resistance.y = 10.0f;
+    platform = new PlatformRect({ 64, 64 }, L"Tile\\IndustrialTile_46.png", false, _scene, OBJECT_TYPE::DEFAULT, _updateOrder, platformRB);
+	platform->SetPos(-16, 48);
+    platform = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_47.png", false, _scene, OBJECT_TYPE::DEFAULT, _updateOrder, platform);
+	platform->SetPos(48, 0);
+    platform = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_47.png", false, _scene, OBJECT_TYPE::DEFAULT, _updateOrder, platform);
+	platform->SetPos(80, -98);
+    platform = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_61.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platform);
+	platform->SetPos(16, -16);
+	monsterRegionObject = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_70.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platform);
+	monsterRegionObject->SetPos(0, 32);
+    
+	fallPlatform = new FallPlatform(_scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformRT);
+	fallPlatform->SetPos(32, 0);
+	fallPlatform = new FallPlatform(_scene, OBJECT_TYPE::PLATFORM, _updateOrder, fallPlatform);
+	fallPlatform->SetPos(32, 0);
+	fallPlatform = new FallPlatform(_scene, OBJECT_TYPE::PLATFORM, _updateOrder, fallPlatform);
+	fallPlatform->SetPos(32, 0);
+	fallPlatform = new FallPlatform(_scene, OBJECT_TYPE::PLATFORM, _updateOrder, fallPlatform);
+	fallPlatform->SetPos(32, 0);
+
+	platformLT = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_73.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, fallPlatform);
+	platformLT->SetPos(32, 0);
+	platformLM = new PlatformRect({ 32, 192 }, L"Tile\\IndustrialTile_71.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, fallPlatform);
+	platformLM->SetPos(32, 112);
+	platformRT = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_06.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformLT);
+	platformRT->SetPos(32, 0);
+	platformRT->GetCollider()->options.slidable = true;
+	platformRT->GetCollider()->options.resistance.y = 10.0f;
+	platformRM = new PlatformRect({ 32, 192 }, L"Tile\\IndustrialTile_15.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformRT);
+	platformRM->SetPos(0, 112);
+	platformRM->GetCollider()->options.slidable = true;
+	platformRM->GetCollider()->options.resistance.y = 10.0f;
+#pragma endregion
+
+#pragma region 공장부지 몬스터 소환 이벤트
+	monsterRegion = new DialogEvent({ -250, -100 }, { 250, 80 }, _scene, OBJECT_TYPE::EVENTFLAG);
+	monsterRegion->SetPos(2450, 930);
+	monsterRegion->GetCollider()->SetCallbackOnCollisionEnter([this](Collider* _other) {
+		if (_other->GetOwner()->GetType() == OBJECT_TYPE::MONSTER)
+		{
+			monsterExist = true;
+		}
+	});
+	monsterRegion->GetCollider()->SetCallbackOnCollisionExit([this](Collider* _other) {
+		if (_other->GetOwner()->GetType() == OBJECT_TYPE::MONSTER) // 몬스터가 공장에서 사라지면
+		{
+			monsterExist = false;
+		}
+	});
+#pragma endregion
+
+#pragma region 공장 발견 이벤트
+	factoryFindEvent = new DialogEvent({ -100, -80 }, { 100, 80 }, _scene, OBJECT_TYPE::EVENTFLAG);
+	factoryFindEvent->SetPos(2000, 930);
+	factoryFindEvent->GetCollider()->SetCallbackOnCollisionEnter([this](Collider* _other) {
+		if (_other->GetOwner()->GetType() == OBJECT_TYPE::PLAYER)
+		{
+			monsterExist = false;
+			m_player->SetPreventKey(true);    // 키 입력 방지
+			m_dialogUI->Clear();
+			m_dialogUI->SetFace(DialogFace::Serious);
+			m_dialogUI->SetText(L"팩토리에요...\n저기에서 유한상태 오토마톤을 뽑아내나봐요.");
+			m_dialogUI->IsWaiting(true);
+			m_dialogUI->SetState(OBJECT_STATE::ACTIVE);
+			m_dialogUI->SetUpdateEvent([this]() {
+				if (KEYDOWN('F') && m_dialogUI->IsWait())
+				{
+					m_dialogUI->Clear();
+					m_dialogUI->SetFace(DialogFace::Normal);
+					m_dialogUI->SetText(L"어차피 저 안쪽에는 길이 없는 것 같으니 위로 올라가죠.\n벽을 향해서 점프를 하면 벽을 타고 올라갈 수 있어요.");
+					m_dialogUI->IsWaiting(true);
+					m_dialogUI->SetUpdateEvent([this]() {
+						if (KEYDOWN('F') && m_dialogUI->IsWait())
+						{
+							m_player->SetPreventKey(false);
+							m_dialogUI->Clear();
+							m_dialogUI->SetState(OBJECT_STATE::HIDDEN);
+							factoryFindEvent->GetCollider()->IsActive(false);
+						}
+					});
+				}
+			});
+		}
+	});
+#pragma endregion
+
+#pragma region 마지막 이벤트
+	finishEvent = new DialogEvent({ -100, -80 }, { 100, 80 }, _scene, OBJECT_TYPE::EVENTFLAG);
+	finishEvent->SetPos(3400, 930);
+	finishEvent->GetCollider()->SetCallbackOnCollisionEnter([this](Collider* _other) {
+		if (_other->GetOwner()->GetType() == OBJECT_TYPE::PLAYER)
+		{
+			m_player->SetPreventKey(true);    // 키 입력 방지
+			m_dialogUI->Clear();
+			m_dialogUI->SetFace(DialogFace::Normal);
+			m_dialogUI->SetText(L"수고하셨어요. 이번 여정은 여기까지에요.");
+			m_dialogUI->IsWaiting(true);
+			m_dialogUI->SetState(OBJECT_STATE::ACTIVE);
+			m_dialogUI->SetUpdateEvent([this]() {
+				if (KEYDOWN('F') && m_dialogUI->IsWait())
+				{
+					m_dialogUI->Clear();
+					m_dialogUI->SetText(L"여정은 여기까지지만 좀 더 둘러보고 싶다면 둘러보아도 좋아요.\n좀 전에 본 팩토리에서 오토마톤이 무제한 생성되니 그걸로 놀아도 좋겠죠.");
+					m_dialogUI->IsWaiting(true);
+					m_dialogUI->SetUpdateEvent([this]() {
+						if (KEYDOWN('F') && m_dialogUI->IsWait())
+						{
+							m_dialogUI->Clear();
+							m_dialogUI->SetText(L"전 여기까지만 안내할게요.\n여기까지 따라워줘서 고마워요.");
+							m_dialogUI->IsWaiting(true);
+							m_dialogUI->SetUpdateEvent([this]() {
+								if (KEYDOWN('F') && m_dialogUI->IsWait())
+								{
+									m_player->SetPreventKey(false);
+									m_dialogUI->Clear();
+									m_dialogUI->SetState(OBJECT_STATE::HIDDEN);
+									finishEvent->GetCollider()->IsActive(false);
+								}
+							});
+						}
+					});
+				}
+			});
+		}
+	});
+#pragma endregion
 
     /*
 	*/
@@ -504,6 +665,24 @@ void TestMap_1::UpdateObject()
             bg->AddPos(-(bg->LocalSize().x * 2.0f), 0.0f);
         }
 	}
+
+    /*
+	* 몬스터 소환 이벤트
+	*/
+	if (!monsterExist)	// 몬스터가 부지에 없으면
+	{
+		monsterTimer += fDT;
+		if (monsterTimer >= 3.0f)
+		{
+			MonsterFactory::CreateMonster(m_scene, MONSTERS::MMM, { 0, 0 }, monsterRegionObject);
+            monsterTimer = 0.0f;
+		}
+	}
+	else
+	{
+		monsterTimer = 0.0f;
+	}
+	
 }
 
 void TestMap_1::RenderObject()
@@ -521,5 +700,5 @@ D3DXVECTOR2 TestMap_1::GetPlayerStartPoint()
 
 void TestMap_1::SetMonsters()
 {
-	
+	MonsterFactory::CreateMonster(m_scene, MONSTERS::MMM, { 1600, 300 }, this);
 }
