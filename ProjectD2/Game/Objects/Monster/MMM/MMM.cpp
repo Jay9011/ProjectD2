@@ -299,12 +299,9 @@ void MMM::Chase()
     GameObject* player = m_lastFindPlayer;
 
     if (player != nullptr && player->GetState() != OBJECT_STATE::DEAD)
-    {
-        m_timer += fDT;
-        
-        if (m_timer >= 1.0f && Collision(m_attackRangeCollider, m_lastFindPlayerCollider)) // 공격 범위에 들어오면 공격을 시도한다.
+    { 
+        if (IsAttackable() && Collision(m_attackRangeCollider, m_lastFindPlayerCollider)) // 공격 범위에 들어오면 공격을 시도한다.
         {
-            m_timer = 0.0f;
             m_AI->ChangeState(MON_STATE::ATTACK);
             return;
         }
@@ -333,22 +330,52 @@ void MMM::Chase()
     }
 }
 
+bool MMM::IsAttackable()
+{
+    // 모든 공격 패턴의 시간 증가
+    m_Att01Timer += fDT;
+    if (m_Att01Timer >= 1.0f)
+    {
+        m_Att01Timer = 0.0f;
+        m_Att01 = true; // 해당 공격패턴 ON
+        return true;
+    }
+
+    return false;
+}
+
 void MMM::Attack()
 {
-    m_attackCollider->IsActive(true);
-    m_timer = 0.0f;
+    if (m_isAttacking)  // 공격 모션 중이면 아무것도 하지 않는다.
+        return;
+    
+    if (m_Att01)
+    {
+        m_isAttacking = true;
+        SOUND->Play("EnemyAttack");
+        m_attackCollider->IsActive(true);
+        UpdateAnimation(MON_STATE::ATTACK);
+        return;
+    }
 }
 
 void MMM::AttackEnd()
 {
-    m_attackCollider->IsActive(false);
+    if (m_Att01)
+    {
+        m_attackCollider->IsActive(false);
+        m_Att01 = false;
+    }
+    
     m_AI->RevertToPreviousState();
+    m_isAttacking = false;
     m_timer = 0.0f;
     return;
 }
 
 void MMM::Die()
 {
+    SOUND->Play("EnemyExplosion");
     m_isDead = true;
     m_bodyCollider->IsActive(false);
     m_attackCollider->IsActive(false);

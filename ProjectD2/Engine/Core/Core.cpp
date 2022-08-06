@@ -32,6 +32,7 @@ Core::Core() :
     m_textureMgr = nullptr;
     m_effectMgr = nullptr;
     m_camera = nullptr;
+    m_soundMgr = nullptr;
     m_Game = nullptr;
 
     srand((UINT)time(nullptr));
@@ -51,6 +52,7 @@ Core::~Core()
 	SAFE_DELETE(m_timer);
     SAFE_DELETE(m_device);
     SAFE_DELETE(m_Game);
+    SAFE_DELETE(m_soundMgr);
     DestroyMenu(m_hMenu);
 	DestroyWindow(m_hWnd);
 
@@ -81,7 +83,7 @@ bool Core::Init(HINSTANCE _hInstance)
     }
 
 	m_hMenu = LoadMenu(nullptr, MAKEINTRESOURCE(IDR_MENU1));  // 메뉴 생성
-    DockingMenu(m_bDocking);  // 메뉴 장착 및 해상도에 맞게 윈도우 크기 조정
+    //DockingMenu(m_bDocking);  // 메뉴 장착 및 해상도에 맞게 윈도우 크기 조정
 
 	/* === === === === ===
     *   Manager 초기화
@@ -94,6 +96,7 @@ bool Core::Init(HINSTANCE _hInstance)
 	m_textureMgr = new TextureMgr;
     m_effectMgr  = new EffectMgr;
     m_camera     = new Camera;
+    m_soundMgr   = new SoundMgr;
 
 #if _DEBUG
     TweakBar::Create();
@@ -133,6 +136,7 @@ int Core::Run()
             * === === === === === */
             m_timer->Update();
             m_input->Update();
+            m_soundMgr->Update();
 
             /* === === === === ===
             *     Game Update

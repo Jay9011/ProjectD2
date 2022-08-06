@@ -74,6 +74,7 @@ void CommonMonState::Chase::Enter(Monster* _entity)
 
 void CommonMonState::Chase::Update(Monster* _entity)
 {
+    
 }
 
 void CommonMonState::Chase::Exit(Monster* _entity)
@@ -85,7 +86,6 @@ void CommonMonState::Chase::Exit(Monster* _entity)
 *  === === === === === */
 void CommonMonState::Attack::Enter(Monster* _entity)
 {
-    _entity->UpdateAnimation(MON_STATE::ATTACK);
 }
 
 void CommonMonState::Attack::Update(Monster* _entity)

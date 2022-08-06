@@ -458,6 +458,7 @@ TestMap_1::TestMap_1(Scene* _scene, int _updateOrder, GameObject* _parent) :
 			m_doorOpenEvent->GetCollider()->IsActive(false);
 			m_dialogUI->Clear();
 			m_dialogUI->SetState(OBJECT_STATE::HIDDEN);
+			m_player->SetPreventKey(false); // 혹시라도 문을 열었는데 키가 막혀있다면
 		}
 	});
 

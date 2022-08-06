@@ -11,7 +11,7 @@ DialogUI::DialogUI(Scene* _scene, int _updateOrder, UIObject* _parent) :
     , m_shader(SHADER(L"AlphaShader"))
     , m_face(DialogFace::Normal)
     , m_facePos({ -330.0f, 1.0f })
-    , m_textBox({ -230, -50, 400, 50 })
+    , m_textBox({ -230, -33, 400, 70 })
     , m_textSpeed(0.02f)
 {
     InitTexture();
@@ -74,7 +74,7 @@ void DialogUI::RenderObject()
     // 종료 대기 Key 출력
     if (m_isWait)
     {
-        PrintKeyImg({ rect.right - 20.0f, rect.bottom - 20.0f }, Keys::F);
+        PrintKeyImg({ rect.right - 20.0f, rect.bottom - 35.0f }, Keys::F);
     }
 
     m_shader->End();

@@ -20,7 +20,7 @@ Shader::~Shader()
 
 Shader* Shader::Add(const wstring& _path)
 {
-	wstring path = L"Engine\\Resource\\Shader\\" + _path + L".hlsl";
+	wstring path = L"Content\\Shader\\" + _path + L".hlsl";
 
 	if(m_shaderMap.find(path) != m_shaderMap.end())
 		return m_shaderMap[path];

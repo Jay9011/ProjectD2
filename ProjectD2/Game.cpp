@@ -24,6 +24,17 @@ Game::Game() :
 	* === === === === === */
 	m_targetSFX = new Effect(L"SFX\\etc\\Target.png", 6, 1, ANIM_PLAY_TYPE::LOOP);
 
+    /* === === === === ===
+	*     사운드 추가
+	* === === === === ===*/
+	SOUND->AddSound("BGM", "BGM.ogg", true);
+	SOUND->AddSound("Appear", "Appear.wav");
+	SOUND->AddSound("Die", "Die.wav");
+	SOUND->AddSound("EnemyAttack", "EnemyAttack.wav");
+	SOUND->AddSound("EnemyExplosion", "EnemyExplosion.wav");
+	SOUND->AddSound("Shoot", "Shoot.wav");
+	SOUND->AddSound("Sword", "Sword.wav");
+
 	/* === === === === ===
 	*       Scene 추가
 	* === === === === === */

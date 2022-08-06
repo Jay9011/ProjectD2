@@ -29,6 +29,7 @@
 #include <functional>
 #include <math.h>
 #include <AntTweakBar.h>
+#include <Lib/inc/fmod.hpp>
 
 using std::vector;
 using std::list;
@@ -51,3 +52,4 @@ using std::wstring;
 
 #pragma comment(lib, "d3d9.lib")
 #pragma comment(lib, "d3dx9.lib")
+#pragma comment(lib, "fmod_vc.lib")

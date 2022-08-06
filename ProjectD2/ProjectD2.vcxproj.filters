@@ -177,6 +177,9 @@
     <ClCompile Include="Engine\Core\Manager\EffectManager\EffectMgr.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Core\Manager\Sound\SoundMgr.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Framework.h">
@@ -371,6 +374,33 @@
     <ClInclude Include="Engine\Core\Manager\EffectManager\EffectMgr.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Lib\inc\fmod.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\inc\fmod.hpp">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\inc\fmod_codec.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\inc\fmod_common.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\inc\fmod_dsp.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\inc\fmod_dsp_effects.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\inc\fmod_errors.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\inc\fmod_output.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Core\Manager\Sound\SoundMgr.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ProjectD2.rc">
@@ -385,13 +415,23 @@
   <ItemGroup>
     <Library Include="Lib\lib\AntTweakBar.lib" />
     <Library Include="Lib\lib\AntTweakBar64.lib" />
+    <Library Include="Lib\lib\fmod_vc.lib" />
+    <Library Include="Lib\lib\fmodL_vc.lib" />
+    <Library Include="Lib\lib\libfmod.a" />
+    <Library Include="Lib\lib\libfmodL.a" />
   </ItemGroup>
   <ItemGroup>
     <None Include="AntTweakBar.dll" />
     <None Include="AntTweakBar64.dll" />
+    <None Include="Lib\inc\fmod.cs" />
+    <None Include="Lib\inc\fmod_dsp.cs" />
+    <None Include="Lib\inc\fmod_errors.cs" />
+    <None Include="Lib\lib\fmodL.dll" />
+    <None Include="fmod.dll" />
+    <None Include="fmodL.dll" />
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Engine\Resource\Shader\AlphaShader.hlsl" />
-    <FxCompile Include="Engine\Resource\Shader\OutlineShader.hlsl" />
+    <FxCompile Include="Content\Shader\AlphaShader.hlsl" />
+    <FxCompile Include="Content\Shader\OutlineShader.hlsl" />
   </ItemGroup>
 </Project>

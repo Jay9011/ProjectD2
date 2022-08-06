@@ -118,6 +118,7 @@ Player::Player(Scene* _scene, OBJECT_TYPE _type, int _updateOrder, GameObject* _
 	*/
 	SetAnimation();
 	m_animator->Find((int)m_state)->Play();
+	SOUND->Play("Appear", 0.3f);
 }
 
 Player::~Player()
@@ -183,6 +184,7 @@ void Player::Damage(float _damage)
 
 void Player::Die()
 {
+	SOUND->Play("Die");
     UpdateState(PLAYER_STATE::DIE, m_equip);
 }
 
@@ -254,12 +256,14 @@ void Player::Attack()
 		{
 			D3DXVECTOR2 dir = m_isRight ? V_RIGHT : V_LEFT;
 			m_bulletManager->Fire(m_handAttackPoint->GetWorldPos(), dir * m_iAttackReverse);
+			SOUND->Play("Shoot", 0.6f);
 		}
 		else
 		{
 			// 근접 공격
 			m_swordCollider->IsActive(true);
 			CAMERA->Shake(0.1f, 30.0f);
+			SOUND->Play("Sword", 0.3f);
 		}
         
 		/*
@@ -433,6 +437,7 @@ void Player::UpdateAnimation()
 	case PLAYER_STATE::APPEAR:
 		if (m_prevState == PLAYER_STATE::APPEAR)	// 같은 상태, 다른 장비로 변경된 경우 애니메이션 변경을 처리하지 않는다.
 			break;									// 만약 필요한 경우, 임시로 상태를 변경 후 처리하도록 한다.
+		SOUND->Play("Appear", 0.3f);
 		m_animator->Find((int)PLAYER_ANIM::APPEAR)->Play();
 		break;
 	case PLAYER_STATE::HIT:

@@ -23,6 +23,7 @@ FallPlatform::FallPlatform(Scene* _scene, OBJECT_TYPE _type, int _updateOrder, G
 	});
     
 	m_animator->Find(Anim::HOLD)->Play();
+	m_isSinked = true; // 첫 호출용
 }
 
 FallPlatform::~FallPlatform()
@@ -36,7 +37,6 @@ void FallPlatform::UpdateObject()
 		m_timer += fDT;
 		if (m_timer >= 1.0f)
 		{
-            m_isSinked = false;
             m_timer = 0.0f;
             m_animator->Find(Anim::HOLD)->Play();
 		}

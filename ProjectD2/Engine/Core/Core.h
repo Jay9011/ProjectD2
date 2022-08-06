@@ -6,6 +6,7 @@
 #define TEXTURE Core::Get()->GetTextureMgr()
 #define EFFECTS Core::Get()->GetEffectMgr()
 #define CAMERA	Core::Get()->GetCamera()
+#define SOUND	Core::Get()->GetSoundMgr()
 #define WIN_RESOL	Core::Get()->Resolution()
 #define WIN_WIDTH	Core::Get()->Resolution().width
 #define WIN_HEIGHT	Core::Get()->Resolution().height
@@ -20,6 +21,7 @@
 #include "Manager/Texture/TextureMgr.h"
 #include "Manager/EffectManager/EffectMgr.h"
 #include "Manager/Camera/Camera.h"
+#include "Manager/Sound/SoundMgr.h"
 
 #if _DEBUG
 extern HANDLE hConsole;
@@ -40,6 +42,7 @@ public:
 	TextureMgr* GetTextureMgr() const { return m_textureMgr; }
     Camera*     GetCamera() const     { return m_camera; }
     EffectMgr*  GetEffectMgr() const  { return m_effectMgr; }
+    SoundMgr*   GetSoundMgr() const   { return m_soundMgr; }
 
 private:
 	Device*     m_device;
@@ -50,6 +53,7 @@ private:
 	TextureMgr* m_textureMgr;
 	Camera*		m_camera;
     EffectMgr*  m_effectMgr;
+    SoundMgr*   m_soundMgr;
 	Game* m_Game;
 
 /*

@@ -29,6 +29,5 @@ private:
 	class HeartUI*  playerHeartUI;
 	// Dialog
     class DialogUI* dialogUI;
-    
 };
 

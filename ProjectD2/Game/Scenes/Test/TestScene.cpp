@@ -55,6 +55,8 @@ void TestScene::SceneEnter()
 	testMap_1->CameraInit();
 	testMap_1->SetPlayer(player);
 	testMap_1->SetDialogUI(dialogUI);
+
+	SOUND->Play("BGM", 0.15f, true);
 }
 
 void TestScene::SceneExit()
@@ -89,6 +91,7 @@ void TestScene::UpdateScene()
 	GetCollisionMgr()->CheckCollision(OBJECT_TYPE::PLAYER, OBJECT_TYPE::INTERACTIVE, collided);
 	GetCollisionMgr()->CheckCollision(OBJECT_TYPE::PLAYER, OBJECT_TYPE::EVENTFLAG, collided);
 	GetCollisionMgr()->CheckCollision(OBJECT_TYPE::MONSTER, OBJECT_TYPE::EVENTFLAG, collided);
+
 }
 
 void TestScene::RenderScene()
@@ -100,7 +103,7 @@ void TestScene::PlayerSpawn()
 	player = new Player(this, OBJECT_TYPE::PLAYER, 110);
 	player->SetScale(1.5, 1.5);
 	player->SetPos(testMap_1->GetPlayerStartPoint());
-
+	
 	//CAMERA->SetTarget(player);
 }
 
