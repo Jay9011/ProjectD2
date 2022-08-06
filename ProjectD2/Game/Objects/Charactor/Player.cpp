@@ -116,6 +116,7 @@ Player::Player(Scene* _scene, OBJECT_TYPE _type, int _updateOrder, GameObject* _
 	* 
 	*/
 	SetAnimation();
+	m_animator->Find((int)m_state)->Play();
 }
 
 Player::~Player()

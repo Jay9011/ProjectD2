@@ -397,19 +397,20 @@ TestMap_1::TestMap_1(Scene* _scene, int _updateOrder, GameObject* _parent) :
 			m_dialogUI->IsWaiting(false);
 			m_doorOpenEvent->IsFirst(false);
 		}
-		});
+	});
 	m_doorOpenEvent->GetCollider()->SetCallbackOnCollisionStay([this](Collider* _other) {
 		if (_other->GetOwner()->GetType() == OBJECT_TYPE::PLAYER && m_dialogUI->IsEnd())	// 대화가 끝난 경우 움직일 수 있게 한다.
 			m_player->SetPreventKey(false);
 
 		if (door_01->IsUsed())
 		{
+			CAMERA->Shake(0.5f, 30.0f);
 			button_01->GetInteractBox()->IsActive(false);
 			m_doorOpenEvent->GetCollider()->IsActive(false);
-			m_dialogUI->SetState(OBJECT_STATE::HIDDEN);
 			m_dialogUI->Clear();
+			m_dialogUI->SetState(OBJECT_STATE::HIDDEN);
 		}
-		});
+	});
 
 
 #pragma endregion
@@ -425,7 +426,7 @@ TestMap_1::TestMap_1(Scene* _scene, int _updateOrder, GameObject* _parent) :
 			m_player->SetPreventKey(true);    // 키 입력 방지
 			m_dialogUI->Clear();
 			m_dialogUI->SetFace(DialogFace::Surprised);
-			m_dialogUI->SetText(L"잠깐만요! 저기 오토마톤이에요!\n유한상태 오토마타로 만들어진 녀석으로 저희를 발견하면 공격할거에요.");
+			m_dialogUI->SetText(L"잠깐만요! 저기 유한상태 오토마타로 만들어진 오토마톤이에요!\n저희를 발견하면 공격하게끔 프로그래밍 되어있죠...");
 			m_dialogUI->IsWaiting(true);
 			m_dialogUI->SetState(OBJECT_STATE::ACTIVE);
 			m_targetSFX->Play(monster_01->GetWorldPos());
@@ -437,7 +438,7 @@ TestMap_1::TestMap_1(Scene* _scene, int _updateOrder, GameObject* _parent) :
 					m_targetSFX->Stop();
 					m_dialogUI->Clear();
 					m_dialogUI->SetFace(DialogFace::Serious);
-					m_dialogUI->SetText(L"'TAB'키를 누르면 무기를 바꿀 수 있어요.\n원거리 공격은 멀리서 공격할 수 있지만 약하고\n근거리 공격은 저 녀석을 한 방에 쓰러트릴 정도로 강하죠.\n우선, 'TAB'키를 눌러볼래요?");
+					m_dialogUI->SetText(L"'TAB'키를 누르면 무기를 바꿀 수 있어요.\n원거리 무기는 멀리서 공격 가능하지만 약하고\n근거리 무기는 저 녀석을 한 번에 부술 정도로 강하죠.\n우선, 'TAB'키를 눌러볼래요?");
 					m_dialogUI->IsWaiting(false);
 					CAMERA->SetTarget(m_player);
 					m_dialogUI->SetUpdateEvent([this]() {
@@ -446,7 +447,7 @@ TestMap_1::TestMap_1(Scene* _scene, int _updateOrder, GameObject* _parent) :
 							m_player->SwitchingWeapon();
 							m_dialogUI->Clear();
 							m_dialogUI->SetFace(DialogFace::Normal);
-							m_dialogUI->SetText(L"공격은 'D'키를 눌러 공격할 수 있어요.\n자, 다음으로 넘어가기 위해 저 녀석을 부숴버리죠!");
+							m_dialogUI->SetText(L"'D'키를 누르면 공격할 수 있어요.\n자, 다음으로 넘어가기 위해 저 녀석을 부숴버리죠!");
 							m_dialogUI->IsWaiting(true);
 							m_dialogUI->SetUpdateEvent([this]() {
 								if (KEYDOWN('F') && m_dialogUI->IsWait())
@@ -569,7 +570,7 @@ TestMap_1::TestMap_1(Scene* _scene, int _updateOrder, GameObject* _parent) :
 				{
 					m_dialogUI->Clear();
 					m_dialogUI->SetFace(DialogFace::Normal);
-					m_dialogUI->SetText(L"어차피 저 안쪽에는 길이 없는 것 같으니 위로 올라가죠.\n벽을 향해서 점프를 하면 벽을 타고 올라갈 수 있어요.");
+					m_dialogUI->SetText(L"어차피 저 안쪽에는 길이 없는 것 같으니 위로 올라가죠.\n벽을 향해서 점프(↑)를 하면 벽을 타고 올라갈 수 있어요.");
 					m_dialogUI->IsWaiting(true);
 					m_dialogUI->SetUpdateEvent([this]() {
 						if (KEYDOWN('F') && m_dialogUI->IsWait())

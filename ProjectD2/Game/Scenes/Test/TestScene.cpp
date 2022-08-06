@@ -49,13 +49,8 @@ void TestScene::Init()
 
 void TestScene::SceneEnter()
 {
-	player = new Player(this, OBJECT_TYPE::PLAYER, 110);
-	player->SetScale(1.5, 1.5);
-	player->SetPos(testMap_1->GetPlayerStartPoint());
-	
-	CAMERA->SetLookAt(player->GetPos());
-	//CAMERA->SetTarget(player);
-
+	PlayerSpawn();
+    
 	testMap_1->CameraInit();
 	testMap_1->SetPlayer(player);
 	testMap_1->SetDialogUI(dialogUI);
@@ -72,11 +67,12 @@ void TestScene::Release()
 void TestScene::UpdateScene()
 {
     /*
-	* 카메라의 타겟 확인
+	* 플레이어의 죽음
 	*/
 	if (player->IsDead())
 	{
         CAMERA->SetTarget(nullptr);
+		PlayerDieEvent();
     }
     /*
 	* 글로벌 충돌 확인
@@ -96,4 +92,42 @@ void TestScene::UpdateScene()
 
 void TestScene::RenderScene()
 {
+}
+
+void TestScene::PlayerSpawn()
+{
+	player = new Player(this, OBJECT_TYPE::PLAYER, 110);
+	player->SetScale(1.5, 1.5);
+	player->SetPos(testMap_1->GetPlayerStartPoint());
+
+	CAMERA->SetLookAt(player->GetPos());
+	CAMERA->SetTarget(player);
+}
+
+void TestScene::PlayerDieEvent()
+{
+    dialogUI->Clear();
+	dialogUI->SetFace(DialogFace::Surprised);
+	dialogUI->SetText(L"이런... 몸이 망가져버렸네요.\n곧 새로운 몸을 만들어 보내겠습니다.");
+	dialogUI->IsWaiting(true);
+	dialogUI->SetState(OBJECT_STATE::ACTIVE);
+	dialogUI->SetUpdateEvent([this]() {
+		if (KEYDOWN('F') && dialogUI->IsWait())
+		{
+			PlayerSpawn();
+			testMap_1->SetPlayer(player);
+			dialogUI->Clear();
+			dialogUI->SetFace(DialogFace::Normal);
+			dialogUI->SetText(L"이번에는 조심히 다뤄주세요.");
+			dialogUI->IsWaiting(true);
+			dialogUI->SetUpdateEvent([this]() {
+				if (dialogUI->IsWait() && (KEYDOWN('F') || KEYPRESS(VK_LEFT) || KEYPRESS(VK_RIGHT) || KEYPRESS(VK_UP)))
+				{
+					dialogUI->Clear();
+					dialogUI->SetState(OBJECT_STATE::HIDDEN);
+					player->SetPreventKey(false);
+				}
+			});
+		}
+	});
 }

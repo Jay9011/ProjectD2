@@ -17,6 +17,9 @@ public:
 	virtual void SceneEnter() override;
 	virtual void SceneExit() override;
 
+	void PlayerSpawn();
+	void PlayerDieEvent();
+
 private:
 	// Map
 	class TestMap_1* testMap_1;
