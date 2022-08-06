@@ -50,6 +50,7 @@ void TestScene::Init()
 void TestScene::SceneEnter()
 {
 	PlayerSpawn();
+	CAMERA->SetLookAt(player->GetPos());
     
 	testMap_1->CameraInit();
 	testMap_1->SetPlayer(player);
@@ -100,8 +101,7 @@ void TestScene::PlayerSpawn()
 	player->SetScale(1.5, 1.5);
 	player->SetPos(testMap_1->GetPlayerStartPoint());
 
-	CAMERA->SetLookAt(player->GetPos());
-	CAMERA->SetTarget(player);
+	//CAMERA->SetTarget(player);
 }
 
 void TestScene::PlayerDieEvent()

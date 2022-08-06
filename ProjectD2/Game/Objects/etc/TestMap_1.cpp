@@ -126,6 +126,7 @@ TestMap_1::TestMap_1(Scene* _scene, int _updateOrder, GameObject* _parent) :
 	platform->SetPos(0, -96);
 	platform = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_45.png", true, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platform);
 	platform->SetPos(0, -32);
+    
 #pragma endregion
 
 #pragma region 아래쪽 바닥 세트 1
@@ -166,6 +167,40 @@ TestMap_1::TestMap_1(Scene* _scene, int _updateOrder, GameObject* _parent) :
 	// 우하단
 	platformRB = new PlatformRect({ 32, 32 }, L"Tile\\IndustrialTile_50.png", false, _scene, OBJECT_TYPE::PLATFORM, _updateOrder, platformRM);
 	platformRB->SetPos(0, 80);
+    
+	// 장식들
+	platform = new PlatformRect({ 32, 36 }, L"Tile\\Locker4.png", false, _scene, OBJECT_TYPE::DEFAULT, _updateOrder, platformLT);
+	platform->SetPos(170, -34);
+	platform = new PlatformRect({ 32, 32 }, L"Tile\\Locker3.png", false, _scene, OBJECT_TYPE::DEFAULT, _updateOrder, platform);
+	platform->SetPos(25, 4);
+	platform = new PlatformRect({ 32, 36 }, L"Tile\\Locker4.png", false, _scene, OBJECT_TYPE::DEFAULT, _updateOrder, platform);
+	platform->SetPos(25, -4);
+	platform = new PlatformRect({ 32, 36 }, L"Tile\\Locker4.png", false, _scene, OBJECT_TYPE::DEFAULT, _updateOrder, platform);
+	platform->SetPos(25, 0);
+	platform = new PlatformRect({ 32, 36 }, L"Tile\\Mop.png", false, _scene, OBJECT_TYPE::DEFAULT, _updateOrder, platform);
+	platform->SetPos(0, 0);
+	platform = new PlatformRect({ 32, 36 }, L"Tile\\Bucket.png", false, _scene, OBJECT_TYPE::DEFAULT, _updateOrder, platform);
+	platform->SetPos(15, 0);
+	platform = new PlatformRect({ 32, 32 }, L"Tile\\Box6.png", false, _scene, OBJECT_TYPE::DEFAULT, _updateOrder, platform);
+	platform->SetPos(123, 4);
+	platform = new PlatformRect({ 32, 32 }, L"Tile\\Box3.png", false, _scene, OBJECT_TYPE::DEFAULT, _updateOrder, platform);
+	platform->SetPos(17, 0);
+	platform = new PlatformRect({ 32, 32 }, L"Tile\\Box4.png", false, _scene, OBJECT_TYPE::DEFAULT, _updateOrder, platform);
+	platform->SetPos(20, 0);
+	platform = new PlatformRect({ 32, 36 }, L"Tile\\Locker4.png", false, _scene, OBJECT_TYPE::DEFAULT, _updateOrder, platform);
+	platform->SetPos(100, -4);
+	platform = new PlatformRect({ 32, 32 }, L"Tile\\Box4.png", false, _scene, OBJECT_TYPE::DEFAULT, _updateOrder, platform);
+	platform->SetPos(2, -34);
+	platform = new PlatformRect({ 32, 32 }, L"Tile\\Locker3.png", false, _scene, OBJECT_TYPE::DEFAULT, _updateOrder, platform);
+	platform->SetPos(20, 39);
+	platform = new PlatformRect({ 32, 32 }, L"Tile\\Fence1.png", false, _scene, OBJECT_TYPE::FOREGROUND, _updateOrder, platform);
+	platform->SetPos(40, -3);
+	platform = new PlatformRect({ 64, 32 }, L"Tile\\Fence2.png", false, _scene, OBJECT_TYPE::FOREGROUND, _updateOrder, platform);
+	platform->SetPos(48, 0);
+	platform = new PlatformRect({ 32, 32 }, L"Tile\\Fence3.png", false, _scene, OBJECT_TYPE::FOREGROUND, _updateOrder, platform);
+	platform->SetPos(32, 0);
+	platform = new PlatformRect({ 32, 32 }, L"Tile\\Pointer2.png", false, _scene, OBJECT_TYPE::FOREGROUND, _updateOrder, platform);
+	platform->SetPos(40, 0);
 #pragma endregion
 
 #pragma region 아래쪽 바닥 세트 2
@@ -202,6 +237,13 @@ TestMap_1::TestMap_1(Scene* _scene, int _updateOrder, GameObject* _parent) :
 	platformRT->SetPos(0, -80);
 	platformRT->GetCollider()->options.slidable = true;
 	platformRT->GetCollider()->options.resistance.y = 10.0f;
+
+	platform = new PlatformRect({ 32, 32 }, L"Tile\\Pointer1.png", false, _scene, OBJECT_TYPE::FOREGROUND, _updateOrder, platformRT);
+	platform->SetPos(0, -32);
+	platform = new PlatformRect({ 32, 32 }, L"Tile\\Pointer1.png", false, _scene, OBJECT_TYPE::FOREGROUND, _updateOrder, platform);
+	platform->SetPos(-12, 0);
+	platform = new PlatformRect({ 32, 32 }, L"Tile\\Pointer1.png", false, _scene, OBJECT_TYPE::FOREGROUND, _updateOrder, platform);
+	platform->SetPos(-12, 0);
 #pragma endregion
 
 #pragma region 우측 벽 세트
@@ -318,6 +360,13 @@ TestMap_1::TestMap_1(Scene* _scene, int _updateOrder, GameObject* _parent) :
 	platform->SetPos(0, 80);
 	platform = new PlatformRect({ 160, 96 }, L"Tile\\IndustrialTile_21.png", false, _scene, OBJECT_TYPE::DEFAULT, _updateOrder, platform);
 	platform->SetPos(32, 50);
+    
+	platform = new PlatformRect({ 32, 64 }, L"Tile\\Flag.png", false, _scene, OBJECT_TYPE::FOREGROUND, _updateOrder, platformRT);
+	platform->SetPos(0, 32);
+	platform = new PlatformRect({ 32, 64 }, L"Tile\\Flag.png", false, _scene, OBJECT_TYPE::FOREGROUND, _updateOrder, platform);
+	platform->SetPos(-32, 0);
+	platform = new PlatformRect({ 32, 32 }, L"Tile\\Pointer1.png", false, _scene, OBJECT_TYPE::FOREGROUND, _updateOrder, platform);
+	platform->SetPos(32, 288);
     
 #pragma endregion
 
@@ -533,6 +582,38 @@ TestMap_1::TestMap_1(Scene* _scene, int _updateOrder, GameObject* _parent) :
 	platformRM->SetPos(0, 112);
 	platformRM->GetCollider()->options.slidable = true;
 	platformRM->GetCollider()->options.resistance.y = 10.0f;
+    
+	platform = new PlatformRect({ 32, 36 }, L"Tile\\Bench.png", false, _scene, OBJECT_TYPE::DEFAULT, _updateOrder, platformLB);
+	platform->SetPos(-70, 64);
+	platform = new PlatformRect({ 32, 36 }, L"Tile\\Bench.png", false, _scene, OBJECT_TYPE::DEFAULT, _updateOrder, platform);
+	platform->SetPos(32, 0);
+	platform = new PlatformRect({ 32, 36 }, L"Tile\\Fire-extinguisher1.png", false, _scene, OBJECT_TYPE::DEFAULT, _updateOrder, platform);
+	platform->SetPos(32, 0);
+	platform = new PlatformRect({ 18, 26 }, L"Tile\\Barrel1.png", false, _scene, OBJECT_TYPE::DEFAULT, _updateOrder, platform);
+	platform->SetPos(80, -18);
+	platform = new PlatformRect({ 18, 26 }, L"Tile\\Barrel1.png", false, _scene, OBJECT_TYPE::DEFAULT, _updateOrder, platform);
+	platform->SetPos(10, 21);
+	platform = new PlatformRect({ 18, 26 }, L"Tile\\Barrel2.png", false, _scene, OBJECT_TYPE::DEFAULT, _updateOrder, platform);
+	platform->SetPos(-15, 0);
+	platform = new PlatformRect({ 32, 32 }, L"Tile\\Board3.png", false, _scene, OBJECT_TYPE::DEFAULT, _updateOrder, platform);
+	platform->SetPos(3, -72);
+	platform = new PlatformRect({ 32, 32 }, L"Tile\\Board2.png", false, _scene, OBJECT_TYPE::DEFAULT, _updateOrder, platform);
+	platform->SetPos(32, 40);
+	platform = new PlatformRect({ 32, 36 }, L"Tile\\Fire-extinguisher3.png", false, _scene, OBJECT_TYPE::DEFAULT, _updateOrder, platform);
+	platform->SetPos(16, 27);
+	platform = new PlatformRect({ 32, 32 }, L"Tile\\Box7.png", false, _scene, OBJECT_TYPE::DEFAULT, _updateOrder, platform);
+	platform->SetPos(175, 2);
+	platform = new PlatformRect({ 32, 32 }, L"Tile\\Box6.png", false, _scene, OBJECT_TYPE::DEFAULT, _updateOrder, platform);
+	platform->SetPos(20, 0);
+	platform = new PlatformRect({ 32, 32 }, L"Tile\\Box7.png", false, _scene, OBJECT_TYPE::DEFAULT, _updateOrder, platform);
+	platform->SetPos(20, 0);
+	platform = new PlatformRect({ 32, 32 }, L"Tile\\Box1.png", false, _scene, OBJECT_TYPE::DEFAULT, _updateOrder, platform);
+	platform->SetPos(20, 0);
+    
+	platform = new PlatformRect({ 32, 32 }, L"Tile\\Fence3.png", false, _scene, OBJECT_TYPE::FOREGROUND, _updateOrder, platformRT);
+	platform->SetPos(6, -32);
+	platform = new PlatformRect({ 32, 32 }, L"Tile\\Fence1.png", false, _scene, OBJECT_TYPE::FOREGROUND, _updateOrder, platform);
+	platform->SetPos(-32, 0);
 #pragma endregion
 
 #pragma region 공장부지 몬스터 소환 이벤트
