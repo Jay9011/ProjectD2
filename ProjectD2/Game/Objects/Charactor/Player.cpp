@@ -259,6 +259,7 @@ void Player::Attack()
 		{
 			// 근접 공격
 			m_swordCollider->IsActive(true);
+			CAMERA->Shake(0.1f, 30.0f);
 		}
         
 		/*
