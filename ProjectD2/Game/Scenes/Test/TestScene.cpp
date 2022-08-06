@@ -104,7 +104,7 @@ void TestScene::PlayerSpawn()
 	player->SetScale(1.5, 1.5);
 	player->SetPos(testMap_1->GetPlayerStartPoint());
 	
-	//CAMERA->SetTarget(player);
+	CAMERA->SetTarget(player);
 }
 
 void TestScene::PlayerDieEvent()
