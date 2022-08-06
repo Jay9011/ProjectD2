@@ -33,7 +33,7 @@ private:
     
 public:
 	void MovingX(float _x);
-	void Jump(float _jumpForce = 0);
+	bool Jump(float _jumpForce = 0);
 	void JumpReset() { jumpCount = 0; }
 	void JumpBlock() { jumpCount = maxJumpCount; }
 

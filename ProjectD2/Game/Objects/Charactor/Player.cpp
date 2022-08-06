@@ -118,7 +118,14 @@ Player::Player(Scene* _scene, OBJECT_TYPE _type, int _updateOrder, GameObject* _
 	*/
 	SetAnimation();
 	m_animator->Find((int)m_state)->Play();
-	SOUND->Play("Appear", 0.3f);
+
+	SOUND->AddSound("Appear", "Appear.wav");
+	SOUND->AddSound("Jump", "Jump.wav");
+	SOUND->AddSound("Shoot", "Shoot.wav");
+	SOUND->AddSound("Sword", "Sword.wav");
+	SOUND->AddSound("heartBreak", "heartBreak.wav");
+	SOUND->AddSound("Die", "Die.wav");
+	SOUND->Play("Appear", 0.2f);
 }
 
 Player::~Player()
@@ -166,6 +173,7 @@ void Player::Damage(float _damage)
     if(m_state == PLAYER_STATE::CRITICAL || m_state == PLAYER_STATE::DIE)
         return;
 
+	SOUND->Play("heartBreak", 0.5f);
 	CAMERA->Shake(0.2f, 100.0f);
     m_status.hp -= _damage;
 	m_observable->Notify(*this, "GetHP");
@@ -202,10 +210,13 @@ void Player::Move()
 	// Scale에 따라 벽점프 방향이 달라지기 때문에 Scale 변경 전에 점프를 처리한다.
 	if (KEYDOWN(VK_UP))
 	{
-		m_physics.Jump();
-		m_prevState = m_state;
-        m_state = PLAYER_STATE::FALL;	// 임시로 떨어지는 상태로 변경한다.
-		UpdateState(PLAYER_STATE::JUMP, m_equip);
+		if (m_physics.Jump())
+		{
+			m_prevState = m_state;
+			m_state = PLAYER_STATE::FALL;	// 이단 점프 모션을 위해 임시로 떨어지는 상태로 변경한다.
+			UpdateState(PLAYER_STATE::JUMP, m_equip);
+			SOUND->Play("Jump");
+		}
 	}
 
 	if (KEYPRESS(VK_LEFT))
@@ -517,7 +528,7 @@ void Player::UpdateAnimation()
 	{
 		if (m_prevState == PLAYER_STATE::JUMP_ATK && m_equip == PLAYER_EQUIP_TYPE::GUN)
 			break;
-        
+		
 		if (m_prevState == m_state)
 		{
 			bool reversing = m_animator->GetCurrentAnimation()->IsReverse();
@@ -784,6 +795,7 @@ void Player::BodyPlatformCheck()
 			if (side == SIDE::UPPER_SIDE)
 			{
 				m_physics.JumpReset();	// 점프 초기화
+				correctPos.y += 1.0f;
                 
                 if(m_state == PLAYER_STATE::FALL)
 					UpdateState(PLAYER_STATE::LANDING, m_equip);

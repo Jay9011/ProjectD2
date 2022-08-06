@@ -18,7 +18,7 @@ Physics::Physics() :
 	, isFalling(true)
 	, fallTime(0)
 	, isWallSliding(false)
-	, WallJumpDelayTime(0.2f)
+	, WallJumpDelayTime(0.1f)
 {
 	QueryPerformanceFrequency(&frequency);
 }
@@ -38,7 +38,7 @@ void Physics::MovingX(float _x)
 	}
 }
 
-void Physics::Jump(float _jumpForce)
+bool Physics::Jump(float _jumpForce)
 {
 	QueryPerformanceCounter(&endTime);
     float timer = (float)(endTime.QuadPart - startTime.QuadPart) / (float)frequency.QuadPart;
@@ -61,9 +61,8 @@ void Physics::Jump(float _jumpForce)
 		else
 			force.x = dir.x * speed;
 
-		return;
+		return true;
 	}
-    
     
 	if (jumpCount < maxJumpCount)
 	{
@@ -77,7 +76,10 @@ void Physics::Jump(float _jumpForce)
 		else
 			force.y = -jumpForce;
         
+		return true;
 	}
+
+	return false;
 }
 
 inline void Physics::WallSlidingStart()

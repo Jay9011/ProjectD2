@@ -27,7 +27,7 @@ TestMap_1::TestMap_1(Scene* _scene, int _updateOrder, GameObject* _parent) :
 	/*
 	* 카메라 설정
 	*/
-	//CAMERA->SetRestrictRange(-80.0f, -1000.0f, 1264.0f, FLT_MAX);
+	CAMERA->SetRestrictRange(-80.0f, -1000.0f, 1264.0f, FLT_MAX);
 	CAMERA->SetSpeed(1500.0f);
 
 	/*
@@ -418,7 +418,7 @@ TestMap_1::TestMap_1(Scene* _scene, int _updateOrder, GameObject* _parent) :
 #pragma endregion
 
 #pragma region 문열기 Event
-
+	SOUND->AddSound("DoorOpen", "DoorOpen.wav");
 	door_01 = new Door(_scene, OBJECT_TYPE::FOREBLOCK, _updateOrder, this);
 	door_01->SetPos(400, 144);
 	door_01->SetOpenFunc([]() {
@@ -453,6 +453,7 @@ TestMap_1::TestMap_1(Scene* _scene, int _updateOrder, GameObject* _parent) :
 
 		if (door_01->IsUsed())
 		{
+			SOUND->Play("DoorOpen", 0.4f);
 			CAMERA->Shake(0.5f, 30.0f);
 			button_01->GetInteractBox()->IsActive(false);
 			m_doorOpenEvent->GetCollider()->IsActive(false);
