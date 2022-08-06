@@ -30,6 +30,7 @@ Core::Core() :
     m_pathMgr = nullptr;
 	m_sceneMgr = nullptr;
     m_textureMgr = nullptr;
+    m_effectMgr = nullptr;
     m_camera = nullptr;
     m_Game = nullptr;
 
@@ -42,6 +43,7 @@ Core::~Core()
     TweakBar::Delete(); // Init에서 Device 다음에 생성됨
 #endif // _DEBUG
 	SAFE_DELETE(m_sceneMgr);
+    SAFE_DELETE(m_effectMgr);
 	SAFE_DELETE(m_textureMgr);
 	SAFE_DELETE(m_pathMgr);
     SAFE_DELETE(m_camera);
@@ -90,6 +92,7 @@ bool Core::Init(HINSTANCE _hInstance)
     m_pathMgr    = new PathMgr(L"\\Bin\\Content\\");
 	m_sceneMgr   = new SceneMgr;
 	m_textureMgr = new TextureMgr;
+    m_effectMgr  = new EffectMgr;
     m_camera     = new Camera;
 
 #if _DEBUG
@@ -135,6 +138,7 @@ int Core::Run()
             *     Game Update
             * === === === === === */
             m_Game->Update();
+            m_effectMgr->Update();
 
             /* === === === === ===
             *  Render 전 마지막 Update
@@ -177,6 +181,7 @@ int Core::Run()
             *     Game Render
             * === === === === === */
             m_Game->Render();
+            m_effectMgr->Render();
 
             /* === === === === ===
             *    Manager Render
@@ -221,6 +226,7 @@ int Core::Run()
             *     Final Update
             * === === === === === */
             m_Game->FinalUpdate();
+            m_effectMgr->FinalUpdate();
         }
     }
 

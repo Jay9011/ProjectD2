@@ -79,10 +79,16 @@ void FallPlatform::InitAnim()
 	}
 
 	m_animator->Find(Anim::HOLD)->SetFinishFrameEvent([this]() {
+		if (!m_isSinked)
+			return;
+
 		m_collider->IsActive(true);
 		m_isSinked = false;
 	});
 	m_animator->Find(Anim::SINK)->SetFrameEvent(1, [this]() {
+		if (m_isSinked)
+			return;
+
 		m_collider->IsActive(false);
 		m_isSinked = true;
 	});

@@ -25,7 +25,9 @@ Effect::Effect(const wstring& _path, int _maxFrameX, int _maxFrameY, ANIM_PLAY_T
     
 	if (_type == ANIM_PLAY_TYPE::ONCE)
 	{
-		m_animation->SetFinishFrameEvent(std::bind(&Effect::Stop, this));
+		m_animation->SetFinishFrameEvent([this]() {
+			Stop(); 
+		});
 	}
 }
 
@@ -43,6 +45,14 @@ void Effect::Update()
 	UpdateWorld();
 	if (m_type == ANIM_PLAY_TYPE::LOOP && m_animation->IsDone())
 		m_animation->Reset();
+}
+
+void Effect::FinalUpdate()
+{
+    if (!isActive)
+        return;
+    
+    m_animation->FinalUpdate();
 }
 
 void Effect::Render()

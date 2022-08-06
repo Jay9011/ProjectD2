@@ -4,6 +4,7 @@
 #define PATH	Core::Get()->GetPathMgr()
 #define SCENE	Core::Get()->GetSceneMgr()
 #define TEXTURE Core::Get()->GetTextureMgr()
+#define EFFECTS Core::Get()->GetEffectMgr()
 #define CAMERA	Core::Get()->GetCamera()
 #define WIN_RESOL	Core::Get()->Resolution()
 #define WIN_WIDTH	Core::Get()->Resolution().width
@@ -17,6 +18,7 @@
 #include "Manager/Path/PathMgr.h"
 #include "Manager/Scene/SceneMgr.h"
 #include "Manager/Texture/TextureMgr.h"
+#include "Manager/EffectManager/EffectMgr.h"
 #include "Manager/Camera/Camera.h"
 
 #if _DEBUG
@@ -37,6 +39,7 @@ public:
 	SceneMgr*   GetSceneMgr() const   { return m_sceneMgr; }
 	TextureMgr* GetTextureMgr() const { return m_textureMgr; }
     Camera*     GetCamera() const     { return m_camera; }
+    EffectMgr*  GetEffectMgr() const  { return m_effectMgr; }
 
 private:
 	Device*     m_device;
@@ -46,6 +49,7 @@ private:
 	SceneMgr*   m_sceneMgr;
 	TextureMgr* m_textureMgr;
 	Camera*		m_camera;
+    EffectMgr*  m_effectMgr;
 	Game* m_Game;
 
 /*

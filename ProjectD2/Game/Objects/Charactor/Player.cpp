@@ -56,6 +56,7 @@ Player::Player(Scene* _scene, OBJECT_TYPE _type, int _updateOrder, GameObject* _
 	* Animator
 	*/
 	m_animator = ADDCOMP::NewAnimator(this, SHADER(L"AlphaShader"));
+	
 	/*
 	* Collider
 	*/

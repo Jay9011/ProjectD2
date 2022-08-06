@@ -9,6 +9,7 @@ public:
     ~Effect() override;
 
     void Update();
+    void FinalUpdate();
     void Render();
 
     void Play(D3DXVECTOR2 _pos, D3DXCOLOR _color = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));

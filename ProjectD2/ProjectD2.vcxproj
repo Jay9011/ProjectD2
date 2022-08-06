@@ -195,6 +195,7 @@
     <ClCompile Include="Engine\Component\PhysicsWorld\Physics.cpp" />
     <ClCompile Include="Engine\Core\Core.cpp" />
     <ClCompile Include="Engine\Core\Manager\Device\Device.cpp" />
+    <ClCompile Include="Engine\Core\Manager\EffectManager\EffectMgr.cpp" />
     <ClCompile Include="Engine\Core\Manager\Input\Input.cpp" />
     <ClCompile Include="Engine\Core\Manager\Path\PathMgr.cpp" />
     <ClCompile Include="Engine\Core\Manager\Scene\Scene.cpp" />
@@ -255,6 +256,7 @@
     <ClInclude Include="Engine\Component\PhysicsWorld\Physics.h" />
     <ClInclude Include="Engine\Core\Core.h" />
     <ClInclude Include="Engine\Core\Manager\Device\Device.h" />
+    <ClInclude Include="Engine\Core\Manager\EffectManager\EffectMgr.h" />
     <ClInclude Include="Engine\Core\Manager\Input\Input.h" />
     <ClInclude Include="Engine\Core\Manager\Path\PathMgr.h" />
     <ClInclude Include="Engine\Core\Manager\Scene\Scene.h" />
