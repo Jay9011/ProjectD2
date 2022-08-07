@@ -15,6 +15,9 @@ public:
 
 private:
     class Image* titleImg;
+    class Image* TextImg;
+    bool  isTextRendering = false;
+    float textRenderTimer = 0.0f;
 
     SoundDesc* intro;
     bool isIntroPlaying = false;

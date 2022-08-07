@@ -12,9 +12,16 @@ public:
     virtual void RenderObject() override;
 
 public:
+    Shader*  m_shader;
     Texture* m_texture;
     
 private:
     Scene* m_scene;
+    bool m_rendering = true;
+
+public:
+    void SetRendering(bool _rendering) { m_rendering = _rendering; }
+    
+    void SetShader(Shader* _shader) { m_shader = _shader; }
 };
 
