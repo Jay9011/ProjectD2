@@ -16,7 +16,11 @@ public:
 	Scene* GetCurrentScene() const { return m_curScene; }
 
 private:
+    void ChangeNextScene();
+
+private:
 	unordered_map<string, Scene*> m_scenes;
 	Scene* m_curScene;
 	
+    Scene* m_nextScene;
 };

@@ -24,27 +24,26 @@ TestScene::~TestScene() = default;
 
 void TestScene::Init()
 {
-    /*
+	/*
 	* UI 持失
 	*/
 	playerWeaponUI = new WeaponUI(this);
-    playerWeaponUI->SetPos({ 80.0f, 50.0f });
+	playerWeaponUI->SetPos({ 80.0f, 50.0f });
 	playerWeaponUI->SetScale(0.5f, 0.5f);
-    
+
 	playerHeartUI = new HeartUI(this);
-    playerHeartUI->SetPos({150.0f, 30.0f});
-    playerHeartUI->SetScale(0.2f, 0.2f);
+	playerHeartUI->SetPos({ 150.0f, 30.0f });
+	playerHeartUI->SetScale(0.2f, 0.2f);
 
-    dialogUI = new DialogUI(this);
-    dialogUI->SetPos({ WIN_CENTER_X, WIN_HEIGHT - 100.0f });
+	dialogUI = new DialogUI(this);
+	dialogUI->SetPos({ WIN_CENTER_X, WIN_HEIGHT - 100.0f });
 
-    /*
+	/*
 	* Map 持失
 	*/
 	testMap_1 = new TestMap_1(this);
 	testMap_1->SetScale(1.5, 1.5);
 	testMap_1->SetPos(WIN_CENTER_X, WIN_CENTER_Y);
-
 }
 
 void TestScene::SceneEnter()

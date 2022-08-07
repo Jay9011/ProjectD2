@@ -20,7 +20,7 @@ public:
 public:
     void Update();
     
-    void AddSound(const string& _key, const string& _fileName, bool _isLoop = false);
+    SoundDesc* AddSound(const string& _key, const string& _fileName, bool _isLoop = false);
 
     void Play(const string& _key, float _volume = 0.5f, bool _isBGM = false);
     void Stop(const string& _key);
@@ -28,6 +28,7 @@ public:
     void Resume(const string& _key);
     void SetVolume(const string& _key, float _volume);
     void SetPitch(const string& _key, float _pitch);
+    void AllStop();
     
 private:
     FMOD::System* m_system;
@@ -35,5 +36,8 @@ private:
     
     unordered_map<string, SoundDesc*> m_soundMap;
     SoundDesc* m_bgm;
+
+public:
+    SoundDesc* GetNowBGM() { return m_bgm; }
 };
 

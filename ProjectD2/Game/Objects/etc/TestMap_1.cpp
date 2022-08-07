@@ -31,6 +31,11 @@ TestMap_1::TestMap_1(Scene* _scene, int _updateOrder, GameObject* _parent) :
 	CAMERA->SetSpeed(1500.0f);
 
 	/*
+	* ÀÌÆåÆ® Ãß°¡
+	*/
+	m_targetSFX = new Effect(L"SFX\\etc\\Target.png", 6, 1, ANIM_PLAY_TYPE::LOOP);
+
+	/*
 	* Create Background
 	*/
 	Background* background = nullptr;
@@ -722,6 +727,7 @@ TestMap_1::TestMap_1(Scene* _scene, int _updateOrder, GameObject* _parent) :
 
 TestMap_1::~TestMap_1()
 {
+	delete m_targetSFX;
 }
 
 void TestMap_1::CameraInit()
@@ -766,11 +772,18 @@ void TestMap_1::UpdateObject()
 	{
 		monsterTimer = 0.0f;
 	}
-	
+
+	/*
+	* Effect Update
+	*/
+	m_targetSFX->Update();
 }
 
 void TestMap_1::RenderObject()
 {
+
+	// Effect Render
+	m_targetSFX->Render();
 }
 
 D3DXVECTOR2 TestMap_1::GetPlayerStartPoint()

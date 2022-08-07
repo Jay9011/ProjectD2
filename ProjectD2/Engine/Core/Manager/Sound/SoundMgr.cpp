@@ -36,7 +36,7 @@ void SoundMgr::Update()
     m_system->update();
 }
 
-void SoundMgr::AddSound(const string& _key, const string& _fileName, bool _isLoop)
+SoundDesc* SoundMgr::AddSound(const string& _key, const string& _fileName, bool _isLoop)
 {
     SoundDesc* soundDesc = new SoundDesc;
 
@@ -60,10 +60,12 @@ void SoundMgr::AddSound(const string& _key, const string& _fileName, bool _isLoo
     {
         wstring error = L"Failed to load Sound : " + wPath;
         MessageBox(nullptr, error.c_str(), L"Error", MB_OK);
-        return;
+        return nullptr;
     }
     
     m_soundMap.insert(make_pair(_key, soundDesc));
+
+    return soundDesc;
 }
 
 void SoundMgr::Play(const string& _key, float _volume, bool _isBGM)
@@ -144,4 +146,12 @@ void SoundMgr::SetPitch(const string& _key, float _pitch)
 
     SoundDesc* soundDesc = iter->second;
     soundDesc->channel->setPitch(_pitch);
+}
+
+void SoundMgr::AllStop()
+{
+    for (auto& s : m_soundMap)
+    {
+        s.second->channel->stop();
+    }
 }

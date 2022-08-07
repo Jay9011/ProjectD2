@@ -18,15 +18,18 @@ public:
 	void Render();
 	void FinalUpdate();
 
+    void NextScene(const string& sceneName);
+
+public:
+	Observable<class Player>* playerObservable;
+	// Effects
+	class Effect* m_targetSFX;
+
 private:
 	GAME_STATE m_GameState;
 	static bool m_isDbgRendering;
 
-public:
-	Observable<class Player>* playerObservable;
-
-	// Effects
-	class Effect* m_targetSFX;
+    class LoadingScene* m_loadingScene;
 
     
 /* === === === === ===

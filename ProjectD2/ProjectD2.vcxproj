@@ -229,6 +229,7 @@
     <ClCompile Include="Game\Objects\UI\DialogEvent.cpp" />
     <ClCompile Include="Game\Objects\UI\DialogUI.cpp" />
     <ClCompile Include="Game\Objects\UI\HeartUI.cpp" />
+    <ClCompile Include="Game\Objects\UI\Image.cpp" />
     <ClCompile Include="Game\Objects\UI\WeaponUI.cpp" />
     <ClCompile Include="Game\Objects\Monster\MMM\MMM.cpp" />
     <ClCompile Include="Game\Objects\Monster\Monster.cpp" />
@@ -239,7 +240,9 @@
     <ClCompile Include="Game\Objects\etc\TestObject2.cpp" />
     <ClCompile Include="Game\Objects\etc\TestObjectCircle.cpp" />
     <ClCompile Include="Game\Objects\etc\TestObjectLine.cpp" />
+    <ClCompile Include="Game\Scenes\LoadingScene\LoadingScene.cpp" />
     <ClCompile Include="Game\Scenes\Test\TestScene.cpp" />
+    <ClCompile Include="Game\Scenes\Test\TestScene2.cpp" />
     <ClCompile Include="Headers\functions.cpp" />
     <ClCompile Include="Lib\TweakBar\TweakBar.cpp" />
     <ClCompile Include="Lib\XML.cpp" />
@@ -288,6 +291,7 @@
     <ClInclude Include="Game\Objects\UI\DialogEvent.h" />
     <ClInclude Include="Game\Objects\UI\DialogUI.h" />
     <ClInclude Include="Game\Objects\UI\HeartUI.h" />
+    <ClInclude Include="Game\Objects\UI\Image.h" />
     <ClInclude Include="Game\Objects\UI\WeaponUI.h" />
     <ClInclude Include="Game\Objects\Monster\MMM\MMM.h" />
     <ClInclude Include="Game\Objects\Monster\Monster.h" />
@@ -299,8 +303,10 @@
     <ClInclude Include="Game\Objects\etc\TestObject2.h" />
     <ClInclude Include="Game\Objects\etc\TestObjectCircle.h" />
     <ClInclude Include="Game\Objects\etc\TestObjectLine.h" />
+    <ClInclude Include="Game\Scenes\LoadingScene\LoadingScene.h" />
     <ClInclude Include="Game\Scenes\Scenes.h" />
     <ClInclude Include="Game\Scenes\Test\TestScene.h" />
+    <ClInclude Include="Game\Scenes\Test\TestScene2.h" />
     <ClInclude Include="Headers\Enums.h" />
     <ClInclude Include="Headers\functions.h" />
     <ClInclude Include="Headers\ConstNMacro.h" />

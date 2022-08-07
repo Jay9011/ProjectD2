@@ -34,6 +34,8 @@ void SceneMgr::FinalUpdate()
 		return;
 
 	m_curScene->FinalUpdate();
+
+	ChangeNextScene();	// 현재 씬의 FinalUpdate까지 완료한 후 씬을 변경한다.
 }
 
 Scene* SceneMgr::Add(const string& _name, Scene* _scene)
@@ -46,20 +48,39 @@ Scene* SceneMgr::Add(const string& _name, Scene* _scene)
 	
 	return _scene;
 }
-
+/*
+* 사용자 호출용. (예약)
+*/
 void SceneMgr::ChangeScene(const string& _name)
 {
 	auto scene = m_scenes.find(_name);
 	if(scene == m_scenes.end() || scene->second == m_curScene)
 		return;
-	
+
+	m_nextScene = scene->second;	// 씬 예약
+    
+	if (m_curScene == nullptr)
+	{
+		ChangeNextScene();
+	}
+}
+/*
+* 실제 씬 변경용
+*/
+void SceneMgr::ChangeNextScene()
+{
+	if (m_nextScene == nullptr)
+		return;
+    
 	if (m_curScene != nullptr)
 	{
 		m_curScene->Exit();
 		m_curScene->Release();
 	}
 
-	m_curScene = m_scenes[_name];
+	m_curScene = m_nextScene;
+	m_nextScene = nullptr;
+    
 	m_curScene->Init();
 	m_curScene->Enter();
 }

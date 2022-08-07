@@ -23,7 +23,7 @@ Bullet::Bullet(float _limitDist, float _damage, float _speed, Scene* _scene, int
     m_animator->LoadXML("SFX\\Projectiles\\", "Bullet01", ANIM_PLAY_TYPE::LOOP, 0.1f);
     
     // Effect Ãß°¡
-    EFFECTS->Add("PlayerBulletExploe", L"SFX\\Explosion\\Effect00_0.png", 30, 4, 1);
+    EFFECTS->Add("PlayerBulletExploe", L"SFX\\Explosion\\Effect00_0.png", 30, 4, 1, true, 0.05f);
     
     m_collider = ADDCOMP::NewAARect({ -5, -4 }, { 5, 4 }, OBJECT_TYPE::PLAYER_ATK, this);
     m_collider->SetCallbackOnCollisionEnter([this](Collider* _other) {

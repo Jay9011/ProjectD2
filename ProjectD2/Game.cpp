@@ -19,11 +19,6 @@ Game::Game() :
 	DEVICE->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);	// Backface culling 사용 안함
 	CAMERA->SetOffset({ WIN_CENTER_X, WIN_HEIGHT * 0.6f });	// Camera Offset 설정
 
-	/* === === === === ===
-	*     이펙트 추가
-	* === === === === === */
-	m_targetSFX = new Effect(L"SFX\\etc\\Target.png", 6, 1, ANIM_PLAY_TYPE::LOOP);
-
     /* === === === === ===
 	*     사운드 추가
 	* === === === === ===*/
@@ -35,16 +30,16 @@ Game::Game() :
 	/* === === === === ===
 	*       Scene 추가
 	* === === === === === */
+	m_loadingScene = (LoadingScene*)SCENE->Add("Loading", new LoadingScene(this));
+	SCENE->Add("Intro", new TestScene2(this));
 	SCENE->Add("Test", new TestScene(this));
 	
-	SCENE->ChangeScene("Test");
-
+	SCENE->ChangeScene("Intro");
 }
 
 Game::~Game()
 {
 	SAFE_DELETE(playerObservable);
-	delete m_targetSFX;
 }
 
 void Game::Update()
@@ -61,11 +56,6 @@ void Game::Update()
 	if (m_GameState == GAME_STATE::PLAY)
 	{
 		SCENE->Update();
-
-		/*
-		* Effect Update
-		*/
-		m_targetSFX->Update();
 	}
 }
 
@@ -73,9 +63,6 @@ void Game::Render()
 {
 	SCENE->Render();
     
-	// Effect Render
-    m_targetSFX->Render();
-
 	if (m_isDbgRendering)
 	{
         CAMERA->RenderCameraRect();
@@ -89,4 +76,10 @@ void Game::FinalUpdate()
 	{
 		SCENE->FinalUpdate();
 	}
+}
+
+void Game::NextScene(const string& sceneName)
+{
+	m_loadingScene->SetNextScene(sceneName);
+	SCENE->ChangeScene("Loading");
 }
