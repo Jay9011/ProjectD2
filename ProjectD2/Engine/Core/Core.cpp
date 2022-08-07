@@ -83,7 +83,8 @@ bool Core::Init(HINSTANCE _hInstance)
     }
 
 	m_hMenu = LoadMenu(nullptr, MAKEINTRESOURCE(IDR_MENU1));  // 메뉴 생성
-    //DockingMenu(m_bDocking);  // 메뉴 장착 및 해상도에 맞게 윈도우 크기 조정
+    DockingMenu(false);  // 메뉴 장착 및 해상도에 맞게 윈도우 크기 조정
+    //DockingMenu(m_bDocking);
 
 	/* === === === === ===
     *   Manager 초기화

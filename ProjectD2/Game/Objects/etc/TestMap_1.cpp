@@ -22,7 +22,6 @@
 TestMap_1::TestMap_1(Scene* _scene, int _updateOrder, GameObject* _parent) :
 	GameObject(_scene, OBJECT_TYPE::DEFAULT, _updateOrder, _parent)
 	, m_scene(_scene)
-	, m_targetSFX(_scene->GetGame()->m_targetSFX)
 {
 	/*
 	* 카메라 설정
@@ -33,7 +32,7 @@ TestMap_1::TestMap_1(Scene* _scene, int _updateOrder, GameObject* _parent) :
 	/*
 	* 이펙트 추가
 	*/
-	m_targetSFX = new Effect(L"SFX\\etc\\Target.png", 6, 1, ANIM_PLAY_TYPE::LOOP);
+	EFFECTS->Add("Target", L"SFX\\etc\\Target.png", 1, 6, 1, true, 0.1f, ANIM_PLAY_TYPE::LOOP);
 
 	/*
 	* Create Background
@@ -390,12 +389,12 @@ TestMap_1::TestMap_1(Scene* _scene, int _updateOrder, GameObject* _parent) :
 				m_dialogUI->SetText(L"잘하셨어요. 다음엔 저기 태블릿이 보이시나요?\n저 태블릿을 작동시켜야 문이 열릴거에요.");
 				m_dialogUI->IsWaiting(true);
 				CAMERA->SetTarget(button_01);
-				m_targetSFX->Play(button_01->GetWorldPos());
+				EFFECTS->Play("Target", button_01->GetWorldPos());
 				m_dialogUI->SetUpdateEvent([this]() {
 					if (KEYDOWN('F') && m_dialogUI->IsWait())
 					{
 						CAMERA->SetTarget(m_player);
-						m_targetSFX->Stop();
+						EFFECTS->Stop("Target");
 						m_dialogUI->Clear();
 						m_dialogUI->SetText(L"저기로 한 번 가보죠.\n좌(←), 우(→) 방향키와 위(↑) 쪽 방향키로 움직일 수 있어요.\n위(↑)쪽 방향키를 누르면 점프를 할 수 있죠.");
 						m_dialogUI->IsWaiting(false);
@@ -485,13 +484,13 @@ TestMap_1::TestMap_1(Scene* _scene, int _updateOrder, GameObject* _parent) :
 			m_dialogUI->SetText(L"잠깐만요! 저기 유한상태 오토마타로 만들어진 오토마톤이에요!\n저희를 발견하면 공격하게끔 프로그래밍 되어있죠...");
 			m_dialogUI->IsWaiting(true);
 			m_dialogUI->SetState(OBJECT_STATE::ACTIVE);
-			m_targetSFX->Play(monster_01->GetWorldPos());
+			EFFECTS->Play("Target", monster_01->GetWorldPos());
 			CAMERA->SetTarget(monster_01);
 			m_dialogUI->SetUpdateEvent([this]() {
-				m_targetSFX->SetPos(monster_01->GetWorldPos());
+				EFFECTS->GetEffectList("Target")[0]->SetPos(monster_01->GetWorldPos());
 				if (KEYDOWN('F') && m_dialogUI->IsWait())
 				{
-					m_targetSFX->Stop();
+					EFFECTS->Stop("Target");
 					m_dialogUI->Clear();
 					m_dialogUI->SetFace(DialogFace::Serious);
 					m_dialogUI->SetText(L"'TAB'키를 누르면 무기를 바꿀 수 있어요.\n원거리 무기는 멀리서 공격 가능하지만 약하고\n근거리 무기는 저 녀석을 한 번에 부술 정도로 강하죠.\n우선, 'TAB'키를 눌러볼래요?");
@@ -727,7 +726,6 @@ TestMap_1::TestMap_1(Scene* _scene, int _updateOrder, GameObject* _parent) :
 
 TestMap_1::~TestMap_1()
 {
-	delete m_targetSFX;
 }
 
 void TestMap_1::CameraInit()
@@ -772,18 +770,10 @@ void TestMap_1::UpdateObject()
 	{
 		monsterTimer = 0.0f;
 	}
-
-	/*
-	* Effect Update
-	*/
-	m_targetSFX->Update();
 }
 
 void TestMap_1::RenderObject()
 {
-
-	// Effect Render
-	m_targetSFX->Render();
 }
 
 D3DXVECTOR2 TestMap_1::GetPlayerStartPoint()

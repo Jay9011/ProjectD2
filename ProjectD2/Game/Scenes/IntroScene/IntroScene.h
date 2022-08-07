@@ -1,9 +1,9 @@
 #pragma once
-class TestScene2 : public Scene
+class IntroScene : public Scene
 {
 public:
-    TestScene2(Game* _game);
-    ~TestScene2() override;
+    IntroScene(Game* _game);
+    ~IntroScene() override;
 
     // Scene을(를) 통해 상속됨
     virtual void Init() override;

@@ -242,7 +242,7 @@
     <ClCompile Include="Game\Objects\etc\TestObjectLine.cpp" />
     <ClCompile Include="Game\Scenes\LoadingScene\LoadingScene.cpp" />
     <ClCompile Include="Game\Scenes\Test\TestScene.cpp" />
-    <ClCompile Include="Game\Scenes\Test\TestScene2.cpp" />
+    <ClCompile Include="Game\Scenes\IntroScene\IntroScene.cpp" />
     <ClCompile Include="Headers\functions.cpp" />
     <ClCompile Include="Lib\TweakBar\TweakBar.cpp" />
     <ClCompile Include="Lib\XML.cpp" />
@@ -306,7 +306,7 @@
     <ClInclude Include="Game\Scenes\LoadingScene\LoadingScene.h" />
     <ClInclude Include="Game\Scenes\Scenes.h" />
     <ClInclude Include="Game\Scenes\Test\TestScene.h" />
-    <ClInclude Include="Game\Scenes\Test\TestScene2.h" />
+    <ClInclude Include="Game\Scenes\IntroScene\IntroScene.h" />
     <ClInclude Include="Headers\Enums.h" />
     <ClInclude Include="Headers\functions.h" />
     <ClInclude Include="Headers\ConstNMacro.h" />

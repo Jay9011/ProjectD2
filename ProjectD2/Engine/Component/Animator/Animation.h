@@ -1,21 +1,6 @@
 #pragma once
 class Animator;
 
-enum class ANIM_PLAY_TYPE
-{
-	ONCE,
-	LOOP,
-	PINGPONG
-};
-
-enum class ANIM_PLAY_FLAG
-{
-    NORMAL,
-    SetFrameToEnd,
-    SetFrameToSetEndFrame,
-    ChangeSameMotion
-};
-
 struct Frame
 {
 	Texture* texture;

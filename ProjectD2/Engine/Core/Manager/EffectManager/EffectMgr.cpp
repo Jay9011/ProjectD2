@@ -52,7 +52,7 @@ void EffectMgr::Render()
     }
 }
 
-void EffectMgr::Add(const string& _key, const wstring& _path, UINT _poolCount, int _maxFrameX, int _maxFrameY, bool _isAdditive, float _speed)
+void EffectMgr::Add(const string& _key, const wstring& _path, UINT _poolCount, int _maxFrameX, int _maxFrameY, bool _isAdditive, float _speed, ANIM_PLAY_TYPE _type)
 {
 	if (m_effectMap.find(_key) != m_effectMap.end())
 		return;
@@ -61,7 +61,7 @@ void EffectMgr::Add(const string& _key, const wstring& _path, UINT _poolCount, i
 
     for (UINT i = 0; i < _poolCount; i++)
     {
-        auto effect = new Effect(_path, _maxFrameX, _maxFrameY, ANIM_PLAY_TYPE::ONCE, _isAdditive, _speed);
+        auto effect = new Effect(_path, _maxFrameX, _maxFrameY, _type, _isAdditive, _speed);
         effects.push_back(effect);
     }
 
@@ -81,4 +81,23 @@ void EffectMgr::Play(const string& _key, D3DXVECTOR2 _pos, D3DXCOLOR _color)
             return;
         }
     }
+}
+
+void EffectMgr::Stop(const string& _key)
+{
+    if (m_effectMap.find(_key) == m_effectMap.end())
+        return;
+    
+    for (auto& effect : m_effectMap[_key])
+    {
+        effect->Stop();
+    }
+}
+
+vector<Effect*> EffectMgr::GetEffectList(const string& _key)
+{
+    if (m_effectMap.find(_key) == m_effectMap.end())
+        return vector<Effect*>();
+    
+    return m_effectMap[_key];
 }

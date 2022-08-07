@@ -22,8 +22,6 @@ public:
 
 public:
 	Observable<class Player>* playerObservable;
-	// Effects
-	class Effect* m_targetSFX;
 
 private:
 	GAME_STATE m_GameState;

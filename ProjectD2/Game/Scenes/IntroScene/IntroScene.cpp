@@ -1,30 +1,30 @@
 #include "Framework.h"
-#include "TestScene2.h"
+#include "IntroScene.h"
 
 #include "Game/Objects/UI/Image.h"
 
-TestScene2::TestScene2(Game* _game) :
+IntroScene::IntroScene(Game* _game) :
     Scene(_game)
 {
     titleImg = new Image(TEXTURE->Add(L"Title\\Title.jpg", (UINT)WIN_WIDTH, (UINT)WIN_HEIGHT), this);
     titleImg->SetPos(WIN_CENTER_X, WIN_CENTER_Y);
 }
 
-TestScene2::~TestScene2()
+IntroScene::~IntroScene()
 {
 }
 
-void TestScene2::Init()
+void IntroScene::Init()
 {
     intro = SOUND->AddSound("Title_Intro", "Title_Intro.ogg");
     SOUND->AddSound("Title_Loop", "Title_Loop.ogg", true);
 }
 
-void TestScene2::Release()
+void IntroScene::Release()
 {
 }
 
-void TestScene2::UpdateScene()
+void IntroScene::UpdateScene()
 {
     intro->channel->isPlaying(&isIntroPlaying);
     if (!isIntroPlaying && !isLoopPlaying)
@@ -39,16 +39,16 @@ void TestScene2::UpdateScene()
     }
 }
 
-void TestScene2::RenderScene()
+void IntroScene::RenderScene()
 {
 }
 
-void TestScene2::SceneEnter()
+void IntroScene::SceneEnter()
 {
     SOUND->Play("Title_Intro", 0.3f, true);
 }
 
-void TestScene2::SceneExit()
+void IntroScene::SceneExit()
 {
     SOUND->AllStop();
 }

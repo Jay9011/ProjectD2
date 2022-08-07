@@ -7,7 +7,7 @@
 
 #include "Game/Scenes/Scenes.h"
 
-bool Game::m_isDbgRendering = true;
+bool Game::m_isDbgRendering = false;
 
 Game::Game() :
 	m_GameState(GAME_STATE::PLAY)
@@ -31,7 +31,7 @@ Game::Game() :
 	*       Scene Ãß°¡
 	* === === === === === */
 	m_loadingScene = (LoadingScene*)SCENE->Add("Loading", new LoadingScene(this));
-	SCENE->Add("Intro", new TestScene2(this));
+	SCENE->Add("Intro", new IntroScene(this));
 	SCENE->Add("Test", new TestScene(this));
 	
 	SCENE->ChangeScene("Intro");

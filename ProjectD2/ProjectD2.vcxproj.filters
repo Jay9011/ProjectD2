@@ -180,7 +180,7 @@
     <ClCompile Include="Engine\Core\Manager\Sound\SoundMgr.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Scenes\Test\TestScene2.cpp">
+    <ClCompile Include="Game\Scenes\IntroScene\IntroScene.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Game\Objects\UI\Image.cpp">
@@ -410,7 +410,7 @@
     <ClInclude Include="Engine\Core\Manager\Sound\SoundMgr.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Scenes\Test\TestScene2.h">
+    <ClInclude Include="Game\Scenes\IntroScene\IntroScene.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Game\Objects\UI\Image.h">

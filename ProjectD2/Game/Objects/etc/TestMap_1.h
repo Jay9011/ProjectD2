@@ -55,9 +55,6 @@ private:
     
 	DialogEvent* finishEvent;		// 마지막 이벤트
 
-	// Effects
-	Effect* m_targetSFX;
-
 public:
 	D3DXVECTOR2 GetPlayerStartPoint();
 	void SetMonsters();
