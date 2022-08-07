@@ -5,12 +5,12 @@ PathMgr::PathMgr(const wstring& _contentPath)
 {
 	GetCurrentDirectory(MAX_PATH, m_contentPath);
 	size_t sLen = wcslen(m_contentPath);
-	/*
+	
 	while (m_contentPath[sLen] != L'\\')
 		sLen--;
 	
 	m_contentPath[sLen] = L'\0';
-	*/
+	
 	wstring temp = _contentPath;
 	temp += L"\0";
 	wcscat_s(m_contentPath, MAX_PATH, temp.c_str());

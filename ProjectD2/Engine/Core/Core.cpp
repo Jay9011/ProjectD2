@@ -92,7 +92,7 @@ bool Core::Init(HINSTANCE _hInstance)
     m_device     = new Device(&m_hWnd, &m_resolution);
     m_timer      = new Timer;
 	m_input      = new Input(&m_hWnd);
-    m_pathMgr    = new PathMgr(L"\\Content\\");
+    m_pathMgr    = new PathMgr(L"\\Bin\\Content\\");
 	m_sceneMgr   = new SceneMgr;
 	m_textureMgr = new TextureMgr;
     m_effectMgr  = new EffectMgr;
