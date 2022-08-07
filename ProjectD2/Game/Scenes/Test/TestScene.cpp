@@ -62,7 +62,7 @@ void TestScene::SceneEnter()
 	testMap_1->SetPlayer(player);
 	testMap_1->SetDialogUI(dialogUI);
 
-	//SOUND->Play("BGM", 0.15f, true);
+	SOUND->Play("BGM", 0.15f, true);
 }
 
 void TestScene::SceneExit()

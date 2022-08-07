@@ -32,12 +32,12 @@ void IntroScene::Release()
 
 void IntroScene::UpdateScene()
 {
-    //intro->channel->isPlaying(&isIntroPlaying);
-    //if (!isIntroPlaying && !isLoopPlaying)
-    //{
-    //    SOUND->Play("Title_Loop", 0.3f, true);
-    //    isLoopPlaying = true;
-    //}
+    intro->channel->isPlaying(&isIntroPlaying);
+    if (!isIntroPlaying && !isLoopPlaying)
+    {
+        SOUND->Play("Title_Loop", 0.3f, true);
+        isLoopPlaying = true;
+    }
     
     if (KEYDOWN(VK_RETURN))
     {
@@ -62,7 +62,7 @@ void IntroScene::RenderScene()
 
 void IntroScene::SceneEnter()
 {
-    //SOUND->Play("Title_Intro", 0.3f, true);
+    SOUND->Play("Title_Intro", 0.3f, true);
 }
 
 void IntroScene::SceneExit()
