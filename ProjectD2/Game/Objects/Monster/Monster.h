@@ -46,6 +46,8 @@ protected:
     bool        m_isDamaged = false;    // 피격 상태
     D3DXVECTOR2 m_damagedDir = { 0, 0 };// 피격 방향
 
+    bool  m_isAttacking = false;    // 공격 상태
+
 /* === === === === === 
 *  Getter/Setter
 *  === === === === === */
@@ -53,6 +55,13 @@ public:
     MonInfo& GetMonInfo() { return m_info; }
     Physics& GetPhysics() { return m_physics; }
     AI<Monster, MON_STATE>* GetAI() { return m_AI; }
+
+    void PlayerReset()
+    {
+        m_lastFindPlayer = nullptr;
+        m_lastFindPlayerCollider = nullptr;
+        m_isFindPlayer = false;
+    }
     
 
     void ScaleXInverse()
@@ -72,6 +81,9 @@ private:
     * 상태 관련 Getter/Setter
     */
     bool IsDamaged() { return m_isDamaged; }
+    
+    bool IsAttacking()                   { return m_isAttacking; }
+    void SetAttacking(bool _isAttacking) { m_isAttacking = _isAttacking; }
     
     friend class MonsterFactory;
 };

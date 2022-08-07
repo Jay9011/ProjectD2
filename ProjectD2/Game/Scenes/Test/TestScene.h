@@ -29,5 +29,7 @@ private:
 	class HeartUI*  playerHeartUI;
 	// Dialog
     class DialogUI* dialogUI;
+
+	bool isDieEventProgress = false;
 };
 

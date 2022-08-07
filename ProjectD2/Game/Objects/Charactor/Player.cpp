@@ -119,12 +119,6 @@ Player::Player(Scene* _scene, OBJECT_TYPE _type, int _updateOrder, GameObject* _
 	SetAnimation();
 	m_animator->Find((int)m_state)->Play();
 
-	SOUND->AddSound("Appear", "Appear.wav");
-	SOUND->AddSound("Jump", "Jump.wav");
-	SOUND->AddSound("Shoot", "Shoot.wav");
-	SOUND->AddSound("Sword", "Sword.wav");
-	SOUND->AddSound("heartBreak", "heartBreak.wav");
-	SOUND->AddSound("Die", "Die.wav");
 	SOUND->Play("Appear", 0.2f);
 }
 

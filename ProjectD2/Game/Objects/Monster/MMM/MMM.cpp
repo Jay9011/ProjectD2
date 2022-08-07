@@ -327,7 +327,14 @@ void MMM::Chase()
                 m_physics.MovingX(V_RIGHT.x);
             }
         }
+        
+        return;
     }
+
+    // Chase Á¾·á
+    m_timer = 0.0f;
+    m_AI->ChangeState(MON_STATE::IDLE);
+    return;
 }
 
 bool MMM::IsAttackable()

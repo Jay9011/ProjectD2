@@ -94,6 +94,7 @@ void CommonMonState::Attack::Update(Monster* _entity)
 
 void CommonMonState::Attack::Exit(Monster* _entity)
 {
+    
 }
 
 /* === === === === ===
@@ -123,7 +124,7 @@ void CommonMonState::Global::Update(Monster* _entity)
 {
     if (_entity->PlayerLost())  // 플레이어를 잃은 상태라면
     {
-        _entity->GetAI()->ChangeState(MON_STATE::IDLE);
+        _entity->PlayerReset();
         return;
     }
     

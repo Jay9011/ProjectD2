@@ -44,6 +44,13 @@ void TestScene::Init()
 	testMap_1 = new TestMap_1(this);
 	testMap_1->SetScale(1.5, 1.5);
 	testMap_1->SetPos(WIN_CENTER_X, WIN_CENTER_Y);
+
+	SOUND->AddSound("Appear", "Appear.wav");
+	SOUND->AddSound("Jump", "Jump.wav");
+	SOUND->AddSound("Shoot", "Shoot.wav");
+	SOUND->AddSound("Sword", "Sword.wav");
+	SOUND->AddSound("heartBreak", "heartBreak.wav");
+	SOUND->AddSound("Die", "Die.wav");
 }
 
 void TestScene::SceneEnter()
@@ -55,7 +62,7 @@ void TestScene::SceneEnter()
 	testMap_1->SetPlayer(player);
 	testMap_1->SetDialogUI(dialogUI);
 
-	SOUND->Play("BGM", 0.15f, true);
+	//SOUND->Play("BGM", 0.15f, true);
 }
 
 void TestScene::SceneExit()
@@ -108,6 +115,11 @@ void TestScene::PlayerSpawn()
 
 void TestScene::PlayerDieEvent()
 {
+	if (isDieEventProgress)
+		return;
+    
+	isDieEventProgress = true;
+
     dialogUI->Clear();
 	dialogUI->SetFace(DialogFace::Surprised);
 	dialogUI->SetText(L"ÀÌ·±... ¸öÀÌ ¸Á°¡Á®¹ö·È³×¿ä.\n°ð »õ·Î¿î ¸öÀ» ¸¸µé¾î º¸³»°Ú½À´Ï´Ù.");
@@ -117,6 +129,7 @@ void TestScene::PlayerDieEvent()
 		if (KEYDOWN('F') && dialogUI->IsWait())
 		{
 			PlayerSpawn();
+			isDieEventProgress = false;
 			testMap_1->SetPlayer(player);
 			dialogUI->Clear();
 			dialogUI->SetFace(DialogFace::Normal);

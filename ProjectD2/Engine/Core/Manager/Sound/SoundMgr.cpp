@@ -38,6 +38,11 @@ void SoundMgr::Update()
 
 SoundDesc* SoundMgr::AddSound(const string& _key, const string& _fileName, bool _isLoop)
 {
+    if(m_soundMap.find(_key) != m_soundMap.end())
+    {
+        return m_soundMap[_key];
+    }
+
     SoundDesc* soundDesc = new SoundDesc;
 
     wstring wPath = PATH->GetContentPath();

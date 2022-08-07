@@ -30,7 +30,7 @@ private:
 private:
     bool  m_isDead = false;
     float m_timer = 0.0f;
-    bool  m_isAttacking = false;
+    
     bool  m_Att01 = false;
     float m_Att01Timer = 0.0f;
     
