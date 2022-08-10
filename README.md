@@ -54,7 +54,7 @@ Ori라는 게임에서 가장 인상 깊었던 부분은 마치 애니메이션�
 
 코드는 간단했습니다.  
 
-vector<Collider*> m_colliders[(UINT)OBJECT_TYPE::FIN];
+    vector<Collider*> m_colliders[(UINT)OBJECT_TYPE::FIN];
 
 충돌체 벡터를 Type 개수에 맞춰 가지게 하고 충돌 검사시 OBJECT_TYPE으로 찾아서 검사할 수 있게 했습니다.  
 
@@ -110,3 +110,81 @@ Anim Notify의 경우 애니메이션 프레임 중간에 애니메이션과 관
 그래도 현재 애니메이션 프레임 콜백을 구현함으로써 애니메이션 동작이 끝날 때 필요한 함수를 호출하거나 시작할 때 필요한 함수를 호출할 수 있게 구현되어 있습니다.  
 
 예를 들면, 문으로 막힌 플랫폼은 애니메이션의 어느 부분에 도달하면 통과될 수 있도록 충돌체를 Off 시킨다거나, 바닥이 꺼지는 플랫폼은 애니메이션의 시작 부분에선 충돌체를 On 시켜주고 중간에 충돌체를 Off 시켜주는 단순 동작들은 잘 동작하고 있습니다.  
+
+
+### 6) 관찰자 (Observer)
+무기 상태 UI나 생명력 같은 UI를 구현할 때 플레이어의 정보가 필요했습니다.  
+이 부분은 GameObject를 주입받을지, 필요한 정보만 가지고 있을지 고민했습니다.  
+
+그러다가 관찰자 패턴이라는 것을 읽게 되었습니다. 상태가 변경되면 유튜브 알림처럼 구독한 대상들에게 알림을 보내는 패턴이었습니다.  
+이것을 이용해 플레이어에게 상태 변경이 일어나면 구독하고 있는 모든 옵저버에게 구분 가능한 문자열과 자기 자신을 보내고 필요한 요소에서 참조할 수 있도록 만들었습니다.
+
+	template <typename T>
+    class Observer
+    {
+    public:
+        virtual void FieldChanged(T& field, const string& fieldName) = 0;
+    };
+
+    template <typename T>
+    class Observable
+    {
+    public:
+        Observable() = default;
+        ~Observable()
+        {
+            observers.clear();
+        }
+    
+    private:
+        std::vector<Observer<T>*> observers = {};
+    
+    public:
+        void Notify(T& field, const string& fieldName)
+        {
+            for (auto observer : observers)
+            {
+                observer->FieldChanged(field, fieldName);
+            }
+        }
+        void Subscribe(Observer<T>* observer)
+        {
+            observers.emplace_back(observer);
+        }
+        void Unsubscribe(Observer<T>* observer)
+        {
+            observers.erase(std::remove(observers.begin(), observers.end(), observer), observers.end());
+        }
+    
+    };
+
+- UI의 경우 렌더링 마지막에서 DirectX에 넘겨주는 View를 초기화하여 단위행렬을 View로 넘겨주는 방식으로 개발했습니다.
+
+### 7) 그 외...
+#### ① 컴포넌트
+위의 애니메이션이나 충돌체, 중력은 컴포넌트로 구현했습니다.  
+따라서 같은 GameObject를 상속받아도 중력이 필요없는 플랫폼의 경우 중력의 영향을 받지 않고, Player나 Monster의 경우 중력의 영향을 받습니다.    
+
+#### ② Pool
+플레이어의 총알과 총알이 터지는 이펙트처럼 자주 생성되고 사라지는 객체의 경우 미리 몇 개 만들어 사용하는 객체 풀 패턴을 사용했습니다.   
+
+#### ③ 상태 (State)
+몬스터의 AI의 경우 유한 상태 패턴을 사용하여 구현했습니다.   
+이때, 몬스터의 죽음 같은 모든 상태 진행 이전에 검사되어야 하는 상태의 경우 우선 검사할 수 있도록 먼저 검사할 수 있도록 GLOBAL이라는 상태를 두었습니다.   
+
+    template <typename T, typename E>
+    class AI
+    {...
+        void Update()
+        {
+            if (m_globalState != nullptr)
+            {
+                m_globalState->Update(m_owner);
+            }
+            
+            if (m_currentState != nullptr)
+            {
+                m_currentState->Update(m_owner);
+            }
+        }
+    ...}
