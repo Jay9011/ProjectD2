@@ -8,7 +8,7 @@ class AI
 private:
     T* m_owner;
 
-    std::unordered_map<E, State<T>*> m_stateMap;
+    unordered_map<E, State<T>*> m_stateMap;
     
     State<T>* m_currentState;
     State<T>* m_previousState;

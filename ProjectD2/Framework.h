@@ -31,14 +31,7 @@
 #include <AntTweakBar.h>
 #include <Lib/inc/fmod.hpp>
 
-using std::vector;
-using std::list;
-using std::map;
-using std::unordered_map;
-using std::make_pair;
-using std::for_each;
-using std::string;
-using std::wstring;
+using namespace std;
 
 #include "Headers/ConstNMacro.h"
 #include "Headers/Types.h"

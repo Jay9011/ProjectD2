@@ -12,8 +12,8 @@ public:
 	~CollisionMgr();
 
 public:
-	bool CheckCollision(Collider* _chkCollider, OBJECT_TYPE _type , OUT vector<std::pair<Collider*, Collider*>>& _vecCollList);
-	bool CheckCollision(OBJECT_TYPE _typeA    , OBJECT_TYPE _typeB, OUT vector<std::pair<Collider*, Collider*>>& _vecCollList);
+	bool CheckCollision(Collider* _chkCollider, OBJECT_TYPE _type , OUT vector<pair<Collider*, Collider*>>& _vecCollList);
+	bool CheckCollision(OBJECT_TYPE _typeA    , OBJECT_TYPE _typeB, OUT vector<pair<Collider*, Collider*>>& _vecCollList);
 
 	void Update();
 	void FinalUpdate();

@@ -125,7 +125,7 @@ void Scene::Update()
         }
         m_deadObjects.clear();
         
-        std::swap(m_deadObjects, deadObjects);
+        swap(m_deadObjects, deadObjects);
 	}
 
 	UpdateScene();
@@ -226,19 +226,19 @@ void Scene::AddObject(GameObject* _object, OBJECT_TYPE _type)
 void Scene::DeleteObject(GameObject* _object)
 {
 	OBJECT_TYPE type = _object->GetType();
-	auto iter = std::find(m_pendingObjects[(UINT)type].begin(), m_pendingObjects[(UINT)type].end(), _object);
+	auto iter = find(m_pendingObjects[(UINT)type].begin(), m_pendingObjects[(UINT)type].end(), _object);
 	
 	if(iter != m_pendingObjects[(UINT)type].end())
 	{
-		std::iter_swap(iter, m_pendingObjects[(UINT)type].end() - 1);
+		iter_swap(iter, m_pendingObjects[(UINT)type].end() - 1);
 		m_pendingObjects[(UINT)type].pop_back();
 	}
 	else
 	{
-		iter = std::find(m_objects[(UINT)type].begin(), m_objects[(UINT)type].end(), _object);
+		iter = find(m_objects[(UINT)type].begin(), m_objects[(UINT)type].end(), _object);
 		if (iter != m_objects[(UINT)type].end())
 		{
-			std::iter_swap(iter, m_objects[(UINT)type].end() - 1);
+			iter_swap(iter, m_objects[(UINT)type].end() - 1);
 			m_objects[(UINT)type].pop_back();
 		}
 	}
@@ -261,10 +261,10 @@ void Scene::AddUI(UIObject* _ui)
 
 void Scene::DeleteUI(UIObject* _ui)
 {
-	auto iter = std::find(m_uiObjects.begin(), m_uiObjects.end(), _ui);
+	auto iter = find(m_uiObjects.begin(), m_uiObjects.end(), _ui);
 	if(iter != m_uiObjects.end())
     {
-        std::iter_swap(iter, m_uiObjects.end() - 1);
+        iter_swap(iter, m_uiObjects.end() - 1);
         m_uiObjects.pop_back();
     }
 }

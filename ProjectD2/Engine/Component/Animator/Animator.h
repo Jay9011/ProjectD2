@@ -48,8 +48,8 @@ public:
 	void SetCurrentAnimation(Animation* _currentAnim) { m_previousAnimation = m_currentAnimation; m_currentAnimation = _currentAnim; }
 	void ChangeCurrentAnimation(Animation* _replacedAnim);
 	
-	void SetEvent(const size_t& _animation, const UINT& _index, const std::function<void()>& _callback) { m_animations[_animation]->SetFrameEvent(_index, _callback); }
-	void SetEndEvent(const size_t& _animation, const std::function<void()>& _callback)                  { m_animations[_animation]->SetFinishFrameEvent(_callback); }
+	void SetEvent(const size_t& _animation, const UINT& _index, const function<void()>& _callback) { m_animations[_animation]->SetFrameEvent(_index, _callback); }
+	void SetEndEvent(const size_t& _animation, const function<void()>& _callback)                  { m_animations[_animation]->SetFinishFrameEvent(_callback); }
 	
 	Animation* Find(const UINT& _index) const { return m_animations[_index]; }
 	Animation* GetCurrentAnimation() const { return m_currentAnimation; }

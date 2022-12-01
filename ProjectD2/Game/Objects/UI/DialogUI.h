@@ -64,7 +64,7 @@ private:
     
     vector<Texture*> m_keys;
 
-    std::function<void()> m_updateEvent;
+    function<void()> m_updateEvent;
     
 /* === === === === === 
 *  Getter / Setter
@@ -99,7 +99,7 @@ public:
 
     bool IsWaitOver() const       { return m_isWaitOver; };
     
-    void SetUpdateEvent(std::function<void()> _event) { m_updateEvent = _event; };
+    void SetUpdateEvent(function<void()> _event) { m_updateEvent = _event; };
     void Clear()
     {
         Init();

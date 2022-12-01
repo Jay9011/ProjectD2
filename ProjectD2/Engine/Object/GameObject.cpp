@@ -179,7 +179,7 @@ void GameObject::AddComponent(Component* _component)
 
 void GameObject::RemoveComponent(Component* _component)
 {
-	auto iter = std::find(m_componentList.begin(), m_componentList.end(), _component);
+	auto iter = find(m_componentList.begin(), m_componentList.end(), _component);
 	if (iter != m_componentList.end())
 	{
 		m_componentList.erase(iter);

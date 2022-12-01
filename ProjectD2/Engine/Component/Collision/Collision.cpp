@@ -1,7 +1,7 @@
 #include "Framework.h"
 #include "Collision.h"
 
-bool TestSide(float _start, float _end, float _negd, const D3DXVECTOR2& _norm, vector<std::pair<float, D3DXVECTOR2>>& _out);
+bool TestSide(float _start, float _end, float _negd, const D3DXVECTOR2& _norm, vector<pair<float, D3DXVECTOR2>>& _out);
 
 CollisionMgr::CollisionMgr(Game* _game) :
 	m_game(_game)
@@ -10,7 +10,7 @@ CollisionMgr::CollisionMgr(Game* _game) :
 
 CollisionMgr::~CollisionMgr() = default;
 
-bool CollisionMgr::CheckCollision(Collider* _chkCollider, OBJECT_TYPE _type, OUT vector<std::pair<Collider*, Collider*>>& _vecCollList)
+bool CollisionMgr::CheckCollision(Collider* _chkCollider, OBJECT_TYPE _type, OUT vector<pair<Collider*, Collider*>>& _vecCollList)
 {
     bool result = false;
 	
@@ -38,7 +38,7 @@ bool CollisionMgr::CheckCollision(Collider* _chkCollider, OBJECT_TYPE _type, OUT
         
         if (Collision(_chkCollider, collider))
         {
-			_vecCollList.push_back(std::make_pair(_chkCollider, collider));
+			_vecCollList.push_back(make_pair(_chkCollider, collider));
             result = true;
         }
     }
@@ -46,7 +46,7 @@ bool CollisionMgr::CheckCollision(Collider* _chkCollider, OBJECT_TYPE _type, OUT
     return result;
 }
 
-bool CollisionMgr::CheckCollision(OBJECT_TYPE _typeA, OBJECT_TYPE _typeB, OUT vector<std::pair<Collider*, Collider*>>& _vecCollList)
+bool CollisionMgr::CheckCollision(OBJECT_TYPE _typeA, OBJECT_TYPE _typeB, OUT vector<pair<Collider*, Collider*>>& _vecCollList)
 {
 	bool result = false;
 
@@ -75,7 +75,7 @@ bool CollisionMgr::CheckCollision(OBJECT_TYPE _typeA, OBJECT_TYPE _typeB, OUT ve
 			
             if (Collision(colliderA, colliderB))
             {
-				_vecCollList.push_back(std::make_pair(colliderA, colliderB));
+				_vecCollList.push_back(make_pair(colliderA, colliderB));
 				result = true;
             }
         }
@@ -94,7 +94,7 @@ void CollisionMgr::FinalUpdate()
 {
     for (auto& collisionType : m_colliders)
     {
-        std::sort(collisionType.begin(), collisionType.end(),
+        sort(collisionType.begin(), collisionType.end(),
             [](Collider* a, Collider* b)
             {
                 return a->GetMin().x < b->GetMin().x;
@@ -110,10 +110,10 @@ void CollisionMgr::AddCollider(OBJECT_TYPE _type, Collider* _collider)
 
 void CollisionMgr::RemoveCollider(OBJECT_TYPE _type, Collider* _collider)
 {
-	auto iter = std::find(m_colliders[(UINT)_type].begin(), m_colliders[(UINT)_type].end(), _collider);
+	auto iter = find(m_colliders[(UINT)_type].begin(), m_colliders[(UINT)_type].end(), _collider);
     if (iter != m_colliders[(UINT)_type].end())
     {
-        std::iter_swap(iter, m_colliders[(UINT)_type].end() - 1);
+        iter_swap(iter, m_colliders[(UINT)_type].end() - 1);
 		m_colliders[(UINT)_type].pop_back();
     }
 }
@@ -281,7 +281,7 @@ bool Collision(AARect* _rect, Line* _line)
 	if (!_rect->IsActive() || !_line->IsActive())
 		return false;
 	
-    vector<std::pair<float, D3DXVECTOR2>> tValues;
+    vector<pair<float, D3DXVECTOR2>> tValues;
 
 	D3DXVECTOR2 lineStart = _line->GetStart();
 	D3DXVECTOR2 lineEnd   = _line->GetEnd();
@@ -294,8 +294,8 @@ bool Collision(AARect* _rect, Line* _line)
 	TestSide(lineStart.y, lineEnd.y, rectMin.y, { 0, -1}, tValues);
 	TestSide(lineStart.y, lineEnd.y, rectMax.y, { 0,  1}, tValues);
 	
-	std::sort(tValues.begin(), tValues.end(), 
-        [](const std::pair<float, D3DXVECTOR2>& a, const std::pair<float, D3DXVECTOR2>& b) 
+	sort(tValues.begin(), tValues.end(), 
+        [](const pair<float, D3DXVECTOR2>& a, const pair<float, D3DXVECTOR2>& b) 
         { return a.first < b.first; }
     );
 
@@ -513,7 +513,7 @@ FRECT GetCollisionRect(AARect* _rect1, AARect* _rect2)
 
 
 
-bool TestSide(float _start, float _end, float _negd, const D3DXVECTOR2& _norm, vector<std::pair<float, D3DXVECTOR2>>& _out)
+bool TestSide(float _start, float _end, float _negd, const D3DXVECTOR2& _norm, vector<pair<float, D3DXVECTOR2>>& _out)
 {
     float denom = _end - _start;
     if (Math::NearZero(denom))

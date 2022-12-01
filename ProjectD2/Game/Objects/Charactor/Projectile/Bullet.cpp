@@ -27,7 +27,7 @@ Bullet::Bullet(float _limitDist, float _damage, float _speed, Scene* _scene, int
     
     m_collider = ADDCOMP::NewAARect({ -5, -4 }, { 5, 4 }, OBJECT_TYPE::PLAYER_ATK, this);
     m_collider->SetCallbackOnCollisionEnter([this](Collider* _other) {
-        std::cout << "Bullet Collision Enter" << std::endl;
+        cout << "Bullet Collision Enter" << endl;
         
         // 충돌이 발생하면
         if (_other->GetOwner()->GetType() == OBJECT_TYPE::MONSTER)

@@ -85,7 +85,7 @@ bool Physics::Jump(float _jumpForce)
 inline void Physics::WallSlidingStart()
 {
 #if _DEBUG
-	std::cout << "WallSliding Start" << std::endl;
+	cout << "WallSliding Start" << endl;
 #endif // _DEBUG
     
 	isWallSliding = true;
@@ -96,7 +96,7 @@ inline void Physics::WallSlidingStay() { isWallSliding = true; }
 inline void Physics::WallSlidingEnd() 
 {
 #if _DEBUG
-	std::cout << "WallSliding End" << std::endl;
+	cout << "WallSliding End" << endl;
 #endif // _DEBUG
     
 	QueryPerformanceCounter(&startTime);
@@ -209,7 +209,7 @@ void Physics::BodyCollision(Collider* bodyCollider)
 		return;
     
 	// 충돌중인 모든 Platform을 찾는다.
-	vector<std::pair<Collider*, Collider*>> collided;
+	vector<pair<Collider*, Collider*>> collided;
     owner->GetScene()->GetCollisionMgr()->CheckCollision(bodyCollider, OBJECT_TYPE::PLATFORM, collided);
 
 	// 기본적으로 모든 상황에 대비해 Falling을 켜준다.

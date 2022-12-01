@@ -145,7 +145,7 @@ void Animation::Play(const ANIM_PLAY_FLAG& _playFlag, const Animation* _beforeAn
 	}
 }
 
-void Animation::Play(const ANIM_PLAY_FLAG& _playFlag, const int& _startFrame, const int& _endFrame, Animation* _nextAnimation, const std::function<void()>& _reserveEvent)
+void Animation::Play(const ANIM_PLAY_FLAG& _playFlag, const int& _startFrame, const int& _endFrame, Animation* _nextAnimation, const function<void()>& _reserveEvent)
 {
 	switch (_playFlag)
 	{
@@ -168,7 +168,7 @@ void Animation::Play(const ANIM_PLAY_FLAG& _playFlag, const int& _startFrame, co
 	}
 }
 
-void Animation::Play(const ANIM_PLAY_FLAG& _playFlag, const int& _startFrame, const int& _endFrame, const size_t& _nextAnimIdx, const std::function<void()>& _reserveEvent)
+void Animation::Play(const ANIM_PLAY_FLAG& _playFlag, const int& _startFrame, const int& _endFrame, const size_t& _nextAnimIdx, const function<void()>& _reserveEvent)
 {
 	switch (_playFlag)
 	{
@@ -191,13 +191,13 @@ void Animation::Play(const ANIM_PLAY_FLAG& _playFlag, const int& _startFrame, co
 	}
 }
 
-void Animation::Play(const ANIM_PLAY_FLAG& _playFlag, const int& _startFrame, const int& _endFrame, const bool& _isReversing, Animation* _nextAnimation, const std::function<void()>& _reserveEvent)
+void Animation::Play(const ANIM_PLAY_FLAG& _playFlag, const int& _startFrame, const int& _endFrame, const bool& _isReversing, Animation* _nextAnimation, const function<void()>& _reserveEvent)
 {
 	Play(_playFlag, _startFrame, _endFrame, _nextAnimation, _reserveEvent);
 	m_isReverse = _isReversing;
 }
 
-void Animation::Play(const ANIM_PLAY_FLAG& _playFlag, const int& _startFrame, const int& _endFrame, const bool& _isReversing, const size_t& _nextAnimIdx, const std::function<void()>& _reserveEvent)
+void Animation::Play(const ANIM_PLAY_FLAG& _playFlag, const int& _startFrame, const int& _endFrame, const bool& _isReversing, const size_t& _nextAnimIdx, const function<void()>& _reserveEvent)
 {
 	Play(_playFlag, _startFrame, _endFrame, _nextAnimIdx, _reserveEvent);
 	m_isReverse = _isReversing;

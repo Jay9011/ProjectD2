@@ -9,7 +9,7 @@
 *	Safe Delete Vector And Map
 */
 template<typename T>
-void Safe_Delete_Vec(std::vector<T>& _vec)
+void Safe_Delete_Vec(vector<T>& _vec)
 {
 	for (auto& i : _vec)
 	{
@@ -19,7 +19,7 @@ void Safe_Delete_Vec(std::vector<T>& _vec)
 }
 
 template<typename T1, typename T2>
-void Safe_Delete_Map(std::map<T1, T2>& _map)
+void Safe_Delete_Map(map<T1, T2>& _map)
 {
 	for (auto& i : _map)
 	{
@@ -28,7 +28,7 @@ void Safe_Delete_Map(std::map<T1, T2>& _map)
 	_map.clear();
 }
 template<typename T1, typename T2>
-void Safe_Delete_Map(std::unordered_map<T1, T2>& _map)
+void Safe_Delete_Map(unordered_map<T1, T2>& _map)
 {
 	for (auto& i : _map)
 	{

@@ -29,10 +29,10 @@ private:
     bool m_inRange = false;
     bool m_isUsed = false;
 
-    std::function<void()> m_openFunc;
+    function<void()> m_openFunc;
 
 public:
-    void SetOpenFunc(std::function<void()> _func) { m_openFunc = _func; }
+    void SetOpenFunc(function<void()> _func) { m_openFunc = _func; }
     bool IsUsed() { return m_isUsed; }
 };
 

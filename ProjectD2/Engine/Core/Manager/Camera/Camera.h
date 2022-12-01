@@ -46,7 +46,7 @@ private:
     D3DXVECTOR2 m_postOffset;
     FRECT m_restrictRange;
     
-    std::queue<tagCamEffect> m_effectQueue;
+    queue<tagCamEffect> m_effectQueue;
 
     short sign = 1;
     D3DXVECTOR2 m_reducer = { 0,0 };

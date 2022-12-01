@@ -28,7 +28,7 @@ MMM::MMM(Scene* _scene, OBJECT_TYPE _type, int _updateOrder, GameObject* _parent
     m_attackCollider = ADDCOMP::NewAARect({-25, -12}, {0, 30}, OBJECT_TYPE::MONSTER_ATK, this);
     m_attackCollider->IsActive(false);
     m_attackCollider->SetCallbackOnCollisionEnter([this](Collider* _other) {
-        std::cout << "MMM Attack Hit!" << std::endl;
+        cout << "MMM Attack Hit!" << endl;
         if (_other->GetOwner()->GetType() == OBJECT_TYPE::PLAYER)
         {
             Player* player = dynamic_cast<Player*>(_other->GetOwner());
@@ -75,7 +75,7 @@ MMM::~MMM() = default;
 
 bool MMM::FindOut()
 {
-    vector<std::pair<Collider*, Collider*>> collided;
+    vector<pair<Collider*, Collider*>> collided;
     
     for (auto& sight : m_sight)
     {
@@ -399,7 +399,7 @@ bool MMM::CheckFloor(Collider& _sight)
 {
     bool result = false;
     
-    vector<std::pair<Collider*, Collider*>> collided;
+    vector<pair<Collider*, Collider*>> collided;
     // 바닥을 보는 sight는 2번 sight
     m_scene->GetCollisionMgr()->CheckCollision(&_sight, OBJECT_TYPE::PLATFORM, collided);
 

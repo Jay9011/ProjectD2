@@ -5,7 +5,7 @@ struct Frame
 {
 	Texture* texture;
 	float    duration;
-	std::function<void()> callbackEvent;
+	function<void()> callbackEvent;
 };
 
 class Animation
@@ -22,10 +22,10 @@ public:
 	void Play(Animation* _nextAnimation = nullptr);
 	void Play(const size_t& _nextAnimIdx);
 	void Play(const ANIM_PLAY_FLAG& _playFlag, const Animation* _beforeAnimation, Animation* _nextAnimation = nullptr);
-	void Play(const ANIM_PLAY_FLAG& _playFlag, const int& _startFrame, const int& _endFrame, Animation* _nextAnimation = nullptr, const std::function<void()>& _reserveEvent = nullptr);
-    void Play(const ANIM_PLAY_FLAG& _playFlag, const int& _startFrame, const int& _endFrame, const size_t& _nextAnimIdx, const std::function<void()>& _reserveEvent = nullptr);
-	void Play(const ANIM_PLAY_FLAG& _playFlag, const int& _startFrame, const int& _endFrame, const bool& _isReversing, Animation* _nextAnimation = nullptr, const std::function<void()>& _reserveEvent = nullptr);
-	void Play(const ANIM_PLAY_FLAG& _playFlag, const int& _startFrame, const int& _endFrame, const bool& _isReversing, const size_t& _nextAnimIdx, const std::function<void()>& _reserveEvent = nullptr);
+	void Play(const ANIM_PLAY_FLAG& _playFlag, const int& _startFrame, const int& _endFrame, Animation* _nextAnimation = nullptr, const function<void()>& _reserveEvent = nullptr);
+    void Play(const ANIM_PLAY_FLAG& _playFlag, const int& _startFrame, const int& _endFrame, const size_t& _nextAnimIdx, const function<void()>& _reserveEvent = nullptr);
+	void Play(const ANIM_PLAY_FLAG& _playFlag, const int& _startFrame, const int& _endFrame, const bool& _isReversing, Animation* _nextAnimation = nullptr, const function<void()>& _reserveEvent = nullptr);
+	void Play(const ANIM_PLAY_FLAG& _playFlag, const int& _startFrame, const int& _endFrame, const bool& _isReversing, const size_t& _nextAnimIdx, const function<void()>& _reserveEvent = nullptr);
 	void Pause();
 	void Stop();
 	void Reset();
@@ -47,7 +47,7 @@ private:
 	UINT m_currentFrame;
 	int  m_reserveEndFrame;
 
-	std::function<void()> m_reserveEvent;
+	function<void()> m_reserveEvent;
 
 private:
 	void PlayStateChange(const int& _startFrame = -1);
@@ -69,8 +69,8 @@ public:
 	void  SetFrameDuration(const size_t& _index, const float& _duration) { m_frames[_index].duration = _duration; }
 	float GetFrameDuration(const size_t& _index) const                   { return m_frames[_index].duration; }
 
-	void SetFrameEvent(const size_t& _index, const std::function<void()>& _callback) { m_frames[_index].callbackEvent = _callback; }
-	void SetFinishFrameEvent(const std::function<void()>& _callback){ m_frames.back().callbackEvent = _callback; }
+	void SetFrameEvent(const size_t& _index, const function<void()>& _callback) { m_frames[_index].callbackEvent = _callback; }
+	void SetFinishFrameEvent(const function<void()>& _callback){ m_frames.back().callbackEvent = _callback; }
 
 	bool IsPlay() const    { return m_isPlay; }
     bool IsPause() const   { return m_isPause; }

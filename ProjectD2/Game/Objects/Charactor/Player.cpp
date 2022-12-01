@@ -762,7 +762,7 @@ void Player::SetAnimation()
 void Player::BodyPlatformCheck()
 {
 	// 충돌중인 모든 Platform을 찾는다.
-	vector<std::pair<Collider*, Collider*>> collided;
+	vector<pair<Collider*, Collider*>> collided;
 	scene->GetCollisionMgr()->CheckCollision(m_bodyCollider, OBJECT_TYPE::PLATFORM, collided);
 
 	// 기본적으로 모든 상황에 대비해 Falling을 켜준다.
@@ -817,7 +817,7 @@ void Player::HandPlatformCheck()
 		return;
     
 	// 충돌중인 모든 Platform을 찾는다.
-	vector<std::pair<Collider*, Collider*>> collided;
+	vector<pair<Collider*, Collider*>> collided;
 	scene->GetCollisionMgr()->CheckCollision(m_handCollider, OBJECT_TYPE::PLATFORM, collided);
 
 	bool wallSliding = false;

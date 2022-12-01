@@ -192,10 +192,10 @@ int Core::Run()
             *    Manager Render
             * === === === === === */
 			// FPS 표시
-			SetDlgItemText(m_hMonitorWnd, IDC_FPSTEXT, std::to_wstring(m_timer->FPS()).c_str());
+			SetDlgItemText(m_hMonitorWnd, IDC_FPSTEXT, to_wstring(m_timer->FPS()).c_str());
 			// 마우스 위치 표시
 			D3DXVECTOR2 mousePos = m_input->GetMousePos();
-			wstring mousePosStr = L"X : " + std::to_wstring(mousePos.x) + L" Y : " + std::to_wstring(mousePos.y);
+			wstring mousePosStr = L"X : " + to_wstring(mousePos.x) + L" Y : " + to_wstring(mousePos.y);
             SetDlgItemText(m_hMonitorWnd, IDC_MOUSEPOSTXT, mousePosStr.c_str());
 			// 리소스 위치 표시
 			SetDlgItemText(m_hMonitorWnd, IDC_RESOURCEPATH, m_pathMgr->GetContentPath());
@@ -205,9 +205,9 @@ int Core::Run()
 			int hour   = (int)runTime / 3600;
 			int min    = (int)(runTime - hour * 3600) / 60;
 			double sec = runTime - hour * 3600 - min * 60;
-			wstring hourStr = std::to_wstring(hour);
-			wstring minStr  = std::to_wstring(min);
-			wstring secStr  = std::to_wstring(sec);
+			wstring hourStr = to_wstring(hour);
+			wstring minStr  = to_wstring(min);
+			wstring secStr  = to_wstring(sec);
 			if (hourStr.size() == 1)
 			{
 				hourStr = L"0" + hourStr;
@@ -363,7 +363,7 @@ INT_PTR CALLBACK MonitoringDlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARA
     {
     case WM_INITDIALOG:
     {
-        SetDlgItemText(hDlg, IDC_MAXFPS, std::to_wstring(TIMER->GetMaxFPS()).c_str());
+        SetDlgItemText(hDlg, IDC_MAXFPS, to_wstring(TIMER->GetMaxFPS()).c_str());
     }
         return (INT_PTR)TRUE;
 
@@ -373,7 +373,7 @@ INT_PTR CALLBACK MonitoringDlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARA
             // MaxFPS 변경
             auto timer = TIMER;
             timer->SetMaxFPS((float)GetDlgItemInt(hDlg, IDC_MAXFPS, nullptr, FALSE));
-            SetDlgItemText(hDlg, IDC_MAXFPS, std::to_wstring(timer->GetMaxFPS()).c_str());
+            SetDlgItemText(hDlg, IDC_MAXFPS, to_wstring(timer->GetMaxFPS()).c_str());
             return (INT_PTR)TRUE;
         }
         else if (LOWORD(wParam) == IDCANCEL)

@@ -19,7 +19,7 @@ public:
     }
 
 private:
-    std::vector<Observer<T>*> observers = {};
+    vector<Observer<T>*> observers = {};
 
 public:
     void Notify(T& field, const string& fieldName)
@@ -35,7 +35,7 @@ public:
     }
     void Unsubscribe(Observer<T>* observer)
     {
-        observers.erase(std::remove(observers.begin(), observers.end(), observer), observers.end());
+        observers.erase(remove(observers.begin(), observers.end(), observer), observers.end());
     }
 
 };

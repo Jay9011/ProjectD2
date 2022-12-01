@@ -75,8 +75,8 @@ void AARect::OnUpdateWorldTransform()
 	m_worldMax += worldMatrix.m[3];
 	
 	// Scale 반전에 의한 변경점 적용
-	if (m_worldMin.x > m_worldMax.x) std::swap(m_worldMin.x, m_worldMax.x);
-	if (m_worldMin.y > m_worldMax.y) std::swap(m_worldMin.y, m_worldMax.y);
+	if (m_worldMin.x > m_worldMax.x) swap(m_worldMin.x, m_worldMax.x);
+	if (m_worldMin.y > m_worldMax.y) swap(m_worldMin.y, m_worldMax.y);
 }
 
 COLLIDER_TYPE AARect::GetColliderType()
